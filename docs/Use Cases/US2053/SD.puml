@@ -1,0 +1,60 @@
+@startuml
+
+hide footbox
+
+actor RRH as ACT
+
+participant ":Gestor de EquipasUI" as UI
+participant ":Gestor de EquipasController" as CT
+participant EquipaDB as EDB
+participant "equipa:Equipa" as EQ
+participant "colaborador:Colaborador" as CL
+participant ColaboradorDB as CDB
+
+ACT->UI: Inicia o processo de remoção/associação de um colaborador a uma equipa
+activate ACT
+activate UI
+UI->ACT: Pede nome/ID de equipa
+deactivate UI
+ACT->UI: Introduz nome/ID de equipa
+activate UI
+UI->CT: findTeam(ID)
+activate CT
+CT->EDB: equipa = findTeam(ID)
+activate EDB
+EDB->EDB: validate(ID)
+EDB->EDB: getTeam(ID)
+deactivate EDB
+deactivate CT
+UI->ACT: Mostra informação da equipa
+deactivate UI
+ACT->UI: Seleciona opção de "Gestão de Equipa"
+activate UI
+UI->ACT: Mostra composição atual da equipa
+deactivate UI
+ACT->UI: Seleciona opção de remoção/adição de membro
+activate UI
+UI->ACT: Solicita nome/ID de colaborador a remover/adicionar
+deactivate UI
+ACT->UI: Introduz nome/ID do colaborador a remover/adicionar
+activate UI
+UI->CT: addColab(equipa,ID)
+activate CT
+CT->CDB:colaborador = getColab(ID)
+activate CDB
+CDB->CDB:validate(ID)
+CDB->CDB:getColab(ID)
+deactivate CDB
+CT->EQ: addColab(colaborador)
+activate EQ
+deactivate EQ
+CT->CL: addAssociatedTeam(equipa)
+activate CL
+deactivate CL
+deactivate CT
+UI->ACT: Operação efetuada
+deactivate UI
+
+deactivate ACT
+
+@enduml
