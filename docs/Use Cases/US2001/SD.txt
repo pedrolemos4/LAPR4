@@ -1,0 +1,108 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+Actor "Gestor de Serviços de Help Desk" as Actor
+participant NovoCatalogoUI as UI <<presentation>>
+participant NovoCatalogoCTRL as Controller <<application>>
+participant PersistenceContext as Persistence <<persistence>>
+participant RepositoryFactory as Factory <<factory>>
+participant Equipa as Equipa <<Domain>>
+participant Catalogo as Catalogo <<Domain>>
+database UtilizadorRepository as URepository <<repository>>
+database EquipaRepository as ERepository <<repository>>
+database CatalogoRepository as CRepository <<repository>>
+
+
+activate Actor
+    Actor -> UI: create
+    activate UI
+      UI -> Controller: create
+    activate Controller
+        Controller -> Persistence: repositories()
+    activate Persistence
+        Persistence -> Factory: create
+    activate Factory
+        Factory -> URepository: create
+    activate URepository
+    deactivate Persistence
+    deactivate Factory
+    deactivate URepository
+        Controller -> URepository: listColaboradores = listColaboradores()
+    activate URepository
+        Controller --> UI: listColaboradores
+    deactivate URepository
+    deactivate Controller
+        UI --> Actor : Apresenta listColaboradores e pergunta qual quer escolher
+    deactivate UI
+      Actor -> UI: Escolher o colaborador
+    activate UI
+    UI -> Controller: getEquipas()
+    activate Controller
+    Controller -> Persistence: repositories()
+    activate Persistence
+        Persistence -> Factory: create
+    activate Factory
+        Factory -> ERepository: create
+    activate ERepository
+    deactivate Persistence
+    deactivate Factory
+    deactivate ERepository
+      UI -> Actor: Apresenta as equipas e solicita as equipa(s) a que vão ser atribuidas o catalogo
+    deactivate UI
+      Actor -> UI: Escolhe
+    activate UI
+      
+      UI -> Actor: Pergunta se pretende definir os objetivos diferentes para este catálogo
+    deactivate UI
+    
+    alt resposta afirmativa
+    
+    Actor -> UI: Responde
+    activate UI
+    
+    loop ate terminar todos os objetivos 
+      UI ->   Actor: Pede os objetivos
+    deactivate UI
+      Actor -> UI: Insere os objetivos
+    activate UI
+    end
+     
+      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,objetivos)
+    deactivate UI
+    activate Controller
+      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,objetivos)
+    activate Catalogo
+    deactivate Catalogo
+    deactivate Controller
+    else resposta negativa 
+      Actor -> UI: Responde
+    activate UI
+      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,objetivos)
+    activate Controller
+      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
+    activate Catalogo
+    deactivate Catalogo
+    deactivate Controller
+    deactivate UI
+    end
+
+      Controller -> Persistence: repositories()
+    activate Persistence
+      Persistence -> Factory: create
+    activate Factory
+      Factory -> CRepository: create
+    activate CRepository
+    deactivate Persistence
+    deactivate Factory
+    deactivate CRepository
+      Controller -> CRepository: save(cat)
+    activate CRepository
+    deactivate CRepository
+  
+deactivate Actor
+@enduml
