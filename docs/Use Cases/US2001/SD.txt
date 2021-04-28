@@ -13,6 +13,7 @@ participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 participant Equipa as Equipa <<Domain>>
 participant Catalogo as Catalogo <<Domain>>
+participant Objetivo as Objetivo <<Domain>>
 database UtilizadorRepository as URepository <<repository>>
 database EquipaRepository as ERepository <<repository>>
 database CatalogoRepository as CRepository <<repository>>
@@ -66,23 +67,29 @@ activate Actor
     activate UI
     
     loop ate terminar todos os objetivos 
-      UI ->   Actor: Pede os objetivos
+      UI ->   Actor: Pede os dados relativos aos objetivos
     deactivate UI
-      Actor -> UI: Insere os objetivos
+      Actor -> UI: Insere os dados
     activate UI
+      UI -> Controller: novoObjetivo(tempoMax,tempoMedio)
+    activate Controller
+      Controller -> Objetivo: obj = Objetivo(tempoMax, tempoMedio)
+    activate Objetivo
+    deactivate Objetivo
+    deactivate Controller
     end
      
-      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,objetivos)
+      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
     deactivate UI
     activate Controller
-      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,objetivos)
+      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
     activate Catalogo
     deactivate Catalogo
     deactivate Controller
     else resposta negativa 
       Actor -> UI: Responde
     activate UI
-      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,objetivos)
+      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
     activate Controller
       Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
     activate Catalogo
