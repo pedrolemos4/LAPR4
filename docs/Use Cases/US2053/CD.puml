@@ -1,0 +1,22 @@
+@startuml
+
+class GestorDeEquipaUI {}
+
+class GestorDeEquipaController{}
+
+class EquipaDB{}
+
+class Equipa{}
+
+class Colaborador{}
+
+class ColaboradorDB{}
+
+GestorDeEquipaUI .-> GestorDeEquipaController
+GestorDeEquipaController-->EquipaDB
+GestorDeEquipaController-->Equipa
+GestorDeEquipaController-->Colaborador
+GestorDeEquipaController-->ColaboradorDB
+
+
+@enduml
