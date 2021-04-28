@@ -1,0 +1,22 @@
+@startuml
+autonumber
+actor "Responsável de Recursos Humanos" as RRH
+
+activate RRH
+RRH -> ":Sistema" : pretende criar uma equipa
+activate ":Sistema"
+":Sistema" --> RRH : solicita dados da equipa
+deactivate ":Sistema"
+
+RRH -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> RRH : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+RRH -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> RRH : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate RRH
+@enduml

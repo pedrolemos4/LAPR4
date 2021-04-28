@@ -1,0 +1,28 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Equipa {
+  +Equipa()
+}
+
+class EquipaRepository {
+  +validaEquipa(Equipa eq)
+  -addEquipa(Equipa eq)
+}
+
+class CriarEquipaController {
+    +create()
+    +registaEquipa(eq)
+}
+
+class CriarEquipaUI {
+    +novaEquipa()
+    +registaEquipa(eq)
+}
+
+CriarEquipaUI --> CriarEquipaController
+CriarEquipaController --> EquipaRepository
+CriarEquipaController --> Equipa
+CriarEquipaUI ..> Equipa
+
+@enduml

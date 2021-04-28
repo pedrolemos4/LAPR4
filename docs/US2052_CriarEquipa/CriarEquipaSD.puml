@@ -1,0 +1,52 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+participant CriarEquipaUI as UI <<presentation>>
+control CriarEquipaController as CTRL <<application>>
+participant PersistenceContext as Persistence <<persistence>>
+participant RepositoryFactory as Factory <<factory>>
+database EquipaRepository as ERepository <<repository>>
+entity Equipa as EQ <<entity>>
+
+activate UI
+
+UI -> CTRL : novaEquipa()
+activate CTRL
+
+CTRL --> EQ ** : novaEquipa = create()
+
+CTRL -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+                Factory --> Persistence:
+            
+            Persistence --> CTRL:
+        deactivate Persistence
+
+            Factory --> ERepository : create()
+            deactivate Factory
+            
+        activate ERepository
+            ERepository --> Factory : 
+        deactivate ERepository
+deactivate CTRL
+
+UI -> CTRL: registaEquipa(eq)
+activate CTRL
+CTRL -> ERepository: registaEquipa(eq)
+activate ERepository
+
+ERepository -> ERepository: validaEquipa(eq)
+
+ERepository -> ERepository: addEquipa(eq)
+
+deactivate ERepository
+deactivate CTRL
+deactivate UI
+@enduml
