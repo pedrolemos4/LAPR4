@@ -1,0 +1,70 @@
+title SD-Consultar os catálogos de serviços e respetivos serviços
+
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+actor Utilizador as Actor
+participant ListCatalogoServicoUI as UI <<presentation>>
+control ListCatalogoServicoController as Controller <<application>>
+participant PersistenceContext as Persistence <<persistence>>
+participant RepositoryFactory as Factory <<factory>>
+database CatalogoRepository as CRepository <<repository>>
+database ServicoRepository as  SRepository <<repository>>
+
+
+activate Actor
+Actor -> UI: pretende consultar os catálogos de serviços e respetivos serviços
+activate UI
+    UI -> Controller: listCatalogoServico()
+    activate Controller
+        Controller -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+                Factory --> Persistence:
+            deactivate Factory
+            Persistence --> Controller:
+        deactivate Persistence
+        Controller -> Factory: catalogos()
+        activate Factory
+            Factory --> CRepository : create()
+            activate CRepository
+            deactivate CRepository
+        deactivate Factory
+        Controller -> Factory: servicos()
+        activate Factory
+            Factory --> SRepository : create()
+            activate SRepository
+            deactivate SRepository
+        deactivate Factory
+        
+    deactivate Controller
+    UI --> Actor: requisita as keywords ou titulo dos serviços/catálogos 
+deactivate UI
+Actor -> UI: insere os dados solicitados
+activate UI
+    UI -> Controller:  findCatalogos(titulo, keywords)
+    activate Controller
+        Controller -> CRepository: listCatalogo  = findCatalogos(titulo)
+        activate CRepository
+        deactivate CRepository
+        loop [para cada catalogo]
+
+        Controller -> CRepository: listTotalServico  = findAllServico(listCatalogo)
+        activate CRepository
+        deactivate CRepository
+        Controller -> SRepository: listServico = findServico(listTotalServico, keywords, titulo)
+        activate SRepository
+        deactivate SRepository
+        end
+    deactivate Controller
+    UI --> Actor: apresenta  os catálogos de serviços e respetivos serviços
+deactivate UI
+deactivate Actor
+
+@enduml
