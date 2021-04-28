@@ -80,19 +80,19 @@ activate Actor
     deactivate Controller
     end
      
-      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
+      UI -> Controller: novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
     deactivate UI
     activate Controller
-      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
+      Controller -> Catalogo: cat = Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
     activate Catalogo
     deactivate Catalogo
     deactivate Controller
     else resposta negativa 
       Actor -> UI: Responde
     activate UI
-      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
+      UI -> Controller: novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
     activate Controller
-      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
+      Controller -> Catalogo: cat = Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
     activate Catalogo
     deactivate Catalogo
     deactivate Controller
