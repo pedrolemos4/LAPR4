@@ -1,0 +1,22 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+actor Utilizador as Actor
+participant System as System
+activate Actor
+Actor -> System: pretende consultar os catálogos de serviços e respetivos serviços
+activate System
+System --> Actor: requisita as keywords ou titulo dos serviços/catálogos
+deactivate System
+Actor -> System: insere os dados solicitados
+activate System
+System --> Actor: apresenta os catálogos de serviços e respetivos serviços
+deactivate System
+deactivate Actor
+
+@enduml
