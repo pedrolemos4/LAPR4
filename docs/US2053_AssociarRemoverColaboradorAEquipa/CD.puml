@@ -2,15 +2,30 @@
 
 class GestorDeEquipaUI {}
 
-class GestorDeEquipaController{}
+class GestorDeEquipaController{
+    findTeam(ID)
+    addColab(teamID,ColabID)
+}
 
-class EquipaDB{}
+class EquipaDB{
+    findTeam(ID)
+    validate(ID)
+    getTeam(ID)
+}
 
-class Equipa{}
+class Equipa{
+    addColab(colabID)
+}
 
-class Colaborador{}
+class Colaborador{
+    addAssociatedTeam()
+}
 
-class ColaboradorDB{}
+class ColaboradorDB{
+    getColab(colabID)
+    validate(ID)
+    getColab(ID)
+}
 
 GestorDeEquipaUI .-> GestorDeEquipaController
 GestorDeEquipaController-->EquipaDB
