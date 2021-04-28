@@ -11,7 +11,6 @@ participant NovoCatalogoUI as UI <<presentation>>
 participant NovoCatalogoCTRL as Controller <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
-participant Equipa as Equipa <<Domain>>
 participant Catalogo as Catalogo <<Domain>>
 participant Objetivo as Objetivo <<Domain>>
 database UtilizadorRepository as URepository <<repository>>
@@ -50,6 +49,8 @@ activate Actor
     activate Factory
         Factory -> ERepository: create
     activate ERepository
+      Controller -> ERepository : listEquipas()
+    deactivate Controller
     deactivate Persistence
     deactivate Factory
     deactivate ERepository
@@ -99,6 +100,7 @@ activate Actor
     end
 
       Controller -> Persistence: repositories()
+    activate Controller
     activate Persistence
       Persistence -> Factory: create
     activate Factory
@@ -110,6 +112,7 @@ activate Actor
       Controller -> CRepository: save(cat)
     activate CRepository
     deactivate CRepository
+    deactivate Controller
   
 deactivate Actor
 @enduml
