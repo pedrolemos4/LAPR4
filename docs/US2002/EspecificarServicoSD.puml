@@ -1,0 +1,56 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+		participant ":EspecificarServiçoUI" as ui
+		participant ":EspecificarServicoController" as ctrl
+		participant ":PersistenceContext" as pc
+		participant ":RepositoryFactory" as rf
+		participant ":CatalagoRepository" as repoCA
+    participant ":Formulario" as form
+    participant ":FormularioRepository" as repoFORM
+    participant ":CodigoUnico" as id
+    participant ":DescricaoBreve" as descB
+    participant ":DescricaoCompleta" as descC
+		participant ":Icone" as ic
+    participant ":Titulo" as tit
+		participant ":Servico" as servico
+		participant ":ServicoRepository" as repo
+
+    
+		ui->ctrl:create
+		ui->ctrl:getCatalogos
+		ctrl->pc:repositories()
+		pc->rf:create
+		rf->repoCA:create
+		ctrl->repoCA:findAll
+		ctrl-->ui:Catalogos
+
+		ui->ui:doShow()
+    ui->ctrl:novoFormulario(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
+    ctrl->form:form = create(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
+    ctrl->pc:repositories()
+		pc->rf:create
+		rf->repoFORM:create
+    ui->ui:doShow()
+		
+		ui->ctrl:especificarServico(descricaoBreve,descricaoCompleta,icone,título,codigoUnico,catalogo,form)
+    
+    ctrl->id:id = create(codigoUnico)
+    ctrl->descB:descB = create(descricaoBreve)
+    ctrl->descC:descC = create(descricaoCompleta)
+		ctrl->ic:ic = create(icone)
+    ctrl->tit:tit = create(titulo)
+		ctrl->servico:newServico = create(codigoUnico,descB,descC, titulo,icone,catalogo)
+
+		ctrl->pc:repositories()
+		pc->rf:create
+		rf->repo:create
+    ctrl->repoFORM:save(form)
+		ctrl->repo:save(newServico)
+		
+@enduml
