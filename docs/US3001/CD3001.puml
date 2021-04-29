@@ -15,8 +15,10 @@ class ServicoRepository <<repository>>
 
 
 ListCatalogoServicoUI --> ListCatalogoServicoController
-ListCatalogoServicoController : listCatalogoServico()
-ListCatalogoServicoController : findCatalogo(titulo, keywords)
+ListCatalogoServicoController : listCatalogo()
+ListCatalogoServicoController : listServico()
+
+ListCatalogoServicoController : findCatalogos(titulo, keywords)
 
 ListCatalogoServicoController --> CatalogoRepository
 ListCatalogoServicoController --> ServicoRepository

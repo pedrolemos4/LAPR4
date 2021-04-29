@@ -20,7 +20,7 @@ database ServicoRepository as  SRepository <<repository>>
 activate Actor
 Actor -> UI: pretende consultar os catálogos de serviços e respetivos serviços
 activate UI
-    UI -> Controller: listCatalogoServico()
+    UI -> Controller: listCatalogo()
     activate Controller
         Controller -> Persistence: repositories()
         activate Persistence
@@ -36,6 +36,17 @@ activate UI
             activate CRepository
             deactivate CRepository
         deactivate Factory
+    deactivate Controller
+    UI -> Controller: listServico()
+    activate Controller
+        Controller -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+                Factory --> Persistence:
+            deactivate Factory
+            Persistence --> Controller:
+        deactivate Persistence
         Controller -> Factory: servicos()
         activate Factory
             Factory --> SRepository : create()
@@ -44,6 +55,7 @@ activate UI
         deactivate Factory
         
     deactivate Controller
+    loop
     UI --> Actor: requisita as keywords ou titulo dos serviços/catálogos 
 deactivate UI
 Actor -> UI: insere os dados solicitados
@@ -53,16 +65,14 @@ activate UI
         Controller -> CRepository: listCatalogo  = findCatalogos(titulo)
         activate CRepository
         deactivate CRepository
-        loop [para cada catalogo]
-
         Controller -> CRepository: listTotalServico  = findAllServico(listCatalogo)
         activate CRepository
         deactivate CRepository
         Controller -> SRepository: listServico = findServico(listTotalServico, keywords, titulo)
         activate SRepository
         deactivate SRepository
-        end
     deactivate Controller
+    end
     UI --> Actor: apresenta  os catálogos de serviços e respetivos serviços
 deactivate UI
 deactivate Actor
