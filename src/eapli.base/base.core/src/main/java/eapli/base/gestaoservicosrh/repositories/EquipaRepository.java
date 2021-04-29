@@ -1,4 +1,4 @@
-package gestaoservicosrh.repositories;
+package eapli.base.gestaoservicosrh.repositories;
 
 import eapli.base.clientusermanagement.domain.ClientUser;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;

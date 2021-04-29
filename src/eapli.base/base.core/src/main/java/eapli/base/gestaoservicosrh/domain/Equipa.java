@@ -1,4 +1,4 @@
-package gestaoservicosrh.domain;
+package eapli.base.gestaoservicosrh.domain;
 
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.DomainEntity;

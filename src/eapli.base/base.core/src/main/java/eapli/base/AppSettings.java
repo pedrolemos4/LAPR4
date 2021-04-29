@@ -11,14 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * the gestaoservicosrh.application settings.
+ * the eapli.base.gestaoservicosrh.application settings.
  *
  * @author Paulo Gandra Sousa
  */
 public class AppSettings {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppSettings.class);
 
-    private static final String PROPERTIES_RESOURCE = "gestaoservicosrh.application.properties";
+    private static final String PROPERTIES_RESOURCE = "eapli.base.gestaoservicosrh.application.properties";
     private static final String REPOSITORY_FACTORY_KEY = "persistence.repositoryFactory";
     private static final String UI_MENU_LAYOUT_KEY = "ui.menu.layout";
     private static final String PERSISTENCE_UNIT_KEY = "persistence.persistenceUnit";

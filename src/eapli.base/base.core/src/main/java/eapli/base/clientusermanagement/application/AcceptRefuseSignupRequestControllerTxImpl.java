@@ -71,7 +71,7 @@ public class AcceptRefuseSignupRequestControllerTxImpl
     /*
      * (non-Javadoc)
      *
-     * @see eapli.base.clientusermanagement.gestaoservicosrh.application.
+     * @see eapli.base.clientusermanagement.eapli.base.gestaoservicosrh.application.
      * AcceptRefuseSignupRequestController#acceptSignupRequest(eapli.base.
      * clientusermanagement.domain.SignupRequest)
      */
@@ -122,7 +122,7 @@ public class AcceptRefuseSignupRequestControllerTxImpl
     /*
      * (non-Javadoc)
      *
-     * @see eapli.base.clientusermanagement.gestaoservicosrh.application.
+     * @see eapli.base.clientusermanagement.eapli.base.gestaoservicosrh.application.
      * AcceptRefuseSignupRequestController#refuseSignupRequest(eapli.base.
      * clientusermanagement.domain.SignupRequest)
      */
@@ -149,7 +149,7 @@ public class AcceptRefuseSignupRequestControllerTxImpl
     /*
      * (non-Javadoc)
      *
-     * @see eapli.base.clientusermanagement.gestaoservicosrh.application.
+     * @see eapli.base.clientusermanagement.eapli.base.gestaoservicosrh.application.
      * AcceptRefuseSignupRequestController#listPendingSignupRequests()
      */
     @Override
