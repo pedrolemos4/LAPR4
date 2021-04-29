@@ -4,7 +4,7 @@
 package eapli.base;
 
 /**
- * A "global" static class with the application registry of well known objects
+ * A "global" static class with the gestaoservicosrh.application registry of well known objects
  *
  * @author Paulo Gandra Sousa
  *
