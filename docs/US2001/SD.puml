@@ -90,7 +90,7 @@ activate Actor
     else resposta negativa 
       Actor -> UI: Responde
     activate UI
-      UI -> Controller: novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
+      UI -> Controller: novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
     activate Controller
       Controller -> Catalogo: cat = Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
     activate Catalogo
