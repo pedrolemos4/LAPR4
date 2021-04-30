@@ -1,0 +1,60 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class FactoryBootstrapper
+class CatalogoBootstrapper 
+class ServicoBootstrapper 
+class NovoCatalogoCTRL
+class PersistenceContext
+class RepositoryFactory 
+class CatalogoRepository
+class ServicoRepository
+class Catalogo
+class Servico
+
+FactoryBootstrapper --> CatalogoBootstrapper
+FactoryBootstrapper --> ServicoBootstrapper
+
+CatalogoBootstrapper : execute()
+CatalogoBootstrapper : register()
+
+ServicoBootstrapper : execute()
+ServicoBootstrapper : register()
+
+NovoCatalogoCTRL : register()
+EspecificarServicoController : register()
+
+
+CatalogoBootstrapper --> NovoCatalogoCTRL
+
+NovoCatalogoCTRL --> CatalogoRepository
+NovoCatalogoCTRL --> PersistenceContext
+NovoCatalogoCTRL --> Catalogo
+
+
+PersistenceContext : repositories()
+NovoCatalogoCTRL --> RepositoryFactory
+RepositoryFactory : catalogos()
+RepositoryFactory : servicos()
+Catalogo : novoCatalogo()
+CatalogoRepository : save(newCatalogo)
+
+
+ServicoBootstrapper --> EspecificarServicoController
+
+EspecificarServicoController --> ServicoRepository
+EspecificarServicoController --> PersistenceContext
+EspecificarServicoController --> Servico
+
+
+EspecificarServicoController --> RepositoryFactory
+Servico : novoServico()
+ServicoRepository : save(newServico)
+
+
+@enduml

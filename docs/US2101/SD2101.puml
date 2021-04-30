@@ -1,0 +1,88 @@
+title SD-Inicialização (bootstrap) de informação relativa ao catálogo de serviços e serviços
+
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+participant FactoryBootstrapper as Fb
+participant CatalogoBootstrapper as BOO
+participant ServicoBootstrapper as B
+
+participant EspecificarServicoController as SController
+
+participant NovoCatalogoCTRL as Controller
+
+participant PersistenceContext as Persistence 
+participant RepositoryFactory as Factory 
+participant CatalogoRepository as CRepository 
+participant ServicoRepository as SRepository 
+participant Servico as Ser 
+
+participant Catalogo as Cat
+
+activate Fb
+Fb --> BOO**: create()
+Fb -> BOO: execute()
+activate BOO
+loop para todos os catalogos
+BOO -> BOO: register()
+BOO --> Controller**: create()
+    activate Controller
+    Controller -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+            deactivate Factory
+            Persistence --> Controller:
+        deactivate Persistence
+    Controller -> Factory: catalogos()
+        activate Factory
+            Factory --> CRepository** : create()
+        deactivate Factory
+    deactivate Controller
+BOO -> Controller: register()
+    activate Controller
+    Controller --> Cat**: newCatalogo = novoCatalogo()
+    Controller -> CRepository: save(newCatalogo)
+        activate CRepository
+        deactivate CRepository
+    deactivate Controller
+deactivate BOO
+end 
+
+Fb --> B**: create()
+Fb -> B: execute()
+deactivate Fb
+activate B
+loop para todos os servicos
+B -> B: register()
+B --> SController**: create()
+    activate SController
+    SController -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+            deactivate Factory
+            Persistence --> Controller:
+        deactivate Persistence
+    SController -> Factory: servicos()
+        activate Factory
+            Factory --> SRepository** : create()
+        deactivate Factory
+    deactivate SController
+B -> SController: register()
+    activate SController
+    SController --> Ser**: newServico = novoServico()
+    SController -> SRepository: save(newServico)
+        activate SRepository
+        deactivate SRepository
+    deactivate SController
+deactivate B
+end 
+
+
+@enduml
