@@ -22,20 +22,20 @@ skinparam shadowing false
 		participant ":ServicoRepository" as repo
 
     
-		ui->ctrl:create
-		ui->ctrl:getCatalogos
+		ui->ctrl:create()
+		ui->ctrl:listCatalogos()
 		ctrl->pc:repositories()
-		pc->rf:create
-		rf->repoCA:create
-		ctrl->repoCA:findAll
+		pc->rf:create()
+		rf->repoCA:create()
+		ctrl->repoCA:findAll()
 		ctrl-->ui:Catalogos
 
 		ui->ui:doShow()
     ui->ctrl:novoFormulario(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
     ctrl->form:form = create(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
     ctrl->pc:repositories()
-		pc->rf:create
-		rf->repoFORM:create
+		pc->rf:create()
+		rf->repoFORM:create()
     ui->ui:doShow()
 		
 		ui->ctrl:especificarServico(descricaoBreve,descricaoCompleta,icone,título,codigoUnico,catalogo,form)
@@ -48,8 +48,8 @@ skinparam shadowing false
 		ctrl->servico:newServico = create(codigoUnico,descB,descC, titulo,icone,catalogo)
 
 		ctrl->pc:repositories()
-		pc->rf:create
-		rf->repo:create
+		pc->rf:create()
+		rf->repo:create()
     ctrl->repoFORM:save(form)
 		ctrl->repo:save(newServico)
 		
