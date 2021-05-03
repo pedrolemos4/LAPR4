@@ -11,11 +11,15 @@ participant System as System
 activate Actor
 Actor -> System: pretende consultar os catálogos de serviços e respetivos serviços
 activate System
-System --> Actor: requisita as keywords ou titulo dos serviços/catálogos
+System --> Actor: requisita o titulo do catálogo
 deactivate System
 Actor -> System: insere os dados solicitados
 activate System
-System --> Actor: apresenta os catálogos de serviços e respetivos serviços
+System --> Actor: requisita as keywords e/ou titulo de serviço
+deactivate System
+Actor -> System: insere os dados solicitados
+activate System
+System --> Actor: apresenta o catálogo e os serviços solicitados
 deactivate System
 deactivate Actor
 
