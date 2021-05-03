@@ -4,10 +4,20 @@ import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.DomainEntity;
 
 import javax.persistence.Version;
+import java.util.List;
 
 public class Equipa {
     @Version
     private Long version;
+    private int id;
+    private String nome;
+    private List<Colaborador> listColab;
+
+    public Equipa(int id, String nome, List<Colaborador> lc) {
+        this.id = id;
+        this.nome = nome;
+        this.listColab = lc;
+    }
 
     public Equipa() {
 

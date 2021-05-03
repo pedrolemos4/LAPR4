@@ -2,6 +2,7 @@ package eapli.base.gestaoservicosrh.repositories;
 
 import eapli.base.clientusermanagement.domain.ClientUser;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.infrastructure.authz.domain.model.Username;
 
@@ -21,7 +22,7 @@ public interface EquipaRepository
      *            the username to search for
      * @return
      */
-    Optional<ClientUser> findByUsername(Username name);
+    Optional<Equipa> findByUsername(Username name);
 
     /**
      * returns the client user (utente) with the given mecanographic number
@@ -29,9 +30,9 @@ public interface EquipaRepository
      * @param number
      * @return
      */
-    default Optional<ClientUser> findByMecanographicNumber(MecanographicNumber number) {
-        return ofIdentity(number);
+    default Optional<Equipa> findByMecanographicNumber(MecanographicNumber number) {
+        return null;//return ofIdentity(number);
     }
 
-    public Iterable<ClientUser> findAllActive();
+    public Iterable<Equipa> findAllActive();
 }
