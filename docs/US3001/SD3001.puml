@@ -55,25 +55,35 @@ activate UI
         deactivate Factory
         
     deactivate Controller
-    loop
-    UI --> Actor: requisita as keywords ou titulo dos serviços/catálogos 
+    loop para todos os catálogos
+    UI --> Actor: requisita o titulo do catálogo
 deactivate UI
 Actor -> UI: insere os dados solicitados
 activate UI
-    UI -> Controller:  findCatalogos(titulo, keywords)
+    UI -> Controller:  findCatalogos(titulo)
     activate Controller
-        Controller -> CRepository: listCatalogo  = findCatalogos(titulo)
+        Controller -> CRepository: Catalogo  = findCatalogos(titulo)
         activate CRepository
         deactivate CRepository
-        Controller -> CRepository: listTotalServico  = findAllServico(listCatalogo)
+        Controller -> CRepository: listTotalServico  = findAllServico(Catalogo)
         activate CRepository
         deactivate CRepository
+    deactivate Controller
+    loop para todos os servicos
+    UI --> Actor: requisita as keywords e/ou titulo de serviço
+deactivate UI
+
+Actor -> UI: insere os dados solicitados
+activate UI
+    UI -> Controller:  findServicos(titulo, keywords)
+    activate Controller
         Controller -> SRepository: listServico = findServico(listTotalServico, keywords, titulo)
         activate SRepository
         deactivate SRepository
     deactivate Controller
     end
-    UI --> Actor: apresenta  os catálogos de serviços e respetivos serviços
+    UI --> Actor: apresenta o catálogo e os serviços solicitados
+    end
 deactivate UI
 deactivate Actor
 

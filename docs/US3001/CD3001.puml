@@ -18,7 +18,8 @@ ListCatalogoServicoUI --> ListCatalogoServicoController
 ListCatalogoServicoController : listCatalogo()
 ListCatalogoServicoController : listServico()
 
-ListCatalogoServicoController : findCatalogos(titulo, keywords)
+ListCatalogoServicoController : findCatalogos(titulo)
+ListCatalogoServicoController : findServicos(titulo, keywords)
 
 ListCatalogoServicoController --> CatalogoRepository
 ListCatalogoServicoController --> ServicoRepository
@@ -28,8 +29,12 @@ ListCatalogoServicoController --> RepositoryFactory
 RepositoryFactory : catalogos()
 RepositoryFactory : servicos()
 
+PersistenceContext --> RepositoryFactory
+RepositoryFactory --> CatalogoRepository
+RepositoryFactory --> ServicoRepository
+
 CatalogoRepository : findCatalogos(titulo)
-CatalogoRepository : findAllServico(listCatalogo)
+CatalogoRepository : findAllServico(Catalogo)
 
 ServicoRepository : findServico(listTotalServico, keywords, titulo)
 @enduml
