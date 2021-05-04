@@ -13,6 +13,10 @@ class RepositoryFactory <<factory>>
 class CatalogoRepository <<repository>>
 class FormularioRepository <<repository>>
 class ServicoRepository <<repository>>
+class Servico <<domain>>
+class Formulario <<domain>>
+class ServicoBuilder <<builder>>
+
 
 
 EspecificarServicoUI --> EspecificarServicoController
@@ -25,6 +29,10 @@ EspecificarServicoController --> CatalogoRepository
 EspecificarServicoController --> ServicoRepository
 EspecificarServicoController --> PersistenceContext
 EspecificarServicoController --> FormularioRepository
+EspecificarServicoController --> ServicoBuilder
+
+ServicoBuilder --> Formulario
+ServicoBuilder --> Servico
 
 PersistenceContext --> RepositoryFactory
 
@@ -42,5 +50,13 @@ ServicoRepository : save(newServico)
 
 CatalogoRepository : create()
 CatalogoRepository : findAll()
+
+ServicoBuilder : withDescricaoBreve()
+ServicoBuilder : withDescricaoCompleta()
+ServicoBuilder : withIcone()
+ServicoBuilder : withTitulo()
+ServicoBuilder : withCodigoUnico()
+ServicoBuilder : withCatalogo()
+ServicoBuilder : withFormulario()
 
 @enduml

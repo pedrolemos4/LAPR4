@@ -6,20 +6,15 @@ skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-		participant ":EspecificarServiçoUI" as ui
-		participant ":EspecificarServicoController" as ctrl
-		participant ":PersistenceContext" as pc
-		participant ":RepositoryFactory" as rf
-		participant ":CatalagoRepository" as repoCA
-    participant ":Formulario" as form
-    participant ":FormularioRepository" as repoFORM
-    participant ":CodigoUnico" as id
-    participant ":DescricaoBreve" as descB
-    participant ":DescricaoCompleta" as descC
-		participant ":Icone" as ic
-    participant ":Titulo" as tit
-		participant ":Servico" as servico
-		participant ":ServicoRepository" as repo
+		participant ":EspecificarServiçoUI" as ui <<presentation>>
+		participant ":EspecificarServicoController" as ctrl <<application>>
+    participant "ServicoBuilder" as builder <<builder>>
+		participant ":PersistenceContext" as pc <<persistence>>
+		participant ":RepositoryFactory" as rf <<factory>> 
+		participant ":CatalagoRepository" as repoCA <<repository>>
+    participant ":FormularioRepository" as repoFORM <<repository>>
+		participant ":Servico" as servico <<domain>>
+		participant ":ServicoRepository" as repo <<repository>>
 
     
 		ui->ctrl:create()
@@ -29,28 +24,34 @@ skinparam shadowing false
 		rf->repoCA:create()
 		ctrl->repoCA:findAll()
 		ctrl-->ui:Catalogos
-
+    
 		ui->ui:doShow()
     ui->ctrl:novoFormulario(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
-    ctrl->form:form = create(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
+    ctrl->builder:withForm(nome,nomeVariavel,etiqueta,descricaoAjuda,tipoDados,expressaoRegular)
     ctrl->pc:repositories()
 		pc->rf:create()
 		rf->repoFORM:create()
     ui->ui:doShow()
 		
 		ui->ctrl:especificarServico(descricaoBreve,descricaoCompleta,icone,título,codigoUnico,catalogo,form)
-    
-    ctrl->id:id = create(codigoUnico)
-    ctrl->descB:descB = create(descricaoBreve)
-    ctrl->descC:descC = create(descricaoCompleta)
-		ctrl->ic:ic = create(icone)
-    ctrl->tit:tit = create(titulo)
-		ctrl->servico:newServico = create(codigoUnico,descB,descC, titulo,icone,catalogo)
+    activate ctrl
+    note over ctrl: para simplificação do diagrama, não foi representada a criação dos value objects que compõe o serviço 
+    ctrl -> builder:withCodigoUnico(codigoUnico)
+    note over ctrl: restantes componentes
+    ctrl -> builder: createServico()
+    activate builder 
+    builder->servico: create(codigoUnico,descricaoBreve,descricaoCompleta, titulo,icone,catalogo,form)
+    builder -> ctrl: servico  
+    deactivate builder
 
 		ctrl->pc:repositories()
 		pc->rf:create()
 		rf->repo:create()
     ctrl->repoFORM:save(form)
-		ctrl->repo:save(newServico)
+		ctrl->repo:save(servico)
+    ctrl->ui:servico
+    deactivate ctrl
+    ui->ui: showServico()
+    
 		
 @enduml
