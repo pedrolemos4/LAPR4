@@ -1,0 +1,23 @@
+@startuml
+autonumber
+actor "Responsavel de Recursos Humanos" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende especificar um novo colaborador
+activate ":Sistema"
+":Sistema" --> UNR : solicita a informação em relação ao colaborador
+deactivate ":Sistema"
+
+
+UNR -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> UNR : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate UNR
+@enduml
