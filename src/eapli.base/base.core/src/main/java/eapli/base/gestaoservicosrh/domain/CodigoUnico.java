@@ -6,7 +6,7 @@ import eapli.framework.validations.Preconditions;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class CodigoUnico implements ValueObject {
+public class CodigoUnico implements ValueObject, Comparable<CodigoUnico> {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,4 +24,8 @@ public class CodigoUnico implements ValueObject {
         codigo = null;
     }
 
+    @Override
+    public int compareTo(CodigoUnico o) {
+        return 0;
+    }
 }
