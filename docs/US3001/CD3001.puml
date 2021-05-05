@@ -18,8 +18,9 @@ ListCatalogoServicoUI --> ListCatalogoServicoController
 ListCatalogoServicoController : listCatalogo()
 ListCatalogoServicoController : listServico()
 
-ListCatalogoServicoController : findCatalogos(titulo)
-ListCatalogoServicoController : findServicos(titulo, keywords)
+ListCatalogoServicoController : findCatalogo(dados)
+ListCatalogoServicoController : findServicosUtilizador(dadosServico)
+ListCatalogoServicoController : findCatalogoServico(dadosCatalogo,dadosServico)
 
 ListCatalogoServicoController --> CatalogoRepository
 ListCatalogoServicoController --> ServicoRepository
@@ -33,8 +34,11 @@ PersistenceContext --> RepositoryFactory
 RepositoryFactory --> CatalogoRepository
 RepositoryFactory --> ServicoRepository
 
-CatalogoRepository : findCatalogos(titulo)
-CatalogoRepository : findAllServico(Catalogo)
+CatalogoRepository : findCatalogo(dados)
+CatalogoRepository : findServicosUtilizador(dadosServico)
+CatalogoRepository : findCatalogo(dadosCatalogo,dadosServico)
 
-ServicoRepository : findServico(listTotalServico, keywords, titulo)
+ServicoRepository : findAllServicos(listaCatalogos, dadosServico)
+ServicoRepository : findServicos(catalogo, dadosServico)
+
 @enduml

@@ -10,15 +10,33 @@ actor Utilizador as Actor
 participant System as System
 activate Actor
 Actor -> System: pretende consultar os catálogos de serviços e respetivos serviços
+loop enquanto pretender fazer consulta
 activate System
-System --> Actor: requisita o titulo do catálogo
+System --> Actor: pergunta se pretende consultar catalogos e/ou servicos
 deactivate System
-Actor -> System: insere os dados solicitados
+Actor -> System: escolhe opção
+opt escolhe catalogo
 activate System
-System --> Actor: requisita as keywords e/ou titulo de serviço
+System --> Actor: solicita dados do catalogo
 deactivate System
-Actor -> System: insere os dados solicitados
+Actor -> System: introduz dados solicitados
 activate System
+end
+opt escolhe servico
+activate System
+System --> Actor: solicita dados do servico
+deactivate System
+Actor -> System: introduz dados solicitados
+activate System
+end
+opt escolhe catalogo e servico correspondente
+activate System
+System --> Actor: solicita dados do catalogo e servico
+deactivate System
+Actor -> System: introduz dados solicitados
+activate System
+end
+end
 System --> Actor: apresenta o catálogo e os serviços solicitados
 deactivate System
 deactivate Actor
