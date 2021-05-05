@@ -9,6 +9,8 @@ import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 
+import java.util.Set;
+
 @UseCaseController
 public class DefinirCriticidadeController {
 
@@ -28,6 +30,13 @@ public class DefinirCriticidadeController {
         final Criticidade criticidade = new Criticidade(e, esc, desig, objetivo, c);
         return criticidadeRepo.save(criticidade);
     }
+
+    /*public ContratoSLA defineContrato(String designacao){
+        Set<Criticidade> list = (Set<Criticidade>) criticidadeRepo.findAll();
+        Designacao design = new Designacao(designacao);
+        final ContratoSLA contrato = new ContratoSLA(design, list);
+        return catRepo.save(contrato);
+    }*/
 
 
 }

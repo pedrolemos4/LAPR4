@@ -5,5 +5,4 @@ import eapli.framework.domain.repositories.DomainRepository;
 
 public interface CriticidadeRepository extends DomainRepository<Long, Criticidade> {
 
-
 }
