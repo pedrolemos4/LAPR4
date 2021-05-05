@@ -9,7 +9,6 @@ skinparam shadowing false
 class NovoCatalogoUI <<presentation>>
 class NovoCatalogoController <<application>>
 class Catalogo <<domain>>
-class Objetivo <<domain>>
 class CatalogoRepository <<repository>>
 class UtilizadorRepository <<repository>>
 class EquipaRepository <<repository>>
@@ -21,7 +20,6 @@ NovoCatalogoController -> UtilizadorRepository
 NovoCatalogoController -> CatalogoRepository
 NovoCatalogoController -> EquipaRepository
 NovoCatalogoController -> Catalogo
-NovoCatalogoController -> Objetivo
 
 NovoCatalogoController : getEquipas ()
 NovoCatalogoController : novoObjetivo(tempoMax,tempoMedio)
@@ -30,8 +28,6 @@ NovoCatalogoController : novoCatalogo(identificador,titulo,descricaoBreve,descri
 
 Catalogo : Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
 Catalogo : Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj) 
-
-Objetivo : Objetivo(tempoMax,tempoMedio)
 
 CatalogoRepository : save(cat)
 
