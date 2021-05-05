@@ -7,6 +7,7 @@ import eapli.base.clientusermanagement.repositories.ClientUserRepository;
 
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
+import eapli.base.gestaoservicoshelpdesk.repositories.CriticidadeRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
@@ -78,4 +79,6 @@ public interface RepositoryFactory {
 	CatalogoRepository catalogo();
 
 	DraftServicoRepository drafts();
+
+	CriticidadeRepository criticidade();
 }
