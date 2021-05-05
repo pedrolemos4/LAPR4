@@ -48,6 +48,7 @@ import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
  *
  * @author Paulo Gandra Sousa
  */
+/*
 public class MainMenu extends AbstractUI {
 
     private static final String RETURN_LABEL = "Return ";
@@ -116,6 +117,7 @@ public class MainMenu extends AbstractUI {
     /**
      * @return true if the user selected the exit option
      */
+/*
     @Override
     public boolean doShow() {
         final Menu menu = buildMainMenu();
@@ -136,6 +138,7 @@ public class MainMenu extends AbstractUI {
     }
 
     private Menu buildMainMenu() {
+
         final Menu mainMenu = new Menu();
 
         final Menu myUserMenu = new MyUserMenu();
@@ -183,9 +186,6 @@ public class MainMenu extends AbstractUI {
 
         return menu;
     }
-
-
-
-
-
 }
+
+ */

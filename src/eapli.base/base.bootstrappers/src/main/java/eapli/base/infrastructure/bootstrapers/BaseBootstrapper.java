@@ -40,6 +40,7 @@ import eapli.framework.infrastructure.authz.domain.model.SystemUserBuilder;
 import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
 import eapli.framework.strings.util.Strings;
 import eapli.framework.validations.Invariants;
+import eapli.base.usermanagement.application.AddUserController;
 
 /**
  * Base Bootstrapping data app
@@ -48,37 +49,85 @@ import eapli.framework.validations.Invariants;
  */
 @SuppressWarnings("squid:S106")
 public class BaseBootstrapper implements Action {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(
             BaseBootstrapper.class);
 
-    private static final String POWERUSER_A1 = "poweruserA1";
-    private static final String POWERUSER = "poweruser";
+    private static final String EMAILADMIN = "admin@org.com";
 
+    private static final String IDADMIN = "01";
+
+    private static final String EMAILGESTOR = "gestor@org.com";
+
+    private static final String IDGESTOR = "02";
+
+    private static final String EMAILRRH = "rrg@org.com";
+
+    private static final String IDRRH = "03";
+
+    private static final String EMAILCOLAB = "colab@org.com";
+
+    private static final String IDCOLAB = "04";
+
+    private static final String EMAILUSER = "user@org.com";
+
+    private static final String IDUSER = "05";
+
+    /*
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final AuthenticationService authenticationService = AuthzRegistry.authenticationService();
     private final UserRepository userRepository = PersistenceContext.repositories().users();
+    */
+
+    private final AddUserController userController = new AddUserController();
+
 
     @Override
     public boolean execute() {
+
         // declare bootstrap actions
         final Action[] actions = { new MasterUsersBootstrapper(), };
 
-        registerPowerUser();
+        /*registerPowerUser();
         authenticateForBootstrapping();
+        */
+
+        registerDefaultOrg();
 
         // execute all bootstrapping
         boolean ret = true;
         for (final Action boot : actions) {
-            System.out.println("Bootstrapping " + nameOfEntity(boot) + "...");
+            //System.out.println("Bootstrapping " + nameOfEntity(boot) + "...");
             ret &= boot.execute();
         }
         return ret;
     }
 
     /**
+     * US 2103
+     * -----------------------------------------------------------------------------------------------
+     * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
+     * para facilitar / acelerar o desenvolvimento das próximas user stories.
+     * @return true in case of sucess or false if fails
+     */
+
+    private boolean registerDefaultOrg(){
+
+        userController.addUser("orgAdmin","ADMIN","Ricardo","Soares",EMAILADMIN,BaseRoles.ADMIN);
+        userController.addUser("orgRRH","RRH","Paula","Castro",EMAILRRH,BaseRoles.RRH);
+        userController.addUser("orgGestorServico","GESTOR","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
+        userController.addUser("orgColab","COLAB","Joel","Dias",EMAILCOLAB,BaseRoles.COLABORADOR);
+        userController.addUser("orgUser","CLIENT","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
+
+        return true;
+    }
+
+
+    /**
      * register a power user directly in the persistence layer as we need to
      * circumvent authorisations in the Application Layer
      */
+    /*
     private boolean registerPowerUser() {
         final SystemUserBuilder userBuilder = UserBuilderHelper.builder();
         userBuilder.withUsername(POWERUSER).withPassword(POWERUSER_A1).withName("joe", "power")
@@ -98,11 +147,13 @@ public class BaseBootstrapper implements Action {
             return false;
         }
     }
+     */
 
     /**
      * authenticate a super user to be able to register new users
      *
      */
+    /*
     protected void authenticateForBootstrapping() {
         authenticationService.authenticate(POWERUSER, POWERUSER_A1);
         Invariants.ensure(authz.hasSession());
@@ -112,4 +163,6 @@ public class BaseBootstrapper implements Action {
         final String name = boot.getClass().getSimpleName();
         return Strings.left(name, name.length() - "Bootstrapper".length());
     }
+
+     */
 }

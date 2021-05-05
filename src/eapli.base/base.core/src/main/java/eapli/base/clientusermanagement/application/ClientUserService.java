@@ -38,7 +38,7 @@ import java.util.Optional;
  * @author mcn
  */
 public class ClientUserService {
-
+/*
     private final AuthorizationService authz =
             AuthzRegistry.authorizationService();
     private final ClientUserRepository repo =
@@ -58,4 +58,6 @@ public class ClientUserService {
                 BaseRoles.ADMIN);
         return repo.findByUsername(user);
     }
+
+ */
 }

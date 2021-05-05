@@ -14,6 +14,7 @@ import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import eapli.framework.infrastructure.authz.domain.model.Username;
 
 public class UsersBootstrapperBase {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersBootstrapperBase.class);
 
     final AddUserController userController = new AddUserController();

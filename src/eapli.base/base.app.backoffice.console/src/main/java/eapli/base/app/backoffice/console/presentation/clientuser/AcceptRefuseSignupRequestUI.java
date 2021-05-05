@@ -8,7 +8,7 @@ package eapli.base.app.backoffice.console.presentation.clientuser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eapli.base.clientusermanagement.application.AcceptRefuseSignupFactory;
+//import eapli.base.clientusermanagement.application.AcceptRefuseSignupFactory;
 import eapli.base.clientusermanagement.application.AcceptRefuseSignupRequestController;
 import eapli.base.clientusermanagement.domain.SignupRequest;
 import eapli.framework.domain.repositories.ConcurrencyException;
@@ -21,12 +21,12 @@ import eapli.framework.presentation.console.SelectWidget;
  *
  * Created by AJS on 08/04/2016.
  */
+/*
 @SuppressWarnings("squid:S106")
 public class AcceptRefuseSignupRequestUI extends AbstractUI {
     private static final Logger LOGGER = LoggerFactory.getLogger(AcceptRefuseSignupRequestUI.class);
 
-    private final AcceptRefuseSignupRequestController theController = AcceptRefuseSignupFactory
-            .build();
+    //private final AcceptRefuseSignupRequestController theController = AcceptRefuseSignupFactory.build();
 
     @Override
     protected boolean doShow() {
@@ -66,3 +66,5 @@ public class AcceptRefuseSignupRequestUI extends AbstractUI {
         return "Accept of Refuse Signup Requests";
     }
 }
+
+ */

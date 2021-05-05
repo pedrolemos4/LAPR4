@@ -8,7 +8,7 @@ package eapli.base.infrastructure.bootstrapers.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eapli.base.clientusermanagement.application.AcceptRefuseSignupFactory;
+//import eapli.base.clientusermanagement.application.AcceptRefuseSignupFactory;
 import eapli.base.clientusermanagement.application.AcceptRefuseSignupRequestController;
 import eapli.base.clientusermanagement.domain.SignupRequest;
 import eapli.base.infrastructure.bootstrapers.TestDataConstants;
@@ -26,8 +26,7 @@ public class ClientUserBootstrapper implements Action {
             ClientUserBootstrapper.class);
 
     private final SignupController signupController = new SignupController();
-    private final AcceptRefuseSignupRequestController acceptController = AcceptRefuseSignupFactory
-            .build();
+    //private final AcceptRefuseSignupRequestController acceptController = AcceptRefuseSignupFactory.build();
 
     @Override
     public boolean execute() {
@@ -44,7 +43,7 @@ public class ClientUserBootstrapper implements Action {
         try {
             request = signupController.signup(username, password, firstName, lastName, email,
                     mecanographicNumber);
-            acceptController.acceptSignupRequest(request);
+            //acceptController.acceptSignupRequest(request);
         } catch (final ConcurrencyException | IntegrityViolationException e) {
             // ignoring exception. assuming it is just a primary key violation
             // due to the tentative of inserting a duplicated user

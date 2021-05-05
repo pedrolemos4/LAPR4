@@ -50,6 +50,7 @@ import eapli.framework.validations.Preconditions;
  *
  * @author Paulo Gandra de Sousa
  */
+/*
 @UseCaseController
 public class AcceptRefuseSignupRequestControllerEventfullImpl
         implements AcceptRefuseSignupRequestController{
@@ -79,6 +80,7 @@ public class AcceptRefuseSignupRequestControllerEventfullImpl
      * @throws ConcurrencyException
      * @throws IntegrityViolationException
      */
+/*
     @SuppressWarnings("squid:S1226")
     private SignupRequest markSignupRequestAsAccepted(SignupRequest theSignupRequest) {
         // do just what is needed in the scope of this use case
@@ -108,8 +110,11 @@ public class AcceptRefuseSignupRequestControllerEventfullImpl
      *
      * @return
      */
+/*
     @Override
     public Iterable<SignupRequest> listPendingSignupRequests() {
         return signupRequestsRepository.pendingSignupRequests();
     }
 }
+
+ */

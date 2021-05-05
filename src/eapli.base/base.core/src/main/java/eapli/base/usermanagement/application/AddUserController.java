@@ -16,6 +16,7 @@ import eapli.framework.time.util.Calendars;
  *
  * Created by nuno on 21/03/16.
  */
+
 @UseCaseController
 public class AddUserController {
 
@@ -33,7 +34,7 @@ public class AddUserController {
 
     public SystemUser addUser(String username, String password, String firstName, String lastName,
             String email, Set<Role> roles, Calendar createdOn) {
-        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER, BaseRoles.ADMIN);
+        //authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER, BaseRoles.ADMIN);
 
         return userSvc.registerNewUser(username, password, firstName, lastName, email, roles,
                 createdOn);
@@ -42,5 +43,10 @@ public class AddUserController {
     public SystemUser addUser(String username, String password, String firstName, String lastName,
             String email, Set<Role> roles) {
         return addUser(username, password, firstName, lastName, email, roles, Calendars.now());
+    }
+
+    public SystemUser addUser(String username, String password, String firstName, String lastName,
+                              String email, Role role) {
+        return addUser(username, password, firstName, lastName, email, role);
     }
 }

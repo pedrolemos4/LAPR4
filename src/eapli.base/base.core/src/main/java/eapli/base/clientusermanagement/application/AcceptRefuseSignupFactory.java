@@ -30,6 +30,7 @@ package eapli.base.clientusermanagement.application;
  * @author Paulo Gandra de Sousa 16/05/2019
  *
  */
+/*
 public final class AcceptRefuseSignupFactory {
     private AcceptRefuseSignupFactory() {
         // ensure utility
@@ -42,3 +43,5 @@ public final class AcceptRefuseSignupFactory {
         return new AcceptRefuseSignupRequestControllerEventfullImpl();
     }
 }
+
+ */

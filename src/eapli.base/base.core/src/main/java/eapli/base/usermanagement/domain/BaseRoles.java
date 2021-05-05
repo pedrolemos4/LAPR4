@@ -33,9 +33,9 @@ public final class BaseRoles {
     /**
      * poweruser
      */
-    public static final Role POWER_USER = Role.valueOf("POWER_USER");
+    public static final Role RRH = Role.valueOf("RESPONSAVEL_RECURSOS_HUMANOS");
     /**
-     * Utente
+     * Gestor de Serviço
      */
     public static final Role CLIENT_USER = Role.valueOf("CLIENT_USER");
     /**
@@ -45,15 +45,11 @@ public final class BaseRoles {
     /**
      *
      */
-    public static final Role KITCHEN_MANAGER = Role.valueOf("KITCHEN_MANAGER");
+    public static final Role GESTOR_SERVICO = Role.valueOf("GESTOR_SERVICO");
     /**
      *
      */
-    public static final Role MENU_MANAGER = Role.valueOf("MENU_MANAGER");
-    /**
-     *
-     */
-    public static final Role CASHIER = Role.valueOf("CASHIER");
+    public static final Role COLABORADOR = Role.valueOf("COLABORADOR");
 
     /**
      * get available role types for adding new users
@@ -61,7 +57,7 @@ public final class BaseRoles {
      * @return
      */
     public static Role[] nonUserValues() {
-        return new Role[] { ADMIN, KITCHEN_MANAGER, MENU_MANAGER, CASHIER };
+        return new Role[] { ADMIN, COLABORADOR, GESTOR_SERVICO, RRH };
     }
 
     public boolean isCollaborator(final Role role) {

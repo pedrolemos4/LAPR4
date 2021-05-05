@@ -13,6 +13,7 @@ import eapli.framework.infrastructure.repositories.impl.jpa.JpaAutoTxRepository;
  *
  * Created by nuno on 21/03/16.
  */
+/*
 public class JpaRepositoryFactory implements RepositoryFactory {
 
 	@Override
@@ -61,3 +62,5 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 
 
 }
+
+ */
