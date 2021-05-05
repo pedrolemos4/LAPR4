@@ -15,6 +15,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     private Titulo titulo;
 
+    private EstadoServico estado;
+
     private Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;
         this.titulo = builder.titulo;
@@ -39,6 +41,20 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     public CodigoUnico identity() {
         return null;
     }
+
+    public EstadoServico estado(){ return estado;}
+
+    public void makeAvailable(){
+        this.estado=EstadoServico.DISPONIVEL;
+    }
+
+    public void makeUnavailable(){
+        this.estado=EstadoServico.INDISPONIVEL;
+    }
+
+    public boolean estaDisponivel() {return estado() == EstadoServico.DISPONIVEL;}
+
+    public boolean estaIndisponivel() { return estado() == EstadoServico.INDISPONIVEL;}
 
     public static class ServicoBuilder {
 

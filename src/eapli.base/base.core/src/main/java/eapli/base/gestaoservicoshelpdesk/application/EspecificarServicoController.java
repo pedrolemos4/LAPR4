@@ -27,7 +27,7 @@ public class EspecificarServicoController {
                     .withDescricaoBreve(descricaoBreve)
                     .withDescricaoCompleta(descricaoCompleta)
                     .build();
-            //servico.setEstado("indisponível");
+            servico.makeUnavailable();
             this.servicoRepository.save(servico);
         }
     }
