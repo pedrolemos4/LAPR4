@@ -20,7 +20,7 @@ public class DescricaoBreve implements ValueObject, Serializable, StringMixin {
 
     private final String value;
 
-    protected DescricaoBreve(final String name) {
+    public DescricaoBreve(final String name) {
         Preconditions.nonEmpty(name, "Description should neither be null nor empty");
         Preconditions.ensure(name.length()<=40,"O tamanho máximo da descrição breve são 40 caracteres.");
         this.value = name;

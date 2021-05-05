@@ -19,7 +19,7 @@ public class DescricaoCompleta implements ValueObject, Serializable, StringMixin
     @JsonProperty("descricaoCompleta")
     private final String value;
 
-    protected DescricaoCompleta(final String name) {
+    public DescricaoCompleta(final String name) {
         Preconditions.nonEmpty(name, "Description should neither be null nor empty");
         Preconditions.ensure(name.length()<=500,"O tamanho máximo da descrição completa são 500 caracteres.");
         this.value = name;

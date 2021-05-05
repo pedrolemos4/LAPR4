@@ -12,11 +12,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class Titulo implements ValueObject, Comparable<Titulo>, StringMixin {
     private static final long serialVersionUID = 1L;
-    @XmlAttribute
-    @JsonProperty
     private final String titulo;
 
-    protected Titulo(final String name) {
+    public Titulo(final String name) {
         Preconditions.ensure(StringPredicates.isPhrase(name), "Name should neither be null nor empty nor have starting blank spaces");
         Preconditions.ensure(name.length() <= 500, "O título de um serviço deve ter no máximo 500 caracteres.");
         this.titulo = name;

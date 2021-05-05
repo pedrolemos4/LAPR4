@@ -21,6 +21,7 @@ activate Actor
     Actor -> UI: Inicia a criação de um novo catálogo
     activate UI
       UI -> Controller: create
+      UI -> Controller: getListColaboradores()
     activate Controller
         Controller -> Persistence: repositories()
     activate Persistence
@@ -48,10 +49,11 @@ activate Actor
     activate Factory
         Factory -> ERepository: create
     activate ERepository
-      Controller -> ERepository : listEquipas()
-    deactivate Controller
     deactivate Persistence
     deactivate Factory
+      Controller -> ERepository : listEquipas=listEquipas()
+      Controller -> UI: listEquipas
+    deactivate Controller
     deactivate ERepository
     loop até não escolher mais equipas
       UI -> Actor: Apresenta as equipas e solicita as equipa(s) a que vão ser atribuidas o catalogo
