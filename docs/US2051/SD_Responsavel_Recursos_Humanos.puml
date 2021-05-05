@@ -14,7 +14,7 @@ participant RepositoryFactory as Factory <<factory>>
 participant Colaborador as Colaborador <<Domain>>
 database FuncaoaRepository as FRepository <<repository>>
 database EquipaRepository as ERepository <<repository>>
-database ColaboradorRepository as CRepository <<repository>>
+database UtilizadorRepository as CRepository <<repository>>
 
 
 activate Actor
