@@ -18,8 +18,8 @@ class CriticidadeRepository <<repository>>
 DefinirCriticidadeUI --> DefinirCriticidadeController
 DefinirCriticidadeController : listCatalogo()
 DefinirCriticidadeController : listCriticidade()
-DefinirCriticidadeController : defineCriticidade(tempoMaximo, tempoMedio, etiqueta, escala, cor, designacao)
-DefinirCriticidadeController : defineContrato()
+DefinirCriticidadeController : defineCriticidade(obj, etiqueta, escala, cor, designacao)
+DefinirCriticidadeController : defineContrato(designacao)
 
 DefinirCriticidadeController --> CriticidadeRepository
 DefinirCriticidadeController --> CatalogoRepository

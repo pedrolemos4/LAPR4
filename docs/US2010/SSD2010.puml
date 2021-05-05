@@ -15,9 +15,9 @@ System --> Actor: requisita niveis de criticidade
 deactivate System
 Actor -> System: insere os dados solicitados
 activate System
-System --> Actor: apresenta o conjunto de niveis de criticidade e solicita confirmação
+System --> Actor: apresenta o conjunto de niveis de criticidade e solicita designacao do contrato
 deactivate System
-Actor -> System: confirma operação
+Actor -> System: introduz os dados solicitados
 activate System
 System --> Actor: informa sucesso da operação
 deactivate System

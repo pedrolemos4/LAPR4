@@ -15,14 +15,14 @@ participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 database CriticidadeRepository as CRepository <<repository>>
 database CatalogoRepository as Repository <<repository>>
-participant "TempoMax" as TempoMax <<domain>>
+participant "Objetivo" as Objetivo <<domain>>
 participant "TempoMed" as TempoMed <<domain>>
 participant "Cor" as Cor <<domain>>
 participant "Etiqueta" as Etiqueta <<domain>>
 participant "Escala" as Escala <<domain>>
 participant "Designacao" as Designacao <<domain>>
 participant "Criticidade" as Criticidade <<domain>>
-participant "Contrato" as Contrato <<domain>>
+participant "ContratoSLA" as Contrato <<domain>>
 
 
 
@@ -73,12 +73,9 @@ Actor -> UI: insere os dados solicitados
 activate UI
 UI -> Controller:  defineCriticidade(tempoMaximo, tempoMedio, etiqueta, escala, cor, designacao)
     activate Controller
-    Controller -> TempoMax: tempoMax  = create(tempoMaximo)
-        activate TempoMax
-        deactivate TempoMax
-    Controller -> TempoMed: tempoMed  = create(tempoMedio)
-        activate TempoMed
-        deactivate TempoMed
+    Controller -> Objetivo: obj  = create(tempoMaximo, tempoMedio)
+        activate Objetivo
+        deactivate Objetivo
     Controller -> Etiqueta: e  = create(etiqueta)
         activate Etiqueta
         deactivate Etiqueta
@@ -91,7 +88,7 @@ UI -> Controller:  defineCriticidade(tempoMaximo, tempoMedio, etiqueta, escala, 
     Controller -> Designacao: desig  = create(designacao)
         activate Designacao
         deactivate Designacao
-    Controller -> Criticidade: nivelCriticidade  = create(tempoMax,tempoMed,e,esc,c,desig)
+    Controller -> Criticidade: nivelCriticidade  = create(obj,e,esc,c,desig)
         activate Criticidade
         deactivate Criticidade
     Controller -> CRepository: save(nivelCriticidade)
@@ -99,16 +96,19 @@ UI -> Controller:  defineCriticidade(tempoMaximo, tempoMedio, etiqueta, escala, 
         deactivate CRepository
     deactivate Controller
     end
-UI --> Actor: apresenta o conjunto de niveis de criticidade e solicita confirmação
+UI --> Actor: apresenta o conjunto de niveis de criticidade e solicita designacao do contrato
 deactivate UI
-Actor -> UI: confirma operação
+Actor -> UI: introduz os dados solicitados
 activate UI
-UI -> Controller: defineContrato()
+UI -> Controller: defineContrato(designacao)
     activate Controller
     Controller -> CRepository: listCriticidade = findAllCriticidade()
         activate CRepository
         deactivate CRepository
-    Controller -> Contrato: cont = create(listCriticidade)
+    Controller -> Designacao: des = create(designacao)
+        activate Designacao
+        deactivate Designacao
+    Controller -> Contrato: cont = create(des,listCriticidade)
         activate Contrato
         deactivate Contrato
     Controller -> Repository: save(cont)
