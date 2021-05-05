@@ -15,10 +15,8 @@ entity Equipa as EQ <<entity>>
 
 activate UI
 
-UI -> CTRL : novaEquipa()
+UI -> CTRL : novaEquipa(nome, listaColab, tipoEquipa)
 activate CTRL
-
-CTRL --> EQ ** : novaEquipa = create()
 
 CTRL -> Persistence: repositories()
         activate Persistence
@@ -35,18 +33,13 @@ CTRL -> Persistence: repositories()
         activate ERepository
             ERepository --> Factory : 
         deactivate ERepository
-deactivate CTRL
+        
+CTRL --> EQ ** : novaEquipa = create(nome, listaColab, tipoEquipa)
 
-UI -> CTRL: registaEquipa(eq)
-activate CTRL
-CTRL -> ERepository: registaEquipa(eq)
-activate ERepository
-
-ERepository -> ERepository: validaEquipa(eq)
-
-ERepository -> ERepository: addEquipa(eq)
-
-deactivate ERepository
+        CTRL -> ERepository: save(novaEquipa)
+        activate ERepository
+        deactivate ERepository
+        
 deactivate CTRL
 deactivate UI
 @enduml
