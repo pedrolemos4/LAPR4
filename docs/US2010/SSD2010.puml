@@ -1,0 +1,26 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+actor GSH as Actor
+participant System as System
+activate Actor
+Actor -> System: pretende definir os niveis de criticidade e respetivos objetivos
+activate System
+System --> Actor: requisita niveis de criticidade
+deactivate System
+Actor -> System: insere os dados solicitados
+activate System
+System --> Actor: apresenta o conjunto de niveis de criticidade e solicita confirmação
+deactivate System
+Actor -> System: confirma operação
+activate System
+System --> Actor: informa sucesso da operação
+deactivate System
+deactivate Actor
+
+@enduml
