@@ -1,22 +1,26 @@
 package eapli.base.gestaoservicosrh.domain;
 
+import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.DomainEntity;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Version;
 import java.util.List;
 
-public class Equipa {
+public class Equipa implements AggregateRoot<Integer> {
     @Version
     private Long version;
+    @GeneratedValue
     private int id;
     private String nome;
     private List<Colaborador> listColab;
+    private TipoEquipa tipoEquipa;
 
-    public Equipa(int id, String nome, List<Colaborador> lc) {
-        this.id = id;
+    public Equipa(String nome, List<Colaborador> lc, TipoEquipa te) {
         this.nome = nome;
         this.listColab = lc;
+        this.tipoEquipa = te;
     }
 
     public Equipa() {
@@ -33,4 +37,13 @@ public class Equipa {
         return DomainEntities.hashCode((DomainEntity<?>) this);
     }
 
+    @Override
+    public boolean sameAs(Object other) {
+        return false;
+    }
+
+    @Override
+    public Integer identity() {
+        return null;
+    }
 }

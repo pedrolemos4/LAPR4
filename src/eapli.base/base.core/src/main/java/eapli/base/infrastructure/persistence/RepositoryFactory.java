@@ -7,6 +7,7 @@ import eapli.base.clientusermanagement.repositories.ClientUserRepository;
 
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
+import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
@@ -65,6 +66,8 @@ public interface RepositoryFactory {
 	 * @return
 	 */
 	SignupRequestRepository signupRequests();
+
+	EquipaRepository equipas();
 
 	TipoEquipaRepository tiposEquipa();
 
