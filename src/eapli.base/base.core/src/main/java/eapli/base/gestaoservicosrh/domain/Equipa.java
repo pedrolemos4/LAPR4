@@ -14,11 +14,14 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
 
     private TipoEquipa tipo;
 
-    public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo) {
+    private Colaborador responsavel;
+
+    public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
         this.codigo = codigo;
         this.acronimo = acronimo;
         this.designacao = desig;
         this.tipo = tipo;
+        this.responsavel = responsavel;
     }
 
     @Override

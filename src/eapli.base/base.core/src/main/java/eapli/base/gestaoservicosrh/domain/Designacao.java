@@ -19,7 +19,7 @@ public class Designacao implements ValueObject, Serializable, StringMixin {
     @JsonProperty("designacao")
     private final String value;
 
-    protected Designacao(final String name) {
+    public Designacao(final String name) {
         Preconditions.nonEmpty(name, "Description should neither be null nor empty");
         Preconditions.ensure(name.length()<=30,"O tamanho máximo da designacao são 30 caracteres.");
         this.value = name;

@@ -19,8 +19,9 @@ public class Acronimo implements ValueObject, Serializable, StringMixin {
     @JsonProperty("acronimo")
     private final String value;
 
-    protected Acronimo(final String name) {
+    public Acronimo(final String name) {
         Preconditions.nonEmpty(name, "Description should neither be null nor empty");
+        Preconditions.ensure(name.length() <= 10,"O acrónimo não pode ter mais de 10 caratéres.");
         Preconditions.ensure(name.contains("0") || name.contains("1") || name.contains("2") || name.contains("3")
                 || name.contains("4") || name.contains("5") || name.contains("6") || name.contains("7")
                 || name.contains("8") || name.contains("9"),"O acrónimo deve ser alfanumérico.");
