@@ -4,27 +4,26 @@ import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.DomainEntity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Version;
-import java.util.List;
+public class Equipa implements AggregateRoot<CodigoUnico> {
 
-public class Equipa implements AggregateRoot<Integer> {
-    @Version
-    private Long version;
-    @GeneratedValue
-    private int id;
-    private String nome;
-    private List<Colaborador> listColab;
-    private TipoEquipa tipoEquipa;
+    private final CodigoUnico codigo;
 
-    public Equipa(String nome, List<Colaborador> lc, TipoEquipa te) {
-        this.nome = nome;
-        this.listColab = lc;
-        this.tipoEquipa = te;
+    private Acronimo acronimo;
+
+    private Designacao designacao;
+
+    private TipoEquipa tipo;
+
+    public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo) {
+        this.codigo = codigo;
+        this.acronimo = acronimo;
+        this.designacao = desig;
+        this.tipo = tipo;
     }
 
-    public Equipa() {
-
+    @Override
+    public CodigoUnico identity() {
+        return null;
     }
 
     @Override
@@ -42,8 +41,4 @@ public class Equipa implements AggregateRoot<Integer> {
         return false;
     }
 
-    @Override
-    public Integer identity() {
-        return null;
-    }
 }
