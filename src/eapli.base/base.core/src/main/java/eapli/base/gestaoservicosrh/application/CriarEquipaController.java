@@ -12,8 +12,8 @@ public class CriarEquipaController {
 
     private final EquipaRepository repo = PersistenceContext.repositories().equipas();
 
-    public Equipa novaEquipa(CodigoUnico cod, Acronimo acronimo, Designacao desig, TipoEquipa tipo){
-        final Equipa novaEquipa = new Equipa(cod, acronimo, desig, tipo);
+    public Equipa novaEquipa(String cod, String acronimo, String desig, TipoEquipa tipo, Colaborador responsavel){
+        final Equipa novaEquipa = new Equipa(new CodigoUnico(cod), new Acronimo(acronimo), new Designacao(desig), tipo, responsavel);
         return this.repo.save(novaEquipa);
     }
 }
