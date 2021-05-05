@@ -1,0 +1,102 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+Actor "Responsavel de Recursos Humanos" as Actor
+participant EspecificarColaboradorUI as UI <<presentation>>
+participant EspecificarColaboradorCTRL as Controller <<application>>
+participant PersistenceContext as Persistence <<persistence>>
+participant RepositoryFactory as Factory <<factory>>
+participant Colaborador as Colaborador <<Domain>>
+database FuncaoaRepository as FRepository <<repository>>
+database EquipaRepository as ERepository <<repository>>
+database ColaboradorRepository as CRepository <<repository>>
+
+
+activate Actor
+      Actor -> UI: Insere os dados relativos ao colaborador
+    activate UI
+      UI -> Controller: create
+    activate Controller
+      Controller -> Persistence: repositories()
+    activate Persistence
+      Persistence -> Factory: create
+    activate Factory
+      Factory -> FRepository: create
+    activate FRepository
+    deactivate Factory
+    deactivate Persistence
+      Controller -> FRepository: getFuncoes()
+      Controller -> UI: listFuncoes
+    deactivate Controller
+      UI -> Actor: Apresenta as funções
+    deactivate UI
+      Actor -> UI: Seleciona uma função
+    activate UI
+    deactivate FRepository
+       UI -> Controller: listEquipas()
+    activate Controller
+      Controller -> Persistence: repositories()
+    activate Persistence
+      Persistence -> Factory: create
+    activate Factory
+      Factory -> ERepository: create
+    activate ERepository
+    deactivate Factory
+    deactivate Persistence
+      Controller -> ERepository: findAll()
+    deactivate ERepository
+      Controller -> UI: listaEquipas
+    deactivate Controller
+    loop até não pretender escolher mais equipas
+      UI -> Actor: apresenta a lista de equipas e pede para escolher a(as) equipa(as) pertence o colaborador
+    deactivate UI
+      Actor -> UI: Escolhe
+    activate UI
+    deactivate UI
+    end
+
+      Actor -> UI: Finaliza escolha de equipa(as)
+    activate UI
+      UI -> Controller: verificaSuperior(funcao)
+    activate Controller 
+      Controller -> Persistence: repositories()
+    activate Persistence
+      Persistence -> Factory: create
+    activate Factory
+      Factory -> CRepository: create
+    activate CRepository
+    deactivate Factory
+    deactivate Persistence
+      Controller -> CRepository: getSuperior()
+    deactivate CRepository
+      Controller -> UI: superior
+    deactivate Controller
+
+    alt se houver superior
+      UI -> Controller: novoColaborador(numMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, endereco, contacto, funcao, superior)
+    activate Controller
+      Controller -> Colaborador: colab = new Colaborador()
+    activate Colaborador
+    deactivate Colaborador
+    else 
+      UI -> Controller: novoColaborador(numMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, endereco, contacto, funcao)
+    activate Controller
+      Controller -> Colaborador: colab = new Colaborador()
+    activate Colaborador
+    deactivate Colaborador
+    end
+    activate CRepository
+      Controller -> CRepository: save(colab)
+    deactivate CRepository
+      Controller -> Controller: gerarPassword() 
+      Controller -> Controller: enviarEmailColaborador()
+    deactivate Controller
+    deactivate UI
+
+deactivate Actor
+@enduml
