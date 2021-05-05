@@ -5,5 +5,5 @@ import eapli.base.gestaoservicoshelpdesk.domain.Identificador;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.domain.repositories.LockableDomainRepository;
 
-public interface CatalogoRepository extends DomainRepository<Identificador, Catalogo>, LockableDomainRepository<Identificador, Catalogo> {
+public interface CatalogoRepository extends DomainRepository<Identificador, Catalogo> {
 }
