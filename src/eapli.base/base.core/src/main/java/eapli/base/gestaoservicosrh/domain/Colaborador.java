@@ -1,41 +1,35 @@
 package eapli.base.gestaoservicosrh.domain;
 
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Colaborador {
 
-    @Version
-    private Long version;
+    private MecanographicNumber numeroMecanografico;
 
-    @Id
-    @GeneratedValue
-    private int numeroMecanografico;
-
-    @Column(name = "SNAME")
     private String shortName;
 
-    @Column(name = "FNAME")
     private String fullName;
 
-    @Column(name = "DNASC")
     private String dataNasc;
 
-    @Column(name = "CONTACTO")
     private String contacto;
 
     List<Equipa> associatedTeams;
 
-    public Colaborador(Long version, int numeroMecanografico, String shortName, String fullName, String dataNasc, String contacto) {
-        this.version = version;
+    public Colaborador(Long version, MecanographicNumber numeroMecanografico, String shortName, String fullName, String dataNasc, String contacto) {
         this.numeroMecanografico = numeroMecanografico;
         this.shortName = shortName;
         this.fullName = fullName;
         this.dataNasc = dataNasc;
         this.contacto = contacto;
+        this.associatedTeams = new ArrayList<Equipa>();
     }
 
     public void addAssociatedTeam(Equipa equipa){

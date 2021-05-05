@@ -23,24 +23,12 @@
  */
 package eapli.base.infrastructure.bootstrapers;
 
+import eapli.base.usermanagement.application.AddUserController;
+import eapli.base.usermanagement.domain.BaseRoles;
+import eapli.base.usermanagement.domain.Roles;
+import eapli.framework.actions.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.usermanagement.domain.BaseRoles;
-import eapli.base.usermanagement.domain.UserBuilderHelper;
-import eapli.framework.actions.Action;
-import eapli.framework.domain.repositories.ConcurrencyException;
-import eapli.framework.domain.repositories.IntegrityViolationException;
-import eapli.framework.infrastructure.authz.application.AuthenticationService;
-import eapli.framework.infrastructure.authz.application.AuthorizationService;
-import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
-import eapli.framework.infrastructure.authz.domain.model.SystemUserBuilder;
-import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
-import eapli.framework.strings.util.Strings;
-import eapli.framework.validations.Invariants;
-import eapli.base.usermanagement.application.AddUserController;
 
 /**
  * Base Bootstrapping data app
@@ -104,7 +92,7 @@ public class BaseBootstrapper implements Action {
     }
 
     /**
-     * US 2103
+     * US 2103 - LEANDRO SOUSA 1190800
      * -----------------------------------------------------------------------------------------------
      * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
      * para facilitar / acelerar o desenvolvimento das próximas user stories.
@@ -113,11 +101,15 @@ public class BaseBootstrapper implements Action {
 
     private boolean registerDefaultOrg(){
 
-        userController.addUser("orgAdmin","ADMIN","Ricardo","Soares",EMAILADMIN,BaseRoles.ADMIN);
-        userController.addUser("orgRRH","RRH","Paula","Castro",EMAILRRH,BaseRoles.RRH);
-        userController.addUser("orgGestorServico","GESTOR","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
-        userController.addUser("orgColab","COLAB","Joel","Dias",EMAILCOLAB,BaseRoles.COLABORADOR);
-        userController.addUser("orgUser","CLIENT","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
+        userController.addUser("orgAdmin","ADMIN","Ricardo","Soares",EMAILADMIN, Roles.ADMIN);
+
+        userController.addUser("orgRRH","RRH","Paula","Castro",EMAILRRH,Roles.RRH);
+
+        userController.addUser("orgGestorServico","GESTOR","Afonso","Sousa",EMAILGESTOR,Roles.GESTOR_SERVICO);
+
+        userController.addUser("orgColab","COLAB","Joel","Dias",EMAILCOLAB,Roles.COLABORADOR);
+
+        userController.addUser("orgUser","CLIENT","Paulo","Maio",EMAILUSER,Roles.CLIENT_USER);
 
         return true;
     }
