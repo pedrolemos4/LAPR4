@@ -1,0 +1,41 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class DefinirCriticidadeUI <<presentation>>
+class DefinirCriticidadeController <<application>>
+class PersistenceContext <<persistence>>
+class RepositoryFactory <<factory>>
+class CatalogoRepository <<repository>>
+class CriticidadeRepository <<repository>>
+
+
+
+DefinirCriticidadeUI --> DefinirCriticidadeController
+DefinirCriticidadeController : listCatalogo()
+DefinirCriticidadeController : listCriticidade()
+DefinirCriticidadeController : defineCriticidade(tempoMaximo, tempoMedio, etiqueta, escala, cor, designacao)
+DefinirCriticidadeController : defineContrato()
+
+DefinirCriticidadeController --> CriticidadeRepository
+DefinirCriticidadeController --> CatalogoRepository
+DefinirCriticidadeController --> PersistenceContext
+PersistenceContext : repositories()
+DefinirCriticidadeController --> RepositoryFactory
+RepositoryFactory : catalogo()
+RepositoryFactory : criticidade()
+
+PersistenceContext --> RepositoryFactory
+RepositoryFactory --> CriticidadeRepository
+RepositoryFactory --> CatalogoRepository
+
+CriticidadeRepository : save(nivelCriticidade)
+CriticidadeRepository : findAllCriticidade()
+
+CatalogoRepository : save(cont)
+
+@enduml

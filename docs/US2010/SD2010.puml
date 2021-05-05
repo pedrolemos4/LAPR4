@@ -1,0 +1,122 @@
+title SD - Definir os niveis de criticidade e respetivos objetivos
+
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+actor GSH as Actor
+participant DefinirCriticidadeUI as UI <<presentation>>
+control DefinirCriticidadeController as Controller <<application>>
+participant PersistenceContext as Persistence <<persistence>>
+participant RepositoryFactory as Factory <<factory>>
+database CriticidadeRepository as CRepository <<repository>>
+database CatalogoRepository as Repository <<repository>>
+participant "TempoMax" as TempoMax <<domain>>
+participant "TempoMed" as TempoMed <<domain>>
+participant "Cor" as Cor <<domain>>
+participant "Etiqueta" as Etiqueta <<domain>>
+participant "Escala" as Escala <<domain>>
+participant "Designacao" as Designacao <<domain>>
+participant "Criticidade" as Criticidade <<domain>>
+participant "Contrato" as Contrato <<domain>>
+
+
+
+activate Actor
+Actor -> UI: pretende definir os niveis de criticidade e respetivos objetivos
+activate UI
+UI -> Controller: listCriticidade()
+    activate Controller
+    Controller -> Persistence: repositories()
+        activate Persistence
+        Persistence --> Factory: create()
+            activate Factory
+            Factory --> Persistence:
+            deactivate Factory
+        Persistence --> Controller:
+        deactivate Persistence
+    Controller -> Factory: criticidade()
+        activate Factory
+        Factory --> CRepository : create()
+            activate CRepository
+            deactivate CRepository
+        deactivate Factory
+    deactivate Controller
+        
+UI -> Controller: listCatalogo()
+    activate Controller
+    Controller -> Persistence: repositories()
+        activate Persistence
+        Persistence --> Factory: create()
+            activate Factory
+            Factory --> Persistence:
+            deactivate Factory
+        Persistence --> Controller:
+        deactivate Persistence
+    Controller -> Factory: catalogo()
+        activate Factory
+        Factory --> Repository : create()
+            activate Repository
+            deactivate Repository
+        deactivate Factory
+
+    deactivate Controller
+    loop para todos os niveis de criticidade
+UI --> Actor: requisita a informação de um nivel de criticidade
+deactivate UI
+
+Actor -> UI: insere os dados solicitados
+activate UI
+UI -> Controller:  defineCriticidade(tempoMaximo, tempoMedio, etiqueta, escala, cor, designacao)
+    activate Controller
+    Controller -> TempoMax: tempoMax  = create(tempoMaximo)
+        activate TempoMax
+        deactivate TempoMax
+    Controller -> TempoMed: tempoMed  = create(tempoMedio)
+        activate TempoMed
+        deactivate TempoMed
+    Controller -> Etiqueta: e  = create(etiqueta)
+        activate Etiqueta
+        deactivate Etiqueta
+    Controller -> Escala: esc  = create(escala)
+        activate Escala
+        deactivate Escala
+    Controller -> Cor: c  = create(cor)
+        activate Cor
+        deactivate Cor
+    Controller -> Designacao: desig  = create(designacao)
+        activate Designacao
+        deactivate Designacao
+    Controller -> Criticidade: nivelCriticidade  = create(tempoMax,tempoMed,e,esc,c,desig)
+        activate Criticidade
+        deactivate Criticidade
+    Controller -> CRepository: save(nivelCriticidade)
+        activate CRepository
+        deactivate CRepository
+    deactivate Controller
+    end
+UI --> Actor: apresenta o conjunto de niveis de criticidade e solicita confirmação
+deactivate UI
+Actor -> UI: confirma operação
+activate UI
+UI -> Controller: defineContrato()
+    activate Controller
+    Controller -> CRepository: listCriticidade = findAllCriticidade()
+        activate CRepository
+        deactivate CRepository
+    Controller -> Contrato: cont = create(listCriticidade)
+        activate Contrato
+        deactivate Contrato
+    Controller -> Repository: save(cont)
+        activate Repository
+        deactivate Repository
+    deactivate Controller
+UI --> Actor: informa sucesso da operação
+deactivate UI
+deactivate Actor
+
+@enduml
