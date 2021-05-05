@@ -4,6 +4,7 @@ import eapli.base.gestaoservicosrh.domain.CodigoUnico;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.Description;
 
+
 public class Servico implements AggregateRoot<CodigoUnico> {
 
     private final CodigoUnico codigoUnico;
@@ -20,6 +21,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.descricaoBreve = builder.descricaoBreve;
         this.descricaoCompleta = builder.descricaoCompleta;
     }
+
+
 
     //private Icone icone;
 
@@ -38,6 +41,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     }
 
     public static class ServicoBuilder {
+
         private final CodigoUnico codigoUnico;
 
         private DescricaoBreve descricaoBreve;

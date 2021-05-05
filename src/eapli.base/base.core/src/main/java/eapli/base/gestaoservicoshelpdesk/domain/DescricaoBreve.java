@@ -17,8 +17,7 @@ public class DescricaoBreve implements ValueObject, Serializable, StringMixin {
     @Column(
         //name = "descricaoBreve"
     )
-    @XmlAttribute
-    @JsonProperty("descricaoBreve")
+
     private final String value;
 
     protected DescricaoBreve(final String name) {

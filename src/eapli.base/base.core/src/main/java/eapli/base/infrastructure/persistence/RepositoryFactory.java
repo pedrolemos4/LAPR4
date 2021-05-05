@@ -6,6 +6,7 @@ package eapli.base.infrastructure.persistence;
 import eapli.base.clientusermanagement.repositories.ClientUserRepository;
 
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
+import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
@@ -72,4 +73,6 @@ public interface RepositoryFactory {
 	TipoEquipaRepository tiposEquipa();
 
 	ServicoRepository servicos();
+
+	DraftServicoRepository drafts();
 }
