@@ -35,7 +35,9 @@ import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
 import eapli.base.usermanagement.domain.Roles;
 import eapli.base.usermanagement.domain.Utilizador;
+import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import eapli.framework.infrastructure.authz.domain.model.Password;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
 
@@ -57,10 +59,9 @@ public final class BaseBackoffice extends BaseApplication {
      *            the command line arguments
      */
     public static void main(final String[] args) {
-
         Utilizador utilizador = new Utilizador();
-        MecanographicNumber number = new MecanographicNumber("1190800");
-        Utilizador utilizador1 = new Utilizador(number,"example@gmail.com","password", Roles.CLIENT_USER);
+        Utilizador utilizador1 = new Utilizador(new MecanographicNumber("1190800"),
+                new EmailAddress("example@gmail.com"),new Password("password"), Roles.CLIENT_USER);
         utilizador.addUser(utilizador1);
 
     }

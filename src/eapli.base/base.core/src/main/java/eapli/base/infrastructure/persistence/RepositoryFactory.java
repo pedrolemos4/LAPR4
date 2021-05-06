@@ -75,7 +75,7 @@ public interface RepositoryFactory {
 
 	CatalogoRepository catalogo();
 
-	UtilizadorRepository utilizador();
+	//UtilizadorRepository utilizador();
 
 	DraftServicoRepository drafts();
 

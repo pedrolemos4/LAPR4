@@ -28,7 +28,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "RESPONSAVEL_EQUIPA")
     private Colaborador responsavel;
 
-    private List<Colaborador> listMembros;
+    //private List<Colaborador> listMembros;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
         this.codigo = codigo;
@@ -36,7 +36,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
         this.designacao = desig;
         this.tipo = tipo;
         this.responsavel = responsavel;
-        this.listMembros = new ArrayList<>();
+        //this.listMembros = new ArrayList<>();
     }
 
     public Equipa() {

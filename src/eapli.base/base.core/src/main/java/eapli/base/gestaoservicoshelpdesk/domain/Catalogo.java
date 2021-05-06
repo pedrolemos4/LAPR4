@@ -1,7 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
-import eapli.base.gestaoservicosrh.domain.Colaborador;
 import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.validations.Preconditions;
 

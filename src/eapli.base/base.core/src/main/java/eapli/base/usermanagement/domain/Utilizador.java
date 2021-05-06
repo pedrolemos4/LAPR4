@@ -4,6 +4,8 @@ package eapli.base.usermanagement.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.general.domain.model.EmailAddress;
+import eapli.framework.infrastructure.authz.domain.model.Password;
 
 
 import javax.persistence.*;
@@ -21,15 +23,15 @@ public class Utilizador implements AggregateRoot<MecanographicNumber> {
     private MecanographicNumber id;
 
     @Column(name = "EMAIL")
-    private String email;
+    private EmailAddress email;
 
     @Column(name = "PASSWORD")
-    private String password;
+    private Password password;
 
     @Column(name = "FUNCAO")
     private TipoUtilizador role;
 
-    public Utilizador(MecanographicNumber id, String email, String password, TipoUtilizador role) {
+    public Utilizador(MecanographicNumber id, EmailAddress email, Password password, TipoUtilizador role) {
         this.id = id;
         this.email = email;
         this.password = password;

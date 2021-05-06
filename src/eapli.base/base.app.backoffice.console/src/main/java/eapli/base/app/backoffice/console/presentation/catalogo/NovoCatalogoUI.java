@@ -5,8 +5,8 @@ import eapli.base.app.backoffice.console.presentation.servicos.DescricaoCompleta
 import eapli.base.app.backoffice.console.presentation.servicos.TituloDataWidget;
 import eapli.base.gestaoservicoshelpdesk.application.NovoCatalogoController;
 import eapli.base.gestaoservicoshelpdesk.domain.DescricaoBreve;
-import eapli.base.gestaoservicosrh.domain.Colaborador;
 import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
