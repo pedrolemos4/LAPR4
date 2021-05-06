@@ -24,8 +24,6 @@
 package eapli.base.infrastructure.bootstrapers;
 
 import eapli.base.usermanagement.application.AddUserController;
-
-import eapli.base.usermanagement.domain.Roles;
 import eapli.framework.actions.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,33 +39,11 @@ public class BaseBootstrapper implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             BaseBootstrapper.class);
 
-    private static final String EMAILADMIN = "admin@org.com";
-
-    private static final String IDADMIN = "01";
-
-    private static final String EMAILGESTOR = "gestor@org.com";
-
-    private static final String IDGESTOR = "02";
-
-    private static final String EMAILRRH = "rrg@org.com";
-
-    private static final String IDRRH = "03";
-
-    private static final String EMAILCOLAB = "colab@org.com";
-
-    private static final String IDCOLAB = "04";
-
-    private static final String EMAILUSER = "user@org.com";
-
-    private static final String IDUSER = "05";
-
     /*
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final AuthenticationService authenticationService = AuthzRegistry.authenticationService();
     private final UserRepository userRepository = PersistenceContext.repositories().users();
     */
-
-    private final AddUserController userController = new AddUserController();
 
 
     @Override
@@ -80,8 +56,6 @@ public class BaseBootstrapper implements Action {
         authenticateForBootstrapping();
         */
 
-        registerDefaultOrg();
-
         // execute all bootstrapping
         boolean ret = true;
         for (final Action boot : actions) {
@@ -91,28 +65,6 @@ public class BaseBootstrapper implements Action {
         return ret;
     }
 
-    /**
-     * US 2103 - LEANDRO SOUSA 1190800
-     * -----------------------------------------------------------------------------------------------
-     * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
-     * para facilitar / acelerar o desenvolvimento das próximas user stories.
-     * @return true in case of sucess or false if fails
-     */
-
-    private boolean registerDefaultOrg(){
-
-        userController.addUser("orgAdmin","ADMIN","Ricardo","Soares",EMAILADMIN, Roles.ADMIN);
-
-        userController.addUser("orgRRH","RRH","Paula","Castro",EMAILRRH,Roles.RRH);
-
-        userController.addUser("orgGestorServico","GESTOR","Afonso","Sousa",EMAILGESTOR,Roles.GESTOR_SERVICO);
-
-        userController.addUser("orgColab","COLAB","Joel","Dias",EMAILCOLAB,Roles.COLABORADOR);
-
-        userController.addUser("orgUser","CLIENT","Paulo","Maio",EMAILUSER,Roles.CLIENT_USER);
-
-        return true;
-    }
 
 
     /**

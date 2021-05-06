@@ -25,38 +25,40 @@ package eapli.base.usermanagement.domain;
  */
 
 
-public final class Roles {
+import eapli.framework.infrastructure.authz.domain.model.Role;
+
+public final class BaseRoles {
     /**
      * RRH
      */
-    public static final TipoUtilizador RRH = TipoUtilizador.valueOf("RESPONSAVEL_RECURSOS_HUMANOS");
+    public static final Role RRH = Role.valueOf("RESPONSAVEL_RECURSOS_HUMANOS");
     /**
      * Gestor de Serviço
      */
-    public static final TipoUtilizador CLIENT_USER = TipoUtilizador.valueOf("CLIENT_USER");
+    public static final Role CLIENT_USER = Role.valueOf("CLIENT_USER");
     /**
      * Base Administrator
      */
-    public static final TipoUtilizador ADMIN = TipoUtilizador.valueOf("ADMIN");
+    public static final Role ADMIN = Role.valueOf("ADMIN");
     /**
      *  Gestor Servico
      */
-    public static final TipoUtilizador GESTOR_SERVICO = TipoUtilizador.valueOf("GESTOR_SERVICO");
+    public static final Role GESTOR_SERVICO = Role.valueOf("GESTOR_SERVICO");
     /**
      * Colaborador
      */
-    public static final TipoUtilizador COLABORADOR = TipoUtilizador.valueOf("COLABORADOR");
+    public static final Role COLABORADOR = Role.valueOf("COLABORADOR");
 
     /**
      * get available role types for adding new users
      *
      * @return
      */
-    public static TipoUtilizador[] nonUserValues() {
-        return new TipoUtilizador[] { ADMIN, COLABORADOR, GESTOR_SERVICO, RRH };
+    public static Role[] nonUserValues() {
+        return new Role[] { ADMIN, COLABORADOR, GESTOR_SERVICO, RRH };
     }
 
-    public boolean isCollaborator(final TipoUtilizador role) {
+    public boolean isCollaborator(final Role role) {
         return role != CLIENT_USER;
     }
 }

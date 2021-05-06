@@ -1,17 +1,19 @@
 package eapli.base.infrastructure.bootstrapers;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import eapli.base.usermanagement.domain.BaseRoles;
+import eapli.framework.domain.repositories.ConcurrencyException;
+import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.infrastructure.authz.domain.model.SystemUser;
+import eapli.framework.infrastructure.authz.domain.model.Username;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eapli.base.usermanagement.application.AddUserController;
 import eapli.base.usermanagement.application.ListUsersController;
-import eapli.framework.domain.repositories.ConcurrencyException;
-import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.infrastructure.authz.domain.model.Role;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
-import eapli.framework.infrastructure.authz.domain.model.Username;
 
 public class UsersBootstrapperBase {
 
@@ -32,9 +34,9 @@ public class UsersBootstrapperBase {
      * @param email
      * @param roles
      */
-    /*
+
     protected SystemUser registerUser(final String username, final String password, final String firstName,
-            final String lastName, final String email, final Set<Role> roles) {
+                                      final String lastName, final String email, final Set<Role> roles) {
         SystemUser u = null;
         try {
             u = userController.addUser(username, password, firstName, lastName, email, roles);
@@ -47,5 +49,6 @@ public class UsersBootstrapperBase {
         return u;
     }
 
-     */
+
+
 }

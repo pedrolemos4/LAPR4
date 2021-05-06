@@ -7,6 +7,8 @@ package eapli.base.infrastructure.bootstrapers;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.actions.Action;
 import eapli.framework.infrastructure.authz.domain.model.Role;
 
@@ -15,10 +17,37 @@ import eapli.framework.infrastructure.authz.domain.model.Role;
  */
 public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Action {
 
+    private static final String EMAILADMIN = "admin@org.com";
+
+    private static final String IDADMIN = "01";
+
+    private static final String EMAILGESTOR = "gestor@org.com";
+
+    private static final String IDGESTOR = "02";
+
+    private static final String EMAILRRH = "rrg@org.com";
+
+    private static final String IDRRH = "03";
+
+    private static final String EMAILCOLAB = "colab@org.com";
+
+    private static final String IDCOLAB = "04";
+
+    private static final String EMAILUSER = "user@org.com";
+
+    private static final String IDUSER = "05";
+
     @Override
     public boolean execute() {
-        registerAdmin("admin", TestDataConstants.PASSWORD1, "Jane", "Doe Admin",
-                "jane.doe@email.local");
+        registerUser("orgAdmin","ADMIN","Ricardo","Soares",EMAILADMIN, BaseRoles.ADMIN);
+
+        registerUser("orgRRH","RRH","Paula","Castro",EMAILRRH,BaseRoles.RRH);
+
+        registerUser("orgGestorServico","GESTOR","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
+
+        registerUser("orgColab","COLAB","Joel","Dias",EMAILCOLAB,BaseRoles.COLABORADOR);
+
+        registerUser("orgUser","CLIENT","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
     }
 
@@ -31,5 +60,22 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
        // roles.add(BaseRoles.ADMIN);
 
         //registerUser(username, password, firstName, lastName, email, roles);
+    }
+
+    /**
+     * US 2103 - LEANDRO SOUSA 1190800
+     * -----------------------------------------------------------------------------------------------
+     * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
+     * para facilitar / acelerar o desenvolvimento das próximas user stories.
+     * @return true in case of sucess or false if fails
+     */
+
+    private void registerUser(final String username, final String password, final String firstName,
+                              final String lastName, final String email, Role role) {
+        final Set<Role> roles = new HashSet<>();
+
+        roles.add(role);
+
+        registerUser(username, password, firstName, lastName, email, roles);
     }
 }
