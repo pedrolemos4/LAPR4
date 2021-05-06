@@ -33,7 +33,6 @@ import eapli.base.clientusermanagement.domain.events.SignupAcceptedEvent;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
-import eapli.base.usermanagement.domain.Roles;
 import eapli.base.usermanagement.domain.Utilizador;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
