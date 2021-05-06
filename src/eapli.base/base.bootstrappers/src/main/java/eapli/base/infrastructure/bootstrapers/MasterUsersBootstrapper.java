@@ -39,15 +39,15 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
-        registerUser("orgAdmin","ADMIN","Ricardo","Soares",EMAILADMIN, BaseRoles.ADMIN);
+        registerUser("orgAdmin","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.ADMIN);
 
-        registerUser("orgRRH","RRH","Paula","Castro",EMAILRRH,BaseRoles.RRH);
+        registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 
-        registerUser("orgGestorServico","GESTOR","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
+        registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
-        registerUser("orgColab","COLAB","Joel","Dias",EMAILCOLAB,BaseRoles.COLABORADOR);
+        registerUser("orgColab","Colab11","Joel","Dias",EMAILCOLAB,BaseRoles.COLABORADOR);
 
-        registerUser("orgUser","CLIENT","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
+        registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
     }
 
@@ -75,7 +75,6 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
         final Set<Role> roles = new HashSet<>();
 
         roles.add(role);
-
         registerUser(username, password, firstName, lastName, email, roles);
     }
 }

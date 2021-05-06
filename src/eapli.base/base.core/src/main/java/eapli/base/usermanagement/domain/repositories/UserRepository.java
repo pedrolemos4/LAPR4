@@ -18,7 +18,7 @@ public interface UserRepository
     /**
      * returns the client user (utente) whose username is given
      *
-     * @param name
+     * @param email
      *            the username to search for
      * @return
      */

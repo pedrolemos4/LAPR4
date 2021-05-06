@@ -28,6 +28,8 @@ package eapli.base.usermanagement.domain;
 import eapli.framework.infrastructure.authz.domain.model.Role;
 
 public final class BaseRoles {
+
+    public static final Role POWER_USER = Role.valueOf("POWER-USER");
     /**
      * RRH
      */

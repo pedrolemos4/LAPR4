@@ -42,7 +42,7 @@ public abstract class BaseApplication {
             printFooter();
         } catch (final Exception e) {
             System.out.println(
-                    "Something unexpected has happened and the application will terminate. Please check the logs.\n");
+                    "Somkhfukasgfulsdhbfshjgfhlsgfhething unexpected has happened and the application will terminate. Please check the logs.\n");
             LOGGER.error(e);
         } finally {
             clearEventHandlers();

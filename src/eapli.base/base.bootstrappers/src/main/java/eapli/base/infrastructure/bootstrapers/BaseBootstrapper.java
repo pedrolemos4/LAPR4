@@ -23,10 +23,23 @@
  */
 package eapli.base.infrastructure.bootstrapers;
 
-import eapli.base.usermanagement.application.AddUserController;
+import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.usermanagement.domain.BaseRoles;
+import eapli.base.usermanagement.domain.UserBuilderHelper;
 import eapli.framework.actions.Action;
+import eapli.framework.domain.repositories.ConcurrencyException;
+import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.infrastructure.authz.application.AuthenticationService;
+import eapli.framework.infrastructure.authz.application.AuthorizationService;
+import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import eapli.framework.infrastructure.authz.domain.model.SystemUser;
+import eapli.framework.infrastructure.authz.domain.model.SystemUserBuilder;
+import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
+import eapli.framework.strings.util.Strings;
+import eapli.framework.validations.Invariants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * Base Bootstrapping data app
@@ -39,11 +52,13 @@ public class BaseBootstrapper implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             BaseBootstrapper.class);
 
-    /*
+    private static final String POWERUSER_A1 = "poweruserA1";
+    private static final String POWERUSER = "poweruser";
+
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final AuthenticationService authenticationService = AuthzRegistry.authenticationService();
     private final UserRepository userRepository = PersistenceContext.repositories().users();
-    */
+
 
 
     @Override
@@ -52,9 +67,9 @@ public class BaseBootstrapper implements Action {
         // declare bootstrap actions
         final Action[] actions = { new MasterUsersBootstrapper(), };
 
-        /*registerPowerUser();
+        registerPowerUser();
         authenticateForBootstrapping();
-        */
+
 
         // execute all bootstrapping
         boolean ret = true;
@@ -71,7 +86,7 @@ public class BaseBootstrapper implements Action {
      * register a power user directly in the persistence layer as we need to
      * circumvent authorisations in the Application Layer
      */
-    /*
+
     private boolean registerPowerUser() {
         final SystemUserBuilder userBuilder = UserBuilderHelper.builder();
         userBuilder.withUsername(POWERUSER).withPassword(POWERUSER_A1).withName("joe", "power")
@@ -91,13 +106,13 @@ public class BaseBootstrapper implements Action {
             return false;
         }
     }
-     */
+
 
     /**
      * authenticate a super user to be able to register new users
      *
      */
-    /*
+
     protected void authenticateForBootstrapping() {
         authenticationService.authenticate(POWERUSER, POWERUSER_A1);
         Invariants.ensure(authz.hasSession());
@@ -108,5 +123,5 @@ public class BaseBootstrapper implements Action {
         return Strings.left(name, name.length() - "Bootstrapper".length());
     }
 
-     */
+
 }
