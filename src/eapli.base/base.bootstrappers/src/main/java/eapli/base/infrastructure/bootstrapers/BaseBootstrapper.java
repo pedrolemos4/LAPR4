@@ -24,7 +24,7 @@
 package eapli.base.infrastructure.bootstrapers;
 
 import eapli.base.usermanagement.application.AddUserController;
-import eapli.base.usermanagement.domain.BaseRoles;
+
 import eapli.base.usermanagement.domain.Roles;
 import eapli.framework.actions.Action;
 import org.slf4j.Logger;

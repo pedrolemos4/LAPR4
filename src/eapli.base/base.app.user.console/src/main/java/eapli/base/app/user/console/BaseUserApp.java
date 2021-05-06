@@ -1,6 +1,6 @@
 package eapli.base.app.user.console;
 
-import eapli.base.app.user.console.presentation.FrontMenu;
+
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -27,7 +27,7 @@ public final class BaseUserApp {
         AuthzRegistry.configure(PersistenceContext.repositories().users(),
                 new BasePasswordPolicy(), new PlainTextEncoder());
 
-        new FrontMenu().show();
+        //new FrontMenu().show();
 
         // exiting the application, closing all threads
         System.exit(0);

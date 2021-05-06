@@ -25,7 +25,7 @@ package eapli.base.app.user.console.presentation;
 
 import eapli.base.app.common.console.presentation.authz.LoginUI;
 import eapli.base.app.user.console.presentation.myuser.SignupRequestAction;
-import eapli.base.usermanagement.domain.BaseRoles;
+
 import eapli.framework.actions.ChainedAction;
 import eapli.framework.actions.menu.Menu;
 import eapli.framework.presentation.console.AbstractUI;
@@ -37,6 +37,7 @@ import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
 /**
  * @author Paulo Gandra Sousa
  */
+/*
 public class FrontMenu extends AbstractUI {
 
     private static final int EXIT_OPTION = 0;
@@ -53,6 +54,7 @@ public class FrontMenu extends AbstractUI {
     /**
      * @return true if the user selected the exit option
      */
+/*
     @Override
     public boolean doShow() {
         final Menu menu = new Menu();
@@ -74,3 +76,5 @@ public class FrontMenu extends AbstractUI {
         return "Base";
     }
 }
+
+ */

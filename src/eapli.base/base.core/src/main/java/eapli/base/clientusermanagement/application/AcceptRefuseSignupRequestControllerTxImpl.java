@@ -31,7 +31,7 @@ import eapli.base.clientusermanagement.domain.SignupRequest;
 import eapli.base.clientusermanagement.repositories.ClientUserRepository;
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.usermanagement.domain.BaseRoles;
+//import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.domain.repositories.TransactionalContext;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -114,7 +114,7 @@ public class AcceptRefuseSignupRequestControllerTxImpl
     //
     private SystemUser createSystemUserForClientUser(final SignupRequest theSignupRequest) {
         final Set<Role> roles = new HashSet<>();
-        roles.add(BaseRoles.CLIENT_USER);
+        //roles.add(BaseRoles.CLIENT_USER);
         return userService.registerUser(theSignupRequest.username(), theSignupRequest.password(),
                 theSignupRequest.name(), theSignupRequest.email(), roles);
     }

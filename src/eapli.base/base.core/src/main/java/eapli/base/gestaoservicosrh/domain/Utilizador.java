@@ -1,6 +1,6 @@
 package eapli.base.gestaoservicosrh.domain;
 
-import eapli.base.usermanagement.domain.BaseRoles;
+
 
 import javax.persistence.*;
 

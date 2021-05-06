@@ -9,7 +9,6 @@ import eapli.base.app.common.console.presentation.authz.LoginAction;
 import eapli.base.app.other.console.presentation.MainMenu;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
-import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 

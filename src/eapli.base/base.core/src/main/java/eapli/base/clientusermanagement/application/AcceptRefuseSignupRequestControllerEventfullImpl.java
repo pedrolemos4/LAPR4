@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.usermanagement.domain.BaseRoles;
+
 import eapli.framework.application.UseCaseController;
 import eapli.framework.domain.events.DomainEvent;
 import eapli.framework.domain.repositories.ConcurrencyException;

@@ -23,7 +23,7 @@
  */
 package eapli.base.usermanagement.application;
 
-import eapli.base.usermanagement.domain.BaseRoles;
+//import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;

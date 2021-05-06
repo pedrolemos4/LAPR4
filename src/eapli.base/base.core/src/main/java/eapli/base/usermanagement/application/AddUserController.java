@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Set;
 
 import eapli.base.gestaoservicosrh.domain.TipoUtilizador;
-import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -29,9 +28,7 @@ public class AddUserController {
      *
      * @return a list of RoleTypes
      */
-    public Role[] getRoleTypes() {
-        return BaseRoles.nonUserValues();
-    }
+    //public Role[] getRoleTypes() {       return BaseRoles.nonUserValues();}
 /*
     public SystemUser addUser(String username, String password, String firstName, String lastName,
             String email, Set<Role> roles, Calendar createdOn) {

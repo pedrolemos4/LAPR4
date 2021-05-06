@@ -31,7 +31,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.infrastructure.authz.domain.model.NilPasswordPolicy;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.authz.domain.model.Role;
@@ -42,7 +41,7 @@ import eapli.framework.infrastructure.authz.domain.model.SystemUserBuilder;
  * Created by Nuno Bettencourt [NMB] on 03/04/16.
  */
 public class ClientUserTest {
-
+/*
     private final String aMecanographicNumber = "abc";
     private final String anotherMecanographicNumber = "xyz";
 
@@ -136,4 +135,6 @@ public class ClientUserTest {
 
         assertFalse(expected);
     }
+
+ */
 }

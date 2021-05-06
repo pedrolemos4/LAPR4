@@ -26,7 +26,6 @@ package eapli.base.usermanagement.application.eventhandlers;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
 import eapli.base.clientusermanagement.domain.events.SignupAcceptedEvent;
 import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.base.usermanagement.domain.UserBuilderHelper;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.domain.events.DomainEvent;
@@ -54,6 +53,7 @@ import eapli.framework.infrastructure.eventpubsub.impl.inprocess.InProcessPubSub
      * @throws ConcurrencyException
      * @throws IntegrityViolationException
      */
+    /*
     public SystemUser addUser(final SignupAcceptedEvent theSignupRequest) {
 
         final SystemUserBuilder userBuilder = UserBuilderHelper.builder();
@@ -69,4 +69,6 @@ import eapli.framework.infrastructure.eventpubsub.impl.inprocess.InProcessPubSub
 
         return newUser;
     }
+
+     */
 }
