@@ -1,4 +1,4 @@
-package eapli.base.gestaoservicosrh.domain;
+package eapli.base.usermanagement.domain;
 
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.util.HashCoder;

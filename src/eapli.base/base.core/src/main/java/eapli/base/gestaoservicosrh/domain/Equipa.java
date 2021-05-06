@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicosrh.domain;
 
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.DomainEntity;
@@ -11,7 +12,7 @@ import javax.persistence.Id;
 @Entity
 public class Equipa implements AggregateRoot<CodigoUnico> {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID_EQUIPA")
     private final CodigoUnico codigo;
 
     @Column(name = "ACRONIMO")
@@ -20,10 +21,10 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "DESIGNACAO")
     private Designacao designacao;
 
-    @Column(name = "TIPO EQUIPA")
+    @Column(name = "TIPO_EQUIPA")
     private TipoEquipa tipo;
 
-    @Column(name = "RESPONSAVEL EQUIPA")
+    @Column(name = "RESPONSAVEL_EQUIPA")
     private Colaborador responsavel;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {

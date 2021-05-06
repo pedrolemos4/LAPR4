@@ -1,7 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.equipas;
 
-import eapli.base.gestaoservicosrh.domain.Colaborador;
-import eapli.framework.io.util.Console;
+import eapli.base.usermanagement.domain.Colaborador;
 
 public class ColaboradorDataWidget {
     private Colaborador colab;

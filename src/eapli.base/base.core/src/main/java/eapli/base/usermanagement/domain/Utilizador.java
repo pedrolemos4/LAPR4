@@ -1,18 +1,23 @@
-package eapli.base.gestaoservicosrh.domain;
+package eapli.base.usermanagement.domain;
 
 
+
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
 
 @Entity
-public class Utilizador {
+@Table(name="UTILIZADOR")
+@Inheritance(strategy=InheritanceType.JOINED)
+public class Utilizador implements AggregateRoot<MecanographicNumber> {
 
     @Version
     private Long version;
 
     @Id
-    @Column(name = "ID")
-    private int id;
+    @Column(name = "ID_UTILIZADOR")
+    private MecanographicNumber id;
 
     @Column(name = "EMAIL")
     private String email;
@@ -23,7 +28,7 @@ public class Utilizador {
     @Column(name = "FUNCAO")
     private TipoUtilizador role;
 
-    public Utilizador(int id, String email, String password, TipoUtilizador role) {
+    public Utilizador(MecanographicNumber id, String email, String password, TipoUtilizador role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -39,10 +44,20 @@ public class Utilizador {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(utilizador);
+        entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
         entityManagerFactory.close();
         return true;
     }
 
+    @Override
+    public boolean sameAs(Object other) {
+        return false;
+    }
+
+    @Override
+    public MecanographicNumber identity() {
+        return null;
+    }
 }

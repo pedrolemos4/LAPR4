@@ -1,9 +1,7 @@
 package eapli.base.gestaoservicosrh.application;
 
-import eapli.base.gestaoservicosrh.domain.Colaborador;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 
 public class AdicionarRemoverColaboradorEquipaController {
 

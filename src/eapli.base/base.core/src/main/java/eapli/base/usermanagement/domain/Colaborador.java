@@ -1,11 +1,8 @@
-package eapli.base.gestaoservicosrh.domain;
+package eapli.base.usermanagement.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,9 +3,7 @@ package eapli.base.gestaoservicoshelpdesk.application;
 import eapli.base.gestaoservicoshelpdesk.domain.*;
 import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.UtilizadorRepository;
-import eapli.base.gestaoservicosrh.domain.Colaborador;
 import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.gestaoservicosrh.domain.Utilizador;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 

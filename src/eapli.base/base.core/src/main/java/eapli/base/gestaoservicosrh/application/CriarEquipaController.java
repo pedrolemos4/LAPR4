@@ -3,8 +3,9 @@ package eapli.base.gestaoservicosrh.application;
 import eapli.base.gestaoservicosrh.domain.*;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
+import eapli.base.usermanagement.domain.Colaborador;
+import eapli.base.usermanagement.domain.Utilizador;
 import eapli.framework.application.UseCaseController;
-import jdk.jshell.execution.Util;
 
 import java.util.ArrayList;
 import java.util.List;

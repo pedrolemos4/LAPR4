@@ -27,11 +27,14 @@ import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
 //import eapli.base.app.backoffice.console.presentation.MainMenu;
 import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegisteredFromSignupWatchDog;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
 import eapli.base.clientusermanagement.domain.events.SignupAcceptedEvent;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
+import eapli.base.usermanagement.domain.Roles;
+import eapli.base.usermanagement.domain.Utilizador;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
@@ -54,6 +57,11 @@ public final class BaseBackoffice extends BaseApplication {
      *            the command line arguments
      */
     public static void main(final String[] args) {
+
+        Utilizador utilizador = new Utilizador();
+        MecanographicNumber number = new MecanographicNumber("1190800");
+        Utilizador utilizador1 = new Utilizador(number,"example@gmail.com","password", Roles.CLIENT_USER);
+        utilizador.addUser(utilizador1);
 
     }
 

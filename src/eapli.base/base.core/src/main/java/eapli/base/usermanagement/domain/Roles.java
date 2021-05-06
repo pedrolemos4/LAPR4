@@ -25,8 +25,6 @@ package eapli.base.usermanagement.domain;
  */
 
 
-import eapli.base.gestaoservicosrh.domain.TipoUtilizador;
-
 public final class Roles {
     /**
      * RRH

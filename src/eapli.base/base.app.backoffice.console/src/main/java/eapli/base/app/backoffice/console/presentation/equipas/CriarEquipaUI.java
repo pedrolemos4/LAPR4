@@ -2,9 +2,9 @@ package eapli.base.app.backoffice.console.presentation.equipas;
 
 import eapli.base.app.backoffice.console.presentation.servicos.CodigoUnicoDataWidget;
 import eapli.base.gestaoservicosrh.application.CriarEquipaController;
-import eapli.base.gestaoservicosrh.domain.Colaborador;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
-import eapli.base.gestaoservicosrh.domain.Utilizador;
+import eapli.base.usermanagement.domain.Utilizador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
