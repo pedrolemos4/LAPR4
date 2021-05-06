@@ -27,16 +27,20 @@ public class CriarEquipaUI extends AbstractUI {
         final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
         designacaoData.show();
 
-        final SelectWidget<TipoEquipa> selector = new SelectWidget<>("Tipos Equipa: ", listTipos);
+        final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
         selector.show();
 
-        final SelectWidget<Utilizador> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser);
+        final TipoEquipa tipo = selector.selectedElement();
+
+        final SelectWidget<Utilizador> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
         selector2.show();
 
+        final Colaborador colab = (Colaborador) selector2.selectedElement();
+
         try {
-            this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), selector.selectedElement(), (Colaborador) selector2.selectedElement());
+            this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
         } catch (final IntegrityViolationException e){
-            System.out.println("Erro.");
+            System.out.println("A Equipa criada já existe na base de dados.");
         }
 
         return false;
@@ -44,6 +48,6 @@ public class CriarEquipaUI extends AbstractUI {
 
     @Override
     public String headline() {
-        return null;
+        return "Criar Equipa";
     }
 }
