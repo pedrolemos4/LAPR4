@@ -8,15 +8,17 @@ import eapli.framework.strings.util.StringPredicates;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAttribute;
 
+@Embeddable
 public class Titulo implements ValueObject, Comparable<Titulo>, StringMixin {
     private static final long serialVersionUID = 1L;
     private final String titulo;
 
     public Titulo(final String name) {
         Preconditions.ensure(StringPredicates.isPhrase(name), "Name should neither be null nor empty nor have starting blank spaces");
-        Preconditions.ensure(name.length() <= 500, "O título de um serviço deve ter no máximo 500 caracteres.");
+        Preconditions.ensure(name.length() <= 50, "Um título tem no máximo 50 caracteres.");
         this.titulo = name;
     }
 
