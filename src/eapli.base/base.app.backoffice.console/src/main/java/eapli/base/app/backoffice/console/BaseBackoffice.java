@@ -60,9 +60,9 @@ public final class BaseBackoffice extends BaseApplication {
      */
     public static void main(final String[] args) {
         Utilizador utilizador = new Utilizador();
-        Utilizador utilizador1 = new Utilizador(new MecanographicNumber("1190800"),
+       /* Utilizador utilizador1 = new Utilizador(new MecanographicNumber("1190800"),
                 new EmailAddress("example@gmail.com"),new Password("password"), Roles.CLIENT_USER);
-        utilizador.addUser(utilizador1);
+        utilizador.addUser(utilizador1);*/
 
     }
 

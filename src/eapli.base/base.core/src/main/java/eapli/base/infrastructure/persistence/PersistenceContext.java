@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import eapli.base.Application;
 import eapli.framework.util.Utility;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * provides easy access to the persistence layer. works as a factory of
  * factories
@@ -29,8 +31,9 @@ public final class PersistenceContext {
         if (theFactory == null) {
             final String factoryClassName = Application.settings().getRepositoryFactory();
             try {
-                theFactory = (RepositoryFactory) Class.forName(factoryClassName).newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+                theFactory = (RepositoryFactory) Class.forName(factoryClassName).getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
                 LOGGER.error("Unable to dynamically load the Repository Factory", ex);
                 throw new IllegalStateException(
                         "Unable to dynamically load the Repository Factory: " + factoryClassName, ex);
