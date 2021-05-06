@@ -32,6 +32,7 @@ public class UsersBootstrapperBase {
      * @param email
      * @param roles
      */
+    /*
     protected SystemUser registerUser(final String username, final String password, final String firstName,
             final String lastName, final String email, final Set<Role> roles) {
         SystemUser u = null;
@@ -45,4 +46,6 @@ public class UsersBootstrapperBase {
         }
         return u;
     }
+
+     */
 }

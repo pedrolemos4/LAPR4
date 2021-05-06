@@ -9,7 +9,7 @@ import javax.persistence.Version;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Colaborador {
+public class Colaborador extends Utilizador {
 
     private MecanographicNumber numeroMecanografico;
 
@@ -23,7 +23,7 @@ public class Colaborador {
 
     List<Equipa> associatedTeams;
 
-    public Colaborador(Long version, MecanographicNumber numeroMecanografico, String shortName, String fullName, String dataNasc, String contacto) {
+    public Colaborador(MecanographicNumber numeroMecanografico, String shortName, String fullName, String dataNasc, String contacto) {
         this.numeroMecanografico = numeroMecanografico;
         this.shortName = shortName;
         this.fullName = fullName;

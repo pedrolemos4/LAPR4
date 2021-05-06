@@ -44,10 +44,10 @@ import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
  *
  * Created by nuno on 22/03/16.
  */
+/*
 public class AddUserUI extends AbstractUI {
 
     private final AddUserController theController = new AddUserController();
-
     @Override
     protected boolean doShow() {
         // FIXME avoid duplication with SignUpUI. reuse UserDataWidget from
@@ -94,4 +94,7 @@ public class AddUserUI extends AbstractUI {
     public String headline() {
         return "Add User";
     }
+
 }
+
+ */

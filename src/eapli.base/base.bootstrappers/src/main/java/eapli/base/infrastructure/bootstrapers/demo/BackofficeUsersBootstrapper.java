@@ -34,7 +34,7 @@ public class BackofficeUsersBootstrapper extends UsersBootstrapperBase implement
         final Set<Role> roles = new HashSet<>();
         //roles.add(BaseRoles.CASHIER);
 
-        registerUser(username, password, firstName, lastName, email, roles);
+        //registerUser(username, password, firstName, lastName, email, roles);
     }
 
     private void registerKitchenManager(final String username, final String password,
@@ -42,7 +42,7 @@ public class BackofficeUsersBootstrapper extends UsersBootstrapperBase implement
         final Set<Role> roles = new HashSet<>();
         //roles.add(BaseRoles.KITCHEN_MANAGER);
 
-        registerUser(username, password, firstName, lastName, email, roles);
+       //registerUser(username, password, firstName, lastName, email, roles);
     }
 
     private void registerMenuManager(final String username, final String password,
@@ -50,6 +50,6 @@ public class BackofficeUsersBootstrapper extends UsersBootstrapperBase implement
         final Set<Role> roles = new HashSet<>();
         //roles.add(BaseRoles.MENU_MANAGER);
 
-        registerUser(username, password, firstName, lastName, email, roles);
+        //registerUser(username, password, firstName, lastName, email, roles);
     }
 }

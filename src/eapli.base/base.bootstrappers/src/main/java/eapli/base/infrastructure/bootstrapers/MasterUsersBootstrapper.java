@@ -32,6 +32,6 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
         final Set<Role> roles = new HashSet<>();
         roles.add(BaseRoles.ADMIN);
 
-        registerUser(username, password, firstName, lastName, email, roles);
+        //registerUser(username, password, firstName, lastName, email, roles);
     }
 }
