@@ -11,16 +11,27 @@ class CriarEquipaController <<application>>
 class PersistenceContext <<persistence>>
 class RepositoryFactory <<factory>>
 class EquipaRepository <<repository>>
+class TipoEquipaRepository <<repository>>
+class UtilizadorRepository <<repository>>
 
 
 CriarEquipaUI --> CriarEquipaController
-CriarEquipaUI : novaEquipa(nome,listaColab,tipoEquipa)
+CriarEquipaUI : doShow()
+CriarEquipaUI : listTipos()
+CriarEquipaUI : listUser()
+CriarEquipaUI : novaEquipa(cod,acronimo,desig,tipo,responsavel)
 
 CriarEquipaController : repositories()
-CriarEquipaController : create(nome,listaColab,tipoEquipa)
+CriarEquipaController : findAll()
+CriarEquipaController : create(cod)
+CriarEquipaController : create(acronimo)
+CriarEquipaController : create(desig)
+CriarEquipaController : create(cod,acronimo,desig,tipo,responsavel)
 CriarEquipaController : save(novaEquipa)
 
 CriarEquipaController --> EquipaRepository
+CriarEquipaController --> TipoEquipaRepository
+CriarEquipaController --> UtilizadorRepository
 CriarEquipaController --> PersistenceContext
 PersistenceContext --> RepositoryFactory
 
