@@ -4,16 +4,26 @@ import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.DomainEntity;
 
-public class Equipa implements AggregateRoot<CodigoUnico> {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Equipa implements AggregateRoot<CodigoUnico> {
+    @Id
+    @Column(name = "ID")
     private final CodigoUnico codigo;
 
+    @Column(name = "ACRONIMO")
     private Acronimo acronimo;
 
+    @Column(name = "DESIGNACAO")
     private Designacao designacao;
 
+    @Column(name = "TIPO EQUIPA")
     private TipoEquipa tipo;
 
+    @Column(name = "RESPONSAVEL EQUIPA")
     private Colaborador responsavel;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
@@ -22,6 +32,10 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
         this.designacao = desig;
         this.tipo = tipo;
         this.responsavel = responsavel;
+    }
+
+    public Equipa() {
+        codigo = null;
     }
 
     @Override

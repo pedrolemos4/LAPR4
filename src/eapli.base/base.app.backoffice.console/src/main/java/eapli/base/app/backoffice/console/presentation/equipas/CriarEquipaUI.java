@@ -20,8 +20,14 @@ public class CriarEquipaUI extends AbstractUI {
         final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
         designacaoData.show();
 
+        final TipoEquipaDataWidget tipoData = new TipoEquipaDataWidget();
+        tipoData.show();
+
+        final ColaboradorDataWidget colabData = new ColaboradorDataWidget();
+        colabData.show();
+
         try {
-            this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), null, null);
+            this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipoData.tipo(), colabData.colaborador());
         } catch (final IntegrityViolationException e){
             System.out.println("Erro.");
         }
