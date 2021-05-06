@@ -27,7 +27,11 @@ public class Criticidade implements AggregateRoot<Long> {
 
     public Criticidade(final Etiqueta etiqueta, final Escala escala, final Designacao designacao,
                        final Objetivo objetivo, final Cor cor) {
-        Preconditions.noneNull(etiqueta, escala, designacao, objetivo, cor);
+        Preconditions.nonNull(etiqueta);
+        Preconditions.nonNull(escala);
+        Preconditions.nonNull(designacao);
+        Preconditions.nonNull(objetivo);
+        Preconditions.nonNull(cor);
         this.etiqueta = etiqueta;
         this.escala = escala;
         this.designacao = designacao;

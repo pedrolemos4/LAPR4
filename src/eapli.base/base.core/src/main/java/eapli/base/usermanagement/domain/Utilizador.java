@@ -5,9 +5,13 @@ package eapli.base.usermanagement.domain;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.framework.domain.model.AggregateRoot;
 
+import eapli.base.gestaoservicoshelpdesk.domain.Identificador;
+import eapli.framework.domain.model.AggregateRoot;
+
 import javax.persistence.*;
 
 @Entity
+public class Utilizador implements AggregateRoot<Identificador> {
 @Table(name="UTILIZADOR")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Utilizador implements AggregateRoot<MecanographicNumber> {
@@ -44,7 +48,6 @@ public class Utilizador implements AggregateRoot<MecanographicNumber> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(utilizador);
-        entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
         entityManagerFactory.close();

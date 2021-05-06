@@ -36,4 +36,16 @@ public class Colaborador extends Utilizador {
     public void remAssociatedTeam(Equipa equipa){
         associatedTeams.remove(equipa);
     }
+
+    @Override
+    public String toString() {
+        return "Colaborador{" +
+                "numeroMecanografico=" + numeroMecanografico +
+                ", shortName='" + shortName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", dataNasc='" + dataNasc + '\'' +
+                ", contacto='" + contacto + '\'' +
+                ", associatedTeams=" + associatedTeams +
+                '}';
+    }
 }

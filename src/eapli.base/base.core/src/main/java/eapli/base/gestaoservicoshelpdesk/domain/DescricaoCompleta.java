@@ -7,16 +7,14 @@ import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.io.Serializable;
 
+@Embeddable
 public class DescricaoCompleta implements ValueObject, Serializable, StringMixin {
     private static final long serialVersionUID = 1L;
-    @Column(
-            name = "descricaoCompleta"
-    )
-    @XmlAttribute
-    @JsonProperty("descricaoCompleta")
+
     private final String value;
 
     public DescricaoCompleta(final String name) {

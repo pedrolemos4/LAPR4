@@ -59,4 +59,14 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Equipa{" +
+                "codigo=" + codigo +
+                ", acronimo=" + acronimo +
+                ", designacao=" + designacao +
+                ", tipo=" + tipo +
+                ", responsavel=" + responsavel +
+                '}';
+    }
 }
