@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 public class Equipa implements AggregateRoot<CodigoUnico> {
+
     @Id
     @Column(name = "ID_EQUIPA")
     private final CodigoUnico codigo;
@@ -22,15 +23,11 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     private Designacao designacao;
 
     @Column(name = "TIPO_EQUIPA")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private TipoEquipa tipo;
 
     @Column(name = "RESPONSAVEL_EQUIPA")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Colaborador responsavel;
 
-    @Column(name = "LISTA_MEMBROS")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Colaborador> listMembros;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {

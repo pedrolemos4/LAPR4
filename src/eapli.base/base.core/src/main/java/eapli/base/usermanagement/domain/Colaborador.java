@@ -18,7 +18,7 @@ public class Colaborador extends Utilizador {
 
     private String contacto;
 
-    List<Equipa> associatedTeams;
+    private List<Equipa> associatedTeams;
 
     public Colaborador(MecanographicNumber numeroMecanografico, String shortName, String fullName, String dataNasc, String contacto) {
         this.numeroMecanografico = numeroMecanografico;
