@@ -2,6 +2,9 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 
 import eapli.framework.domain.model.ValueObject;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Identificador implements ValueObject, Comparable<Identificador> {
 
     private String identificador;
