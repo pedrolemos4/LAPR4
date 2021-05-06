@@ -2,10 +2,13 @@ package eapli.base.gestaoservicosrh.domain;
 
 
 
+import eapli.base.gestaoservicoshelpdesk.domain.Identificador;
+import eapli.framework.domain.model.AggregateRoot;
+
 import javax.persistence.*;
 
 @Entity
-public class Utilizador {
+public class Utilizador implements AggregateRoot<Identificador> {
 
     @Version
     private Long version;
@@ -45,4 +48,13 @@ public class Utilizador {
         return true;
     }
 
+    @Override
+    public boolean sameAs(Object other) {
+        return false;
+    }
+
+    @Override
+    public Identificador identity() {
+        return null;
+    }
 }
