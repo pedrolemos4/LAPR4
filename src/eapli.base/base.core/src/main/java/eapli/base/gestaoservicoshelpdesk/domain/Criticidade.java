@@ -14,6 +14,9 @@ public class Criticidade implements AggregateRoot<Long> {
     @GeneratedValue
     private Long id;
 
+    @Version
+    private Long version;
+
     private final Etiqueta etiqueta;
 
     private final Escala escala;

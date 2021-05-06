@@ -3,6 +3,7 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;
@@ -15,6 +16,9 @@ public class Catalogo implements AggregateRoot<Identificador>{
     @Id
     @GeneratedValue
     private Identificador identificador;
+
+    @Version
+    private Long version;
 
     @Column(name = "DESCCOMP")
     private DescricaoCompleta descricaoCompleta;
@@ -61,6 +65,18 @@ public class Catalogo implements AggregateRoot<Identificador>{
 
     @Override
     public Identificador identity() {
-        return null;
+        return identificador;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        return DomainEntities.areEqual(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return DomainEntities.hashCode(this);
+    }
+
+
 }

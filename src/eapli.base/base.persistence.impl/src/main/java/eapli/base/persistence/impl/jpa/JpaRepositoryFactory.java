@@ -55,32 +55,32 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 
     @Override
     public EquipaRepository equipas() {
-        return null;
+        return new JpaEquipaRepository();
     }
 
     @Override
 	public TipoEquipaRepository tiposEquipa() {
-		return null;
+		return new JpaTipoEquipaRepository();
 	}
 
     @Override
     public ServicoRepository servicos() {
-        return null;
+        return new JpaServicoRepository();
     }
 
     @Override
     public CatalogoRepository catalogo() {
-        return null;
+        return new JpaCatalogoRepository();
     }
 
     @Override
     public DraftServicoRepository drafts() {
-        return null;
+        return new JpaDraftServicoRepository();
     }
 
     @Override
     public CriticidadeRepository criticidade() {
-        return null;
+        return new JpaCriticidadeRepository();
     }
 
 
