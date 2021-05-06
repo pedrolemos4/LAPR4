@@ -29,9 +29,9 @@ public class Utilizador implements AggregateRoot<MecanographicNumber> {
     private Password password;
 
     @Column(name = "FUNCAO")
-    private TipoUtilizador role;
+    private BaseRoles role;
 
-    public Utilizador(MecanographicNumber id, EmailAddress email, Password password, TipoUtilizador role) {
+    public Utilizador(MecanographicNumber id, EmailAddress email, Password password, BaseRoles role) {
         this.id = id;
         this.email = email;
         this.password = password;
