@@ -15,10 +15,18 @@ import java.util.Set;
 public class DefinirCriticidadeController {
 
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
-    private final CatalogoRepository catRepo = PersistenceContext.repositories().catalogo();
-    private final CriticidadeRepository criticidadeRepo = PersistenceContext.repositories().criticidade();
+    private CatalogoRepository catRepo;
+    private CriticidadeRepository criticidadeRepo;
 
 
+    public CatalogoRepository listCatalogo(){
+        return catRepo = PersistenceContext.repositories().catalogo();
+    }
+    
+    public CriticidadeRepository listCriticidade(){
+        return criticidadeRepo = PersistenceContext.repositories().criticidade();
+    }
+    
     public Criticidade defineCriticidade(int tempoMaximo, int tempoMedio, String etiqueta, int escala,
                                   int red, int green, int blue, String designacao){
         Objetivo objetivo = new Objetivo(tempoMaximo, tempoMedio);
@@ -31,12 +39,13 @@ public class DefinirCriticidadeController {
         return criticidadeRepo.save(criticidade);
     }
 
-    /*public ContratoSLA defineContrato(String designacao){
+    public ContratoSLA defineContrato(String designacao){
         Set<Criticidade> list = (Set<Criticidade>) criticidadeRepo.findAll();
         Designacao design = new Designacao(designacao);
         final ContratoSLA contrato = new ContratoSLA(design, list);
-        return catRepo.save(contrato);
-    }*/
+        //return catRepo.save(contrato);
+        return null;
+    }
 
 
 }

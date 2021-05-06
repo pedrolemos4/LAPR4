@@ -16,8 +16,11 @@ public class Cor implements ValueObject {
 
     public Cor(final int red, final int green, final int blue) {
         Preconditions.ensure(red >= 0, "Red can't be negative");
+        Preconditions.ensure(red <=255, "Red can't be above 255");
         Preconditions.ensure(green >= 0, "Green can't be negative");
+        Preconditions.ensure(green <=255, "Green can't be above 255");
         Preconditions.ensure(blue >= 0, "Blue can't be negative");
+        Preconditions.ensure(blue <=255, "Blue can't be above 255");
         this.r = red;
         this.g = green;
         this.b = blue;
