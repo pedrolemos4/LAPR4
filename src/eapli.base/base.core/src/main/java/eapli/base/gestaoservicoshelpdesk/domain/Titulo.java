@@ -8,12 +8,15 @@ import eapli.framework.strings.util.StringPredicates;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @Embeddable
 public class Titulo implements ValueObject, Comparable<Titulo>, StringMixin {
     private static final long serialVersionUID = 1L;
+
+    @Column(name="Titulo")
     private final String titulo;
 
     public Titulo(final String name) {

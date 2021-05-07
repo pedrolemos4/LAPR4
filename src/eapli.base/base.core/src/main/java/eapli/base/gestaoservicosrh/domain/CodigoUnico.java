@@ -3,6 +3,7 @@ package eapli.base.gestaoservicosrh.domain;
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -12,6 +13,7 @@ public class CodigoUnico implements ValueObject, Comparable<CodigoUnico> {
 
     public static final CodigoUnico UNKNOWN = new CodigoUnico();
 
+    @Column(name="codigoUnico")
     private final String codigo;
 
     public CodigoUnico(final String codigo){

@@ -15,6 +15,7 @@ import java.io.Serializable;
 public class DescricaoBreve implements ValueObject, Serializable, StringMixin {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="DescricaoBreve")
     private final String value;
 
     public DescricaoBreve(final String name) {

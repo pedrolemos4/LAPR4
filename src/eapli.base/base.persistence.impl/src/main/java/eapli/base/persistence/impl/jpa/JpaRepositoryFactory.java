@@ -2,10 +2,7 @@ package eapli.base.persistence.impl.jpa;
 
 import eapli.base.Application;
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.CriticidadeRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
+import eapli.base.gestaoservicoshelpdesk.repositories.*;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
 import eapli.base.infrastructure.persistence.RepositoryFactory;
@@ -83,8 +80,13 @@ public class JpaRepositoryFactory implements RepositoryFactory {
         return new JpaCriticidadeRepository();
     }
 
+	@Override
+	public FormularioRepository formularios() {
+		return new JpaFormularioRepository();
+	}
 
-    @Override
+
+	@Override
 	public TransactionalContext newTransactionalContext() {
 		return JpaAutoTxRepository.buildTransactionalContext(Application.settings().getPersistenceUnitName(),
 				Application.settings().getExtendedPersistenceProperties());

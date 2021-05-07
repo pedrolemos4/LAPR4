@@ -2,26 +2,39 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 
 import eapli.base.gestaoservicosrh.domain.CodigoUnico;
 import eapli.framework.domain.model.AggregateRoot;
-import eapli.framework.general.domain.model.Description;
 
+import javax.persistence.*;
 import java.util.Set;
 
-
+@Entity
 public class Servico implements AggregateRoot<CodigoUnico> {
 
+    @Version
+    private Long version;
+
+    @Id
+    @Column(name="Codigo_Unico")
     private final CodigoUnico codigoUnico;
 
+    @Column(name="Descricao_Breve")
     private DescricaoBreve descricaoBreve;
 
+    @Column(name="Descricao_Completa")
     private DescricaoCompleta descricaoCompleta;
 
-    private Titulo titulo;
+    @Column(name="Titulo",unique = true)
+    private final Titulo titulo;
 
+    @Column(name="Estado_Servico")
+    @Enumerated(EnumType.STRING)
     private EstadoServico estado;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="formulario")
     private Formulario formulario;
 
-    private Servico(ServicoBuilder builder) {
+
+    public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;
         this.titulo = builder.titulo;
         this.descricaoBreve = builder.descricaoBreve;
@@ -29,10 +42,18 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.formulario= builder.formulario;
     }
 
+    protected Servico() {
+        this.codigoUnico = null;
+        this.descricaoBreve=null;
+        this.titulo=null;
+        this.descricaoCompleta=null;
+        this.estado=null;
+        this.formulario=null;
+    }
+
 
     //private Icone icone;
 
-    //private Catalogo catalogo;
 
     @Override
     public boolean sameAs(Object other) {

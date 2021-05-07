@@ -11,7 +11,7 @@ public class FormularioDataWidget {
     private String label;
 
     public void show(){
-        this.titulo= Console.readLine("Título:");
+        this.titulo= Console.readLine("Título do Formulario:");
         atributo();
     }
 

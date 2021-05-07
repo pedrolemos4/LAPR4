@@ -1,11 +1,18 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.framework.domain.model.ValueObject;
+
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Enumerated;
 
 @Embeddable
-public class Atributo {
+public class Atributo implements ValueObject {
+
+    @Column(name="Nome_Variavel")
     private String nomeVariavel;
 
+    @Column(name="Label")
     private String label;
 
     protected Atributo() {

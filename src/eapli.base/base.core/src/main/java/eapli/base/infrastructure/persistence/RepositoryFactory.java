@@ -80,4 +80,6 @@ public interface RepositoryFactory {
 	DraftServicoRepository drafts();
 
 	CriticidadeRepository criticidade();
+
+	FormularioRepository formularios();
 }

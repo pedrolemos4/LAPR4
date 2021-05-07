@@ -1,16 +1,14 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.validations.Preconditions;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Formulario {
+public class Formulario implements AggregateRoot<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,6 +16,10 @@ public class Formulario {
     @GeneratedValue
     private Long pk;
 
+    @Version
+    private Long version;
+
+    @Column(name="Formulario")
     private Titulo titulo;
 
     @ElementCollection
@@ -42,5 +44,15 @@ public class Formulario {
 
     public boolean addAtributo(final Atributo atributo) {
         return atributos.add(atributo);
+    }
+
+    @Override
+    public boolean sameAs(Object other) {
+        return false;
+    }
+
+    @Override
+    public Long identity() {
+        return null;
     }
 }
