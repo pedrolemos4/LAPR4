@@ -33,7 +33,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     private Colaborador responsavel;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<SystemUser> listMembros = new ArrayList<>();
+    private List<Colaborador> listMembros = new ArrayList<>();
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
         this.codigo = codigo;
@@ -49,7 +49,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
         codigo = null;
     }
 
-    public List<SystemUser> listMembros() {
+    public List<Colaborador> listMembros() {
         return listMembros;
     }
 
