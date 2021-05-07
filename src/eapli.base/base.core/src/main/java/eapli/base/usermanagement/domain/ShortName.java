@@ -10,8 +10,6 @@ public class ShortName implements ValueObject {
 
     private String shortName;
 
-    public ShortName() { }
-
     public ShortName(String shortName) {
         if (StringPredicates.isNullOrEmpty(shortName)) {
             throw new IllegalArgumentException(

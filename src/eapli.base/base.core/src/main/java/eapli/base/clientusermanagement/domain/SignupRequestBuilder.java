@@ -56,7 +56,7 @@ public class SignupRequestBuilder implements DomainFactory<SignupRequest> {
     private String firstName;
     private String lastName;
     private String email;
-    private String mecanographicNumber;
+    private int mecanographicNumber;
     private Calendar createdOn;
 
     public SignupRequestBuilder(final PasswordPolicy policy, final PasswordEncoder encoder) {
@@ -65,7 +65,7 @@ public class SignupRequestBuilder implements DomainFactory<SignupRequest> {
     }
 
     public SignupRequestBuilder withData(final String username, final String rawPassword,
-            final String email, final String number) {
+            final String email, final int number) {
         withUsername(username);
         withPassword(rawPassword);
         withEmail(email);
@@ -95,7 +95,7 @@ public class SignupRequestBuilder implements DomainFactory<SignupRequest> {
         return this;
     }
 
-    public SignupRequestBuilder withMecanographicNumber(final String mecanographicNumber) {
+    public SignupRequestBuilder withMecanographicNumber(final int mecanographicNumber) {
         this.mecanographicNumber = mecanographicNumber;
         return this;
     }

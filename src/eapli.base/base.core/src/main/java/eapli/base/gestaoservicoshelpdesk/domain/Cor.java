@@ -3,6 +3,7 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
@@ -10,8 +11,13 @@ import java.util.Objects;
 public class Cor implements ValueObject {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="Red")
     private final int r;
+
+    @Column(name="Green")
     private final int g;
+
+    @Column(name="Blue")
     private final int b;
 
     public Cor(final int red, final int green, final int blue) {
@@ -51,6 +57,6 @@ public class Cor implements ValueObject {
 
     @Override
     public String toString() {
-        return "Cor: " + "r=" + r + ", g=" + g + ", b=" + b;
+        return "Cor: " + "red=" + r + ", green=" + g + ", blue=" + b;
     }
 }

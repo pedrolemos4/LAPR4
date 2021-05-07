@@ -75,26 +75,6 @@ public class Criticidade implements AggregateRoot<Long> {
         return id;
     }
 
-    public Etiqueta getEtiqueta() {
-        return etiqueta;
-    }
-
-    public Escala getEscala() {
-        return escala;
-    }
-
-    public Designacao getDesignacao() {
-        return designacao;
-    }
-
-    public Objetivo getObjetivo() {
-        return objetivo;
-    }
-
-    public Cor getCor() {
-        return cor;
-    }
-
     @Override
     public String toString() {
         return "Criticidade: " + "etiqueta=" + etiqueta + ", escala=" + escala + ", designacao="

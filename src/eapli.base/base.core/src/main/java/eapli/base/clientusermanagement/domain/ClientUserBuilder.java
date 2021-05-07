@@ -26,7 +26,7 @@ public class ClientUserBuilder implements DomainFactory<ClientUser> {
         return this;
     }
 
-    public ClientUserBuilder withMecanographicNumber(String mecanographicNumber) {
+    public ClientUserBuilder withMecanographicNumber(int mecanographicNumber) {
         this.mecanographicNumber = new MecanographicNumber(mecanographicNumber);
         return this;
     }

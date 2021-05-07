@@ -6,6 +6,7 @@ import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.CriticidadeRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
+import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
 import eapli.base.infrastructure.persistence.RepositoryFactory;
@@ -83,6 +84,10 @@ public class JpaRepositoryFactory implements RepositoryFactory {
         return new JpaCriticidadeRepository();
     }
 
+	@Override
+	public ColaboradorRepository colaborador() {
+		return new JpaColaboradorRepository();
+	}
 
     @Override
 	public TransactionalContext newTransactionalContext() {
