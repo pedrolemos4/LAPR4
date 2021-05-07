@@ -7,9 +7,7 @@ import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Catalogo implements AggregateRoot<Identificador>{
 
@@ -21,21 +19,21 @@ public class Catalogo implements AggregateRoot<Identificador>{
     private Long version;
 
     @Column(name = "DESCCOMP")
-    private DescricaoCompleta descricaoCompleta;
+    private final DescricaoCompleta descricaoCompleta;
 
     @Column(name = "DESCBRE")
-    private DescricaoBreve descricaoBreve;
+    private final DescricaoBreve descricaoBreve;
 
     @Column(name = "ICONE")
-    private Icone icone;
+    private final Icone icone;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "LIST")
-    private List<Equipa> listEquipas;
+    private Set<Equipa> listEquipas = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "COLAB")
-    private Colaborador colab;
+    private final Colaborador colab;
 
     public Catalogo(Colaborador colab, DescricaoCompleta descricaoCompleta, DescricaoBreve descricaoBreve,
                     Icone icone, Iterable<Equipa> listEquipas){

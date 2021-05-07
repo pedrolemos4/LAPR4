@@ -6,24 +6,20 @@ import java.util.Locale;
 @Embeddable
 public class Contacto {
 
-    private String countryCode;
-
-    private String number;
+    private int number;
 
     public Contacto() {}
 
     /**
      * Construtor de contacto
-     * @param countryCode selecionado da classe CountryCode
      * @param number numero de telefone
      */
-    public Contacto(String countryCode,String number){
-        this.countryCode=countryCode;
+    public Contacto(final int number){
         this.number = number;
     }
 
     @Override
     public String toString() {
-        return countryCode + " " + number;
+        return " " + number;
     }
 }
