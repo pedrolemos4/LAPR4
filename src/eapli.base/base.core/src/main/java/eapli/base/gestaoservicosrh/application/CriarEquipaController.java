@@ -17,6 +17,11 @@ public class CriarEquipaController {
     private final UserRepository repo3 = PersistenceContext.repositories().users();
 
     public Equipa novaEquipa(String cod, String acronimo, String desig, TipoEquipa tipo, Colaborador responsavel){
+        for (Equipa eq : repo.findAll()) {
+            if (eq.listMembros().contains(responsavel) && eq.getTipo() == tipo){
+                throw new IllegalArgumentException();
+            }
+        }
         final Equipa novaEquipa = new Equipa(new CodigoUnico(cod), new Acronimo(acronimo), new Designacao(desig), tipo, responsavel);
         return this.repo.save(novaEquipa);
     }

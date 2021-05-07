@@ -18,37 +18,53 @@ public class CriarEquipaUI extends AbstractUI {
     protected boolean doShow() {
         final Iterable<TipoEquipa> listTipos = this.controller.listTipos();
         final Iterable<SystemUser> listUser = this.controller.listUser();
+        CodigoUnicoDataWidget codigoUnicoData = null;
+        AcronimoDataWidget acronimoData = null;
+        DesignacaoDataWidget designacaoData = null;
+        TipoEquipa tipo = null;
+        Colaborador colab = null;
 
-        final CodigoUnicoDataWidget codigoUnicoData = new CodigoUnicoDataWidget();
-        codigoUnicoData.show();
+        while(true){
+            try{
+                codigoUnicoData = new CodigoUnicoDataWidget();
+                codigoUnicoData.show();
 
-        final AcronimoDataWidget acronimoData = new AcronimoDataWidget();
-        acronimoData.show();
+                acronimoData = new AcronimoDataWidget();
+                acronimoData.show();
 
-        final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
-        designacaoData.show();
+                designacaoData = new DesignacaoDataWidget();
+                designacaoData.show();
 
-        final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        selector.show();
+                final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector.show();
 
-        final TipoEquipa tipo = selector.selectedElement();
+                tipo = selector.selectedElement();
 
-        final SelectWidget<SystemUser> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        selector2.show();
+                final SelectWidget<SystemUser> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector2.show();
 
-        final Colaborador colab = (Colaborador) selector2.selectedElement();
-
-        if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
-            try {
-                this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
-            } catch (final IntegrityViolationException e){
-                System.out.println("A Equipa criada já existe na base de dados.");
+                colab = (Colaborador) selector2.selectedElement();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Dado inválido!");
+            } catch (NullPointerException e) {
+                System.out.println("Não existem dados a selecionar!");
             }
-        } else {
-            System.out.println("O utilizador selecionado não é um colaborador!");
+
+            if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
+                try {
+                    this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
+                    break;
+                } catch (final IntegrityViolationException e){
+                    System.out.println("A Equipa criada já existe na base de dados.");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!!");
+                }
+            } else {
+                System.out.println("O utilizador selecionado não é um colaborador!");
+            }
         }
 
-        System.out.println("Operação finalizada!");
+        System.out.println("Equipa criada com sucesso!");
         return false;
     }
 
