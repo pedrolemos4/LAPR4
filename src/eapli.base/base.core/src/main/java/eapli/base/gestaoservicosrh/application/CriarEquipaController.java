@@ -8,6 +8,8 @@ import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.application.UseCaseController;
 
+import java.util.Set;
+
 @UseCaseController
 public class CriarEquipaController {
 
@@ -15,13 +17,15 @@ public class CriarEquipaController {
     private final TipoEquipaRepository repo2 = PersistenceContext.repositories().tiposEquipa();
     private final ColaboradorRepository repo3 = PersistenceContext.repositories().colaborador();
 
-    public Equipa novaEquipa(String cod, String acronimo, String desig, TipoEquipa tipo, Colaborador responsavel){
+    public Equipa novaEquipa(String cod, String acronimo, String desig, TipoEquipa tipo, Set<Colaborador> responsaveis){
         for (Equipa eq : repo.findAll()) {
-            if (eq.listMembros().contains(responsavel) && eq.getTipo() == tipo){
-                throw new IllegalArgumentException();
+            for (Colaborador colab : eq.listMembros()){
+                if (responsaveis.contains(colab) && eq.getTipo() == tipo){
+                    throw new IllegalArgumentException();
+                }
             }
         }
-        final Equipa novaEquipa = new Equipa(new CodigoUnico(cod), new Acronimo(acronimo), new Designacao(desig), tipo, responsavel);
+        final Equipa novaEquipa = new Equipa(new CodigoUnico(cod), new Acronimo(acronimo), new Designacao(desig), tipo, responsaveis);
         return this.repo.save(novaEquipa);
     }
 
