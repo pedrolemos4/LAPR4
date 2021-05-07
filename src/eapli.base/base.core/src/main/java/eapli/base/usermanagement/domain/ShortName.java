@@ -1,8 +1,12 @@
 package eapli.base.usermanagement.domain;
 
+import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.util.StringPredicates;
 
-public class ShortName {
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ShortName implements ValueObject {
 
     private String shortName;
 
@@ -14,6 +18,10 @@ public class ShortName {
         else {
             this.shortName = shortName;
         }
+    }
+
+    protected ShortName() {
+
     }
 
     @Override

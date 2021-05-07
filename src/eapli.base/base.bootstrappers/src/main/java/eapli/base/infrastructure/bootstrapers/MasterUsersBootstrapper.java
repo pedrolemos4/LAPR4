@@ -8,7 +8,9 @@ package eapli.base.infrastructure.bootstrapers;
 import java.util.HashSet;
 import java.util.Set;
 
+import eapli.base.gestaoservicoshelpdesk.domain.Descricao;
 import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
+import eapli.base.gestaoservicosrh.domain.CodigoUnico;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.actions.Action;
@@ -43,7 +45,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
-        registaColaborador(1190800,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", "joao@gmail.com","Descricao Random1", 12);
+        registaColaborador(1190800,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", "joao@gmail.com","Descricao Random1", "ABCDEFGH12125AS");
 
         registerUser("orgAdmin","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.ADMIN);
 
@@ -51,7 +53,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
-        registaColaborador(11909876,"Gustavo","Gustavo Mike White","1992/07/05",932705057, "Bairro Alto", "gustavo@gmail.com","Descricao Random2", 13);
+        registaColaborador(11909876,"Gustavo","Gustavo Mike White","1992/07/05",932705057, "Bairro Alto", "gustavo@gmail.com","Descricao Random2", "ABCDEFGH1212P21");
 
         registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
@@ -85,8 +87,8 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     }
 
     private void registaColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
-                                     final String dataNascimento, final int contacto, final String local, final String email, final String desc, final int codigo){
-        Funcao funcao = new Funcao(codigo,desc);
-        registerColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email, funcao);
+                                     final String dataNascimento, final int contacto, final String local, final String email, final String desc, final String codigo){
+
+        registerColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email, desc,codigo);
     }
 }

@@ -1,9 +1,15 @@
 package eapli.base.usermanagement.domain;
 
+import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.util.StringPredicates;
 
-public class FullName {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
+public class FullName  implements ValueObject {
+
+    @Column(name="FULLNAME")
     private String fullName;
 
     public FullName(String fullName) {
@@ -14,6 +20,10 @@ public class FullName {
         else {
             this.fullName = fullName;
         }
+    }
+
+    protected FullName() {
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
@@ -9,6 +10,7 @@ import eapli.framework.validations.Preconditions;
 import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class Catalogo implements AggregateRoot<Identificador>{
 
     @Id
@@ -27,12 +29,12 @@ public class Catalogo implements AggregateRoot<Identificador>{
     @Column(name = "ICONE")
     private final Icone icone;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany()
     @JoinTable(name = "LIST")
     private Set<Equipa> listEquipas = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "COLAB")
+    @OneToOne()
+    @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
 
     public Catalogo(Colaborador colab, DescricaoCompleta descricaoCompleta, DescricaoBreve descricaoBreve,
@@ -48,6 +50,13 @@ public class Catalogo implements AggregateRoot<Identificador>{
         Preconditions.nonNull(listEquipas);
         copyList(listEquipas);
 
+    }
+
+    protected Catalogo() {
+        this.descricaoBreve=null;
+        this.descricaoCompleta=null;
+        this.icone=null;
+        this.colab=null;
     }
 
     private void copyList(Iterable<Equipa> listEquipas) {
