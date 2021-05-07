@@ -29,7 +29,7 @@ public class AddUserController {
      *
      * @return a list of RoleTypes
      */
-    //public Role[] getRoleTypes() {       return BaseRoles.nonUserValues();}
+    public Role[] getRoleTypes() {       return BaseRoles.nonUserValues();}
 
     public SystemUser addUser(String username, String password, String firstName, String lastName,
             String email, Set<Role> roles, Calendar createdOn) {
@@ -42,7 +42,4 @@ public class AddUserController {
             String email, Set<Role> roles) {
         return addUser(username, password, firstName, lastName, email, roles, Calendars.now());
     }
-
-
-
 }

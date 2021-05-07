@@ -54,7 +54,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     }
 
     public TipoEquipa getTipo() {
-        return tipo;
+        return this.tipo;
     }
 
     public boolean addMembro(Colaborador colab) {
