@@ -2,10 +2,7 @@ package eapli.base.persistence.impl.jpa;
 
 import eapli.base.Application;
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.CriticidadeRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
+import eapli.base.gestaoservicoshelpdesk.repositories.*;
 import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
@@ -83,6 +80,11 @@ public class JpaRepositoryFactory implements RepositoryFactory {
     public CriticidadeRepository criticidade() {
         return new JpaCriticidadeRepository();
     }
+
+	@Override
+	public FormularioRepository formularios() {
+		return new JpaFormularioRepository();
+	}
 
 	@Override
 	public ColaboradorRepository colaborador() {
