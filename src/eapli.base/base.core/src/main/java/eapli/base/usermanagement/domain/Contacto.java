@@ -1,10 +1,12 @@
 package eapli.base.usermanagement.domain;
 
+import eapli.framework.domain.model.ValueObject;
+
 import javax.persistence.Embeddable;
 import java.util.Locale;
 
 @Embeddable
-public class Contacto {
+public class Contacto implements ValueObject {
 
     private int number;
 
