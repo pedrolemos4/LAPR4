@@ -6,7 +6,6 @@ import eapli.framework.strings.StringMixin;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.io.Serializable;

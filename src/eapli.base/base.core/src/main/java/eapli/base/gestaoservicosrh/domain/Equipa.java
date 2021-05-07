@@ -1,17 +1,12 @@
 package eapli.base.gestaoservicosrh.domain;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Criticidade;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
-import eapli.framework.domain.model.DomainEntity;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Equipa implements AggregateRoot<CodigoUnico> {
@@ -30,6 +25,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     private TipoEquipa tipo;
 
     @Column(name = "RESPONSAVEL_EQUIPA")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Colaborador responsavel;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -68,12 +64,12 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
 
     @Override
     public boolean equals(final Object o) {
-        return DomainEntities.areEqual((DomainEntity<?>) this, o);
+        return DomainEntities.areEqual(this, o);
     }
 
     @Override
     public int hashCode() {
-        return DomainEntities.hashCode((DomainEntity<?>) this);
+        return DomainEntities.hashCode( this);
     }
 
     @Override

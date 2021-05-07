@@ -1,25 +1,21 @@
 package eapli.base.gestaoservicosrh.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.StringMixin;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.xml.bind.annotation.XmlAttribute;
 import java.io.Serializable;
 
 @Embeddable
 public class Designacao implements ValueObject, Serializable, StringMixin {
     private static final long serialVersionUID = 1L;
 
-    @Column(name="Designacao")
     private final String value;
 
     public Designacao(final String name) {
-        Preconditions.nonEmpty(name, "Description should neither be null nor empty");
+        Preconditions.nonEmpty(name, "Designation should neither be null nor empty");
         Preconditions.ensure(name.length()<=30,"O tamanho máximo da designacao são 30 caracteres.");
         this.value = name;
     }
