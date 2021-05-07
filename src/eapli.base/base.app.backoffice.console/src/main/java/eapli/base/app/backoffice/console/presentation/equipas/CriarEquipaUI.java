@@ -35,7 +35,7 @@ public class CriarEquipaUI extends AbstractUI {
                 designacaoData = new DesignacaoDataWidget();
                 designacaoData.show();
 
-                final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                final SelectWidget<TipoEquipa> selector = new SelectWidget<>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
                 selector.show();
 
                 tipo = selector.selectedElement();
