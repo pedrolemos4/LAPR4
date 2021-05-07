@@ -26,6 +26,7 @@ package eapli.base.app.backoffice.console;
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
 //import eapli.base.app.backoffice.console.presentation.MainMenu;
+import eapli.base.app.backoffice.console.presentation.MainMenu;
 import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegisteredFromSignupWatchDog;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
@@ -41,7 +42,6 @@ import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
 
 /**
- *
  * @author Paulo Gandra Sousa
  */
 @SuppressWarnings("squid:S106")
@@ -54,15 +54,15 @@ public final class BaseBackoffice extends BaseApplication {
     }
 
     /**
-     * @param args
-     *            the command line arguments
+     * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        Utilizador utilizador = new Utilizador();
+        //Utilizador utilizador = new Utilizador();
+        AuthzRegistry.configure(PersistenceContext.repositories().users(), new BasePasswordPolicy(), new PlainTextEncoder());
        /* Utilizador utilizador1 = new Utilizador(new MecanographicNumber("1190800"),
                 new EmailAddress("example@gmail.com"),new Password("password"), Roles.CLIENT_USER);
         utilizador.addUser(utilizador1);*/
-
+        new BaseBackoffice().run(args);
     }
 
     @Override
@@ -70,8 +70,9 @@ public final class BaseBackoffice extends BaseApplication {
         // login and go to main menu
         if (new LoginUI().show()) {
             // go to main menu
-            //final MainMenu menu = new MainMenu();
-            //menu.mainLoop();
+            System.out.println("Estás no back office?");
+            final var menu = new MainMenu();
+            menu.mainLoop();
         }
     }
 
