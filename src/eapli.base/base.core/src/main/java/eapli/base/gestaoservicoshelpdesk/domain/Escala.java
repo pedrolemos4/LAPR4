@@ -4,6 +4,7 @@ import eapli.framework.domain.model.ValueObject;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class Escala implements ValueObject {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="Escala")
     private final int value;
 
     public Escala(final int value) {

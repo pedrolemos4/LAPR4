@@ -70,7 +70,6 @@ public final class BaseBackoffice extends BaseApplication {
         // login and go to main menu
         if (new LoginUI().show()) {
             // go to main menu
-            System.out.println("Estás no back office?");
             final var menu = new MainMenu();
             menu.mainLoop();
         }

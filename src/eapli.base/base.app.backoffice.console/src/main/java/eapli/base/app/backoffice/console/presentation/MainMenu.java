@@ -23,6 +23,7 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
+import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.common.console.presentation.authz.MyUserMenu;
 import eapli.base.Application;
@@ -162,10 +163,13 @@ public class MainMenu extends AbstractUI {
         }
 
         if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO)) {
-            final Menu gshMenu = buildGSHMenu();
-            mainMenu.addSubMenu(CRIAR_CATALOGO, gshMenu);
-            mainMenu.addSubMenu(ESPECIFICAR_SERVICO, gshMenu);
-            mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE, gshMenu);
+           // final Menu gshMenu = buildGSHMenu();
+            //mainMenu.addSubMenu(CRIAR_CATALOGO, gshMenu);
+            //mainMenu.addSubMenu(ESPECIFICAR_SERVICO, gshMenu);
+            //mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE, gshMenu);
+            final Menu menuCriticidade = buildCriticidadeMenu();
+            mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE,menuCriticidade);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         } else if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH)) {
             //final Menu rrhMenu = buildRRHMenu();
 //            mainMenu.addItem(ESPECIFICAR_COLABORADOR, "Especificar Colaborador", Actions.SUCCESS);
@@ -210,9 +214,15 @@ public class MainMenu extends AbstractUI {
     }*/
 
     private Menu buildEquipaMenu() {
-        final Menu equipaMenu = new Menu("Criar Equipa");
+        final Menu equipaMenu = new Menu("Equipa");
         equipaMenu.addItem(CRIAR_NOVA_EQUIPA, "Criar Equipa", () -> new CriarEquipaUI().show());
         return equipaMenu;
+    }
+
+    private Menu buildCriticidadeMenu(){
+        final Menu criticidadeMenu = new Menu("Criticidade");
+        criticidadeMenu.addItem(DEFINIR_NIVEIS_CRITICIDADE, "Definir Criticidade",()->new DefinirCriticidadeUI().show());
+        return criticidadeMenu;
     }
 
     private Menu buildCashierMenu() {

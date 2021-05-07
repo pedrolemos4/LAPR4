@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Embeddable
 public class Designacao implements ValueObject, Serializable, StringMixin {
     private static final long serialVersionUID = 1L;
-    @XmlAttribute
-    @JsonProperty("designacao")
+
+    @Column(name="Designacao")
     private final String value;
 
     public Designacao(final String name) {

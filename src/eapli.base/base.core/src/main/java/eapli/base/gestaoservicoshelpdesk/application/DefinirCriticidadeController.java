@@ -16,7 +16,7 @@ public class DefinirCriticidadeController {
 
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private CatalogoRepository catRepo;
-    private CriticidadeRepository criticidadeRepo;
+    private CriticidadeRepository criticidadeRepo = PersistenceContext.repositories().criticidade();
 
 
     public CatalogoRepository listCatalogo(){
