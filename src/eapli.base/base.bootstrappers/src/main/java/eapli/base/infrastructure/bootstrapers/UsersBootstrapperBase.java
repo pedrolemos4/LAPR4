@@ -3,7 +3,11 @@ package eapli.base.infrastructure.bootstrapers;
 import java.util.HashSet;
 import java.util.Set;
 
+import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
+import eapli.base.gestaoservicosrh.application.EspecificarColaboradorController;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.BaseRoles;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
@@ -20,6 +24,7 @@ public class UsersBootstrapperBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersBootstrapperBase.class);
 
     final AddUserController userController = new AddUserController();
+    final EspecificarColaboradorController colabController = new EspecificarColaboradorController();
     final ListUsersController listUserController = new ListUsersController();
 
     public UsersBootstrapperBase() {
@@ -49,6 +54,16 @@ public class UsersBootstrapperBase {
         return u;
     }
 
-
+    protected void registerColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
+                                                    final String dataNascimento, final int contacto, final String local, final String email, final String desc, final String codigo){
+        try{
+            colabController.novoColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email, desc, codigo);
+            LOGGER.debug("»»» %s", nomeCurto);
+        } catch (final IntegrityViolationException | ConcurrencyException e) {
+            // assuming it is just a primary key violation due to the tentative
+            // of inserting a duplicated user. let's just lookup that user
+            //c = listColaboradorController.find(Username.valueOf(username)).orElseThrow(() -> e);
+        }
+    }
 
 }

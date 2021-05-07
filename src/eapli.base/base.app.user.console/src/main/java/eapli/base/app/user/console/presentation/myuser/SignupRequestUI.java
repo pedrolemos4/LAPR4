@@ -25,7 +25,7 @@ public class SignupRequestUI extends AbstractUI {
 
         userData.show();
 
-        final String mecanographicNumber = Console.readLine("Mecanographic Number");
+        final int mecanographicNumber = Console.readInteger("Mecanographic Number");
 
         try {
             this.theController.signup(userData.username(), userData.password(),

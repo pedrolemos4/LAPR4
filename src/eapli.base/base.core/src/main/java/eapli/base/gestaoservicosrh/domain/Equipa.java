@@ -3,11 +3,10 @@ package eapli.base.gestaoservicosrh.domain;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
-import eapli.framework.domain.model.DomainEntity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Equipa implements AggregateRoot<CodigoUnico> {
@@ -25,22 +24,38 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "TIPO_EQUIPA")
     private TipoEquipa tipo;
 
-    @Column(name = "RESPONSAVEL_EQUIPA")
-    private Colaborador responsavel;
+    @ManyToMany ()
+    //@JoinColumn(name="RESPONSAVEL", referencedColumnName = "numeroMecanografico")
+    private Set<Colaborador> listResponsavel;
 
-    //private List<Colaborador> listMembros;
+    @ManyToMany()
+    //@JoinColumn(name="LISTMEMBERS")
+    private Set<Colaborador> listMembros;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
         this.codigo = codigo;
         this.acronimo = acronimo;
         this.designacao = desig;
         this.tipo = tipo;
-        this.responsavel = responsavel;
-        //this.listMembros = new ArrayList<>();
+        this.listResponsavel=new HashSet<>();
+        this.listMembros = new HashSet<>();
+        listResponsavel.add(responsavel);
     }
 
     public Equipa() {
         codigo = null;
+    }
+
+    public Set<Colaborador> listMembros() {
+        return listMembros;
+    }
+
+    public TipoEquipa getTipo() {
+        return this.tipo;
+    }
+
+    public boolean addMembro(Colaborador colab) {
+        return listMembros.add(colab);
     }
 
     @Override
@@ -50,12 +65,12 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
 
     @Override
     public boolean equals(final Object o) {
-        return DomainEntities.areEqual((DomainEntity<?>) this, o);
+        return DomainEntities.areEqual(this, o);
     }
 
     @Override
     public int hashCode() {
-        return DomainEntities.hashCode((DomainEntity<?>) this);
+        return DomainEntities.hashCode( this);
     }
 
     @Override
@@ -70,7 +85,6 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
                 ", acronimo=" + acronimo +
                 ", designacao=" + designacao +
                 ", tipo=" + tipo +
-                ", responsavel=" + responsavel +
                 '}';
     }
 }

@@ -16,6 +16,7 @@ public class Etiqueta implements ValueObject, Comparable<Etiqueta> {
 
     public Etiqueta(final String value) {
         Preconditions.nonEmpty(value, "Etiqueta should neither be null nor empty");
+        Preconditions.ensure(value.length()<=20,"O tamanho maximo da etiqueta sao 20 caracteres.");
         this.value = value;
     }
 

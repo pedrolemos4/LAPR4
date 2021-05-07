@@ -14,6 +14,10 @@ public class ContratoSLA {
     @GeneratedValue
     private Long identificador;
 
+    @Version
+    private Long version;
+
+    @Column(name="Designacao")
     private final Designacao designacao;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -37,8 +41,6 @@ public class ContratoSLA {
     }
 
     public boolean addCriticidade(final Criticidade c) {
-        final Criticidade novaCriticidade = new Criticidade(c.getEtiqueta(),
-                c.getEscala(),c.getDesignacao(),c.getObjetivo(),c.getCor());
         return niveisCriticidade.add(c);
     }
 

@@ -14,13 +14,15 @@ participant ServicoBootstrapper as B
 
 participant EspecificarServicoController as SController
 
-participant NovoCatalogoCTRL as Controller
+participant NovoCatalogoController as Controller
 
 participant PersistenceContext as Persistence 
 participant RepositoryFactory as Factory 
 participant CatalogoRepository as CRepository 
 participant ServicoRepository as SRepository 
+participant FormularioRepository as FRepository 
 participant Servico as Ser 
+participant Formulario as Formulario 
 
 participant Catalogo as Cat
 
@@ -30,7 +32,7 @@ Fb -> BOO: execute()
 activate BOO
 loop para todos os catalogos
 BOO -> BOO: register()
-BOO --> Controller**: create()
+BOO --> Controller: create()
     activate Controller
     Controller -> Persistence: repositories()
         activate Persistence
@@ -41,12 +43,12 @@ BOO --> Controller**: create()
         deactivate Persistence
     Controller -> Factory: catalogos()
         activate Factory
-            Factory --> CRepository** : create()
+            Factory --> CRepository : create()
         deactivate Factory
     deactivate Controller
 BOO -> Controller: register()
     activate Controller
-    Controller --> Cat**: newCatalogo = novoCatalogo()
+    Controller --> Cat: newCatalogo = novoCatalogo()
     Controller -> CRepository: save(newCatalogo)
         activate CRepository
         deactivate CRepository
@@ -60,7 +62,7 @@ deactivate Fb
 activate B
 loop para todos os servicos
 B -> B: register()
-B --> SController**: create()
+B --> SController: create()
     activate SController
     SController -> Persistence: repositories()
         activate Persistence
@@ -71,15 +73,39 @@ B --> SController**: create()
         deactivate Persistence
     SController -> Factory: servicos()
         activate Factory
-            Factory --> SRepository** : create()
+            Factory --> SRepository : create()
+            activate SRepository
+            deactivate SRepository
+        deactivate Factory
+        
+    SController -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+            deactivate Factory
+            Persistence --> Controller:
+        deactivate Persistence
+    SController -> Factory: formulario()
+        activate Factory
+            Factory --> FRepository : create()
+            activate FRepository
+            deactivate FRepository
         deactivate Factory
     deactivate SController
 B -> SController: register()
     activate SController
-    SController --> Ser**: newServico = novoServico()
+    SController --> Ser: newServico = novoServico()
+        activate Ser
+        deactivate Ser
     SController -> SRepository: save(newServico)
         activate SRepository
         deactivate SRepository
+    SController --> Formulario: newFormulario = novoFormulario()
+        activate Formulario
+        deactivate Formulario
+    SController -> FRepository: save(newFormulario)
+        activate FRepository
+        deactivate FRepository
     deactivate SController
 deactivate B
 end 

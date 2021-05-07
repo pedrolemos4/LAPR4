@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
@@ -7,10 +8,9 @@ import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+@Entity
 public class Catalogo implements AggregateRoot<Identificador>{
 
     @Id
@@ -20,36 +20,43 @@ public class Catalogo implements AggregateRoot<Identificador>{
     @Version
     private Long version;
 
+    @Column(name="TITULO")
+    private final Titulo titulo;
+
     @Column(name = "DESCCOMP")
-    private DescricaoCompleta descricaoCompleta;
+    private final DescricaoCompletaCatalogo descricaoCompleta;
 
     @Column(name = "DESCBRE")
-    private DescricaoBreve descricaoBreve;
+    private final DescricaoBreve descricaoBreve;
 
     @Column(name = "ICONE")
-    private Icone icone;
+    private final Icone icone;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany()
     @JoinTable(name = "LIST")
-    private List<Equipa> listEquipas;
+    private Set<Equipa> listEquipas = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "COLAB")
-    private Colaborador colab;
+    @OneToOne()
+    @JoinColumn(name="COLABORADOR")
+    private final Colaborador colab;
 
-    public Catalogo(Colaborador colab, DescricaoCompleta descricaoCompleta, DescricaoBreve descricaoBreve,
+    public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
                     Icone icone, Iterable<Equipa> listEquipas){
+        this.titulo=titulo;
         Preconditions.nonNull(colab);
         this.colab=colab;
-        Preconditions.nonNull(descricaoBreve);
         this.descricaoBreve=descricaoBreve;
-        Preconditions.nonNull(descricaoCompleta);
         this.descricaoCompleta=descricaoCompleta;
-        Preconditions.nonNull(icone);
         this.icone=icone;
-        Preconditions.nonNull(listEquipas);
         copyList(listEquipas);
+    }
 
+    protected Catalogo() {
+        this.descricaoBreve=null;
+        this.descricaoCompleta=null;
+        this.icone=null;
+        this.colab=null;
+        this.titulo=null;
     }
 
     private void copyList(Iterable<Equipa> listEquipas) {

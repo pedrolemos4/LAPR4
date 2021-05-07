@@ -45,7 +45,7 @@ public class SignupController {
 
     public SignupRequest signup(final String username, final String password,
             final String firstName, final String lastName, final String email,
-            String mecanographicNumber, final Calendar createdOn) {
+            int mecanographicNumber, final Calendar createdOn) {
 
         // there is no need for authorisation check in this method as even
         // unauthenticated users may request a signup
@@ -61,7 +61,7 @@ public class SignupController {
 
     public SignupRequest signup(final String username, final String password,
             final String firstName, final String lastName, final String email,
-            String mecanographicNumber) {
+            int mecanographicNumber) {
 
         return signup(username, password, firstName, lastName, email, mecanographicNumber,
                 Calendars.now());

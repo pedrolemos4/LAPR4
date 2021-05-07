@@ -9,6 +9,7 @@ import javax.persistence.Embeddable;
 
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.util.StringPredicates;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 
 /**
  *
@@ -19,10 +20,10 @@ public class MecanographicNumber implements ValueObject, Comparable<Mecanographi
 
     private static final long serialVersionUID = 1L;
 
-    private String number;
+    private int number;
 
-    public MecanographicNumber(final String mecanographicNumber) {
-        if (StringPredicates.isNullOrEmpty(mecanographicNumber)) {
+    public MecanographicNumber(final int mecanographicNumber) {
+        if (mecanographicNumber!=0) {
             throw new IllegalArgumentException(
                     "Mecanographic Number should neither be null nor empty");
         }
@@ -35,7 +36,7 @@ public class MecanographicNumber implements ValueObject, Comparable<Mecanographi
         // for ORM
     }
 
-    public static MecanographicNumber valueOf(final String mecanographicNumber) {
+    public static MecanographicNumber valueOf(final int mecanographicNumber) {
         return new MecanographicNumber(mecanographicNumber);
     }
 
@@ -49,21 +50,28 @@ public class MecanographicNumber implements ValueObject, Comparable<Mecanographi
         }
 
         final MecanographicNumber that = (MecanographicNumber) o;
-        return this.number.equals(that.number);
+        return this.number==that.number;
     }
 
     @Override
     public int hashCode() {
-        return this.number.hashCode();
+        return 0;
     }
 
     @Override
     public String toString() {
-        return this.number;
+        return String.format("Number: %d",this.number);
     }
 
     @Override
-    public int compareTo(final MecanographicNumber arg0) {
-        return number.compareTo(arg0.number);
+    public int compareTo(final MecanographicNumber that) {
+        if(number>that.number){
+            return 1;
+        }else{
+            if(number<that.number){
+                return -1;
+            }
+        }
+        return 0;
     }
 }

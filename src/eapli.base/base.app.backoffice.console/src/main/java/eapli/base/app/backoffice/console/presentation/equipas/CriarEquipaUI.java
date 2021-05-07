@@ -5,8 +5,6 @@ import eapli.base.gestaoservicosrh.application.CriarEquipaController;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
-import eapli.framework.infrastructure.authz.domain.model.Role;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
@@ -17,45 +15,50 @@ public class CriarEquipaUI extends AbstractUI {
     @Override
     protected boolean doShow() {
         final Iterable<TipoEquipa> listTipos = this.controller.listTipos();
-        final Iterable<SystemUser> listUser = this.controller.listUser();
+        final Iterable<Colaborador> listColab = this.controller.listColab();
+        CodigoUnicoDataWidget codigoUnicoData = null;
+        AcronimoDataWidget acronimoData = null;
+        DesignacaoDataWidget designacaoData = null;
+        TipoEquipa tipo = null;
+        Colaborador colab = null;
 
-        final CodigoUnicoDataWidget codigoUnicoData = new CodigoUnicoDataWidget();
-        codigoUnicoData.show();
+        while(true){
+            try{
+                codigoUnicoData = new CodigoUnicoDataWidget();
+                codigoUnicoData.show();
 
-        final AcronimoDataWidget acronimoData = new AcronimoDataWidget();
-        acronimoData.show();
+                acronimoData = new AcronimoDataWidget();
+                acronimoData.show();
 
-        final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
-        designacaoData.show();
-        TipoEquipa tipo = new TipoEquipa();
+                designacaoData = new DesignacaoDataWidget();
+                designacaoData.show();
 
-        try {
-            final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-            selector.show();
+                final SelectWidget<TipoEquipa> selector = new SelectWidget<>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector.show();
 
-            tipo = selector.selectedElement();
-        } catch(IllegalArgumentException e) {
-            System.out.println("Não existem tipos de equipa");
-        }
+                tipo = selector.selectedElement();
 
-        final SelectWidget<SystemUser> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        selector2.show();
+                final SelectWidget<Colaborador> selector2 = new SelectWidget<>("Lista de Colaboradores: ", listColab, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector2.show();
 
-        final Colaborador colab = (Colaborador) selector2.selectedElement();
+                colab = selector2.selectedElement();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Dado inválido!");
+            } catch (NullPointerException e) {
+                System.out.println("Não existem dados a selecionar!");
+            }
 
-        if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
             try {
                 this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
+                break;
             } catch (final IntegrityViolationException e){
-                System.out.println("A Equipa criada já existe na base de dados.");
-            } catch (final IllegalArgumentException e){
-                System.out.println("O acrónimo deve ser alfanumérico");
+                System.out.println("A equipa criada já existe na base de dados.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!!");
             }
-        } else {
-            System.out.println("O utilizador selecionado não é um colaborador!");
         }
 
-        System.out.println("Operação finalizada!");
+        System.out.println("Equipa criada com sucesso!");
         return false;
     }
 

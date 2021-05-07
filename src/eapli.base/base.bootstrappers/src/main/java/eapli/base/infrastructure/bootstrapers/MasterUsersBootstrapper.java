@@ -8,6 +8,10 @@ package eapli.base.infrastructure.bootstrapers;
 import java.util.HashSet;
 import java.util.Set;
 
+import eapli.base.gestaoservicoshelpdesk.domain.Descricao;
+import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
+import eapli.base.gestaoservicosrh.domain.CodigoUnico;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.actions.Action;
 import eapli.framework.infrastructure.authz.domain.model.Role;
@@ -31,6 +35,8 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     private static final String EMAILCOLAB = "colab@org.com";
 
+    private static final String EMAILCOLAB1 = "colab1@org.com";
+
     private static final String IDCOLAB = "04";
 
     private static final String EMAILUSER = "user@org.com";
@@ -39,13 +45,15 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
-        registerUser("orgAdmin","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.ADMIN);
+        //registaColaborador(1190800,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", "joao@gmail.com","Descricao Random1", "ABCDEFGH12125AS");
+
+        registerUser("orgColab","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.COLABORADOR);
 
         registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 
         registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
-        registerUser("orgColab","Colab11","Joel","Dias",EMAILCOLAB,BaseRoles.COLABORADOR);
+        //registaColaborador(11909876,"Gustavo","Gustavo Mike White","1992/07/05",932705057, "Bairro Alto", "gustavo@gmail.com","Descricao Random2", "ABCDEFGH1212P21");
 
         registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
@@ -57,9 +65,9 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     private void registerAdmin(final String username, final String password, final String firstName,
             final String lastName, final String email) {
         final Set<Role> roles = new HashSet<>();
-       // roles.add(BaseRoles.ADMIN);
+        roles.add(BaseRoles.ADMIN);
 
-        //registerUser(username, password, firstName, lastName, email, roles);
+        registerUser(username, password, firstName, lastName, email, roles);
     }
 
     /**
@@ -76,5 +84,11 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         roles.add(role);
         registerUser(username, password, firstName, lastName, email, roles);
+    }
+
+    private void registaColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
+                                     final String dataNascimento, final int contacto, final String local, final String email, final String desc, final String codigo){
+
+        registerColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email, desc,codigo);
     }
 }

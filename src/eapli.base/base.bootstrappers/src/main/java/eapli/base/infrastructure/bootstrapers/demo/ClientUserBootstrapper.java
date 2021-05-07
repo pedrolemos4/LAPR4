@@ -31,14 +31,14 @@ public class ClientUserBootstrapper implements Action {
     @Override
     public boolean execute() {
         signupAndApprove(TestDataConstants.USER_TEST1, "Password1", "John", "Smith",
-                "john@smith.com", TestDataConstants.USER_TEST1);
-        signupAndApprove("isep959", "Password1", "Mary", "Smith", "mary@smith.com", "isep959");
+                "john@smith.com", TestDataConstants.TEST1);
+        signupAndApprove("isep959", "Password1", "Mary", "Smith", "mary@smith.com", 959);
         return true;
     }
 
     private SignupRequest signupAndApprove(final String username, final String password,
             final String firstName, final String lastName, final String email,
-            final String mecanographicNumber) {
+            final int mecanographicNumber) {
         SignupRequest request = null;
         try {
             request = signupController.signup(username, password, firstName, lastName, email,

@@ -9,13 +9,15 @@ skinparam shadowing false
 class FactoryBootstrapper
 class CatalogoBootstrapper 
 class ServicoBootstrapper 
-class NovoCatalogoCTRL
+class NovoCatalogoController
 class PersistenceContext
 class RepositoryFactory 
 class CatalogoRepository
 class ServicoRepository
 class Catalogo
 class Servico
+class FormularioRepository
+class Formulario
 
 FactoryBootstrapper --> CatalogoBootstrapper
 FactoryBootstrapper --> ServicoBootstrapper
@@ -26,19 +28,19 @@ CatalogoBootstrapper : register()
 ServicoBootstrapper : execute()
 ServicoBootstrapper : register()
 
-NovoCatalogoCTRL : register()
+NovoCatalogoController : register()
 EspecificarServicoController : register()
 
 
-CatalogoBootstrapper --> NovoCatalogoCTRL
+CatalogoBootstrapper --> NovoCatalogoController
 
-NovoCatalogoCTRL --> CatalogoRepository
-NovoCatalogoCTRL --> PersistenceContext
-NovoCatalogoCTRL --> Catalogo
+NovoCatalogoController --> CatalogoRepository
+NovoCatalogoController --> PersistenceContext
+NovoCatalogoController --> Catalogo
 
 
 PersistenceContext : repositories()
-NovoCatalogoCTRL --> RepositoryFactory
+NovoCatalogoController --> RepositoryFactory
 RepositoryFactory : catalogos()
 RepositoryFactory : servicos()
 Catalogo : novoCatalogo()
@@ -50,11 +52,17 @@ ServicoBootstrapper --> EspecificarServicoController
 EspecificarServicoController --> ServicoRepository
 EspecificarServicoController --> PersistenceContext
 EspecificarServicoController --> Servico
-
+EspecificarServicoController --> Formulario
+PersistenceContext --> ServicoRepository
+PersistenceContext --> CatalogoRepository
+PersistenceContext --> FormularioRepository
 
 EspecificarServicoController --> RepositoryFactory
 Servico : novoServico()
 ServicoRepository : save(newServico)
+
+Formulario : novoFormulario()
+FormularioRepository : save(newFormulario)
 
 
 @enduml
