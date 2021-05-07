@@ -63,6 +63,6 @@ public class DefinirCriticidadeUI extends AbstractUI {
 
     @Override
     public String headline() {
-        return null;
+        return "Definir Criticidade";
     }
 }

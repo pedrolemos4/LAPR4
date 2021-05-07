@@ -27,11 +27,16 @@ public class CriarEquipaUI extends AbstractUI {
 
         final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
         designacaoData.show();
+        TipoEquipa tipo = new TipoEquipa();
 
-        final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        selector.show();
+        try {
+            final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+            selector.show();
 
-        final TipoEquipa tipo = selector.selectedElement();
+            tipo = selector.selectedElement();
+        } catch(IllegalArgumentException e) {
+            System.out.println("Não existem tipos de equipa");
+        }
 
         final SelectWidget<SystemUser> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
         selector2.show();
@@ -43,6 +48,8 @@ public class CriarEquipaUI extends AbstractUI {
                 this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
             } catch (final IntegrityViolationException e){
                 System.out.println("A Equipa criada já existe na base de dados.");
+            } catch (final IllegalArgumentException e){
+                System.out.println("O acrónimo deve ser alfanumérico");
             }
         } else {
             System.out.println("O utilizador selecionado não é um colaborador!");

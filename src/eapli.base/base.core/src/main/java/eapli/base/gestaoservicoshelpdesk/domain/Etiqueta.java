@@ -4,12 +4,14 @@ import eapli.framework.domain.model.ValueObject;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Etiqueta implements ValueObject, Comparable<Etiqueta> {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="Etiqueta")
     private final String value;
 
     public Etiqueta(final String value) {
