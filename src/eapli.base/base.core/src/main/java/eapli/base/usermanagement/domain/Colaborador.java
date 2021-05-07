@@ -2,11 +2,12 @@ package eapli.base.usermanagement.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Colaborador extends Utilizador {
+public class Colaborador extends SystemUser {
 
     private MecanographicNumber numeroMecanografico;
 
