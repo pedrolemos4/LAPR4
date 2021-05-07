@@ -58,10 +58,6 @@ public final class BaseBackoffice extends BaseApplication {
      *            the command line arguments
      */
     public static void main(final String[] args) {
-        Utilizador utilizador = new Utilizador();
-       /* Utilizador utilizador1 = new Utilizador(new MecanographicNumber("1190800"),
-                new EmailAddress("example@gmail.com"),new Password("password"), Roles.CLIENT_USER);
-        utilizador.addUser(utilizador1);*/
 
     }
 
