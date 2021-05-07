@@ -4,15 +4,11 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicoshelpdesk.domain.EnderecoEmail;
 import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
 import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
-import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.framework.domain.model.AggregateRoot;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 public class Colaborador implements AggregateRoot<MecanographicNumber>{
@@ -20,6 +16,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     private static final Logger LOGGER = LoggerFactory.getLogger(Colaborador.class);
 
     @Id
+    @Column(name="numeroMecanografico")
     private MecanographicNumber numeroMecanografico;
 
     @Column(name="SHORTNAME")
@@ -44,10 +41,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @Column(name="CONTACTO")
     private Contacto contacto;
 
-    @OneToMany()
-    @JoinColumn(name="LISTEQUIPAS")
-    private Set<Equipa> associatedTeams;
-
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Data dataNasc, Contacto contacto,
                         LocalResidencia localResidencia, EnderecoEmail endereco, Funcao funcao) {
         try {
@@ -59,7 +52,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
             this.funcao=funcao;
             this.endereco=endereco;
             this.localResidencia=localResidencia;
-            this.associatedTeams = new HashSet<>();
         }
         catch (final IllegalArgumentException e){
             LOGGER.error("ERROR: Input data misconception ");
@@ -73,45 +65,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
         this.localResidencia=null;
         this.contacto=null;
         this.funcao=null;
-        this.associatedTeams=null;
         this.fullName=null;
-    }
-
-    public void addAssociatedTeam(Equipa equipa){
-        try {
-            List<TipoEquipa> tipoEquipasAssociadas = getAssociatedTeamsTypes();
-            if (!tipoEquipasAssociadas.contains(equipa.getTipo()))
-                this.associatedTeams.add(equipa);
-            else {
-                throw new IllegalArgumentException("ERROR: This user already has an associated team of that type");
-            }
-        }
-        catch (IllegalArgumentException e){
-            LOGGER.error("ERROR: This user already has an associated team of that type");
-        }
-    }
-
-    private List<TipoEquipa> getAssociatedTeamsTypes() {
-        return new ArrayList<>();
-    }
-
-
-    public void remAssociatedTeam(Equipa equipa){
-        try {
-            List<Equipa> equipasAssociadas = getAssociatedTeams();
-            if (!equipasAssociadas.contains(equipa))
-                associatedTeams.remove(equipa);
-            else {
-                throw new IllegalArgumentException("Error: No team found");
-            }
-        }
-        catch (IllegalArgumentException e){
-            LOGGER.error("ERROR: No team found");
-        }
-    }
-
-    private List<Equipa> getAssociatedTeams() {
-        return new ArrayList<>();
     }
 
     @Override
@@ -125,7 +79,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
                 ", endereco=" + endereco +
                 ", funcao=" + funcao +
                 ", contacto=" + contacto +
-                ", associatedTeams=" + associatedTeams +
                 '}';
     }
 

@@ -23,6 +23,7 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
+import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.common.console.presentation.authz.MyUserMenu;
@@ -167,6 +168,10 @@ public class MainMenu extends AbstractUI {
             //mainMenu.addSubMenu(CRIAR_CATALOGO, gshMenu);
             //mainMenu.addSubMenu(ESPECIFICAR_SERVICO, gshMenu);
             //mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE, gshMenu);
+            final Menu menuCatalogo = buildCatalogoMenu();
+            mainMenu.addSubMenu(CRIAR_CATALOGO,menuCatalogo);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+
             final Menu menuCriticidade = buildCriticidadeMenu();
             mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE,menuCriticidade);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -223,6 +228,12 @@ public class MainMenu extends AbstractUI {
         final Menu criticidadeMenu = new Menu("Criticidade");
         criticidadeMenu.addItem(DEFINIR_NIVEIS_CRITICIDADE, "Definir Criticidade",()->new DefinirCriticidadeUI().show());
         return criticidadeMenu;
+    }
+
+    private Menu buildCatalogoMenu(){
+        final Menu catalogoMenu = new Menu("Catalogo");
+        catalogoMenu.addItem(CRIAR_CATALOGO,"Criar Catalogo",()->new NovoCatalogoUI().show());
+        return catalogoMenu;
     }
 
     private Menu buildCashierMenu() {

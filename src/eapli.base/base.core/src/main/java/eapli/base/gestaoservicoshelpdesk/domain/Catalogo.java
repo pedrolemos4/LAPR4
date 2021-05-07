@@ -20,8 +20,11 @@ public class Catalogo implements AggregateRoot<Identificador>{
     @Version
     private Long version;
 
+    @Column(name="TITULO")
+    private final Titulo titulo;
+
     @Column(name = "DESCCOMP")
-    private final DescricaoCompleta descricaoCompleta;
+    private final DescricaoCompletaCatalogo descricaoCompleta;
 
     @Column(name = "DESCBRE")
     private final DescricaoBreve descricaoBreve;
@@ -37,19 +40,15 @@ public class Catalogo implements AggregateRoot<Identificador>{
     @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
 
-    public Catalogo(Colaborador colab, DescricaoCompleta descricaoCompleta, DescricaoBreve descricaoBreve,
+    public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
                     Icone icone, Iterable<Equipa> listEquipas){
+        this.titulo=titulo;
         Preconditions.nonNull(colab);
         this.colab=colab;
-        Preconditions.nonNull(descricaoBreve);
         this.descricaoBreve=descricaoBreve;
-        Preconditions.nonNull(descricaoCompleta);
         this.descricaoCompleta=descricaoCompleta;
-        Preconditions.nonNull(icone);
         this.icone=icone;
-        Preconditions.nonNull(listEquipas);
         copyList(listEquipas);
-
     }
 
     protected Catalogo() {
@@ -57,6 +56,7 @@ public class Catalogo implements AggregateRoot<Identificador>{
         this.descricaoCompleta=null;
         this.icone=null;
         this.colab=null;
+        this.titulo=null;
     }
 
     private void copyList(Iterable<Equipa> listEquipas) {

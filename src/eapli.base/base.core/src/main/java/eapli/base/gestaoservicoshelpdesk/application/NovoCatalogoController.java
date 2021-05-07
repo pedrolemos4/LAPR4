@@ -19,9 +19,9 @@ public class NovoCatalogoController {
                              final String descricaoCompleta, Iterable<Equipa> listEquipas, Colaborador colab){
         final Titulo titulo1 = new Titulo(titulo);
         final DescricaoBreve descBreve = new DescricaoBreve(descricaoBreve);
-        final DescricaoCompleta descCompleta = new DescricaoCompleta(descricaoCompleta);
+        final DescricaoCompletaCatalogo descCompleta = new DescricaoCompletaCatalogo(descricaoCompleta);
         final Icone icone1 = new Icone(icone);
-        final Catalogo catalogo = new Catalogo(colab,descCompleta, descBreve, icone1, listEquipas);
+        final Catalogo catalogo = new Catalogo(titulo1,colab,descCompleta, descBreve, icone1, listEquipas);
         this.catalogoRepository.save(catalogo);
     }
 

@@ -76,7 +76,7 @@ public class NovoCatalogoUI extends AbstractUI {
 
     @Override
     public String headline() {
-        return null;
+        return "Catalogo";
     }
 
 }

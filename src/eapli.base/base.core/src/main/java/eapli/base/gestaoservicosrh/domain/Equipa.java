@@ -5,8 +5,8 @@ import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Equipa implements AggregateRoot<CodigoUnico> {
@@ -24,28 +24,29 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "TIPO_EQUIPA")
     private TipoEquipa tipo;
 
-    @Column(name = "RESPONSAVEL_EQUIPA")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Colaborador responsavel;
+    @ManyToMany ()
+    //@JoinColumn(name="RESPONSAVEL", referencedColumnName = "numeroMecanografico")
+    private Set<Colaborador> listResponsavel;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Colaborador> listMembros = new ArrayList<>();
+    @ManyToMany()
+    //@JoinColumn(name="LISTMEMBERS")
+    private Set<Colaborador> listMembros;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
         this.codigo = codigo;
         this.acronimo = acronimo;
         this.designacao = desig;
         this.tipo = tipo;
-        this.responsavel = responsavel;
-        this.listMembros = new ArrayList<>();
-        listMembros.add(responsavel);
+        this.listResponsavel=new HashSet<>();
+        this.listMembros = new HashSet<>();
+        listResponsavel.add(responsavel);
     }
 
     public Equipa() {
         codigo = null;
     }
 
-    public List<Colaborador> listMembros() {
+    public Set<Colaborador> listMembros() {
         return listMembros;
     }
 
@@ -84,7 +85,6 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
                 ", acronimo=" + acronimo +
                 ", designacao=" + designacao +
                 ", tipo=" + tipo +
-                ", responsavel=" + responsavel +
                 '}';
     }
 }

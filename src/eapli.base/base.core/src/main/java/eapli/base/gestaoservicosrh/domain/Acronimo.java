@@ -13,8 +13,7 @@ import java.io.Serializable;
 @Embeddable
 public class Acronimo implements ValueObject, Serializable, StringMixin {
     private static final long serialVersionUID = 1L;
-    @XmlAttribute
-    @JsonProperty("acronimo")
+
     private final String value;
 
     public Acronimo(final String name) {
