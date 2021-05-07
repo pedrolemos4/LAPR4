@@ -11,10 +11,10 @@ public class Data implements ValueObject {
     @Column(name="ANO")
     private final int ano;
 
-    @Column(name="ANO")
+    @Column(name="MES")
     private final int mes;
 
-    @Column(name="ANO")
+    @Column(name="DIA")
     private final int dia;
 
     public Data (final int ano, final int mes, final int dia){

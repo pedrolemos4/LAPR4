@@ -19,7 +19,7 @@ public class ServicoBootstrapper implements Action {
 
     private static final Logger LOGGER = LogManager.getLogger(ServicoBootstrapper.class);
 
-    private final NovoCatalogoController controller = new NovoCatalogoController();
+    private final EspecificarServicoController controller = new EspecificarServicoController();
 
     @Override
     public boolean execute() {
@@ -43,26 +43,17 @@ public class ServicoBootstrapper implements Action {
         return true;
     }
 
-    private void register(final String titulo, final String descricaoBreve, final String icone,
-                          final String descricaoCompleta, final Iterable<Equipa> listaEquipas, Colaborador colaborador) {
-        final InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(icone);
-
-        if (inputStream == null) {
-            LOGGER.warn("Could not load image {}", icone);
-            // fallback to registration without image
-            //register(titulo);
-        } else {
-            try {
-                controller.novoCatalogo(titulo, descricaoBreve, icone, descricaoCompleta, listaEquipas, colaborador);
-                LOGGER.info(titulo);
-            } catch (final IntegrityViolationException | ConcurrencyException e) {
-                // ignoring exception. assuming it is just a primary key violation
-                // due to the tentative of inserting a duplicated user
-                LOGGER.warn("Assuming {} already exists (activate trace log for details)", titulo);
-                LOGGER.trace("Assuming existing record", e);
-            }
+    private void register(final String codigoUnico, final String titulo, final String descricaoBreve,
+                          final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos) {
+        try {
+            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,
+                    tituloFormulario, listaAtributos);
+            LOGGER.info(codigoUnico);
+        } catch (final IntegrityViolationException | ConcurrencyException e) {
+            // ignoring exception. assuming it is just a primary key violation
+            // due to the tentative of inserting a duplicated user
+            LOGGER.warn("Assuming {} already exists (activate trace log for details)", codigoUnico);
+            LOGGER.trace("Assuming existing record", e);
         }
     }
 
