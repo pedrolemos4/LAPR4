@@ -37,16 +37,21 @@ public class Colaborador extends SystemUser {
             this.associatedTeams = new ArrayList<Equipa>();
         }
         catch (final IllegalArgumentException e){
-            LOGGER.warn("Error");
+            LOGGER.error("ERROR: Input data misconception ");
         }
     }
 
     public void addAssociatedTeam(Equipa equipa){
-        List<TipoEquipa> tipoEquipasAssociadas = getAssociatedTeamsTypes();
-        if (!tipoEquipasAssociadas.contains(equipa.getTipo()))
-            associatedTeams.add(equipa);
-        else{
-            throw new IllegalArgumentException("Error: This user already has an associated team of that type");
+        try {
+            List<TipoEquipa> tipoEquipasAssociadas = getAssociatedTeamsTypes();
+            if (!tipoEquipasAssociadas.contains(equipa.getTipo()))
+                associatedTeams.add(equipa);
+            else {
+                throw new IllegalArgumentException("ERROR: This user already has an associated team of that type");
+            }
+        }
+        catch (IllegalArgumentException e){
+            LOGGER.error("ERROR: This user already has an associated team of that type");
         }
     }
 
@@ -56,7 +61,21 @@ public class Colaborador extends SystemUser {
 
 
     public void remAssociatedTeam(Equipa equipa){
-        associatedTeams.remove(equipa);
+        try {
+            List<Equipa> equipasAssociadas = getAssociatedTeams();
+            if (!equipasAssociadas.contains(equipa))
+                associatedTeams.remove(equipa);
+            else {
+                throw new IllegalArgumentException("Error: No team found");
+            }
+        }
+        catch (IllegalArgumentException e){
+            LOGGER.error("ERROR: No team found");
+        }
+    }
+
+    private List<Equipa> getAssociatedTeams() {
+        return new ArrayList<>();
     }
 
     @Override
