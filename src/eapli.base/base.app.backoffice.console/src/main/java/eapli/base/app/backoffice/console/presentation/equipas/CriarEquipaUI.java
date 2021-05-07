@@ -32,7 +32,6 @@ public class CriarEquipaUI extends AbstractUI {
                 acronimoData = new AcronimoDataWidget();
                 acronimoData.show();
 
-<<<<<<< HEAD
                 designacaoData = new DesignacaoDataWidget();
                 designacaoData.show();
 
@@ -40,20 +39,6 @@ public class CriarEquipaUI extends AbstractUI {
                 selector.show();
 
                 tipo = selector.selectedElement();
-=======
-        final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
-        designacaoData.show();
-        TipoEquipa tipo = new TipoEquipa();
-
-        try {
-            final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-            selector.show();
-
-            tipo = selector.selectedElement();
-        } catch(IllegalArgumentException e) {
-            System.out.println("Não existem tipos de equipa");
-        }
->>>>>>> 7ec4dcc7f09d8029fa397c5e3d2943ca43288af7
 
                 final SelectWidget<SystemUser> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
                 selector2.show();
@@ -65,7 +50,6 @@ public class CriarEquipaUI extends AbstractUI {
                 System.out.println("Não existem dados a selecionar!");
             }
 
-<<<<<<< HEAD
             if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
                 try {
                     this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
@@ -77,15 +61,6 @@ public class CriarEquipaUI extends AbstractUI {
                 }
             } else {
                 System.out.println("O utilizador selecionado não é um colaborador!");
-=======
-        if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
-            try {
-                this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
-            } catch (final IntegrityViolationException e){
-                System.out.println("A Equipa criada já existe na base de dados.");
-            } catch (final IllegalArgumentException e){
-                System.out.println("O acrónimo deve ser alfanumérico");
->>>>>>> 7ec4dcc7f09d8029fa397c5e3d2943ca43288af7
             }
         }
 
