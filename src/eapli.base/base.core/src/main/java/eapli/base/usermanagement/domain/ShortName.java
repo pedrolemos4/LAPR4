@@ -1,10 +1,16 @@
 package eapli.base.usermanagement.domain;
 
+import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.util.StringPredicates;
 
-public class ShortName {
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ShortName implements ValueObject {
 
     private String shortName;
+
+    public ShortName() { }
 
     public ShortName(String shortName) {
         if (StringPredicates.isNullOrEmpty(shortName)) {
