@@ -4,16 +4,15 @@ import eapli.base.gestaoservicoshelpdesk.domain.*;
 import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
 
 import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.Colaborador;
 
-import java.util.List;
-
 public class NovoCatalogoController {
 
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
-    //private final UtilizadorRepository utilizadorRepository = PersistenceContext.repositories().utilizador();
+    private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final EquipaRepository equipaRepository = PersistenceContext.repositories().equipas();
 
     public void novoCatalogo(final String titulo, final String descricaoBreve, final String icone,
@@ -31,7 +30,6 @@ public class NovoCatalogoController {
     }
 
     public Iterable<Colaborador> getListaColaboradores(){
-        return null;
-        //return this.utilizadorRepository.findColaboradores();
+        return this.colaboradorRepository.findAll();
     }
 }
