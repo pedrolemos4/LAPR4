@@ -17,14 +17,19 @@ public class Criticidade implements AggregateRoot<Long> {
     @Version
     private Long version;
 
+    @Column(name = "Etiqueta")
     private final Etiqueta etiqueta;
 
+    @Column(name = "Escala")
     private final Escala escala;
 
+    @Column(name = "Designacao")
     private final Designacao designacao;
 
+    @Column(name = "Objetivo")
     private final Objetivo objetivo;
 
+    @Column(name = "Cor")
     private final Cor cor;
 
 

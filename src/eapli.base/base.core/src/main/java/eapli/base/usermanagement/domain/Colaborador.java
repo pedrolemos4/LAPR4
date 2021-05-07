@@ -50,8 +50,11 @@ public class Colaborador extends SystemUser {
         }
     }
 
-    private List<TipoEquipa> getAssociatedTeamsTypes() {
-        return new ArrayList<>();
+    List<TipoEquipa> tipoEquipasAssociadas = getAssociatedTeamsTypes();
+        if (!tipoEquipasAssociadas.contains(equipa.getTipo()))
+                associatedTeams.add(equipa);
+        else{
+        throw new IllegalArgumentException("Error: This user already has an associated team of that type");
     }
 
     public void remAssociatedTeam(Equipa equipa){

@@ -3,6 +3,7 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
@@ -10,8 +11,10 @@ import java.util.Objects;
 public class Objetivo implements ValueObject {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="TempoMaximo")
     private final int tempoMax;
 
+    @Column(name="TempoMedio")
     private final int tempoMedio;
 
     public Objetivo(final int tempoMax, final int tempoMedio) {

@@ -2,10 +2,11 @@ package eapli.base.app.backoffice.console.presentation.equipas;
 
 import eapli.base.app.backoffice.console.presentation.servicos.CodigoUnicoDataWidget;
 import eapli.base.gestaoservicosrh.application.CriarEquipaController;
-import eapli.base.usermanagement.domain.Colaborador;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
-import eapli.base.usermanagement.domain.Utilizador;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.infrastructure.authz.domain.model.Role;
+import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
@@ -16,33 +17,79 @@ public class CriarEquipaUI extends AbstractUI {
     @Override
     protected boolean doShow() {
         final Iterable<TipoEquipa> listTipos = this.controller.listTipos();
-        final Iterable<Utilizador> listUser = this.controller.listUser();
+        final Iterable<SystemUser> listUser = this.controller.listUser();
+        CodigoUnicoDataWidget codigoUnicoData = null;
+        AcronimoDataWidget acronimoData = null;
+        DesignacaoDataWidget designacaoData = null;
+        TipoEquipa tipo = null;
+        Colaborador colab = null;
 
-        final CodigoUnicoDataWidget codigoUnicoData = new CodigoUnicoDataWidget();
-        codigoUnicoData.show();
+        while(true){
+            try{
+                codigoUnicoData = new CodigoUnicoDataWidget();
+                codigoUnicoData.show();
 
-        final AcronimoDataWidget acronimoData = new AcronimoDataWidget();
-        acronimoData.show();
+                acronimoData = new AcronimoDataWidget();
+                acronimoData.show();
 
+<<<<<<< HEAD
+                designacaoData = new DesignacaoDataWidget();
+                designacaoData.show();
+
+                final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector.show();
+
+                tipo = selector.selectedElement();
+=======
         final DesignacaoDataWidget designacaoData = new DesignacaoDataWidget();
         designacaoData.show();
-
-        final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        selector.show();
-
-        final TipoEquipa tipo = selector.selectedElement();
-
-        final SelectWidget<Utilizador> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        selector2.show();
-
-        final Colaborador colab = (Colaborador) selector2.selectedElement();
+        TipoEquipa tipo = new TipoEquipa();
 
         try {
-            this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
-        } catch (final IntegrityViolationException e){
-            System.out.println("A Equipa criada já existe na base de dados.");
+            final SelectWidget<TipoEquipa> selector = new SelectWidget<TipoEquipa>("Tipos de Equipas: ", listTipos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+            selector.show();
+
+            tipo = selector.selectedElement();
+        } catch(IllegalArgumentException e) {
+            System.out.println("Não existem tipos de equipa");
+        }
+>>>>>>> 7ec4dcc7f09d8029fa397c5e3d2943ca43288af7
+
+                final SelectWidget<SystemUser> selector2 = new SelectWidget<>("Lista de utilizadores: ", listUser, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector2.show();
+
+                colab = (Colaborador) selector2.selectedElement();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Dado inválido!");
+            } catch (NullPointerException e) {
+                System.out.println("Não existem dados a selecionar!");
+            }
+
+<<<<<<< HEAD
+            if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
+                try {
+                    this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
+                    break;
+                } catch (final IntegrityViolationException e){
+                    System.out.println("A Equipa criada já existe na base de dados.");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!!");
+                }
+            } else {
+                System.out.println("O utilizador selecionado não é um colaborador!");
+=======
+        if (colab.hasAny(Role.valueOf("COLABORADOR"))) {
+            try {
+                this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
+            } catch (final IntegrityViolationException e){
+                System.out.println("A Equipa criada já existe na base de dados.");
+            } catch (final IllegalArgumentException e){
+                System.out.println("O acrónimo deve ser alfanumérico");
+>>>>>>> 7ec4dcc7f09d8029fa397c5e3d2943ca43288af7
+            }
         }
 
+        System.out.println("Equipa criada com sucesso!");
         return false;
     }
 

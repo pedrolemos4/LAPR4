@@ -23,12 +23,15 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
+import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
+import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.common.console.presentation.authz.MyUserMenu;
 import eapli.base.Application;
 import eapli.base.app.backoffice.console.presentation.authz.DeactivateUserAction;
 import eapli.base.app.backoffice.console.presentation.authz.ListUsersAction;
 import eapli.base.app.backoffice.console.presentation.clientuser.AcceptRefuseSignupRequestAction;
 
+import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.actions.Actions;
 import eapli.framework.actions.menu.Menu;
 import eapli.framework.actions.menu.MenuItem;
@@ -47,14 +50,14 @@ import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
  *
  * @author Paulo Gandra Sousa
  */
-/*
+
 public class MainMenu extends AbstractUI {
 
     private static final String RETURN_LABEL = "Return ";
 
     private static final int EXIT_OPTION = 0;
 
-    // USERS
+ /*   // USERS
     private static final int ADD_USER_OPTION = 1;
     private static final int LIST_USERS_OPTION = 2;
     private static final int DEACTIVATE_USER_OPTION = 3;
@@ -102,6 +105,18 @@ public class MainMenu extends AbstractUI {
     private static final int TRACEABILITY_OPTION = 6;
     private static final int MEALS_OPTION = 7;
     private static final int REPORTING_DISHES_OPTION = 8;
+*/
+    //gestor de serviços helpdesk
+    private static final int CRIAR_CATALOGO = 5;
+    private static final int ESPECIFICAR_SERVICO = 6;
+    private static final int DEFINIR_NIVEIS_CRITICIDADE = 7;
+
+    //responsável rrh
+    private static final int ESPECIFICAR_COLABORADOR = 8;
+    private static final int CRIAR_NOVA_EQUIPA = 9;
+    private static final int ASSOCIAR_REMOVER_COLABORADOR = 10;
+    private static final int REGISTAR_TIPO_EQUIPA = 11;
+
 
     private static final String SEPARATOR_LABEL = "--------------";
 
@@ -116,7 +131,7 @@ public class MainMenu extends AbstractUI {
     /**
      * @return true if the user selected the exit option
      */
-/*
+
     @Override
     public boolean doShow() {
         final Menu menu = buildMainMenu();
@@ -140,18 +155,30 @@ public class MainMenu extends AbstractUI {
 
         final Menu mainMenu = new Menu();
 
-        final Menu myUserMenu = new MyUserMenu();
-        mainMenu.addSubMenu(MY_USER_OPTION, myUserMenu);
+      //  final Menu myUserMenu = new MyUserMenu();
+       // mainMenu.addSubMenu(MY_USER_OPTION, myUserMenu);
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
-        if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.POWER_USER, BaseRoles.ADMIN)) {
-            final Menu usersMenu = buildUsersMenu();
-            mainMenu.addSubMenu(USERS_OPTION, usersMenu);
-            final Menu settingsMenu = buildAdminSettingsMenu();
-            mainMenu.addSubMenu(SETTINGS_OPTION, settingsMenu);
+        if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO)) {
+           // final Menu gshMenu = buildGSHMenu();
+            //mainMenu.addSubMenu(CRIAR_CATALOGO, gshMenu);
+            //mainMenu.addSubMenu(ESPECIFICAR_SERVICO, gshMenu);
+            //mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE, gshMenu);
+            final Menu menuCriticidade = buildCriticidadeMenu();
+            mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE,menuCriticidade);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+        } else if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH)) {
+            //final Menu rrhMenu = buildRRHMenu();
+//            mainMenu.addItem(ESPECIFICAR_COLABORADOR, "Especificar Colaborador", Actions.SUCCESS);
+//            mainMenu.addItem(CRIAR_NOVA_EQUIPA, "Criar nova Equipa", Actions.SUCCESS);
+//            mainMenu.addItem(ASSOCIAR_REMOVER_COLABORADOR, "Associar/Remover Colaborador", Actions.SUCCESS);
+//            mainMenu.addItem(REGISTAR_TIPO_EQUIPA, "Registar Tipo de Equipa", Actions.SUCCESS);
+            final Menu menuCriarEquipa = buildEquipaMenu();
+            mainMenu.addSubMenu(CRIAR_NOVA_EQUIPA, menuCriarEquipa);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -163,7 +190,7 @@ public class MainMenu extends AbstractUI {
         return mainMenu;
     }
 
-    private Menu buildAdminSettingsMenu() {
+   /* private Menu buildAdminSettingsMenu() {
         final Menu menu = new Menu("Settings >");
 
         menu.addItem(SET_KITCHEN_ALERT_LIMIT_OPTION, "Set kitchen alert limit",
@@ -184,7 +211,43 @@ public class MainMenu extends AbstractUI {
         menu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
 
         return menu;
+    }*/
+
+    private Menu buildEquipaMenu() {
+        final Menu equipaMenu = new Menu("Equipa");
+        equipaMenu.addItem(CRIAR_NOVA_EQUIPA, "Criar Equipa", () -> new CriarEquipaUI().show());
+        return equipaMenu;
+    }
+
+    private Menu buildCriticidadeMenu(){
+        final Menu criticidadeMenu = new Menu("Criticidade");
+        criticidadeMenu.addItem(DEFINIR_NIVEIS_CRITICIDADE, "Definir Criticidade",()->new DefinirCriticidadeUI().show());
+        return criticidadeMenu;
+    }
+
+    private Menu buildCashierMenu() {
+        final Menu cashierMenu = new Menu("Sales  >");
+        cashierMenu.addItem(CRIAR_CATALOGO, "Criar catálogo", Actions.SUCCESS);
+        cashierMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
+
+        return cashierMenu;
+    }
+
+    private Menu buildGSHMenu() {
+        final Menu gshMenu = new Menu("Menu Gestor de Serviços HelpDesk >");
+        gshMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
+        return gshMenu;
+    }
+
+    private Menu buildRRHMenu() {
+        final Menu rrhMenu = new Menu("Menu Responsável Recursos Humanos >");
+        rrhMenu.addSubMenu(ESPECIFICAR_COLABORADOR, rrhMenu);
+        rrhMenu.addSubMenu(CRIAR_NOVA_EQUIPA, rrhMenu);
+        rrhMenu.addSubMenu(ASSOCIAR_REMOVER_COLABORADOR, rrhMenu);
+        rrhMenu.addSubMenu(REGISTAR_TIPO_EQUIPA, rrhMenu);
+        rrhMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
+        return rrhMenu;
     }
 }
 
- */
+
