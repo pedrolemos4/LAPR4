@@ -1,5 +1,8 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.gestaoservicosrh.domain.CodigoUnico;
+import eapli.framework.validations.Preconditions;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,13 +11,19 @@ public class Funcao {
     @Id
     @GeneratedValue
     @Column(name = "CODIGO")
-    private int codigo;
+    private CodigoUnico codigo;
 
     @Column(name = "DESCRICAO")
-    private String descricao;
+    private Descricao descricao;
 
-    public Funcao(final int codigo, final String descricao){
+    public Funcao(final CodigoUnico codigo, final Descricao descricao){
+        Preconditions.nonNull(codigo);
         this.codigo=codigo;
-        this.descricao=descricao;
+            this.descricao=descricao;
+    }
+
+    protected Funcao() {
+        this.descricao=null;
+        this.codigo=null;
     }
 }
