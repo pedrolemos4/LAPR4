@@ -5,8 +5,11 @@ import eapli.base.gestaoservicosrh.application.CriarEquipaController;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
+
+import java.util.Set;
 
 public class CriarEquipaUI extends AbstractUI {
 
@@ -20,7 +23,7 @@ public class CriarEquipaUI extends AbstractUI {
         AcronimoDataWidget acronimoData = null;
         DesignacaoDataWidget designacaoData = null;
         TipoEquipa tipo = null;
-        Colaborador colab = null;
+        Set<Colaborador> colabs = null;
 
         while(true){
             try{
@@ -38,10 +41,20 @@ public class CriarEquipaUI extends AbstractUI {
 
                 tipo = selector.selectedElement();
 
-                final SelectWidget<Colaborador> selector2 = new SelectWidget<>("Lista de Colaboradores: ", listColab, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-                selector2.show();
+                while(true) {
+                    final SelectWidget<Colaborador> selector2 = new SelectWidget<>("Lista de Colaboradores: ", listColab, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                    selector2.show();
 
-                colab = selector2.selectedElement();
+                    if (colabs.contains(selector2.selectedElement())) {
+                        System.out.println("Já colocou este colaborador!");
+                    } else {
+                        colabs.add(selector2.selectedElement());
+                    }
+
+                    String answer = Console.readLine("Deseja adicionar mais colaboradores responsáveis? (S/N)?");
+                    if("N".equalsIgnoreCase(answer))
+                            break;
+                }
             } catch (IllegalArgumentException e) {
                 System.out.println("Dado inválido!");
             } catch (NullPointerException e) {
@@ -49,7 +62,7 @@ public class CriarEquipaUI extends AbstractUI {
             }
 
             try {
-                this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colab);
+                this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colabs);
                 break;
             } catch (final IntegrityViolationException e){
                 System.out.println("A equipa criada já existe na base de dados.");

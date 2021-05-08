@@ -24,7 +24,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "TIPO_EQUIPA")
     private TipoEquipa tipo;
 
-    @ManyToMany ()
+    @ManyToMany()
     //@JoinColumn(name="RESPONSAVEL", referencedColumnName = "numeroMecanografico")
     private Set<Colaborador> listResponsavel;
 
@@ -32,14 +32,15 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     //@JoinColumn(name="LISTMEMBERS")
     private Set<Colaborador> listMembros;
 
-    public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Colaborador responsavel) {
+    public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Set<Colaborador> responsaveis) {
         this.codigo = codigo;
         this.acronimo = acronimo;
         this.designacao = desig;
         this.tipo = tipo;
-        this.listResponsavel=new HashSet<>();
+        this.listResponsavel = new HashSet<>();
         this.listMembros = new HashSet<>();
-        listResponsavel.add(responsavel);
+        listResponsavel.addAll(responsaveis);
+        listMembros.addAll(responsaveis);
     }
 
     public Equipa() {
