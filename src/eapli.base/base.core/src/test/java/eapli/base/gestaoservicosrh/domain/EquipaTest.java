@@ -5,6 +5,7 @@ import eapli.base.gestaoservicoshelpdesk.domain.Cor;
 import eapli.base.gestaoservicoshelpdesk.domain.EnderecoEmail;
 import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
 import eapli.base.usermanagement.domain.*;
+import eapli.framework.general.domain.model.EmailAddress;
 import junit.framework.TestCase;
 
 import java.util.HashSet;
@@ -15,7 +16,7 @@ public class EquipaTest extends TestCase {
     public void testListMembros() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), new EnderecoEmail("joao@gmail.com"));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
         list.add(c1);
@@ -28,7 +29,7 @@ public class EquipaTest extends TestCase {
     public void testGetTipo() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), new EnderecoEmail("joao@gmail.com"));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
         list.add(c1);
@@ -41,7 +42,7 @@ public class EquipaTest extends TestCase {
     public void testTestEquals() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), new EnderecoEmail("joao@gmail.com"));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
         list.add(c1);
@@ -54,7 +55,7 @@ public class EquipaTest extends TestCase {
     public void testTestToString() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), new EnderecoEmail("joao@gmail.com"));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
         list.add(c1);
