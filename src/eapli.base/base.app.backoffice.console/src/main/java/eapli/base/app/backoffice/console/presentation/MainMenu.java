@@ -24,6 +24,7 @@
 package eapli.base.app.backoffice.console.presentation;
 
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
+import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipaUI;
@@ -191,7 +192,9 @@ public class MainMenu extends AbstractUI {
             final Menu menuTipoEquipa = buildTipoEquipaMenu();
             mainMenu.addSubMenu(REGISTAR_TIPO_EQUIPA,menuTipoEquipa);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-
+            final Menu menuEspecificarColaborador = buildEspecificaColaboradorMenu();
+            mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR, menuEspecificarColaborador);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -254,6 +257,12 @@ public class MainMenu extends AbstractUI {
         final Menu servicoMenu = new Menu("Serviço");
         servicoMenu.addItem(ESPECIFICAR_SERVICO,"Especificar Serviço",()->new EspecificarServicoUI().show());
         return servicoMenu;
+    }
+
+    private Menu buildEspecificaColaboradorMenu(){
+        final Menu colaboradorMenu = new Menu("Colaborador");
+        colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador",()->new EspecificarColaboradorUI().show());
+        return colaboradorMenu;
     }
 
     private Menu buildCashierMenu() {

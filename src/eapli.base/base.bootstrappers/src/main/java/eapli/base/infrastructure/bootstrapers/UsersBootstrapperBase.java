@@ -55,9 +55,9 @@ public class UsersBootstrapperBase {
     }
 
     protected void registerColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
-                                                    final String dataNascimento, final int contacto, final String local, final String email, final String desc, final String codigo){
+                                                    final String dataNascimento, final int contacto, final String local, final String email){
         try{
-            colabController.novoColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email, desc, codigo);
+            colabController.novoColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email);
             LOGGER.debug("»»» %s", nomeCurto);
         } catch (final IntegrityViolationException | ConcurrencyException e) {
             // assuming it is just a primary key violation due to the tentative
