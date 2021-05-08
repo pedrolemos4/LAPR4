@@ -20,8 +20,8 @@ public class CriarEquipaController {
     public Equipa novaEquipa(String cod, String acronimo, String desig, TipoEquipa tipo, Set<Colaborador> responsaveis){
         for (Equipa eq : repo.findAll()) {
             for (Colaborador colab : eq.listMembros()){
-                if (responsaveis.contains(colab) && eq.getTipo() == tipo){
-                    throw new IllegalArgumentException();
+                if (responsaveis.contains(colab) && eq.getTipo().equals(tipo)){
+                    throw new IllegalArgumentException("O colaborador selecionado ja existe numa equipa com este tipo!");
                 }
             }
         }

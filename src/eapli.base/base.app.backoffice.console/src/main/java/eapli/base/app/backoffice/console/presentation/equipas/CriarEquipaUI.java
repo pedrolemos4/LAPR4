@@ -58,20 +58,19 @@ public class CriarEquipaUI extends AbstractUI {
             } catch (IllegalArgumentException e) {
                 System.out.println("Dado inválido!");
             } catch (NullPointerException e) {
-                System.out.println("Não existem dados a selecionar!");
+                System.out.println("Não existem dados a selecionar.");
+                System.out.println("Erro na criação de equipa.");
+                break;
             }
 
             try {
                 this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colabs);
+                System.out.println("Equipa criada com sucesso!");
                 break;
             } catch (final IntegrityViolationException e){
                 System.out.println("A equipa criada já existe na base de dados.");
-            } catch (IllegalArgumentException e) {
-                System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!!");
             }
         }
-
-        System.out.println("Equipa criada com sucesso!");
         return false;
     }
 

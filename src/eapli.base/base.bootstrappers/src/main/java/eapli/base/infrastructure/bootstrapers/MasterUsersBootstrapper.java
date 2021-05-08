@@ -53,7 +53,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
-     //   registaColaborador(11909876,"Gustavo","Gustavo Mike White","1992/07/05",932705057, "Bairro Alto", "gustavo@gmail.com","Descricao Random2", "ABCDEFGH1212P21");
+        registaColaborador(11909876,"Gustavo","Gustavo Mike White","1992/07/05",932705057, "Bairro Alto", "gustavo@gmail.com","Descricao Random2", "ABCDEFGH1212P21");
 
         registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
