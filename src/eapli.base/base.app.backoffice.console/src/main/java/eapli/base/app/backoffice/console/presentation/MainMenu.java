@@ -23,6 +23,7 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
+import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServicoUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
@@ -121,6 +122,8 @@ public class MainMenu extends AbstractUI {
     private static final int ASSOCIAR_REMOVER_COLABORADOR = 10;
     private static final int REGISTAR_TIPO_EQUIPA = 11;
 
+    //colaborador
+    private static final int CONSULTAR_CATALOGO_SERVICO = 12;
 
     private static final String SEPARATOR_LABEL = "--------------";
 
@@ -195,6 +198,10 @@ public class MainMenu extends AbstractUI {
             final Menu menuEspecificarColaborador = buildEspecificaColaboradorMenu();
             mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR, menuEspecificarColaborador);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+        } else if(authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR)){
+            final Menu menuCatalogoServico = buildConsultarCatalogoServico();
+            mainMenu.addSubMenu(CONSULTAR_CATALOGO_SERVICO,menuCatalogoServico);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -228,6 +235,12 @@ public class MainMenu extends AbstractUI {
 
         return menu;
     }*/
+
+    private Menu buildConsultarCatalogoServico(){
+        final Menu consultarCatalogoServicoMenu = new Menu("Consultar Catálogo e/ou Serviço");
+        consultarCatalogoServicoMenu.addItem(CONSULTAR_CATALOGO_SERVICO,"Consultar Catálogo e/ou Serviço",()->new ListCatalogoServicoUI().show());
+        return consultarCatalogoServicoMenu;
+    }
 
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
