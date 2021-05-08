@@ -36,6 +36,10 @@ public class Catalogo implements AggregateRoot<Long>{
     @JoinTable(name = "LIST")
     private Set<Equipa> listEquipas = new HashSet<>();
 
+    @OneToMany()
+    @JoinTable(name="LISTSERVICOS")
+    Set<Servico> listServicos = new HashSet<>();
+
     @OneToOne()
     @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
@@ -48,7 +52,19 @@ public class Catalogo implements AggregateRoot<Long>{
         this.descricaoBreve=descricaoBreve;
         this.descricaoCompleta=descricaoCompleta;
         this.icone=icone;
-        copyList(listEquipas);
+        copyListEquipas(listEquipas);
+    }
+
+    public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
+                    Icone icone, Iterable<Equipa> listEquipas, Iterable<Servico> listServicos){
+        this.titulo=titulo;
+        Preconditions.nonNull(colab);
+        this.colab=colab;
+        this.descricaoBreve=descricaoBreve;
+        this.descricaoCompleta=descricaoCompleta;
+        this.icone=icone;
+        copyListEquipas(listEquipas);
+        copyListServico(listServicos);
     }
 
     protected Catalogo() {
@@ -59,9 +75,15 @@ public class Catalogo implements AggregateRoot<Long>{
         this.titulo=null;
     }
 
-    private void copyList(Iterable<Equipa> listEquipas) {
+    private void copyListEquipas(Iterable<Equipa> listEquipas) {
         for(Equipa eq : listEquipas){
             this.listEquipas.add(eq);
+        }
+    }
+
+    private void copyListServico(Iterable<Servico> listServico) {
+        for(Servico s : listServico){
+            this.listServicos.add(s);
         }
     }
 
