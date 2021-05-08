@@ -60,7 +60,28 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     }
 
     public boolean addMembro(Colaborador colab) {
-        return listMembros.add(colab);
+        try {
+            validateColab(colab,this.tipo);
+            return listMembros.add(colab);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("ERROR: This collaborator has already an associated team if this type");
+            return false;
+        }
+    }
+
+    private void validateColab(Colaborador colab, TipoEquipa tipo) {
+
+    }
+
+    public boolean removerMembro(Colaborador colab) {
+        try {
+            return listMembros.remove(colab);
+        }
+        catch (NullPointerException e){
+            System.out.println("ERROR: Colaborator cannot be null");
+            return false;
+        }
     }
 
     @Override

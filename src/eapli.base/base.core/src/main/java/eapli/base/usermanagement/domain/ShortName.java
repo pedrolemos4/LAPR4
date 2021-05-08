@@ -22,10 +22,6 @@ public class ShortName implements ValueObject {
         }
     }
 
-    protected ShortName() {
-
-    }
-
     @Override
     public String toString() {
         return shortName;
