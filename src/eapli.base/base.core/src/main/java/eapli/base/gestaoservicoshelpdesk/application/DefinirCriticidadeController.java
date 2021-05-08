@@ -5,6 +5,7 @@ import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.CriticidadeRepository;
 import eapli.base.gestaoservicosrh.domain.Designacao;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -23,6 +24,7 @@ public class DefinirCriticidadeController {
     
     public Criticidade defineCriticidade(int tempoMaximo, int tempoMedio, String etiqueta, int escala,
                                          Color cor ,/*int red, int green, int blue,*/ String designacao){
+        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.GESTOR_SERVICO);
         Objetivo objetivo = new Objetivo(tempoMaximo, tempoMedio);
         Etiqueta e = new Etiqueta(etiqueta);
         Escala esc = new Escala(escala);
@@ -36,8 +38,8 @@ public class DefinirCriticidadeController {
     public ContratoSLA defineContrato(String designacao){
         Iterable<Criticidade> list =  criticidadeRepo.findAll();
         Designacao design = new Designacao(designacao);
-        final ContratoSLA contrato = new ContratoSLA(design, (Set<Criticidade>) list);
-        //return catRepo.save(contrato);
+        final ContratoSLA contrato = new ContratoSLA(design, list);
+        //return criticidadeRepo.save(contrato);
         return null;
     }
 

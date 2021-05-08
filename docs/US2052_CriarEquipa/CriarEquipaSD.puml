@@ -12,9 +12,9 @@ participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 database EquipaRepository as ERepository <<repository>>
 database TipoEquipaRepository as TERepository <<repository>>
-database UtilizadorRepository as CRepository <<repository>>
+database ColaboradorRepository as CRepository <<repository>>
 entity Equipa as EQ <<entity>>
-entity Codigo as COD <<Value>>
+entity CodigoUnico as COD <<Value>>
 entity Acronimo as AC <<Value>>
 entity Designacao as DES <<Value>>
 
@@ -26,9 +26,9 @@ UI -> CTRL: listTipos()
     activate CTRL
       CTRL -> Persistence: repositories()
     activate Persistence
-      Persistence -> Factory: create
+      Persistence -> Factory: create()
     activate Factory
-      Factory -> TERepository: create
+      Factory -> TERepository: create()
     activate TERepository
     deactivate Factory
     deactivate Persistence
@@ -39,13 +39,13 @@ UI -> CTRL: listTipos()
       CTRL -> UI: listaTipos
     deactivate CTRL
 
-UI -> CTRL: listUser()
+UI -> CTRL: listColab()
     activate CTRL
       CTRL -> Persistence: repositories()
     activate Persistence
-      Persistence -> Factory: create
+      Persistence -> Factory: create()
     activate Factory
-      Factory -> CRepository: create
+      Factory -> CRepository: create()
     activate CRepository
     deactivate Factory
     deactivate Persistence
@@ -53,10 +53,10 @@ UI -> CTRL: listUser()
       CTRL -> CRepository: findAll()
       activate CRepository
    deactivate CRepository
-      CTRL -> UI: listaUser
+      CTRL -> UI: listaColab
     deactivate CTRL
     
-UI -> CTRL : novaEquipa(cod, acronimo, desig, tipo, responsavel)
+UI -> CTRL : novaEquipa(cod, acronimo, desig, tipo, responsaveis)
 activate CTRL
 
 CTRL->COD :cod = create(cod)
@@ -79,7 +79,7 @@ CTRL -> Persistence: repositories()
             ERepository --> Factory : 
         deactivate ERepository
         
-CTRL --> EQ ** : novaEquipa = create(cod, acronimo, desig, tipo, responsavel)
+CTRL --> EQ ** : novaEquipa = create(cod, acronimo, desig, tipo, responsaveis)
 
         CTRL -> ERepository: save(novaEquipa)
         activate ERepository
