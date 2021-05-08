@@ -2,13 +2,18 @@ package eapli.base.usermanagement.domain;
 
 import eapli.framework.domain.model.ValueObject;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Locale;
 
 @Embeddable
 public class Contacto implements ValueObject {
 
+    @Column(name="NUMBER")
     private int number;
+
+    @Column(name="PREFIX")
+    private int prefix;
 
     public Contacto() {}
 
@@ -20,8 +25,16 @@ public class Contacto implements ValueObject {
         this.number = number;
     }
 
+    public Contacto(final int prefix, final int number){
+        this.number = number;
+        this.prefix=prefix;
+    }
+
     @Override
     public String toString() {
-        return " " + number;
+        return "Contacto{" +
+                "number=" + number +
+                ", prefix=" + prefix +
+                '}';
     }
 }

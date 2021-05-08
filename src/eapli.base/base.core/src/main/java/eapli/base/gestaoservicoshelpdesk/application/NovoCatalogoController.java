@@ -8,7 +8,9 @@ import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.Colaborador;
+import eapli.framework.application.UseCaseController;
 
+@UseCaseController
 public class NovoCatalogoController {
 
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();

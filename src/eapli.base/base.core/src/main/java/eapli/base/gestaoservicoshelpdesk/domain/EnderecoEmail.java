@@ -16,6 +16,10 @@ public class EnderecoEmail implements ValueObject {
     }
 
     public EnderecoEmail(String endereco){
-        this.endereco=endereco;
+        if(endereco.contains("@") && !endereco.isEmpty()) {
+            this.endereco = endereco;
+        }else{
+            throw new IllegalArgumentException("Endereço mal introduzido");
+        }
     }
 }

@@ -18,9 +18,13 @@ public class Data implements ValueObject {
     private final int dia;
 
     public Data (final int ano, final int mes, final int dia){
-        this.ano=ano;
-        this.mes=mes;
-        this.dia=dia;
+        if( ano>0 && 2022>ano && 12>mes && mes>0 && 32>dia && dia>0) {
+            this.ano = ano;
+            this.mes = mes;
+            this.dia = dia;
+        }else{
+            throw new IllegalArgumentException("Data mal inserida");
+        }
     }
 
     protected Data() {

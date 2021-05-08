@@ -28,7 +28,7 @@ public class EspecificarColaboradorController {
     private final RandomRawPassword randomPassword = new RandomRawPassword();
 
     public void novoUtilizador(final String username, final String password, final String firstName, final String lastName, final String email, final Set<Role> set){
-        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
+        //authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER);
 //        Set<Role> set = new HashSet<>();
 //        set.add(BaseRoles.COLABORADOR);
         userController.addUser(username,password,firstName,lastName,email,set);
@@ -36,7 +36,9 @@ public class EspecificarColaboradorController {
 
     public void novoColaborador(final int numeroMecanografico, final String nomeCompleto, final String nomeCurto,
                                        final String dataNascimento, final int contacto, final String local, final String email) {
-        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER);
+        System.out.println("Antes");
+        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
+        System.out.println("Depois");
         MecanographicNumber mecanographicNumber = new MecanographicNumber(numeroMecanografico);
         ShortName shortName = new ShortName(nomeCurto);
         FullName fullName = new FullName(nomeCompleto);

@@ -112,18 +112,18 @@ public class MainMenu extends AbstractUI {
     private static final int REPORTING_DISHES_OPTION = 8;
 */
     //gestor de serviços helpdesk
-    private static final int CRIAR_CATALOGO = 5;
-    private static final int ESPECIFICAR_SERVICO = 6;
-    private static final int DEFINIR_NIVEIS_CRITICIDADE = 7;
+    private static final int CRIAR_CATALOGO = 1;
+    private static final int ESPECIFICAR_SERVICO = 2;
+    private static final int DEFINIR_NIVEIS_CRITICIDADE = 3;
 
     //responsável rrh
-    private static final int ESPECIFICAR_COLABORADOR = 8;
-    private static final int CRIAR_NOVA_EQUIPA = 9;
-    private static final int ASSOCIAR_REMOVER_COLABORADOR = 10;
-    private static final int REGISTAR_TIPO_EQUIPA = 11;
+    private static final int CRIAR_NOVA_EQUIPA = 1;
+    private static final int REGISTAR_TIPO_EQUIPA = 2;
+    private static final int ESPECIFICAR_COLABORADOR = 3;
+    private static final int ASSOCIAR_REMOVER_COLABORADOR = 4;
 
     //colaborador
-    private static final int CONSULTAR_CATALOGO_SERVICO = 12;
+    private static final int CONSULTAR_CATALOGO_SERVICO = 1;
 
     private static final String SEPARATOR_LABEL = "--------------";
 
@@ -273,7 +273,7 @@ public class MainMenu extends AbstractUI {
     }
 
     private Menu buildEspecificaColaboradorMenu(){
-        final Menu colaboradorMenu = new Menu("Colaborador");
+        final Menu colaboradorMenu = new Menu("Especificar Colaborador");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador",()->new EspecificarColaboradorUI().show());
         return colaboradorMenu;
     }

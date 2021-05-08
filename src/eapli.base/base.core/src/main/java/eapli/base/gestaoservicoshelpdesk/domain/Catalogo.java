@@ -33,7 +33,7 @@ public class Catalogo implements AggregateRoot<Long>{
     private final Icone icone;
 
     @OneToMany()
-    @JoinTable(name = "LIST")
+    @JoinColumn(name = "LIST")
     private Set<Equipa> listEquipas = new HashSet<>();
 
     @OneToMany()
