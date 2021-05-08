@@ -27,10 +27,10 @@ public class EspecificarColaboradorController {
     private final AddUserController userController = new AddUserController();
     private final RandomRawPassword randomPassword = new RandomRawPassword();
 
-    public void novoUtilizador(final String username, String password, String firstName, String lastName, String email){
+    public void novoUtilizador(final String username, final String password, final String firstName, final String lastName, final String email, final Set<Role> set){
         authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
-        Set<Role> set = new HashSet<>();
-        set.add(BaseRoles.COLABORADOR);
+//        Set<Role> set = new HashSet<>();
+//        set.add(BaseRoles.COLABORADOR);
         userController.addUser(username,password,firstName,lastName,email,set);
     }
 
