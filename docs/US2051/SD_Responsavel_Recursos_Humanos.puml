@@ -7,66 +7,36 @@ participant EspecificarColaboradorController as Controller <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 participant Colaborador as Colaborador <<Domain>>
-database FuncaoRepository as FRepository <<repository>>
-database EquipaRepository as ERepository <<repository>>
-database UtilizadorRepository as CRepository <<repository>>
+participant AddUserController as UserController <<application>>
+participant RandomRawPassword as RandomRawPassword <<Domain>>
+database ColaboradorRepository as CRepository <<repository>>
+database SystemUser as URepository <<repository>>
 
 
 activate Actor
       Actor -> UI: Insere os dados relativos ao colaborador
     activate UI
-      UI -> Controller: create
+      UI -> Controller: geraPassword()
     activate Controller
-      Controller -> Persistence: repositories()
-    activate Persistence
-      Persistence -> Factory: create
-    activate Factory
-      Factory -> FRepository: create
-    activate FRepository
-    deactivate Factory
-    deactivate Persistence
-      Controller -> FRepository: getFuncoes()
-      Controller -> UI: listFuncoes
-    deactivate FRepository
+      Controller->RandomRawPassword: toString()
+    activate RandomRawPassword
+    deactivate RandomRawPassword
+      Controller-->UI: password
     deactivate Controller
-      UI -> Actor: Apresenta as funções
-    deactivate UI
-      Actor -> UI: Seleciona uma função
-    activate UI
-      UI -> Controller: verificaSuperior(funcao)
+      UI -> Controller: novoUtilizador(username, password, firstName, lastName, endereco)
+    activate Controller
+      Controller->UserController: addUser(username, password, firstName, lastName, endereco, set)
+    activate UserController
+    deactivate UserController
+    deactivate Controller
+      UI -> Controller: novoColaborador(numMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, endereco, contacto)
     activate Controller 
-      Controller -> Persistence: repositories()
-    activate Persistence
-      Persistence -> Factory: create
-    activate Factory
-      Factory -> CRepository: create
-    activate CRepository
-    deactivate Factory
-    deactivate Persistence
-      Controller -> CRepository: getSuperior()
-    deactivate CRepository
-      Controller -> UI: superior
-    deactivate Controller
-
-    alt se houver superior
-      UI -> Controller: novoColaborador(numMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, endereco, contacto, funcao, superior)
-    activate Controller
       Controller -> Colaborador: colab = new Colaborador()
     activate Colaborador
     deactivate Colaborador
-    deactivate Controller
-    else 
-      UI -> Controller: novoColaborador(numMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, endereco, contacto, funcao)
-    activate Controller
-      Controller -> Colaborador: colab = new Colaborador()
-    activate Colaborador
-    deactivate Colaborador
-    end
     activate CRepository
       Controller -> CRepository: save(colab)
     deactivate CRepository
-      Controller -> Controller: gerarPassword() 
-      Controller -> Controller: enviarEmailColaborador()
     deactivate Controller
     deactivate UI
 

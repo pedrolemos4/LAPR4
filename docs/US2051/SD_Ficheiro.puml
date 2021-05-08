@@ -8,12 +8,14 @@ skinparam shadowing false
 
 Actor "Responsavel de Recursos Humanos" as Actor
 participant LerFicheiroColaboradorUI as UI <<presentation>>
-participant LerFicheiroColaboradorCTRL as Controller <<application>>
+participant LerFicheiroColaboradorController as Controller <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 participant LerFicheiroColaborador as LerFicheiroColaborador <<utils>>
 participant Colaborador as Colaborador <<Domain>>
-database UtilizadorRepository as CRepository <<repository>>
+participant SystemUserBuilder as SystemUserBuilder <<Domain>>
+participant UserController as UserController <<Domain>>
+database ColaboradorRepository as CRepository <<repository>>
 
 
 activate Actor
@@ -23,19 +25,27 @@ activate Actor
     activate Controller
       Controller -> LerFicheiroColaborador: lerDados()
     activate LerFicheiroColaborador
+      LerFicheiroColaborador -> SystemUserBuilder: build(username, password, firstName, lastName, endereco, set)
+    activate SystemUserBuilder
+    deactivate SystemUserBuilder
       LerFicheiroColaborador -> Colaborador: colab = new Colaborador()
     activate Colaborador
     deactivate Colaborador
     deactivate LerFicheiroColaborador
+      Controller -> UserController: addUser(username, password, firstName, lastName, endereco, set)
+    activate UserController
+    deactivate UserController
     Controller -> Persistence: repositories()
     activate Persistence
       Persistence -> Factory: create
     activate Factory
       Factory -> CRepository: create
     activate CRepository
+    deactivate CRepository
     deactivate Factory
     deactivate Persistence
       Controller -> CRepository: save(colab)
+    activate CRepository
     deactivate CRepository
     deactivate Controller
     deactivate UI
