@@ -8,17 +8,7 @@ import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Optional;
 
-public interface EquipaRepository
-        extends DomainRepository<CodigoUnico, Equipa> {
+public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> {
 
-    /**
-     * returns the team whose code is given
-     *
-     * @param codigoUnico
-     *            the username to search for
-     * @return
-     */
-
-    Optional<Equipa> findByCodigo(CodigoUnico codigoUnico);
-
+    Iterable<Equipa> findByColaborador(MecanographicNumber colab);
 }
