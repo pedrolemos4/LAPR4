@@ -76,7 +76,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
                 ", localResidencia=" + localResidencia +
                 ", dataNasc=" + dataNasc +
                 ", endereco=" + endereco +
-               // ", funcao=" + funcao +
                 ", contacto=" + contacto +
                 '}';
     }
