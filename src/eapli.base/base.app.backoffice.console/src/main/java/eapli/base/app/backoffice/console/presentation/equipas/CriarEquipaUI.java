@@ -22,7 +22,7 @@ public class CriarEquipaUI extends AbstractUI {
         CodigoUnicoDataWidget codigoUnicoData = null;
         AcronimoDataWidget acronimoData = null;
         DesignacaoDataWidget designacaoData = null;
-        TipoEquipa tipo = null;
+            TipoEquipa tipo = null;
         Set<Colaborador> colabs = null;
 
         while(true){

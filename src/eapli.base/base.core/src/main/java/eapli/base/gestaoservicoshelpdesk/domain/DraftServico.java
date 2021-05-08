@@ -3,24 +3,41 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 public class DraftServico implements AggregateRoot<String> {
 
+    @Id
+    @Column(name="Codigo_Unico")
     private final String codigoUnico;
 
+    @Column(name="DescricaoBreve")
     private String descricaoBreve;
 
+    @Column(name="DescricaoCompleta")
     private String descricaoCompleta;
 
+    @Column(name="Titulo")
     private String titulo;
 
+    @Column(name="TituloFormulario")
     private String tituloFormulario;
 
+    @ElementCollection
     private Set<Atributo> listaAtributos;
 
     //private Catalogo catalogo;
+
+    protected DraftServico(){
+        this.codigoUnico=null;
+        this.descricaoCompleta=null;
+        this.descricaoBreve=null;
+        this.titulo=null;
+        this.tituloFormulario=null;
+    }
 
     public DraftServico(String codigoUnico,String descricaoBreve,String descricaoCompleta,String titulo,
                         String tituloFormulario,Set<Atributo> listaAtributos){
@@ -64,6 +81,18 @@ public class DraftServico implements AggregateRoot<String> {
 
     @Override
     public String identity() {
-        return null;
+        return codigoUnico;
+    }
+
+    @Override
+    public String toString() {
+        return "DraftServico{" +
+                "codigoUnico='" + codigoUnico + '\'' +
+                ", descricaoBreve='" + descricaoBreve + '\'' +
+                ", descricaoCompleta='" + descricaoCompleta + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", tituloFormulario='" + tituloFormulario + '\'' +
+                ", listaAtributos=" + listaAtributos +
+                '}';
     }
 }

@@ -22,7 +22,9 @@ public class EspecificarServicoController {
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
                                    final String descricaoCompleta, Formulario formulario) {
-
+        if(descricaoBreve==null){
+            System.out.println("akjdjkahdjkhdjk");
+        }
         final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
                 .withDescricaoBreve(descricaoBreve)
                 .withDescricaoCompleta(descricaoCompleta)
@@ -39,16 +41,31 @@ public class EspecificarServicoController {
         return formulario;
     }
 
-    public void createDraftServico(final String codigoUnico, final String titulo, final String descricaoBreve,
-                                   final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos) {
+    public void createDraftServico(final String codigoUnico, final String descricaoBreve,
+                                   final String descricaoCompleta,final String titulo,  final String tituloFormulario,
+                                   Set<Atributo> listaAtributos) {
         DraftServico draftServico = new DraftServico(codigoUnico, descricaoBreve, descricaoCompleta, titulo,
                 tituloFormulario, listaAtributos);
         this.draftServicoRepository.save(draftServico);
     }
 
+    public void removeDraft(DraftServico draftServico){
+        this.draftServicoRepository.delete(draftServico);
+    }
+
     public Atributo createAtributo(String nomeVariavel, String label) {
         final Atributo atributo = new Atributo(nomeVariavel, label);
         return atributo;
+    }
+
+    public Iterable<Servico> listServicos(){
+        final Iterable<Servico> ls = servicoRepository.findAll();
+        return ls;
+    }
+
+    public Iterable<DraftServico> listDrafts(){
+        final Iterable<DraftServico> ld = draftServicoRepository.findAll();
+        return ld;
     }
 
 }

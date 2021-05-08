@@ -51,8 +51,16 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     //    this.formulario=null;
     }
 
-
-    //private Icone icone;
+    @Override
+    public String toString() {
+        return "Servico{" +
+                "codigoUnico=" + codigoUnico +
+                ", descricaoBreve=" + descricaoBreve +
+                ", descricaoCompleta=" + descricaoCompleta +
+                ", titulo=" + titulo +
+                ", estado=" + estado +
+                '}';
+    }
 
 
     @Override

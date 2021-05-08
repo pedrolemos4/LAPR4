@@ -30,4 +30,11 @@ public class CodigoUnico implements ValueObject, Comparable<CodigoUnico> {
     public int compareTo(CodigoUnico o) {
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "CodigoUnico{" +
+                "codigo='" + codigo + '\'' +
+                '}';
+    }
 }
