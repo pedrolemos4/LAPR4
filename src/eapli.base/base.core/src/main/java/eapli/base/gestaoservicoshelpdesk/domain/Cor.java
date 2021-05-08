@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Cor implements ValueObject {
     private static final long serialVersionUID = 1L;
 
+
     @Column(name="Red")
     private final int r;
 

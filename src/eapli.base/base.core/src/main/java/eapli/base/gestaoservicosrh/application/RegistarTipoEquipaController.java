@@ -19,12 +19,12 @@ public class RegistarTipoEquipaController {
     private final TipoEquipaRepository repository = PersistenceContext.repositories().tiposEquipa();
 
     public TipoEquipa registarTipoEquipa(final String codigoUnico, final String descricao,
-                                         int red, int green, int blue){
+                                         Color c){
         //authz.ensureAuthenticatedUserHasAnyOf(CafeteriaRoles.POWER_USER,
           //      CafeteriaRoles.MENU_MANAGER);
         final CodigoUnico codigoUnico1 = new CodigoUnico(codigoUnico);
         final Designacao designation = new Designacao(descricao);
-        final Cor cor = new Cor(red,green,blue);
+        final Cor cor = new Cor(c.getRed(),c.getGreen(),c.getBlue());
         final TipoEquipa newTipoEquipa = new TipoEquipa(codigoUnico1,designation,cor);
         return this.repository.save(newTipoEquipa);
     }

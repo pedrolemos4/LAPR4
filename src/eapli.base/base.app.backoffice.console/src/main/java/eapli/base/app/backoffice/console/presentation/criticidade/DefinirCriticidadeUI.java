@@ -17,8 +17,6 @@ public class DefinirCriticidadeUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-        CatalogoRepository catRepo = this.controller.listCatalogo();
-        CriticidadeRepository criticidadeRepo = this.controller.listCriticidade();
         
         boolean flag = true;
         
@@ -41,7 +39,7 @@ public class DefinirCriticidadeUI extends AbstractUI {
         
         try{
             this.controller.defineCriticidade(obj.tempoMax(), obj.tempoMedio()
-                    , et.etiqueta(), esc.escala(), c.r(), c.g(), c.b(), desig.designacao());
+                    , et.etiqueta(), esc.escala(),  c.newColor()/*c.r(), c.g(), c.b()*/, desig.designacao());
         } catch (final IntegrityViolationException e) {
             System.out.println("Erro.");
         }

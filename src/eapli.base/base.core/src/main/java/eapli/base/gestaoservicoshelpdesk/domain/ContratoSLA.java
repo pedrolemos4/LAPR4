@@ -20,7 +20,7 @@ public class ContratoSLA {
     @Column(name="Designacao")
     private final Designacao designacao;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private final Set<Criticidade> niveisCriticidade = new HashSet<>();
 
     public ContratoSLA(final Designacao designacao, final Set<Criticidade> lista) {
