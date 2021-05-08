@@ -28,14 +28,16 @@ public class CatalogoBootstrapper implements Action {
         Colaborador c1 =new Colaborador(new MecanographicNumber(111),new ShortName("Joao"),new FullName("Joao Alves"),new Data(2001,3,8)
                 ,new Contacto(965824578),new LocalResidencia("Penafiel"), new EnderecoEmail("joao@gmail.com"), new Funcao(new CodigoUnico("1a"),new Descricao("coordenador")));
         Set<Equipa> list = new HashSet<>();
-        list.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa"),  new Designacao("desig1"), new TipoEquipa(), c1));
+        Set<Colaborador> setCol = new HashSet<>();
+        setCol.add(c1);
+        list.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa"),  new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te1"),new Designacao("tipoEquipa"),new Cor(50,60,70)), setCol));
 
         register("titulo1","descricaoBreve", "icone", "descricaoComleta", list, c1);
 
         Colaborador c2 =new Colaborador(new MecanographicNumber(123),new ShortName("Raquel"),new FullName("Raquel Alves"),new Data(2001,3,8)
                 ,new Contacto(925681204),new LocalResidencia("Penafiel"), new EnderecoEmail("raquel@gmail.com"), new Funcao(new CodigoUnico("2a"),new Descricao("ajunta")));
         Set<Equipa> list2 = new HashSet<>();
-        list2.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa"),  new Designacao("desig1"), new TipoEquipa(), c2));
+        list2.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa"),  new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te2"),new Designacao("tipo_Equipa"),new Cor(60,60,70)), setCol));
         register("titulo2","descricaoBreve1", "icone1", "descricaoComleta1", list2, c2);
 
         return true;

@@ -18,7 +18,7 @@ public class Designacao implements ValueObject, Serializable, StringMixin {
 
     public Designacao(final String name) {
         Preconditions.nonEmpty(name, "Designation should neither be null nor empty");
-        Preconditions.ensure(name.length()<=30,"O tamanho máximo da designacao são 30 caracteres.");
+        Preconditions.ensure(name.length()<=30,"O tamanho máximo da designacao são 50 caracteres.");
         this.value = name;
     }
 

@@ -17,6 +17,7 @@
     <class>eapli.base.gestaoservicoshelpdesk.domain.Criticidade</class>
     <class>eapli.base.gestaoservicoshelpdesk.domain.Servico</class>
     <class>eapli.base.gestaoservicoshelpdesk.domain.Formulario</class>
+    <class>eapli.base.gestaoservicosrh.domain.TipoEquipa</class>
     <class>eapli.base.clientusermanagement.domain.ClientUser</class>
     <class>eapli.base.clientusermanagement.domain.SignupRequest</class>
 

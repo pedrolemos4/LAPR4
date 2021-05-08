@@ -26,6 +26,7 @@ package eapli.base.app.backoffice.console.presentation;
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
+import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipaUI;
 import eapli.base.app.backoffice.console.presentation.servicos.EspecificarServicoUI;
 import eapli.base.app.common.console.presentation.authz.MyUserMenu;
 import eapli.base.Application;
@@ -169,13 +170,12 @@ public class MainMenu extends AbstractUI {
             //mainMenu.addSubMenu(CRIAR_CATALOGO, gshMenu);
             //mainMenu.addSubMenu(ESPECIFICAR_SERVICO, gshMenu);
             //mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE, gshMenu);
-            final Menu menuServico = buildServicoMenu();
-            mainMenu.addSubMenu(ESPECIFICAR_SERVICO,menuServico);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuCatalogo = buildCatalogoMenu();
             mainMenu.addSubMenu(CRIAR_CATALOGO,menuCatalogo);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-
+            final Menu menuServico = buildServicoMenu();
+            mainMenu.addSubMenu(ESPECIFICAR_SERVICO,menuServico);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuCriticidade = buildCriticidadeMenu();
             mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE,menuCriticidade);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -188,6 +188,10 @@ public class MainMenu extends AbstractUI {
             final Menu menuCriarEquipa = buildEquipaMenu();
             mainMenu.addSubMenu(CRIAR_NOVA_EQUIPA, menuCriarEquipa);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuTipoEquipa = buildTipoEquipaMenu();
+            mainMenu.addSubMenu(REGISTAR_TIPO_EQUIPA,menuTipoEquipa);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -221,6 +225,12 @@ public class MainMenu extends AbstractUI {
 
         return menu;
     }*/
+
+    private Menu buildTipoEquipaMenu(){
+        final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
+        tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Equipa",()->new RegistarTipoEquipaUI().show());
+        return tipoEquipaMenu;
+    }
 
     private Menu buildEquipaMenu() {
         final Menu equipaMenu = new Menu("Equipa");
