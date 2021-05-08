@@ -9,8 +9,14 @@ public class ObjetivoDataWidget {
     private int tempoMedio;
 
     public void show(){
-        this.tempoMax = Console.readInteger("Tempo Maximo:");
-        this.tempoMedio = Console.readInteger("Tempo Minimo:");
+        tempoMax = 0;
+        while(tempoMax<=0) {
+            this.tempoMax = Console.readInteger("Tempo Maximo:");
+            tempoMedio = 0;
+            while(tempoMedio <= 0 || tempoMax < tempoMedio) {
+                this.tempoMedio = Console.readInteger("Tempo Medio:");
+            }
+        }
     }
 
     public int tempoMax(){

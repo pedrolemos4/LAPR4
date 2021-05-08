@@ -6,7 +6,10 @@ public class EscalaDataWidget {
     private int escala;
     
     public void show(){
-        this.escala = Console.readInteger("Escala:");
+        escala = 0;
+        while(escala <= 0 || escala > 5) {
+            this.escala = Console.readInteger("Escala:");
+        }
     }
 
     public int escala(){

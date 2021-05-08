@@ -6,7 +6,11 @@ public class EtiquetaDataWidget {
     private String etiqueta;
     
     public void show(){
-        this.etiqueta = Console.readLine("Etiqueta:");
+        try {
+            this.etiqueta = Console.readLine("Etiqueta:");
+        }catch (IllegalArgumentException e) {
+            System.out.println("Etiqueta nao pode ser null nem empty!");
+        }
     }
 
     public String etiqueta(){

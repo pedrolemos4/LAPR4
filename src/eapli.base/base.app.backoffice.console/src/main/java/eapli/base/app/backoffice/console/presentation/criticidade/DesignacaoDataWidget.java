@@ -7,7 +7,11 @@ public class DesignacaoDataWidget {
     private String designacao;
 
     public void show(){
-        this.designacao = Console.readLine("Designacao:");
+        try {
+            this.designacao = Console.readLine("Designacao:");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Designacao nao pode ser null nem empty!");
+        }
     }
 
     public String designacao(){
