@@ -24,7 +24,7 @@ public class EquipaBootstrapper implements Action {
     @Override
     public boolean execute() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(1190800),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), new EnderecoEmail("joao@gmail.com"));//, new Funcao(new CodigoUnico("1a"),new Descricao("coordenador")));
 
         Set<Colaborador> setCol = new HashSet<>();
@@ -36,7 +36,7 @@ public class EquipaBootstrapper implements Action {
         TipoEquipa t2 = new TipoEquipa(new CodigoUnico("t2"),new Designacao("tipo2"), new Cor(60,40,80));
        // registarTipoEquipaController.registarAlt(t2);
         //registarTipoEquipaController.registarTipoEquipa("t2","tipo2",60,40,80);
-        Colaborador c2 = new Colaborador(new MecanographicNumber(11909876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),new Data(1992,7,5)
+        Colaborador c2 = new Colaborador(new MecanographicNumber(119876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),new Data(1992,7,5)
                 ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), new EnderecoEmail("gustavo@gmail.com"));//, new Funcao(new CodigoUnico("2a"),new Descricao("ajunta")));
 
         Set<Colaborador> setCol2 = new HashSet<>();

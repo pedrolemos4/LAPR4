@@ -23,6 +23,7 @@ public class Contacto implements ValueObject {
      */
     public Contacto(final int number){
         this.number = number;
+        this.prefix=0;
     }
 
     public Contacto(final int prefix, final int number){

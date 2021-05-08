@@ -26,6 +26,7 @@ package eapli.base.app.backoffice.console.presentation;
 import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServicoUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
+import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipaUI;
@@ -121,6 +122,7 @@ public class MainMenu extends AbstractUI {
     private static final int REGISTAR_TIPO_EQUIPA = 2;
     private static final int ESPECIFICAR_COLABORADOR = 3;
     private static final int ASSOCIAR_REMOVER_COLABORADOR = 4;
+    private static final int ESPECIFICAR_COLABORADOR_FICHEIRO = 5;
 
     //colaborador
     private static final int CONSULTAR_CATALOGO_SERVICO = 1;
@@ -197,6 +199,9 @@ public class MainMenu extends AbstractUI {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuEspecificarColaborador = buildEspecificaColaboradorMenu();
             mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR, menuEspecificarColaborador);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuEspecificarColaboradorFicheiro = buildEspecificaColaboradorFicheiroMenu();
+            mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR_FICHEIRO, menuEspecificarColaboradorFicheiro);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         } else if(authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR)){
             final Menu menuCatalogoServico = buildConsultarCatalogoServico();
@@ -275,6 +280,12 @@ public class MainMenu extends AbstractUI {
     private Menu buildEspecificaColaboradorMenu(){
         final Menu colaboradorMenu = new Menu("Especificar Colaborador");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador",()->new EspecificarColaboradorUI().show());
+        return colaboradorMenu;
+    }
+
+    private Menu buildEspecificaColaboradorFicheiroMenu(){
+        final Menu colaboradorMenu = new Menu("Especificar Colaborador Pelo Ficheiro");
+        colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador Pelo Ficheiro",()->new LerFicheiroColaboradorUI().show());
         return colaboradorMenu;
     }
 

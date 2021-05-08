@@ -1,10 +1,9 @@
 package eapli.base.app.backoffice.console.presentation.colaborador;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
+import eapli.base.usermanagement.application.AddUserController;
 import eapli.framework.io.util.Console;
 import eapli.base.gestaoservicosrh.application.EspecificarColaboradorController;
 import eapli.base.usermanagement.domain.BaseRoles;
-import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.infrastructure.authz.domain.model.Role;
 import eapli.framework.presentation.console.AbstractUI;
@@ -15,6 +14,7 @@ import java.util.*;
 public class EspecificarColaboradorUI  extends AbstractUI {
 
     private final EspecificarColaboradorController controller = new EspecificarColaboradorController();
+    private final AddUserController userController = new AddUserController();
 
     @Override
     protected boolean doShow() {
@@ -76,7 +76,7 @@ public class EspecificarColaboradorUI  extends AbstractUI {
         try{
             final String password = this.controller.geraPassword();
             String fullName[]=fullNameWidget.value().split(" ");
-            this.controller.novoUtilizador(usernameWidget.value(),password,fullName[0],fullName[fullName.length-1], endereco.value(),listRole);
+            this.userController.addUser(usernameWidget.value(),password,fullName[0],fullName[fullName.length-1], endereco.value(),listRole);
             this.controller.novoColaborador(numberWidget.value(),fullNameWidget.value(),shortNameWidget.value(),dataWidget.value(),contactoWidget.prefix(), contactoWidget.prefix(), localResidenciaWidget.value(),endereco.value());
         }catch (final IntegrityViolationException e){
             System.out.println("Colaborador já existe");

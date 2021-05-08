@@ -63,7 +63,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
         this.endereco=null;
         this.localResidencia=null;
         this.contacto=null;
-      //  this.funcao=null;
         this.fullName=null;
     }
 

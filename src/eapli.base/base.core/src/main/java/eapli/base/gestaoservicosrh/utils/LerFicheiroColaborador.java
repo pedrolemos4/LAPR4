@@ -30,7 +30,7 @@ public class LerFicheiroColaborador {
             String residencia = split[11];
             String roles = split[12]; //Separado por espaços
 
-            for(int i=0;i<linha.length();i++){
+            for(int i=0;i<split.length;i++){
                 list.add(split[i]);
             }
             mapa.put(cont,list);
