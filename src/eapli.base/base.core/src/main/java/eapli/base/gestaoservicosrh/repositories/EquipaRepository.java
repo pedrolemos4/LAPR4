@@ -12,9 +12,9 @@ public interface EquipaRepository
         extends DomainRepository<CodigoUnico, Equipa> {
 
     /**
-     * returns the client user (utente) whose username is given
+     * returns the team whose code is given
      *
-     * @param email
+     * @param codigoUnico
      *            the username to search for
      * @return
      */

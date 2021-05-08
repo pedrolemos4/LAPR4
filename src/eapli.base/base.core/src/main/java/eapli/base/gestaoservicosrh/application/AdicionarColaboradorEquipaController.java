@@ -25,7 +25,7 @@ public class AdicionarColaboradorEquipaController {
     public void AdicionarColaboradorEquipaController(Equipa equipa, Colaborador colaborador) {
         try{
             authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
-            if(findTeam(equipa.identity()).isPresent() && findColaborador(colaborador.identity()).isPresent())
+            if(existsTeam(equipa.identity()) && existsColaborador(colaborador.identity()))
                 equipa.addMembro(colaborador);
         }
         catch(UnauthorizedException e){
@@ -34,11 +34,11 @@ public class AdicionarColaboradorEquipaController {
 
     }
 
-    public Optional<Equipa> findTeam(CodigoUnico ID){
-        return equipaRepository.findByCodigo(ID);
+    public boolean existsTeam(CodigoUnico ID){
+        return equipaRepository.containsOfIdentity(ID);
     }
 
-    public Optional<Colaborador> findColaborador(MecanographicNumber id){
-        return colaboradorRepository.findByMecanographicNumber(id);
+    public boolean existsColaborador(MecanographicNumber id){
+        return colaboradorRepository.containsOfIdentity(id);
     }
 }
