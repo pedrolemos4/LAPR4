@@ -23,7 +23,7 @@ public class FullName  implements ValueObject {
     }
 
     protected FullName() {
-
+        this.fullName = null;
     }
 
     @Override

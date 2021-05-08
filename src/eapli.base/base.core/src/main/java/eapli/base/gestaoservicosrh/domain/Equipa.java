@@ -33,7 +33,10 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     private Set<Colaborador> listResponsavel;
 
     @ManyToMany()
-    //@JoinColumn(name="LISTMEMBERS")
+    @JoinTable(
+            name = "listMembros",
+            joinColumns = @JoinColumn(name = "idEquipa"),
+            inverseJoinColumns = @JoinColumn(name = "colaboradorId"))
     private Set<Colaborador> listMembros;
 
     public Equipa(CodigoUnico codigo, Acronimo acronimo, Designacao desig, TipoEquipa tipo, Set<Colaborador> responsaveis) {

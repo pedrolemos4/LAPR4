@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> {
 
     Iterable<Equipa> findByColaborador(MecanographicNumber colab);
+
+    Iterable<Equipa> findEquipaDoCatalogo(Long identity);
 }

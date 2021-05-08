@@ -11,6 +11,7 @@ import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.application.AddUserController;
 import eapli.base.usermanagement.domain.*;
+import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.RandomRawPassword;
@@ -44,7 +45,7 @@ public class EspecificarColaboradorController {
         Data date = new Data(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]));
         Contacto contact = new Contacto(contacto);
         LocalResidencia local1 = new LocalResidencia(local);
-        EnderecoEmail email1 = new EnderecoEmail(email);
+        EmailAddress email1 = EmailAddress.valueOf(email);
         Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, date, contact, local1, email1);
         repository.save(colab);
     }

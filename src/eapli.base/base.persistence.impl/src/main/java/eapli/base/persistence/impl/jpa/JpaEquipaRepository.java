@@ -20,10 +20,20 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
     @Override
     public Iterable<Equipa> findByColaborador(MecanographicNumber number) {
         final TypedQuery<Equipa> q = createQuery(
-                "SELECT e FROM EQUIPA e INNER JOIN EQUIPA_COLABORADOR ec on e.CODIGOUNICO = ec.EQUIPA_CODIGOUNICO " +
-                        "WHERE ec.LISTMEMBROS_MECANOGRAPHICNUMBER :number AND e.mealType = :type",
+                "SELECT e FROM Equipa e JOIN e.listMembros ec " +
+                        "WHERE ec.numeroMecanografico =:number",
                 Equipa.class);
         q.setParameter("number", number);
+        return q.getResultList();
+    }
+
+    @Override
+    public Iterable<Equipa> findEquipaDoCatalogo(Long identity) {
+        final TypedQuery<Equipa> q = createQuery(
+                "SELECT ec FROM Catalogo e JOIN e.listEquipas ec WHERE" +
+                        " e.identificador =:identity",
+                Equipa.class);
+        q.setParameter("identity", identity);
         return q.getResultList();
     }
 

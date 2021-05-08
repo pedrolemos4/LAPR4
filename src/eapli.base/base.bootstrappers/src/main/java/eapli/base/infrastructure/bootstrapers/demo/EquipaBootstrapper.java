@@ -9,6 +9,7 @@ import eapli.base.usermanagement.domain.*;
 import eapli.framework.actions.Action;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.general.domain.model.EmailAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +26,7 @@ public class EquipaBootstrapper implements Action {
     public boolean execute() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(1190800),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), new EnderecoEmail("joao@gmail.com"));//, new Funcao(new CodigoUnico("1a"),new Descricao("coordenador")));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"),  EmailAddress.valueOf("joao@gmail.com"));//, new Funcao(new CodigoUnico("1a"),new Descricao("coordenador")));
 
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
@@ -37,7 +38,7 @@ public class EquipaBootstrapper implements Action {
        // registarTipoEquipaController.registarAlt(t2);
         //registarTipoEquipaController.registarTipoEquipa("t2","tipo2",60,40,80);
         Colaborador c2 = new Colaborador(new MecanographicNumber(11909876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),new Data(1992,7,5)
-                ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), new EnderecoEmail("gustavo@gmail.com"));//, new Funcao(new CodigoUnico("2a"),new Descricao("ajunta")));
+                ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));//, new Funcao(new CodigoUnico("2a"),new Descricao("ajunta")));
 
         Set<Colaborador> setCol2 = new HashSet<>();
         setCol2.add(c1);
@@ -49,9 +50,6 @@ public class EquipaBootstrapper implements Action {
 
     private void register(final String cod, final String acronimo, final String desig, final TipoEquipa tipo, final Set<Colaborador> responsaveis) {
         try {
-            if(responsaveis==null){
-                System.out.println("boomerVaz");
-            }
             controller.novaEquipa(cod,acronimo,desig,tipo,responsaveis);
             LOGGER.info(cod);
         } catch (final IntegrityViolationException | ConcurrencyException e) {

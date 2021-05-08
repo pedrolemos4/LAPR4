@@ -9,6 +9,7 @@ import eapli.base.usermanagement.domain.*;
 import eapli.framework.actions.Action;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.general.domain.model.EmailAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +27,7 @@ public class CatalogoBootstrapper implements Action {
     @Override
     public boolean execute() {
         Colaborador c1 = new Colaborador(new MecanographicNumber(1190800), new ShortName("Joao"), new FullName("Joao Alves"), new Data(2001, 3, 8)
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), new EnderecoEmail("joao@gmail.com"));// new Funcao(new CodigoUnico("1a"), new Descricao("coordenador")*/));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));// new Funcao(new CodigoUnico("1a"), new Descricao("coordenador")*/));
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);

@@ -45,7 +45,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
-        registaColaborador(1190800,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", "joao@gmail.com");
+        registaColaborador(1190800,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", EMAILADMIN);
 
         registerUser("orgColab","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.COLABORADOR);
 

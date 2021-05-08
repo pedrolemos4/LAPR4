@@ -27,4 +27,7 @@ public class ShortName implements ValueObject {
         return shortName;
     }
 
+    protected ShortName(){
+        this.shortName = null;
+    }
 }

@@ -1,7 +1,6 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Catalogo;
-import eapli.base.gestaoservicoshelpdesk.domain.Identificador;
+import eapli.base.gestaoservicoshelpdesk.domain.*;
 import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
@@ -17,7 +16,7 @@ public class JpaCatalogoRepository extends BasepaRepositoryBase<Catalogo, Long, 
     }
 
     @Override
-    public Iterable<Catalogo> findCatalogos(String titulo, String descricaobreve, String descricaocompleta) {
+    public Iterable<Catalogo> findCatalogos(Titulo titulo, DescricaoBreve descricaobreve, DescricaoCompletaCatalogo descricaocompleta) {
         //APENAS DESCRICAOCOMPLETA
         if(titulo==null && descricaobreve == null && descricaocompleta != null) {
             return findByDescricaoCompleta(descricaocompleta);
@@ -43,63 +42,64 @@ public class JpaCatalogoRepository extends BasepaRepositoryBase<Catalogo, Long, 
         return null;
     }
 
-    public Iterable<Catalogo>findByDescricaoCompleta(String descricaocompleta){
+    public Iterable<Catalogo>findByDescricaoCompleta(DescricaoCompletaCatalogo descricaoCompleta){
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.descricaocompleta = :descricaocompleta",
+                "SELECT e FROM Catalogo e WHERE e.descricaoCompleta = :descricaoCompleta",
                 Catalogo.class);
-        q.setParameter("descricaocompleta", descricaocompleta);
+        q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
     }
 
-    public Iterable<Catalogo>findByDescricaoBreve(String descricaobreve){
+    public Iterable<Catalogo>findByDescricaoBreve(DescricaoBreve descricaoBreve){
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.descricaobreve = :descricaobreve",
+                "SELECT e FROM Catalogo e WHERE e.descricaoBreve = :descricaoBreve",
                 Catalogo.class);
-        q.setParameter("descricaobreve", descricaobreve);
+        q.setParameter("descricaoBreve", descricaoBreve);
         return q.getResultList();
     }
 
-    public Iterable<Catalogo>findByTitulo(String titulo){
+    public Iterable<Catalogo>findByTitulo(Titulo titulo){
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.titulo = :titulo",
+                "SELECT e FROM Catalogo e WHERE e.titulo = :titulo",
                 Catalogo.class);
         q.setParameter("titulo", titulo);
         return q.getResultList();
     }
 
-    public Iterable<Catalogo>findByTituloDescricaoBreve(String titulo, String descricaobreve){
+    public Iterable<Catalogo>findByTituloDescricaoBreve(Titulo titulo, DescricaoBreve descricaoBreve){
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.titulo = :titulo AND e.descricaobreve = :descricaobreve",
+                "SELECT e FROM Catalogo e WHERE e.titulo = :titulo AND e.descricaoBreve = :descricaoBreve",
                 Catalogo.class);
         q.setParameter("titulo", titulo);
-        q.setParameter("descricaobreve", descricaobreve);
+        q.setParameter("descricaoBreve", descricaoBreve);
         return q.getResultList();
     }
 
-    public Iterable<Catalogo>findByTituloDescricaoCompleta(String titulo, String descricaocompleta){
+    public Iterable<Catalogo>findByTituloDescricaoCompleta(Titulo titulo, DescricaoCompletaCatalogo descricaoCompleta){
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.titulo = :titulo AND e.descricaocompleta = :descricaocompleta",
+                "SELECT e FROM Catalogo e WHERE e.titulo = :titulo AND e.descricaoCompleta = :descricaoCompleta",
                 Catalogo.class);
         q.setParameter("titulo", titulo);
-        q.setParameter("descricaocompleta", descricaocompleta);
+        q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
     }
 
-    public Iterable<Catalogo>findByDescricaoBreveDescricaoCompleta(String descricaobreve, String descricaocompleta) {
+    public Iterable<Catalogo>findByDescricaoBreveDescricaoCompleta(DescricaoBreve descricaoBreve, DescricaoCompletaCatalogo descricaoCompleta) {
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.descricaobreve = :descricaobreve AND e.descricaocompleta = :descricaocompleta",
+                "SELECT e FROM Catalogo e WHERE e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
                 Catalogo.class);
-        q.setParameter("descricaobreve", descricaobreve);
-        q.setParameter("descricaocompleta", descricaocompleta);
+        q.setParameter("descricaoBreve", descricaoBreve);
+        q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
     }
 
-    public Iterable<Catalogo>findTodos(String titulo, String descricaobreve, String descricaocompleta){
+    public Iterable<Catalogo>findTodos(Titulo titulo, DescricaoBreve descricaoBreve, DescricaoCompletaCatalogo descricaoCompleta){
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM CATALOGO e WHERE e.descricaobreve = :descricaobreve AND e.descricaocompleta = :descricaocompleta",
+                "SELECT e FROM Catalogo e WHERE e.titulo = :titulo AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
                 Catalogo.class);
-        q.setParameter("descricaobreve", descricaobreve);
-        q.setParameter("descricaocompleta", descricaocompleta);
+        q.setParameter("titulo", titulo);
+        q.setParameter("descricaoBreve", descricaoBreve);
+        q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
     }
 

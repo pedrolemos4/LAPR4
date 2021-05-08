@@ -33,7 +33,9 @@ public class Catalogo implements AggregateRoot<Long>{
     private final Icone icone;
 
     @OneToMany()
-    @JoinTable(name = "LIST")
+    @JoinTable(name = "LIST",
+            joinColumns = @JoinColumn(name = "identificadorCat"),
+            inverseJoinColumns = @JoinColumn(name = "equipaId"))
     private Set<Equipa> listEquipas = new HashSet<>();
 
     @OneToMany()
@@ -107,5 +109,16 @@ public class Catalogo implements AggregateRoot<Long>{
         return DomainEntities.hashCode(this);
     }
 
-
+    @Override
+    public String toString() {
+        return "Catalogo{" +
+                "titulo=" + titulo +
+                ", descricaoCompleta=" + descricaoCompleta +
+                ", descricaoBreve=" + descricaoBreve +
+                ", icone=" + icone +
+                ", listEquipas=" + listEquipas +
+                ", listServicos=" + listServicos +
+                ", colab=" + colab +
+                '}';
+    }
 }
