@@ -10,8 +10,6 @@ import java.util.Set;
 @Entity
 public class Formulario implements AggregateRoot<Long> {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue
     private Long pk;
@@ -19,17 +17,28 @@ public class Formulario implements AggregateRoot<Long> {
     @Version
     private Long version;
 
-    @Column(name="Formulario")
-    private Titulo titulo;
+    @Column(name="Titulo")
+    private final Titulo titulo;
 
     @ElementCollection
     private Set<Atributo> atributos = new HashSet<>();
 
     protected Formulario(){
         //ORM
+        this.titulo=null;
     }
 
-    public Formulario(String titulo, Set<Atributo> listaAtributos) {
+    @Override
+    public String toString() {
+        return "Formulario{" +
+                "pk=" + pk +
+                ", version=" + version +
+                ", titulo=" + titulo +
+                ", atributos=" + atributos.size() +
+                '}';
+    }
+
+    public Formulario(final String titulo, final Set<Atributo> listaAtributos) {
         this.titulo = new Titulo(titulo);
 
         Preconditions.nonNull(listaAtributos);
@@ -53,6 +62,6 @@ public class Formulario implements AggregateRoot<Long> {
 
     @Override
     public Long identity() {
-        return null;
+        return pk;
     }
 }

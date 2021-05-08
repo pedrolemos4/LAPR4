@@ -5,6 +5,7 @@
  */
 package eapli.base.clientusermanagement.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import eapli.framework.domain.model.ValueObject;
@@ -20,6 +21,7 @@ public class MecanographicNumber implements ValueObject, Comparable<Mecanographi
 
     private static final long serialVersionUID = 1L;
 
+    @Column(name="MecanographicNumber")
     private int number;
 
     public MecanographicNumber(final int mecanographicNumber) {

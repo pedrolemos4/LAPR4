@@ -5,6 +5,7 @@ import eapli.framework.strings.StringMixin;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 public class Designacao implements ValueObject, Serializable, StringMixin {
     private static final long serialVersionUID = 1L;
 
+    @Column(name="Designacao")
     private final String value;
 
     public Designacao(final String name) {

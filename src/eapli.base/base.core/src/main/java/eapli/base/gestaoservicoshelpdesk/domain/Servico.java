@@ -29,17 +29,17 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @Enumerated(EnumType.STRING)
     private EstadoServico estado;
 
-    @OneToOne(cascade = CascadeType.ALL)
+   /* @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="formulario")
     private Formulario formulario;
-
+*/
 
     public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;
         this.titulo = builder.titulo;
         this.descricaoBreve = builder.descricaoBreve;
         this.descricaoCompleta = builder.descricaoCompleta;
-        this.formulario= builder.formulario;
+  //      this.formulario= builder.formulario;
     }
 
     protected Servico() {
@@ -48,7 +48,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.titulo=null;
         this.descricaoCompleta=null;
         this.estado=null;
-        this.formulario=null;
+    //    this.formulario=null;
     }
 
 
@@ -62,7 +62,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     @Override
     public CodigoUnico identity() {
-        return null;
+        return codigoUnico;
     }
 
     public EstadoServico estado() {
@@ -112,8 +112,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
             return this;
         }
 
-        public ServicoBuilder withFormulario(String titulo, Set<Atributo> listaAtributos) {
-            this.formulario = new Formulario(titulo, listaAtributos);
+        public ServicoBuilder withFormulario(Formulario formulario) {
+            this.formulario = formulario;
             return this;
         }
 

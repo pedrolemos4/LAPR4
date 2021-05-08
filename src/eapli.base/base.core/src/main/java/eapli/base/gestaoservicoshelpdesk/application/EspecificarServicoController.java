@@ -1,9 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.application;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Atributo;
-import eapli.base.gestaoservicoshelpdesk.domain.DraftServico;
-import eapli.base.gestaoservicoshelpdesk.domain.Formulario;
-import eapli.base.gestaoservicoshelpdesk.domain.Servico;
+import eapli.base.gestaoservicoshelpdesk.domain.*;
 import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.FormularioRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
@@ -11,7 +8,6 @@ import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import org.hibernate.mapping.Formula;
 
 import java.util.Set;
 
@@ -25,26 +21,33 @@ public class EspecificarServicoController {
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
-                                   final String descricaoCompleta,final String tituloFormulario, Set<Atributo> listaAtributos) {
-        if (descricaoBreve == null || descricaoCompleta == null) {
-            DraftServico draftServico = new DraftServico(codigoUnico, descricaoBreve, descricaoCompleta, titulo,
-                    tituloFormulario,listaAtributos);
-            this.draftServicoRepository.save(draftServico);
-        } else {
-            final Formulario formulario = new Formulario(tituloFormulario,listaAtributos);
-            formularioRepository.save(formulario);
-            final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
-                    .withDescricaoBreve(descricaoBreve)
-                    .withDescricaoCompleta(descricaoCompleta)
-                    .withFormulario(tituloFormulario,listaAtributos)
-                    .build();
-            servico.makeUnavailable();
-            this.servicoRepository.save(servico);
-        }
+                                   final String descricaoCompleta, Formulario formulario) {
+
+        final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
+                .withDescricaoBreve(descricaoBreve)
+                .withDescricaoCompleta(descricaoCompleta)
+                .withFormulario(formulario)
+                .build();
+        servico.makeUnavailable();
+        this.servicoRepository.save(servico);
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label){
-        final Atributo atributo = new Atributo(nomeVariavel,label);
+    public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos){
+        final Formulario formulario = new Formulario(titulo, listaAtributos);
+        //System.out.println(formulario.toString());
+        this.formularioRepository.save(formulario);
+        return formulario;
+    }
+
+    public void createDraftServico(final String codigoUnico, final String titulo, final String descricaoBreve,
+                                   final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos) {
+        DraftServico draftServico = new DraftServico(codigoUnico, descricaoBreve, descricaoCompleta, titulo,
+                tituloFormulario, listaAtributos);
+        this.draftServicoRepository.save(draftServico);
+    }
+
+    public Atributo createAtributo(String nomeVariavel, String label) {
+        final Atributo atributo = new Atributo(nomeVariavel, label);
         return atributo;
     }
 

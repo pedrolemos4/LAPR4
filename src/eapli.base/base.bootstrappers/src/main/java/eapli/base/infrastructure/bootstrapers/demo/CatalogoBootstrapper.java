@@ -40,7 +40,7 @@ public class CatalogoBootstrapper implements Action {
 
     private void register(final String codigoUnico, final String titulo, final String descricaoBreve,
                           final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos) {
-        try {
+        /*try {
             controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,
                     tituloFormulario, listaAtributos);
             LOGGER.info(codigoUnico);
@@ -49,6 +49,6 @@ public class CatalogoBootstrapper implements Action {
             // due to the tentative of inserting a duplicated user
             LOGGER.warn("Assuming {} already exists (activate trace log for details)", codigoUnico);
             LOGGER.trace("Assuming existing record", e);
-        }
+        }*/
     }
 }

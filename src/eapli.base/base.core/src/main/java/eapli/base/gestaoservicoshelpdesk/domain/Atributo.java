@@ -28,4 +28,8 @@ public class Atributo implements ValueObject {
         this.nomeVariavel=nomeVariavel;
         this.label=label;
     }
+
+    public String nomeVariavel(){
+        return this.nomeVariavel;
+    }
 }

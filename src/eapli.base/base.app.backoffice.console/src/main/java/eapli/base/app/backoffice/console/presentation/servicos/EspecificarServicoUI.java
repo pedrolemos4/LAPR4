@@ -2,6 +2,8 @@ package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.gestaoservicoshelpdesk.application.EspecificarServicoController;
 import eapli.base.gestaoservicoshelpdesk.domain.Atributo;
+import eapli.base.gestaoservicoshelpdesk.domain.DraftServico;
+import eapli.base.gestaoservicoshelpdesk.domain.Formulario;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
@@ -39,13 +41,13 @@ public class EspecificarServicoUI extends AbstractUI {
         formularioData.show();
         boolean flag = true;
         Set<Atributo> listaAtributos = new HashSet<>();
-        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(),formularioData.label());
+        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
-        while(flag){
+        while (flag) {
             String resposta;
             System.out.println("Deseja adicionar mais atributos ao formulário?");
-            resposta=Console.readLine("Resposta(S/N):");
-            if(resposta.equalsIgnoreCase("Sim")|| resposta.equalsIgnoreCase("S")){
+            resposta = Console.readLine("Resposta(S/N):");
+            if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
                 formularioData.atributo();
                 atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
                 listaAtributos.add(atributo);
@@ -53,15 +55,21 @@ public class EspecificarServicoUI extends AbstractUI {
                 flag = false;
             }
         }
-
-
-        try{
-            this.theController.especificarServico(codigoUnicoData.codigoUnico(),tituloData.titulo(),descricaoBreveData.descricao(),
-                    descricaoCompletaData.descricao(),formularioData.titulo(),listaAtributos);
-        } catch (final IntegrityViolationException e) {
-            System.out.println("Erro.");
+        System.out.println("LINHA58");
+        System.out.println(descricaoBreveData.descricao().toString());
+        if (descricaoBreveData.descricao() == null && descricaoCompletaData.descricao() == null) {
+            System.out.println("PAREDES É VIDA CRLH");
+            this.theController.createDraftServico(codigoUnicoData.codigoUnico(), descricaoBreveData.descricao(),
+                    descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos);
+        } else {
+            try {
+                Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
+                this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
+                        descricaoCompletaData.descricao(), formulario);
+            } catch (final IntegrityViolationException e) {
+                System.out.println("Erro.");
+            }
         }
-
         return false;
     }
 
