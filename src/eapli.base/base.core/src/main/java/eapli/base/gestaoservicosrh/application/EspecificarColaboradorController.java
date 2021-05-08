@@ -35,7 +35,7 @@ public class EspecificarColaboradorController {
     }
 
     public void novoColaborador(final int numeroMecanografico, final String nomeCompleto, final String nomeCurto,
-                                       final String dataNascimento, final int contacto, final String local, final String email) {
+                                       final String dataNascimento, final int prefix, final int contacto, final String local, final String email) {
         System.out.println("Antes");
         authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
         System.out.println("Depois");
@@ -44,7 +44,12 @@ public class EspecificarColaboradorController {
         FullName fullName = new FullName(nomeCompleto);
         String[] split = dataNascimento.split("/");
         Data date = new Data(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]));
-        Contacto contact = new Contacto(contacto);
+        Contacto contact ;
+        if(prefix==0) {
+            contact = new Contacto(contacto);
+        }else{
+            contact = new Contacto(prefix, contacto);
+        }
         LocalResidencia local1 = new LocalResidencia(local);
         EnderecoEmail email1 = new EnderecoEmail(email);
         Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, date, contact, local1, email1);

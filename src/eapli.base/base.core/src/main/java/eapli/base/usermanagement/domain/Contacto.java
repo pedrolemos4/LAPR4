@@ -15,7 +15,7 @@ public class Contacto implements ValueObject {
     @Column(name="PREFIX")
     private int prefix;
 
-    public Contacto() {}
+    protected Contacto() {}
 
     /**
      * Construtor de contacto

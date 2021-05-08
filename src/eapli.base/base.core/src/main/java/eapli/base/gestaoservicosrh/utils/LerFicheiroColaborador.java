@@ -25,9 +25,10 @@ public class LerFicheiroColaborador {
             String fullName = split[6];
             String shortName = split[7];
             String data = split[8];
-            int contacto = Integer.parseInt(split[9]);
-            String residencia = split[10];
-            String roles = split[11]; //Separado por espaços
+            int prefix = Integer.parseInt(split[9]);
+            int contacto = Integer.parseInt(split[10]);
+            String residencia = split[11];
+            String roles = split[12]; //Separado por espaços
 
             for(int i=0;i<linha.length();i++){
                 list.add(split[i]);
