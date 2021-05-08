@@ -1,8 +1,6 @@
 package eapli.base.usermanagement.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicoshelpdesk.domain.EnderecoEmail;
-import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
 import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.framework.domain.model.AggregateRoot;
@@ -37,10 +35,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @Column(name="EMAIL")
     private EmailAddress endereco;
 
-   /* @OneToOne()
-    @JoinColumn(name="FUNCAO")
-    private Funcao funcao;*/
-
     @Column(name="CONTACTO")
     private Contacto contacto;
 
@@ -55,7 +49,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
             this.fullName = fullName;
             this.dataNasc = dataNasc;
             this.contacto = contacto;
-      //      this.funcao=funcao;
             this.endereco=endereco;
             this.localResidencia=localResidencia;
         }
@@ -70,7 +63,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
         this.endereco=null;
         this.localResidencia=null;
         this.contacto=null;
-      //  this.funcao=null;
         this.fullName=null;
     }
 
@@ -83,7 +75,6 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
                 ", localResidencia=" + localResidencia +
                 ", dataNasc=" + dataNasc +
                 ", endereco=" + endereco +
-               // ", funcao=" + funcao +
                 ", contacto=" + contacto +
                 '}';
     }

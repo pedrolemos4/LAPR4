@@ -45,7 +45,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
-        registaColaborador(1190800,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", EMAILADMIN);
+        registaColaborador(119080,"João","João Alves Pereira","1984/10/25",931203457, "Bairro Baixo", EMAILADMIN);
 
         registerUser("orgColab","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.COLABORADOR);
 
@@ -53,7 +53,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
-        registaColaborador(11909876,"Gustavo","Gustavo Mike White","1992/07/05",932705057, "Bairro Alto", "gustavo@gmail.com");
+        registaColaborador(119876,"Gustavo","Gustavo Mike White","1992/07/05", 351,932705057, "Bairro Alto", "gustavo@gmail.com");
 
         registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
@@ -87,8 +87,8 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     }
 
     private void registaColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
-                                     final String dataNascimento, final int contacto, final String local, final String email){
+                                     final String dataNascimento, final int prefix, final int contacto, final String local, final String email){
 
-        registerColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, contacto, local,email);
+        registerColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, prefix, contacto, local,email);
     }
 }

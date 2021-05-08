@@ -26,7 +26,7 @@ public class CatalogoBootstrapper implements Action {
 
     @Override
     public boolean execute() {
-        Colaborador c1 = new Colaborador(new MecanographicNumber(1190800), new ShortName("Joao"), new FullName("Joao Alves"), new Data(2001, 3, 8)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves"), new Data(2001, 3, 8)
                 , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));// new Funcao(new CodigoUnico("1a"), new Descricao("coordenador")*/));
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();

@@ -1,6 +1,5 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
