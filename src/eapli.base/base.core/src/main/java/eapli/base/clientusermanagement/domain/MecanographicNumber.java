@@ -25,7 +25,7 @@ public class MecanographicNumber implements ValueObject, Comparable<Mecanographi
     private int number;
 
     public MecanographicNumber(final int mecanographicNumber) {
-        if (mecanographicNumber!=0) {
+        if (mecanographicNumber==0) {
             throw new IllegalArgumentException(
                     "Mecanographic Number should neither be null nor empty");
         }

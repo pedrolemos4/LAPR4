@@ -11,11 +11,11 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class Catalogo implements AggregateRoot<Identificador>{
+public class Catalogo implements AggregateRoot<Long>{
 
     @Id
     @GeneratedValue
-    private Identificador identificador;
+    private Long identificador;
 
     @Version
     private Long version;
@@ -71,7 +71,7 @@ public class Catalogo implements AggregateRoot<Identificador>{
     }
 
     @Override
-    public Identificador identity() {
+    public Long identity() {
         return identificador;
     }
 

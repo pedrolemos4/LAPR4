@@ -34,22 +34,22 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @Column(name="EMAIL")
     private EnderecoEmail endereco;
 
-    @OneToOne()
+   /* @OneToOne()
     @JoinColumn(name="FUNCAO")
-    private Funcao funcao;
+    private Funcao funcao;*/
 
     @Column(name="CONTACTO")
     private Contacto contacto;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Data dataNasc, Contacto contacto,
-                        LocalResidencia localResidencia, EnderecoEmail endereco, Funcao funcao) {
+                        LocalResidencia localResidencia, EnderecoEmail endereco){//}, Funcao funcao) {
         try {
             this.numeroMecanografico = numeroMecanografico;
             this.shortName = shortName;
             this.fullName = fullName;
             this.dataNasc = dataNasc;
             this.contacto = contacto;
-            this.funcao=funcao;
+      //      this.funcao=funcao;
             this.endereco=endereco;
             this.localResidencia=localResidencia;
         }
@@ -64,7 +64,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
         this.endereco=null;
         this.localResidencia=null;
         this.contacto=null;
-        this.funcao=null;
+      //  this.funcao=null;
         this.fullName=null;
     }
 
@@ -77,7 +77,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
                 ", localResidencia=" + localResidencia +
                 ", dataNasc=" + dataNasc +
                 ", endereco=" + endereco +
-                ", funcao=" + funcao +
+               // ", funcao=" + funcao +
                 ", contacto=" + contacto +
                 '}';
     }

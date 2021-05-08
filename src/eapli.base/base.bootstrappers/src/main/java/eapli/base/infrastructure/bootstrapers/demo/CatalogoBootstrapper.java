@@ -25,27 +25,26 @@ public class CatalogoBootstrapper implements Action {
 
     @Override
     public boolean execute() {
-        Colaborador c1 =new Colaborador(new MecanographicNumber(111),new ShortName("Joao"),new FullName("Joao Alves"),new Data(2001,3,8)
-                ,new Contacto(965824578),new LocalResidencia("Penafiel"), new EnderecoEmail("joao@gmail.com"), new Funcao(new CodigoUnico("1a"),new Descricao("coordenador")));
+        Colaborador c1 = new Colaborador(new MecanographicNumber(1190800), new ShortName("Joao"), new FullName("Joao Alves"), new Data(2001, 3, 8)
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), new EnderecoEmail("joao@gmail.com"));// new Funcao(new CodigoUnico("1a"), new Descricao("coordenador")*/));
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
-        list.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa"),  new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te1"),new Designacao("tipoEquipa"),new Cor(50,60,70)), setCol));
+        list.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te1"), new Designacao("tipoEquipa"), new Cor(50, 60, 70)), setCol));
+        register("titulo1", "descricaoBreve", "icone", "descricaoComleta", list, c1);
 
-        register("titulo1","descricaoBreve", "icone", "descricaoComleta", list, c1);
-
-        Colaborador c2 =new Colaborador(new MecanographicNumber(123),new ShortName("Raquel"),new FullName("Raquel Alves"),new Data(2001,3,8)
-                ,new Contacto(925681204),new LocalResidencia("Penafiel"), new EnderecoEmail("raquel@gmail.com"), new Funcao(new CodigoUnico("2a"),new Descricao("ajunta")));
+/*        Colaborador c2 = new Colaborador(new MecanographicNumber(123), new ShortName("Raquel"), new FullName("Raquel Alves"), new Data(2001, 3, 8)
+                , new Contacto(925681204), new LocalResidencia("Penafiel"), new EnderecoEmail("raquel@gmail.com"));//, new Funcao(new CodigoUnico("2a"), new Descricao("ajunta")));
         Set<Equipa> list2 = new HashSet<>();
-        list2.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa"),  new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te2"),new Designacao("tipo_Equipa"),new Cor(60,60,70)), setCol));
-        register("titulo2","descricaoBreve1", "icone1", "descricaoComleta1", list2, c2);
-
+        list2.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa2"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo_Equipa"), new Cor(60, 60, 70)), setCol));
+        register("titulo2", "descricaoBreve1", "icone1", "descricaoComleta1", list2, c2);
+*/
         return true;
     }
 
     private void register(final String titulo, final String descricaoBreve, final String icone,
                           final String descricaoCompleta, final Iterable<Equipa> listaEquipas, Colaborador colaborador) {
-        final InputStream inputStream = this.getClass()
+      /*  final InputStream inputStream = this.getClass()
                 .getClassLoader()
                 .getResourceAsStream(icone);
 
@@ -53,16 +52,16 @@ public class CatalogoBootstrapper implements Action {
             LOGGER.warn("Could not load image {}", icone);
             // fallback to registration without image
             //register(titulo);
-        } else {
-            try {
-                controller.novoCatalogo(titulo, descricaoBreve, icone, descricaoCompleta, listaEquipas, colaborador);
-                LOGGER.info(titulo);
-            } catch (final IntegrityViolationException | ConcurrencyException e) {
-                // ignoring exception. assuming it is just a primary key violation
-                // due to the tentative of inserting a duplicated user
-                LOGGER.warn("Assuming {} already exists (activate trace log for details)", titulo);
-                LOGGER.trace("Assuming existing record", e);
-            }
+        } else {*/
+        try {
+            controller.novoCatalogo(titulo, descricaoBreve, icone, descricaoCompleta, listaEquipas, colaborador);
+            LOGGER.info(titulo);
+        } catch (final IntegrityViolationException | ConcurrencyException e) {
+            // ignoring exception. assuming it is just a primary key violation
+            // due to the tentative of inserting a duplicated user
+            LOGGER.warn("Assuming {} already exists (activate trace log for details)", titulo);
+            LOGGER.trace("Assuming existing record", e);
         }
     }
+
 }

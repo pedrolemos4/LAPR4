@@ -53,8 +53,8 @@ public class NovoCatalogoUI extends AbstractUI {
         final TituloDataWidget tituloDataWidget = new TituloDataWidget();
         tituloDataWidget.show();
 
-        final IdentificadorDataWidget identificadorDataWidget = new IdentificadorDataWidget();
-        identificadorDataWidget.show();
+       // final IdentificadorDataWidget identificadorDataWidget = new IdentificadorDataWidget();
+        //identificadorDataWidget.show();
 
         final DescricaoBreveDataWidget descricaoBreveDataWidget = new DescricaoBreveDataWidget();
         descricaoBreveDataWidget.show();

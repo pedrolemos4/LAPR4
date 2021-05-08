@@ -23,7 +23,7 @@ public class EspecificarColaboradorController {
 
     public void novoColaborador(final int numeroMecanografico, final String nomeCompleto, final String nomeCurto,
                                        final String dataNascimento, final int contacto, final String local, final String email, final String desc, final String codigo) {
-        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.COLABORADOR);
+        authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(numeroMecanografico);
         ShortName shortName = new ShortName(nomeCurto);
         FullName fullName = new FullName(nomeCompleto);
@@ -34,8 +34,8 @@ public class EspecificarColaboradorController {
         EnderecoEmail email1 = new EnderecoEmail(email);
         Descricao desc1 = new Descricao(desc);
         CodigoUnico cod = new CodigoUnico(codigo);
-        Funcao funcao = new Funcao(cod,desc1);
-        Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, date, contact, local1, email1, funcao);
+       Funcao funcao = new Funcao(cod,desc1);
+        Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, date, contact, local1, email1);//, funcao);
         repository.save(colab);
     }
 
