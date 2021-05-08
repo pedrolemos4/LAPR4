@@ -12,7 +12,7 @@ participant NovoCatalogoCTRL as Controller <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 participant Catalogo as Catalogo <<Domain>>
-database UtilizadorRepository as URepository <<repository>>
+database ColaboradorRepository as URepository <<repository>>
 database EquipaRepository as ERepository <<repository>>
 database CatalogoRepository as CRepository <<repository>>
 
@@ -32,7 +32,7 @@ activate Actor
     deactivate Persistence
     deactivate Factory
     deactivate URepository
-        Controller -> URepository: listColaboradores = listColaboradores()
+        Controller -> URepository: listColaboradores = findAll()
     activate URepository
         Controller --> UI: listColaboradores
     deactivate URepository
@@ -61,9 +61,9 @@ activate Actor
       Actor -> UI: Escolhe
     end loop
     activate UI
-      UI -> Controller: novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
+      UI -> Controller: novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
     activate Controller
-      Controller -> Catalogo: cat = Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
+      Controller -> Catalogo: cat = Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
     activate Catalogo
     deactivate Catalogo
       Controller -> Persistence: repositories()

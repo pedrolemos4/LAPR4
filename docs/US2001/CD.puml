@@ -16,22 +16,19 @@ class EquipaRepository <<repository>>
 
 NovoCatalogoUI --> NovoCatalogoController : theController
 
-NovoCatalogoController -> UtilizadorRepository
+NovoCatalogoController -> ColaboradorRepository
 NovoCatalogoController -> CatalogoRepository
 NovoCatalogoController -> EquipaRepository
 NovoCatalogoController -> Catalogo
 
-NovoCatalogoController : getEquipas ()
-NovoCatalogoController : novoObjetivo(tempoMax,tempoMedio)
-NovoCatalogoController : novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj)
-NovoCatalogoController : novoCatalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
+NovoCatalogoController : getEquipas()
+NovoCatalogoController : novoCatalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
 
-Catalogo : Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
-Catalogo : Catalogo(identificador,titulo,descricaoBreve,descricaoCompleta,icone,listEquipas,obj) 
+Catalogo : Catalogo(titulo,descricaoBreve,descricaoCompleta,icone,listEquipas)
 
 CatalogoRepository : save(cat)
 
-UtilizadorRepository : listColaboradores()
+ColaboradorRepository : findAll()
 
 EquipaRepository : listEquipas()
 
