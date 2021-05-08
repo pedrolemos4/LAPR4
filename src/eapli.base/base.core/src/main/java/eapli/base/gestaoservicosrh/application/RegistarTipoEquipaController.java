@@ -29,4 +29,8 @@ public class RegistarTipoEquipaController {
         return this.repository.save(newTipoEquipa);
     }
 
+    public TipoEquipa registarAlt(TipoEquipa tipoEquipa){
+        return this.repository.save(tipoEquipa);
+    }
+
 }

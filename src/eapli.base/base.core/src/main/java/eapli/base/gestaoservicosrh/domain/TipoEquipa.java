@@ -4,10 +4,7 @@ import eapli.base.gestaoservicoshelpdesk.domain.Cor;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.validations.Preconditions;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 @Entity
 
@@ -18,6 +15,7 @@ public class TipoEquipa implements AggregateRoot<CodigoUnico> {
 
     @Id
     @Column(name="Codigo_Unico")
+    //@OneToOne(targetEntity = Equipa.class)
     private final CodigoUnico codigoUnico;
 
     @Column(name="Designacao")
@@ -25,6 +23,7 @@ public class TipoEquipa implements AggregateRoot<CodigoUnico> {
 
     @Column(name="Cor")
     private final Cor cor;
+
 
     protected TipoEquipa(){
         this.codigoUnico=null;

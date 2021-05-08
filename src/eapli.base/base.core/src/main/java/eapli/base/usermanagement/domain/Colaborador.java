@@ -4,11 +4,13 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicoshelpdesk.domain.EnderecoEmail;
 import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
 import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.framework.domain.model.AggregateRoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Colaborador implements AggregateRoot<MecanographicNumber>{
@@ -40,6 +42,9 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
 
     @Column(name="CONTACTO")
     private Contacto contacto;
+
+    @ManyToMany(mappedBy = "listResponsavel")
+    private Set<Equipa> likes;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Data dataNasc, Contacto contacto,
                         LocalResidencia localResidencia, EnderecoEmail endereco){//}, Funcao funcao) {

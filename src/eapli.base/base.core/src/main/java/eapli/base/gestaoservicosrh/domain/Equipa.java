@@ -21,11 +21,15 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "DESIGNACAO")
     private Designacao designacao;
 
-    @Column(name = "TIPO_EQUIPA")
+    @OneToOne(cascade=CascadeType.ALL)//one-to-one
+    @JoinColumn(name="TipoEquipa")
     private TipoEquipa tipo;
 
     @ManyToMany()
-    //@JoinColumn(name="RESPONSAVEL", referencedColumnName = "numeroMecanografico")
+    @JoinTable(
+            name = "tabelaIntermedia",
+            joinColumns = @JoinColumn(name = "equipa_id"),
+            inverseJoinColumns = @JoinColumn(name = "colaborador_id"))
     private Set<Colaborador> listResponsavel;
 
     @ManyToMany()

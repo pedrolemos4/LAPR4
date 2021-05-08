@@ -30,7 +30,7 @@ public class CatalogoBootstrapper implements Action {
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
-        list.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te1"), new Designacao("tipoEquipa"), new Cor(50, 60, 70)), setCol));
+        list.add(new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol));
         register("titulo1", "descricaoBreve", "icone", "descricaoComleta", list, c1);
 
 /*        Colaborador c2 = new Colaborador(new MecanographicNumber(123), new ShortName("Raquel"), new FullName("Raquel Alves"), new Data(2001, 3, 8)
@@ -53,6 +53,7 @@ public class CatalogoBootstrapper implements Action {
             // fallback to registration without image
             //register(titulo);
         } else {*/
+
         try {
             controller.novoCatalogo(titulo, descricaoBreve, icone, descricaoCompleta, listaEquipas, colaborador);
             LOGGER.info(titulo);
