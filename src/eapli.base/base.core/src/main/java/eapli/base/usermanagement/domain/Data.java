@@ -23,7 +23,7 @@ public class Data implements ValueObject {
         this.dia=dia;
     }
 
-    public Data() {
+    protected Data() {
         this.mes=0;
         this.ano=0;
         this.dia=0;
