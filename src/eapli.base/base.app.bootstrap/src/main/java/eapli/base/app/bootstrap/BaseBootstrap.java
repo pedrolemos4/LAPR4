@@ -48,18 +48,19 @@ public final class BaseBootstrap extends BaseApplication {
         System.out.println("\n\n------- MASTER DATA -------");
         new BaseBootstrapper().execute();
         new EquipaBootstrapper().execute();
-        new ServicoBootstrapper().execute();
         new CatalogoBootstrapper().execute();
+        new ServicoBootstrapper().execute();
 
 
-        if (isToBootstrapDemoData) {
+
+        /*if (isToBootstrapDemoData) {
             System.out.println("\n\n------- DEMO DATA -------");
             new BaseDemoBootstrapper().execute();
         }
         if (isToRunSampleE2E) {
             System.out.println("\n\n------- BASIC SCENARIO -------");
             new BaseDemoSmokeTester().execute();
-        }
+        }*/
     }
 
     private void handleArgs(final String[] args) {

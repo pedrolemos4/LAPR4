@@ -37,8 +37,9 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="formulario",referencedColumnName = "id")
     private Formulario formulario;
 
-    @ManyToOne
-    @JoinColumn(name="catalogo",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade =
+            CascadeType.ALL)
+    @JoinColumn(name="catalogo")
     private Catalogo catalogo;
 
     public Servico(ServicoBuilder builder) {

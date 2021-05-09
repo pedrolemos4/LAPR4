@@ -43,7 +43,7 @@ public class ServicoBootstrapper implements Action {
         register("cod123", "tituloServico", "descricaoServicoBreve", "descricaoServicoCompleta",
                 "tituloFormulario", listAtributos, keywords, cat);
 
-        /*Set<Atributo> listAtributos1 = new HashSet<>();
+        Set<Atributo> listAtributos1 = new HashSet<>();
         listAtributos1.add(new Atributo("nomeVariavel1", "label1"));
         Set<String> keywords1 = new HashSet<>();
         keywords1.add("key2");
@@ -69,7 +69,6 @@ public class ServicoBootstrapper implements Action {
         register("cod789", "tituloServico2", "descricaoServicoBreve2", "descricaoServicoCompleta2",
                 "tituloFormulario2", listAtributos2, keywords2, cat2);
 
-*/
         return true;
     }
 
