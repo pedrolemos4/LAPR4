@@ -6,35 +6,31 @@ skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-class EspecificarColaboradorUI <<presentation>>
-class EspecificarColaboradorController <<application>>
+class LerFicheiroColaboradorUI <<presentation>>
+class LerFicheiroColaboradorController <<application>>
+class LerFicheiroColaborador <<domain>>
 class Colaborador <<domain>>
-class RandomRawPassword <<domain>>
+class UserController <<presentation>>>
 class ColaboradorRepository <<repository>>
-class SystemUser <<repository>>
-class AddUserController <<presentation>>>
+class User <<repository>>
 
 
-EspecificarColaboradorUI --> EspecificarColaboradorController : theController
+LerFicheiroColaboradorUI --> LerFicheiroColaboradorController : theController
 
-EspecificarColaboradorController -> Colaborador
-EspecificarColaboradorController -> RandomRawPassword
-EspecificarColaboradorController -> ColaboradorRepository
-EspecificarColaboradorController -> AddUserController
-EspecificarColaboradorController -> SystemUser
-
-EspecificarColaboradorController : geraPassword()
-EspecificarColaboradorController : novoUtilizador(username,password,firstName,lastName,endereco)
-EspecificarColaboradorController : novoColaborador(numMecanografico,nomeCurto,nomeCompleto,dataNascimento,localResidencia,endereco,contacto)
+LerFicheiroColaboradorController -> LerFicheiroColaborador
+LerFicheiroColaboradorController -> UserController
+LerFicheiroColaboradorController -> ColaboradorRepository
+LerFicheiroColaboradorController -> Colaborador
+LerFicheiroColaboradorController -> User
 
 Colaborador : new Colaborador(numMecanografico,nomeCurto,nomeCompleto,dataNascimento,localResidencia,endereco,contacto)
 
-RandomRawPassword : toString()
-
-SystemUser : save(newUser)
+LerFicheiroColaborador : lerDados()
 
 ColaboradorRepository : save(colab)
 
-AddUserController : addUser(username,password,firstname,lastName,endereco,set)
+LerFicheiroColaboradorController : lerDados()
+
+UserController : addUser(username,password,firstname,lastName,endereco,set)
 
 @enduml

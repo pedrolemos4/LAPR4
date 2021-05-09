@@ -15,7 +15,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @Column(name = "ID_EQUIPA")
     private final CodigoUnico codigo;
 
-    @Column(name = "ACRONIMO")
+    @Column(name = "ACRONIMO", unique = true)
     private Acronimo acronimo;
 
     @Column(name = "DESIGNACAO")

@@ -20,4 +20,15 @@ public class DesignacaoTest extends TestCase {
         Designacao d1 = new Designacao("desig");
         assertEquals(d1.toString(), "desig");
     }
+
+    public void testValueOf() {
+        Designacao a1 = new Designacao("teste1");
+        Designacao a2 = Designacao.valueOf("teste1");
+        assertEquals(a1,a2);
+    }
+
+    public void testHashCode() {
+        Designacao a1 = new Designacao("teste1");
+        assertEquals(a1.hashCode(),-877168391);
+    }
 }
