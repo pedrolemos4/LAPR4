@@ -89,7 +89,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
 
     @Override
     public CodigoUnico identity() {
-        return null;
+        return codigo;
     }
 
     @Override

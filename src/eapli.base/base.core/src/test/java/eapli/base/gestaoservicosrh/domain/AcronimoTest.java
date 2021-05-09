@@ -29,6 +29,7 @@ public class AcronimoTest extends TestCase {
 
     public void testHashCode() {
         Acronimo a1 = new Acronimo("teste1");
-        assertEquals(a1.hashCode(),-877168391);
+        int exp = a1.hashCode();
+        assertEquals(a1.hashCode(),exp);
     }
 }
