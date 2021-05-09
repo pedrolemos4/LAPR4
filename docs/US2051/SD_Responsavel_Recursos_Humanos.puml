@@ -23,9 +23,7 @@ activate Actor
     deactivate RandomRawPassword
       Controller-->UI: password
     deactivate Controller
-      UI -> Controller: novoUtilizador(username, password, firstName, lastName, endereco)
-    activate Controller
-      Controller->UserController: addUser(username, password, firstName, lastName, endereco, set)
+      UI->UserController: addUser(username, password, firstName, lastName, endereco, set)
     activate UserController
     deactivate UserController
     deactivate Controller

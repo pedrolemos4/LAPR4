@@ -10,9 +10,9 @@ class LerFicheiroColaboradorUI <<presentation>>
 class LerFicheiroColaboradorController <<application>>
 class LerFicheiroColaborador <<domain>>
 class Colaborador <<domain>>
-class SystemUserBuilder <<domain>>
 class UserController <<presentation>>>
 class ColaboradorRepository <<repository>>
+class User <<repository>>
 
 
 LerFicheiroColaboradorUI --> LerFicheiroColaboradorController : theController
@@ -20,17 +20,16 @@ LerFicheiroColaboradorUI --> LerFicheiroColaboradorController : theController
 LerFicheiroColaboradorController -> LerFicheiroColaborador
 LerFicheiroColaboradorController -> UserController
 LerFicheiroColaboradorController -> ColaboradorRepository
-
-LerFicheiroColaborador -> Colaborador
-LerFicheiroColaborador -> SystemUserBuilder
+LerFicheiroColaboradorController -> Colaborador
+LerFicheiroColaboradorController -> User
 
 Colaborador : new Colaborador(numMecanografico,nomeCurto,nomeCompleto,dataNascimento,localResidencia,endereco,contacto)
 
 LerFicheiroColaborador : lerDados()
 
-SystemUserBuilder : build()
-
 ColaboradorRepository : save(colab)
+
+User : save()
 
 LerFicheiroColaboradorController : lerDados()
 
