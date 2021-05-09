@@ -28,10 +28,6 @@ public class DescricaoBreve implements ValueObject, Serializable, StringMixin {
         this.value = null;
     }
 
-    public int length() {
-        return this.value.length();
-    }
-
     public static DescricaoBreve valueOf(final String name) {
         return new DescricaoBreve(name);
     }

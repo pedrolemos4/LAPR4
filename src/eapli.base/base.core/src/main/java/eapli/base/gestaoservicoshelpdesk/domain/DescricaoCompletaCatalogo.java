@@ -26,10 +26,6 @@ public class DescricaoCompletaCatalogo implements ValueObject, Serializable, Str
         this.value = null;
     }
 
-    public int length() {
-        return this.value.length();
-    }
-
     public static DescricaoCompletaCatalogo valueOf(final String name) {
         return new DescricaoCompletaCatalogo(name);
     }

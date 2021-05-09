@@ -93,12 +93,20 @@ public class Catalogo implements AggregateRoot<Long>{
 
     @Override
     public boolean sameAs(Object other) {
-        return false;
+        if(!(other instanceof Catalogo)){
+            return false;
+        }
+        final Catalogo that = (Catalogo) other;
+        if(this == that){
+            return true;
+        }
+        return titulo.equals(that.titulo) && descricaoCompleta.equals(that.descricaoCompleta) && descricaoBreve.equals(that.descricaoBreve) &&
+                icone.equals(that.icone); //&& colab.equals(that.colab);
     }
 
     @Override
     public Long identity() {
-        return identificador;
+        return this.identificador;
     }
 
     @Override

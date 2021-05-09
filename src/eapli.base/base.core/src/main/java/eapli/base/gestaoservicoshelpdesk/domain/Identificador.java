@@ -19,6 +19,6 @@ public class Identificador implements ValueObject, Comparable<Identificador> {
 
     @Override
     public int compareTo(Identificador o) {
-        return 0;
+        return identificador.compareTo(o.identificador);
     }
 }
