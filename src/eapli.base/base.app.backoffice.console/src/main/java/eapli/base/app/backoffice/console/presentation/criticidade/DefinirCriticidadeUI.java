@@ -40,8 +40,10 @@ public class DefinirCriticidadeUI extends AbstractUI {
         try{
             this.controller.defineCriticidade(obj.tempoMax(), obj.tempoMedio()
                     , et.etiqueta(), esc.escala(),  c.newColor()/*c.r(), c.g(), c.b()*/, desig.designacao());
-        } catch (final IntegrityViolationException e) {
-            System.out.println("Erro.");
+        } catch (Exception e) {
+            System.out.println("Erro");
+            System.out.println("");
+            doShow();
         }
         String answer = Console.readLine("Deseja adicionar mais niveis de criticidade (S/N)?");
             if("N".equalsIgnoreCase(answer)){
@@ -53,8 +55,14 @@ public class DefinirCriticidadeUI extends AbstractUI {
         
         final DesignacaoDataWidget desig = new DesignacaoDataWidget();
         desig.show();
-        
-        this.controller.defineContrato(desig.designacao());
+
+        try {
+            this.controller.defineContrato(desig.designacao());
+        }catch (Exception e) {
+            System.out.println("Erro");
+            System.out.println("");
+            doShow();
+        }
 
         return false;
     }

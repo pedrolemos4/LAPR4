@@ -78,8 +78,10 @@ public class EspecificarColaboradorUI  extends AbstractUI {
             String fullName[]=fullNameWidget.value().split(" ");
             this.userController.addUser(usernameWidget.value(),password,fullName[0],fullName[fullName.length-1], endereco.value(),listRole);
             this.controller.novoColaborador(numberWidget.value(),fullNameWidget.value(),shortNameWidget.value(),dataWidget.value(),contactoWidget.prefix(), contactoWidget.contact(), localResidenciaWidget.value(),endereco.value());
-        }catch (final IntegrityViolationException e){
-            System.out.println("Colaborador já existe");
+        }catch (Exception e) {
+            System.out.println("Erro");
+            System.out.println("");
+            doShow();
         }
 
         return false;
