@@ -24,7 +24,7 @@ public class RemoverColaboradorEquipaController {
 
 
 
-    public Equipa removerColaboradorEquipa(String codigoEquipa, int nrColab){
+    public void removerColaboradorEquipa(String codigoEquipa, int nrColab){
         CodigoUnico codigoUnico = new CodigoUnico(codigoEquipa);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(nrColab);
         try{
@@ -33,13 +33,12 @@ public class RemoverColaboradorEquipaController {
                 Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
                 Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
                 equipa.listMembros().remove(colaborador);
-                return this.equipaRepository.save(equipa);
+                this.equipaRepository.delete(equipa);
             }
         }
         catch(UnauthorizedException e){
             System.out.println("ERROR: You dont have the permission to do this action");
         }
-        return null;
     }
 
     public boolean existsTeam(CodigoUnico ID){
