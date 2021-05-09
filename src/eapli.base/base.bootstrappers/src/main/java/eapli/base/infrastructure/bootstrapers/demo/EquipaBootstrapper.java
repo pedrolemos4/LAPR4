@@ -26,7 +26,7 @@ public class EquipaBootstrapper implements Action {
     public boolean execute() {
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"),  EmailAddress.valueOf("joao@gmail.com"));//, new Funcao(new CodigoUnico("1a"),new Descricao("coordenador")));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"),  EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
@@ -38,7 +38,7 @@ public class EquipaBootstrapper implements Action {
        // registarTipoEquipaController.registarAlt(t2);
         //registarTipoEquipaController.registarTipoEquipa("t2","tipo2",60,40,80);
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),new Data(1992,7,5)
-                ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));//, new Funcao(new CodigoUnico("2a"),new Descricao("ajunta")));
+                ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));
 
         Set<Colaborador> setCol2 = new HashSet<>();
         setCol2.add(c1);

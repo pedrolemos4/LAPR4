@@ -1,20 +1,21 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicoshelpdesk.application.EspecificarServicoController;
 import eapli.base.gestaoservicoshelpdesk.application.NovoCatalogoController;
-import eapli.base.gestaoservicoshelpdesk.domain.Atributo;
-import eapli.base.gestaoservicoshelpdesk.domain.Catalogo;
-import eapli.base.gestaoservicoshelpdesk.domain.Formulario;
-import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.usermanagement.domain.Colaborador;
+import eapli.base.gestaoservicoshelpdesk.domain.*;
+import eapli.base.gestaoservicosrh.domain.*;
+import eapli.base.usermanagement.domain.*;
 import eapli.framework.actions.Action;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.general.domain.model.EmailAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ServicoBootstrapper implements Action {
@@ -25,23 +26,50 @@ public class ServicoBootstrapper implements Action {
 
     @Override
     public boolean execute() {
-        /*register(TestDataConstants.ALLERGEN_GLUTEN,
-                "Cereais que contêm glúten (trigo, centeio, cevada, aveia, espelta, gamut ou outras estirpes hibridizadas) e produtos à base destes cereais");
-        register(TestDataConstants.ALLERGEN_CRUSTACEOS, "Crustáceos e produtos à base de crustáceos");
-        register("ovos", "Ovos e produtos à base de ovos");
-        register(TestDataConstants.ALLERGEN_PEIXES, "Peixes e produtos à base de peixe", "images/sardinha.jpg");
-        register("amendoins", "Amendoins e produtos à base de amendoins");
-        register("soja", "Soja e produtos à base de sojaAmendoins e produtos à base de amendoins");
-        register("leite", "Leite e produtos à base de leite (incluindo lactose)");
-        register("frutossecos",
-                "Frutos de casca rija, nomeadamente, amêndoas, avelãs, nozes, castanhas de caju, pistácios, entre outros");
-        register("aipo", "Aipo e produtos à base de aipo");
-        register("mostarda", "Mostarda e produtos à base de mostarda");
-        register("sesamo", "Sementes de sésamo e produtos à base de sementes de sésamo");
-        register("sulfitos",
-                "Dióxido de enxofre e sulfitos em concentrações superiores a 10mg/Kg ou 10ml/L");
-        register("tremoco", "Tremoço e produtos à base de tremoço");
-        register("moluscos", "Moluscos e produtos à base de moluscos");*/
+        Set<Atributo> listAtributos = new HashSet<>();
+        listAtributos.add(new Atributo("nomeVariavel", "label"));
+        Set<String> keywords = new HashSet<>();
+        keywords.add("key1");
+
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves"), new Data(1984, 10, 25)
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+        Set<Equipa> list = new HashSet<>();
+        Set<Colaborador> setCol = new HashSet<>();
+        setCol.add(c1);
+        list.add(new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol));
+
+
+        Catalogo cat = new Catalogo(new Titulo("titulo1"), c1, new DescricaoCompletaCatalogo("descricaoCompleta"), new DescricaoBreve("descricaoBreve"), new Icone("icone"), list);
+        register("cod123", "tituloServico", "descricaoServicoBreve", "descricaoServicoCompleta",
+                "tituloFormulario", listAtributos, keywords, cat);
+
+        /*Set<Atributo> listAtributos1 = new HashSet<>();
+        listAtributos1.add(new Atributo("nomeVariavel1", "label1"));
+        Set<String> keywords1 = new HashSet<>();
+        keywords1.add("key2");
+
+        register("cod147", "tituloServico1", "descricaoServicoBreve1", "descricaoServicoCompleta1",
+                "tituloFormulario1", listAtributos1, keywords1, cat);
+
+        Set<Atributo> listAtributos2 = new HashSet<>();
+        listAtributos2.add(new Atributo("nomeVariavel1", "label1"));
+        Set<String> keywords2 = new HashSet<>();
+        keywords2.add("key2");
+        keywords2.add("key1");
+
+        //--------------------------------- SERVICOS DE OUTRO CATALOGO -------------------------------
+        Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Gustavo"), new FullName("Gustavo Mike White"), new Data(1992, 7, 5)
+                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));
+        Set<Colaborador> setCol1 = new HashSet<>();
+        setCol1.add(c2);
+        Set<Equipa> list2 = new HashSet<>();
+        list2.add(new Equipa(new CodigoUnico("e2"), new Acronimo("EQP2"), new Designacao("equipa2"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo2"), new Cor(60, 60, 80)), setCol1));
+        Catalogo cat2 = new Catalogo(new Titulo("titulo2"), c2, new DescricaoCompletaCatalogo("descricaoCompleta2"), new DescricaoBreve("descricaoBreve2"), new Icone("icone2"), list2);
+
+        register("cod789", "tituloServico2", "descricaoServicoBreve2", "descricaoServicoCompleta2",
+                "tituloFormulario2", listAtributos2, keywords2, cat2);
+
+*/
         return true;
     }
 

@@ -8,6 +8,7 @@ import eapli.base.infrastructure.bootstrapers.BaseBootstrapper;
 import eapli.base.infrastructure.bootstrapers.demo.BaseDemoBootstrapper;
 import eapli.base.infrastructure.bootstrapers.demo.CatalogoBootstrapper;
 import eapli.base.infrastructure.bootstrapers.demo.EquipaBootstrapper;
+import eapli.base.infrastructure.bootstrapers.demo.ServicoBootstrapper;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.infrastructure.smoketests.BaseDemoSmokeTester;
 
@@ -47,7 +48,9 @@ public final class BaseBootstrap extends BaseApplication {
         System.out.println("\n\n------- MASTER DATA -------");
         new BaseBootstrapper().execute();
         new EquipaBootstrapper().execute();
+        new ServicoBootstrapper().execute();
         new CatalogoBootstrapper().execute();
+
 
         if (isToBootstrapDemoData) {
             System.out.println("\n\n------- DEMO DATA -------");

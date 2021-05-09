@@ -20,26 +20,30 @@ import java.util.Set;
 
 public class CatalogoBootstrapper implements Action {
 
-    private static final Logger LOGGER = LogManager.getLogger(ServicoBootstrapper.class);
+    private static final Logger LOGGER = LogManager.getLogger(CatalogoBootstrapper.class);
 
     private final NovoCatalogoController controller = new NovoCatalogoController();
 
     @Override
     public boolean execute() {
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves"), new Data(2001, 3, 8)
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));// new Funcao(new CodigoUnico("1a"), new Descricao("coordenador")*/));
+        // PRIMEIRO CATALOGO
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves"), new Data(1984, 10, 25)
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
         list.add(new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol));
-        register("titulo1", "descricaoBreve", "icone", "descricaoComleta", list, c1);
+        register("titulo1", "descricaoBreve", "icone", "descricaoCompleta", list, c1);
 
-/*        Colaborador c2 = new Colaborador(new MecanographicNumber(123), new ShortName("Raquel"), new FullName("Raquel Alves"), new Data(2001, 3, 8)
-                , new Contacto(925681204), new LocalResidencia("Penafiel"), new EnderecoEmail("raquel@gmail.com"));//, new Funcao(new CodigoUnico("2a"), new Descricao("ajunta")));
+        // SEGUNDO CATALOGO
+        Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Gustavo"), new FullName("Gustavo Mike White"), new Data(1992, 7, 5)
+                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));
+        Set<Colaborador> setCol1 = new HashSet<>();
+        setCol1.add(c2);
         Set<Equipa> list2 = new HashSet<>();
-        list2.add(new Equipa(new CodigoUnico("op147"), new Acronimo("equipa2"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo_Equipa"), new Cor(60, 60, 70)), setCol));
-        register("titulo2", "descricaoBreve1", "icone1", "descricaoComleta1", list2, c2);
-*/
+        list2.add(new Equipa(new CodigoUnico("e2"), new Acronimo("EQP2"), new Designacao("equipa2"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo2"), new Cor(60, 60, 80)), setCol1));
+        register("titulo2", "descricaoBreve2", "icone2", "descricaoCompleta2", list2, c2);
+
         return true;
     }
 
