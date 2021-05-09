@@ -14,7 +14,7 @@ control DefinirCriticidadeController as Controller <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 database CriticidadeRepository as CRepository <<repository>>
-database CatalogoRepository as Repository <<repository>>
+database ContratoRepository as Repository <<repository>>
 participant "Objetivo" as Objetivo <<domain>>
 participant "TempoMed" as TempoMed <<domain>>
 participant "Cor" as Cor <<domain>>

@@ -10,7 +10,7 @@ class DefinirCriticidadeUI <<presentation>>
 class DefinirCriticidadeController <<application>>
 class PersistenceContext <<persistence>>
 class RepositoryFactory <<factory>>
-class CatalogoRepository <<repository>>
+class ContratoRepository <<repository>>
 class CriticidadeRepository <<repository>>
 
 
@@ -22,7 +22,7 @@ DefinirCriticidadeController : defineCriticidade(obj, etiqueta, escala, cor, des
 DefinirCriticidadeController : defineContrato(designacao)
 
 DefinirCriticidadeController --> CriticidadeRepository
-DefinirCriticidadeController --> CatalogoRepository
+DefinirCriticidadeController --> ContratoRepository
 DefinirCriticidadeController --> PersistenceContext
 PersistenceContext : repositories()
 DefinirCriticidadeController --> RepositoryFactory
@@ -31,11 +31,11 @@ RepositoryFactory : criticidade()
 
 PersistenceContext --> RepositoryFactory
 RepositoryFactory --> CriticidadeRepository
-RepositoryFactory --> CatalogoRepository
+RepositoryFactory --> ContratoRepository
 
 CriticidadeRepository : save(nivelCriticidade)
 CriticidadeRepository : findAllCriticidade()
 
-CatalogoRepository : save(cont)
+ContratoRepository : save(cont)
 
 @enduml
