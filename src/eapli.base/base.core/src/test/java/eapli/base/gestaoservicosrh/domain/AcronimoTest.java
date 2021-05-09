@@ -20,4 +20,15 @@ public class AcronimoTest extends TestCase {
         Acronimo a1 = new Acronimo("teste1");
         assertEquals(a1.toString(), "teste1");
     }
+
+    public void testValueOf() {
+        Acronimo a1 = new Acronimo("teste1");
+        Acronimo a2 = Acronimo.valueOf("teste1");
+        assertEquals(a1,a2);
+    }
+
+    public void testHashCode() {
+        Acronimo a1 = new Acronimo("teste1");
+        assertEquals(a1.hashCode(),-877168391);
+    }
 }

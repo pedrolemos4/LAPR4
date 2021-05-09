@@ -64,4 +64,15 @@ public class EquipaTest extends TestCase {
 
         assertEquals(expResult, novaEquipa.toString());
     }
+
+    public void testHashCode() {
+        TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
+
+        Set<Colaborador> list = new HashSet<>();
+        list.add(c1);
+        Equipa novaEquipa = new Equipa(new CodigoUnico("cod"), new Acronimo("acronimo1"), new Designacao("desig"), t1, list);
+        assertEquals(novaEquipa.hashCode(),1147);
+    }
 }
