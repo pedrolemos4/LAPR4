@@ -177,6 +177,7 @@ public class MainMenu extends AbstractUI {
     private Menu buildAssociarRemoverColaborador() {
         final Menu associarRemoverColaborador = new Menu("Associar/Remover Colaborador");
         associarRemoverColaborador.addItem(CONSULTAR_CATALOGO_SERVICO,"Associar/Remover Colaborador",()->new AdicionarRemoverColaboradorUI().show());
+        associarRemoverColaborador.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return associarRemoverColaborador;
     }
 
@@ -206,51 +207,59 @@ public class MainMenu extends AbstractUI {
     private Menu buildConsultarCatalogoServico(){
         final Menu consultarCatalogoServicoMenu = new Menu("Consultar Catálogo e/ou Serviço");
         consultarCatalogoServicoMenu.addItem(CONSULTAR_CATALOGO_SERVICO,"Consultar Catálogo e/ou Serviço",()->new ListCatalogoServicoUI().show());
+        consultarCatalogoServicoMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return consultarCatalogoServicoMenu;
     }
 
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
         tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Equipa",()->new RegistarTipoEquipaUI().show());
+        tipoEquipaMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return tipoEquipaMenu;
     }
 
     private Menu buildEquipaMenu() {
         final Menu equipaMenu = new Menu("Equipa");
         equipaMenu.addItem(CRIAR_NOVA_EQUIPA, "Criar Equipa", () -> new CriarEquipaUI().show());
+        equipaMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return equipaMenu;
     }
 
     private Menu buildCriticidadeMenu(){
         final Menu criticidadeMenu = new Menu("Criticidade");
         criticidadeMenu.addItem(DEFINIR_NIVEIS_CRITICIDADE, "Definir Criticidade",()->new DefinirCriticidadeUI().show());
+        criticidadeMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return criticidadeMenu;
     }
 
     private Menu buildCatalogoMenu(){
         final Menu catalogoMenu = new Menu("Catalogo");
         catalogoMenu.addItem(CRIAR_CATALOGO,"Criar Catalogo",()->new NovoCatalogoUI().show());
+        catalogoMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return catalogoMenu;
     }
 
     private Menu buildServicoMenu(){
         final Menu servicoMenu = new Menu("Serviço");
         servicoMenu.addItem(ESPECIFICAR_SERVICO,"Especificar Serviço",()->new EspecificarServicoUI().show());
+        servicoMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return servicoMenu;
     }
 
     private Menu buildEspecificaColaboradorMenu(){
         final Menu colaboradorMenu = new Menu("Especificar Colaborador");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador",()->new EspecificarColaboradorUI().show());
+        colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return colaboradorMenu;
     }
 
     private Menu buildEspecificaColaboradorFicheiroMenu(){
         final Menu colaboradorMenu = new Menu("Especificar Colaborador Pelo Ficheiro");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador Pelo Ficheiro",()->new LerFicheiroColaboradorUI().show());
+        colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
         return colaboradorMenu;
     }
-
+/*
     private Menu buildGSHMenu() {
         final Menu gshMenu = new Menu("Menu Gestor de Serviços HelpDesk >");
         gshMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
@@ -265,7 +274,7 @@ public class MainMenu extends AbstractUI {
         rrhMenu.addSubMenu(REGISTAR_TIPO_EQUIPA, rrhMenu);
         rrhMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
         return rrhMenu;
-    }
+    }*/
 }
 
 
