@@ -6,11 +6,13 @@ import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
 import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.*;
+import eapli.framework.application.UseCaseController;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.RandomRawPassword;
 
+@UseCaseController
 public class EspecificarColaboradorController {
 
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
