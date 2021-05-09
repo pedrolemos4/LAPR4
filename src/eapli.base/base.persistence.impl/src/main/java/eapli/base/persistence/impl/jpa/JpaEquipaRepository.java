@@ -3,6 +3,7 @@ package eapli.base.persistence.impl.jpa;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicosrh.domain.CodigoUnico;
 import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.usermanagement.domain.Colaborador;
 
@@ -35,6 +36,17 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
                 Equipa.class);
         q.setParameter("identity", identity);
         return q.getResultList();
+    }
+
+    @Override
+    public Equipa validate(TipoEquipa tipo, MecanographicNumber identity) {
+        final TypedQuery<Equipa> q = createQuery(
+                "SELECT e FROM Equipa e JOIN e.listMembros ec WHERE " +
+                        " ec.numeroMecanografico =:identity AND e.TipoEquipa =:tipo",
+                Equipa.class);
+        q.setParameter("identity", identity);
+        q.setParameter("tipo", tipo);
+        return q.getSingleResult();
     }
 
 }

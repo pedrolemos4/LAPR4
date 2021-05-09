@@ -64,17 +64,13 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
 
     public boolean addMembro(Colaborador colab) {
         try {
-            validateColab(colab,this.tipo);
-            return listMembros.add(colab);
+
+            return true;
         }
         catch (IllegalArgumentException e){
             System.out.println("ERROR: This collaborator has already an associated team if this type");
             return false;
         }
-    }
-
-    private void validateColab(Colaborador colab, TipoEquipa tipo) {
-
     }
 
     public boolean removerMembro(Colaborador colab) {

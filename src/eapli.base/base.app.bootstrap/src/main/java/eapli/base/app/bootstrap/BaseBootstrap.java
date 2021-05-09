@@ -48,7 +48,7 @@ public final class BaseBootstrap extends BaseApplication {
         System.out.println("\n\n------- MASTER DATA -------");
         new BaseBootstrapper().execute();
         new EquipaBootstrapper().execute();
-        new ServicoBootstrapper().execute();
+        //new ServicoBootstrapper().execute();
         new CatalogoBootstrapper().execute();
 
 
