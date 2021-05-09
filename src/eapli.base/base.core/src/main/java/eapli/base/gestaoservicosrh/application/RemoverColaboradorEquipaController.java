@@ -9,7 +9,6 @@ import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.base.usermanagement.domain.Colaborador;
-import eapli.base.usermanagement.domain.repositories.UserRepository;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;

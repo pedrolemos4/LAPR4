@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Funcao {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "CODIGO")
     private CodigoUnico codigo;
 

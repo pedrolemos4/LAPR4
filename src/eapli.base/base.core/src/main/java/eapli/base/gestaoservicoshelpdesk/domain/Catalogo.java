@@ -13,7 +13,7 @@ import java.util.*;
 public class Catalogo implements AggregateRoot<Long>{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="id")
     private Long identificador;
 

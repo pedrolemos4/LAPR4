@@ -28,16 +28,11 @@ import eapli.base.app.common.console.presentation.authz.LoginUI;
 //import eapli.base.app.backoffice.console.presentation.MainMenu;
 import eapli.base.app.backoffice.console.presentation.MainMenu;
 import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegisteredFromSignupWatchDog;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
-import eapli.base.clientusermanagement.domain.events.SignupAcceptedEvent;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
-import eapli.base.usermanagement.domain.Utilizador;
-import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.domain.model.Password;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
 

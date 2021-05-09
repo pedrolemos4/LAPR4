@@ -28,6 +28,7 @@ import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
+import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipaUI;
 import eapli.base.app.backoffice.console.presentation.servicos.EspecificarServicoUI;
@@ -63,55 +64,6 @@ public class MainMenu extends AbstractUI {
 
     private static final int EXIT_OPTION = 0;
 
- /*   // USERS
-    private static final int ADD_USER_OPTION = 1;
-    private static final int LIST_USERS_OPTION = 2;
-    private static final int DEACTIVATE_USER_OPTION = 3;
-    private static final int ACCEPT_REFUSE_SIGNUP_REQUEST_OPTION = 4;
-
-    // SETTINGS
-    private static final int SET_KITCHEN_ALERT_LIMIT_OPTION = 1;
-
-    // DISH TYPES
-    private static final int DISH_TYPE_REGISTER_OPTION = 1;
-    private static final int DISH_TYPE_LIST_OPTION = 2;
-    private static final int DISH_TYPE_CHANGE_OPTION = 3;
-    private static final int DISH_TYPE_ACTIVATE_DEACTIVATE_OPTION = 4;
-
-    // DISHES
-    private static final int DISH_REGISTER_OPTION = 5;
-    private static final int DISH_LIST_OPTION = 6;
-    private static final int DISH_REGISTER_DTO_OPTION = 7;
-    private static final int DISH_LIST_DTO_OPTION = 8;
-    private static final int DISH_ACTIVATE_DEACTIVATE_OPTION = 9;
-    private static final int DISH_CHANGE_OPTION = 10;
-
-    // DISH PROPERTIES
-    private static final int CHANGE_DISH_NUTRICIONAL_INFO_OPTION = 1;
-    private static final int CHANGE_DISH_PRICE_OPTION = 2;
-
-    // MATERIALS
-    private static final int MATERIAL_REGISTER_OPTION = 1;
-    private static final int MATERIAL_LIST_OPTION = 2;
-
-    // REPORTING
-    private static final int REPORTING_DISHES_PER_DISHTYPE_OPTION = 1;
-    private static final int REPORTING_HIGH_CALORIES_DISHES_OPTION = 2;
-    private static final int REPORTING_DISHES_PER_CALORIC_CATEGORY_OPTION = 3;
-
-    // MEALS
-    private static final int LIST_MEALS_OPTION = 1;
-    private static final int MEAL_REGISTER_OPTION = 2;
-
-    // MAIN MENU
-    private static final int MY_USER_OPTION = 1;
-    private static final int USERS_OPTION = 2;
-    private static final int SETTINGS_OPTION = 4;
-    private static final int DISH_OPTION = 5;
-    private static final int TRACEABILITY_OPTION = 6;
-    private static final int MEALS_OPTION = 7;
-    private static final int REPORTING_DISHES_OPTION = 8;
-*/
     //gestor de serviços helpdesk
     private static final int CRIAR_CATALOGO = 1;
     private static final int ESPECIFICAR_SERVICO = 2;
@@ -201,6 +153,9 @@ public class MainMenu extends AbstractUI {
             final Menu menuEspecificarColaborador = buildEspecificaColaboradorMenu();
             mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR, menuEspecificarColaborador);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuAssociarRemoverColaborador = buildAssociarRemoverColaborador();
+            mainMenu.addSubMenu(ASSOCIAR_REMOVER_COLABORADOR, menuAssociarRemoverColaborador);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuEspecificarColaboradorFicheiro = buildEspecificaColaboradorFicheiroMenu();
             mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR_FICHEIRO, menuEspecificarColaboradorFicheiro);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -217,6 +172,12 @@ public class MainMenu extends AbstractUI {
         mainMenu.addItem(EXIT_OPTION, "Exit", new ExitWithMessageAction("Bye, Bye"));
 
         return mainMenu;
+    }
+
+    private Menu buildAssociarRemoverColaborador() {
+        final Menu associarRemoverColaborador = new Menu("Associar/Remover Colaborador");
+        associarRemoverColaborador.addItem(CONSULTAR_CATALOGO_SERVICO,"Associar/Remover Colaborador",()->new AdicionarRemoverColaboradorUI().show());
+        return associarRemoverColaborador;
     }
 
    /* private Menu buildAdminSettingsMenu() {
@@ -288,14 +249,6 @@ public class MainMenu extends AbstractUI {
         final Menu colaboradorMenu = new Menu("Especificar Colaborador Pelo Ficheiro");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador Pelo Ficheiro",()->new LerFicheiroColaboradorUI().show());
         return colaboradorMenu;
-    }
-
-    private Menu buildCashierMenu() {
-        final Menu cashierMenu = new Menu("Sales  >");
-        cashierMenu.addItem(CRIAR_CATALOGO, "Criar catálogo", Actions.SUCCESS);
-        cashierMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
-
-        return cashierMenu;
     }
 
     private Menu buildGSHMenu() {

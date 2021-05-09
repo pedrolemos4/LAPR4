@@ -6,7 +6,7 @@ public class KeywordsDataWidget {
 
     private String keyword;
 
-    public void show(){ this.keyword= Console.readLine("Keyword");}
+    public void show(){ this.keyword= Console.readLine("Keyword:");}
 
     public String keyword(){
         return this.keyword;

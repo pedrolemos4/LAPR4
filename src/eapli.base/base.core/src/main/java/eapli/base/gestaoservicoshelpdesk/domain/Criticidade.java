@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Criticidade implements AggregateRoot<Long> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Version
