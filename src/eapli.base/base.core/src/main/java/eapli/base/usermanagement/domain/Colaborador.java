@@ -80,8 +80,17 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     }
 
     @Override
-    public boolean sameAs(Object other) {
-        return false;
+    public boolean sameAs(final Object other) {
+        if(!(other instanceof Colaborador)){
+            return false;
+        }
+        final Colaborador that = (Colaborador) other;
+        if(this == that){
+            return true;
+        }
+        return numeroMecanografico.equals(that.numeroMecanografico) && shortName.equals(that.shortName) &&
+                fullName.equals(that.fullName) && localResidencia.equals(that.localResidencia) && dataNasc.equals(that.dataNasc) &&
+                endereco.equals(that.endereco) && contacto.equals(that.contacto);
     }
 
     @Override
