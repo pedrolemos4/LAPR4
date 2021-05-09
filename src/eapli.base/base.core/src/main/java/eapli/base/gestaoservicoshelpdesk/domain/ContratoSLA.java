@@ -14,7 +14,7 @@ import java.util.Set;
 public class ContratoSLA  implements AggregateRoot<Long> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long identificador;
 
     @Version

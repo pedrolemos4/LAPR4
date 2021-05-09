@@ -227,8 +227,8 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     public Iterable<Servico>findTodos(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND e.titulo = :titulo AND" +
-                        " k.keywords = :keywords AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e JOIN e.keywords le WHERE e.codigoUnico = :identity AND e.titulo = :titulo AND" +
+                        " le.keywords = :keywords AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);

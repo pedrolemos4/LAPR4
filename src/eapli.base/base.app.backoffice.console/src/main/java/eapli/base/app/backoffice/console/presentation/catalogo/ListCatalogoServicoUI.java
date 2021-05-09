@@ -54,6 +54,8 @@ public class ListCatalogoServicoUI extends AbstractUI {
 
             } else if ("servico".equalsIgnoreCase(opcao)) {
 
+                System.out.println("Insira informação relativa aos catalogos");
+
                 final TituloDataWidget tituloData = new TituloDataWidget();
                 tituloData.show();
 

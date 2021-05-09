@@ -36,8 +36,8 @@ public class CatalogoBootstrapper implements Action {
         register("titulo1", "descricaoBreve", "icone", "descricaoCompleta", list, c1);
 
         // SEGUNDO CATALOGO
-        Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Gustavo"), new FullName("Gustavo Mike White"), new Data(1992, 7, 5)
-                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));
+        Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), new Data(1992, 7, 5)
+                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"));
         Set<Colaborador> setCol1 = new HashSet<>();
         setCol1.add(c2);
         Set<Equipa> list2 = new HashSet<>();

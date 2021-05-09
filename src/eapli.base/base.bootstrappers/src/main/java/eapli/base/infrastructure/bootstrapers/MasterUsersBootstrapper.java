@@ -45,15 +45,17 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
-        registaColaborador(119080,"João","João Alves Pereira","1984/10/25",0, 931203457, "Bairro Baixo", EMAILADMIN);
+        registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 931203457, "Bairro Baixo", EMAILADMIN);
 
-        registerUser("orgColab","Admin1","Ricardo","Soares",EMAILADMIN, BaseRoles.COLABORADOR);
+        registerUser("orgColab","Admin1","Joao","Alves Pereira",EMAILADMIN, BaseRoles.COLABORADOR);
 
         registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 
         registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
-        registaColaborador(119876,"Gustavo","Gustavo Mike White","1992/07/05", 351,932705057, "Bairro Alto", "gustavo@gmail.com");
+        registerUser("orgColab1","Colab1","Afonso","Sousa","afonso@gmail.com",BaseRoles.COLABORADOR);
+
+        registaColaborador(119876,"Afonso","Afonso Sousa","1992/07/05", 351,932705057, "Bairro Alto", "afonso@gmail.com");
 
         registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
         return true;
