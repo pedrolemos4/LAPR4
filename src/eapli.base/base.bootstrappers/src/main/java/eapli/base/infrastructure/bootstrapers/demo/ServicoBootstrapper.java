@@ -3,6 +3,7 @@ package eapli.base.infrastructure.bootstrapers.demo;
 import eapli.base.gestaoservicoshelpdesk.application.EspecificarServicoController;
 import eapli.base.gestaoservicoshelpdesk.application.NovoCatalogoController;
 import eapli.base.gestaoservicoshelpdesk.domain.Atributo;
+import eapli.base.gestaoservicoshelpdesk.domain.Catalogo;
 import eapli.base.gestaoservicoshelpdesk.domain.Formulario;
 import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.Colaborador;
@@ -46,10 +47,10 @@ public class ServicoBootstrapper implements Action {
 
     private void register(final String codigoUnico, final String titulo, final String descricaoBreve,
                           final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos,
-                          Set<String> keywords) {
+                          Set<String> keywords, Catalogo catalogo) {
         try {
             Formulario form = controller.createFormulario(tituloFormulario,listaAtributos);
-            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords);
+            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords,catalogo);
             LOGGER.info(codigoUnico);
         } catch (final IntegrityViolationException | ConcurrencyException e) {
             // ignoring exception. assuming it is just a primary key violation

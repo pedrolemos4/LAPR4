@@ -1,10 +1,8 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.gestaoservicoshelpdesk.application.EspecificarServicoController;
-import eapli.base.gestaoservicoshelpdesk.domain.Atributo;
-import eapli.base.gestaoservicoshelpdesk.domain.DraftServico;
-import eapli.base.gestaoservicoshelpdesk.domain.Formulario;
-import eapli.base.gestaoservicoshelpdesk.domain.Servico;
+import eapli.base.gestaoservicoshelpdesk.application.NovoCatalogoController;
+import eapli.base.gestaoservicoshelpdesk.domain.*;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.io.util.Console;
@@ -26,12 +24,6 @@ public class EspecificarServicoUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-       /* final Iterable<Catalogo> catalogos = this.theController.catalogos();
-
-        final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos",catalogos,new CatalogosPrinter());
-        selector.show();
-        final Catalogo theCatalogo =selector.selectedElement();*/
-
         System.out.println("Deseja especificar um novo serviço (opção 20) ou continuar a especificação de um serviço (opção 21)? ");
         int opcao = Console.readInteger("Opção:");
         if(opcao==ESPECIFICAR_SERVICO){
@@ -54,6 +46,13 @@ public class EspecificarServicoUI extends AbstractUI {
 
         final DescricaoCompletaDataWidget descricaoCompletaData = new DescricaoCompletaDataWidget();
         descricaoCompletaData.show();
+
+        final Iterable<Catalogo> catalogos = this.theController.listCatalogos();
+
+        final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos",catalogos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+        System.out.println("Selecione o catálogo a que pertence o serviço:");
+        selector.show();
+        final Catalogo theCatalogo =selector.selectedElement();
 
         final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
         keywordsDataWidget.show();
@@ -97,12 +96,12 @@ public class EspecificarServicoUI extends AbstractUI {
         }
         if (descricaoBreveData.descricao().isEmpty() || descricaoCompletaData.descricao().isEmpty()) {
             this.theController.createDraftServico(codigoUnicoData.codigoUnico(), descricaoBreveData.descricao(),
-                    descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos,keywords);
+                    descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos,keywords,theCatalogo);
         } else {
             try {
                 Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
                 this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
-                        descricaoCompletaData.descricao(), formulario,keywords);
+                        descricaoCompletaData.descricao(), formulario,keywords,theCatalogo);
             } catch (final IntegrityViolationException e) {
                 System.out.println("Erro.");
             }
@@ -129,13 +128,13 @@ public class EspecificarServicoUI extends AbstractUI {
         final DescricaoCompletaDataWidget descricaoCompletaData = new DescricaoCompletaDataWidget();
         descricaoCompletaData.show();
         try {
-            this.theController.removeDraft(draftServico);
             Formulario formulario = this.theController.createFormulario(draftServico.tituloFormulario(), draftServico.listaAtributos());
             this.theController.especificarServico(draftServico.codigoUnico(), draftServico.titulo(), descricaoBreveData.descricao(),
-                    descricaoCompletaData.descricao(), formulario,draftServico.keywords());
+                    descricaoCompletaData.descricao(), formulario,draftServico.keywords(), draftServico.catalogo());
         } catch (final IntegrityViolationException e) {
             System.out.println("Erro.");
         }
+        this.theController.removeDraft(draftServico);
     }
 
     @Override

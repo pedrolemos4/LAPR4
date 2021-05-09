@@ -14,6 +14,7 @@ public class Catalogo implements AggregateRoot<Long>{
 
     @Id
     @GeneratedValue
+    @Column(name="id")
     private Long identificador;
 
     @Version
@@ -37,9 +38,11 @@ public class Catalogo implements AggregateRoot<Long>{
             inverseJoinColumns = @JoinColumn(name = "equipaId"))
     private Set<Equipa> listEquipas = new HashSet<>();
 
-    @OneToMany()
-    @JoinTable(name="LISTSERVICOS")
-    Set<Servico> listServicos = new HashSet<>();
+    @OneToMany(mappedBy = "catalogo")
+    private Set<Servico> listServicos = new HashSet<>();
+
+    @OneToMany(mappedBy = "catalogo")
+    private Set<DraftServico> listDrafts = new HashSet<>();
 
     @OneToOne()
     @JoinColumn(name="COLABORADOR")

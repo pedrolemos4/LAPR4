@@ -37,6 +37,9 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="formulario",referencedColumnName = "id")
     private Formulario formulario;
 
+    @ManyToOne
+    @JoinColumn(name="catalogo",nullable = false)
+    private Catalogo catalogo;
 
     public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;
@@ -45,6 +48,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.descricaoCompleta = builder.descricaoCompleta;
         this.keywords = builder.keywords;
         this.formulario= builder.formulario;
+        this.catalogo=builder.catalogo;
     }
 
     protected Servico() {
@@ -55,6 +59,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.estado=null;
         this.keywords=null;
         this.formulario=null;
+        this.catalogo=null;
     }
 
     @Override
@@ -113,6 +118,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         private Set<String> keywords;
 
+        private Catalogo catalogo;
+
         public ServicoBuilder(String codigoUnico, String titulo) {
             this.codigoUnico = new CodigoUnico(codigoUnico);
             this.titulo = new Titulo(titulo);
@@ -135,6 +142,11 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         public ServicoBuilder withKeywords(Set<String> keywords){
             this.keywords = new HashSet<>(keywords);
+            return this;
+        }
+
+        public ServicoBuilder withCatalogo(Catalogo catalogo){
+            this.catalogo=catalogo;
             return this;
         }
 

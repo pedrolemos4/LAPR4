@@ -1,6 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.application;
 
 import eapli.base.gestaoservicoshelpdesk.domain.*;
+import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.FormularioRepository;
 import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
@@ -19,14 +20,16 @@ public class EspecificarServicoController {
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
+    private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
-                                   final String descricaoCompleta, Formulario formulario,Set<String> keywords) {
+                                   final String descricaoCompleta, Formulario formulario,Set<String> keywords,Catalogo catalogo) {
         final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
                 .withDescricaoBreve(descricaoBreve)
                 .withDescricaoCompleta(descricaoCompleta)
                 .withFormulario(formulario)
                 .withKeywords(keywords)
+                .withCatalogo(catalogo)
                 .build();
         servico.makeUnavailable();
         this.servicoRepository.save(servico);
@@ -41,9 +44,9 @@ public class EspecificarServicoController {
 
     public void createDraftServico(final String codigoUnico, final String descricaoBreve,
                                    final String descricaoCompleta,final String titulo,  final String tituloFormulario,
-                                   Set<Atributo> listaAtributos,Set<String> keywords) {
+                                   Set<Atributo> listaAtributos,Set<String> keywords,Catalogo catalogo) {
         DraftServico draftServico = new DraftServico(codigoUnico, descricaoBreve, descricaoCompleta, titulo,
-                tituloFormulario, listaAtributos, keywords);
+                tituloFormulario, listaAtributos, keywords,catalogo);
         this.draftServicoRepository.save(draftServico);
     }
 
@@ -66,4 +69,8 @@ public class EspecificarServicoController {
         return ld;
     }
 
+    public Iterable<Catalogo> listCatalogos(){
+        final Iterable<Catalogo> lc = catalogoRepository.findAll();
+        return lc;
+    }
 }
