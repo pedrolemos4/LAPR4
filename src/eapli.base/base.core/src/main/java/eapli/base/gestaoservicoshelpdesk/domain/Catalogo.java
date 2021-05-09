@@ -32,13 +32,12 @@ public class Catalogo implements AggregateRoot<Long>{
     @Column(name = "ICONE")
     private final Icone icone;
 
-    @OneToMany()
-    @JoinTable(name = "LIST",
-            joinColumns = @JoinColumn(name = "identificadorCat"),
-            inverseJoinColumns = @JoinColumn(name = "equipaId"))
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_EQUIPA", referencedColumnName = "id")
     private Set<Equipa> listEquipas = new HashSet<>();
 
-    @OneToMany(mappedBy = "catalogo")
+    @OneToMany(mappedBy = "catalogo",fetch = FetchType.LAZY, cascade =
+            CascadeType.ALL)
     private Set<Servico> listServicos = new HashSet<>();
 
     @OneToMany(mappedBy = "catalogo")

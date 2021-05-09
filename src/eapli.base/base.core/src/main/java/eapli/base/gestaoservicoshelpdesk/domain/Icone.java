@@ -21,4 +21,11 @@ public class Icone implements ValueObject {
     protected Icone() {
         this.icone=null;
     }
+
+    @Override
+    public String toString() {
+        return "Icone{" +
+                "icone='" + icone + '\'' +
+                '}';
+    }
 }
