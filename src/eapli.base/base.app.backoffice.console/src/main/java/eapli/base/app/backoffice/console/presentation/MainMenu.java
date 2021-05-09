@@ -115,6 +115,7 @@ public class MainMenu extends AbstractUI {
     //gestor de serviços helpdesk
     private static final int CRIAR_CATALOGO = 1;
     private static final int ESPECIFICAR_SERVICO = 2;
+    //private static final int EDITAR_SERVICO = 3;
     private static final int DEFINIR_NIVEIS_CRITICIDADE = 3;
 
     //responsável rrh

@@ -21,14 +21,12 @@ public class EspecificarServicoController {
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
-                                   final String descricaoCompleta, Formulario formulario) {
-        if(descricaoBreve==null){
-            System.out.println("akjdjkahdjkhdjk");
-        }
+                                   final String descricaoCompleta, Formulario formulario,Set<String> keywords) {
         final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
                 .withDescricaoBreve(descricaoBreve)
                 .withDescricaoCompleta(descricaoCompleta)
                 .withFormulario(formulario)
+                .withKeywords(keywords)
                 .build();
         servico.makeUnavailable();
         this.servicoRepository.save(servico);
@@ -43,9 +41,9 @@ public class EspecificarServicoController {
 
     public void createDraftServico(final String codigoUnico, final String descricaoBreve,
                                    final String descricaoCompleta,final String titulo,  final String tituloFormulario,
-                                   Set<Atributo> listaAtributos) {
+                                   Set<Atributo> listaAtributos,Set<String> keywords) {
         DraftServico draftServico = new DraftServico(codigoUnico, descricaoBreve, descricaoCompleta, titulo,
-                tituloFormulario, listaAtributos);
+                tituloFormulario, listaAtributos, keywords);
         this.draftServicoRepository.save(draftServico);
     }
 

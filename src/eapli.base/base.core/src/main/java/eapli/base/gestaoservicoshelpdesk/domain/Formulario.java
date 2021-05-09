@@ -12,6 +12,7 @@ public class Formulario implements AggregateRoot<Long> {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long pk;
 
     @Version
@@ -22,6 +23,9 @@ public class Formulario implements AggregateRoot<Long> {
 
     @ElementCollection
     private Set<Atributo> atributos = new HashSet<>();
+
+    @OneToOne (mappedBy = "formulario")
+    private Servico servico;
 
     protected Formulario(){
         //ORM

@@ -1,4 +1,4 @@
-package eapli.base.gestaoservicosrh.application;
+/*package eapli.base.gestaoservicosrh.application;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicoshelpdesk.domain.Cor;
@@ -67,4 +67,4 @@ public class CriarEquipaControllerTest extends TestCase {
 
         assertTrue(colabs.equals(lc));
     }
-}
+}*/

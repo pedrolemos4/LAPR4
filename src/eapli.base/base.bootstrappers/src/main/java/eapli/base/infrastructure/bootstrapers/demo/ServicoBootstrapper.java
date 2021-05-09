@@ -45,10 +45,11 @@ public class ServicoBootstrapper implements Action {
     }
 
     private void register(final String codigoUnico, final String titulo, final String descricaoBreve,
-                          final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos) {
+                          final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos,
+                          Set<String> keywords) {
         try {
             Formulario form = controller.createFormulario(tituloFormulario,listaAtributos);
-            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form);
+            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords);
             LOGGER.info(codigoUnico);
         } catch (final IntegrityViolationException | ConcurrencyException e) {
             // ignoring exception. assuming it is just a primary key violation

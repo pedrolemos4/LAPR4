@@ -4,6 +4,7 @@ import eapli.base.gestaoservicosrh.domain.CodigoUnico;
 import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,17 +30,21 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @Enumerated(EnumType.STRING)
     private EstadoServico estado;
 
-   /* @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="formulario")
+    @ElementCollection
+    private Set<String> keywords;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="formulario",referencedColumnName = "id")
     private Formulario formulario;
-*/
+
 
     public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;
         this.titulo = builder.titulo;
         this.descricaoBreve = builder.descricaoBreve;
         this.descricaoCompleta = builder.descricaoCompleta;
-  //      this.formulario= builder.formulario;
+        this.keywords = builder.keywords;
+        this.formulario= builder.formulario;
     }
 
     protected Servico() {
@@ -48,7 +53,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.titulo=null;
         this.descricaoCompleta=null;
         this.estado=null;
-    //    this.formulario=null;
+        this.keywords=null;
+        this.formulario=null;
     }
 
     @Override
@@ -105,6 +111,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         private Formulario formulario;
 
+        private Set<String> keywords;
+
         public ServicoBuilder(String codigoUnico, String titulo) {
             this.codigoUnico = new CodigoUnico(codigoUnico);
             this.titulo = new Titulo(titulo);
@@ -122,6 +130,11 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         public ServicoBuilder withFormulario(Formulario formulario) {
             this.formulario = formulario;
+            return this;
+        }
+
+        public ServicoBuilder withKeywords(Set<String> keywords){
+            this.keywords = new HashSet<>(keywords);
             return this;
         }
 

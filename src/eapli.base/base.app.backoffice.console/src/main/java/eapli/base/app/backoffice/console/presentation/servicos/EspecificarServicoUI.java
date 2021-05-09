@@ -55,9 +55,30 @@ public class EspecificarServicoUI extends AbstractUI {
         final DescricaoCompletaDataWidget descricaoCompletaData = new DescricaoCompletaDataWidget();
         descricaoCompletaData.show();
 
+        final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
+        keywordsDataWidget.show();
+        boolean flag = true;
+
+        Set<String> keywords = new HashSet<>();
+        keywords.add(keywordsDataWidget.keyword());
+
+        while(flag){
+            String answer;
+            System.out.println("Deseja adicionar mais keywords?");
+            answer=Console.readLine("Resposta(S/N):");
+            if(answer.equalsIgnoreCase("Sim") || answer.equalsIgnoreCase("S")){
+                keywordsDataWidget.show();
+                keywords.add(keywordsDataWidget.keyword());
+            } else {
+                flag = false;
+            }
+        }
+
+        flag = true;
+
         final FormularioDataWidget formularioData = new FormularioDataWidget();
         formularioData.show();
-        boolean flag = true;
+
         Set<Atributo> listaAtributos = new HashSet<>();
         Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
@@ -76,12 +97,12 @@ public class EspecificarServicoUI extends AbstractUI {
         }
         if (descricaoBreveData.descricao().isEmpty() || descricaoCompletaData.descricao().isEmpty()) {
             this.theController.createDraftServico(codigoUnicoData.codigoUnico(), descricaoBreveData.descricao(),
-                    descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos);
+                    descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos,keywords);
         } else {
             try {
                 Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
                 this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
-                        descricaoCompletaData.descricao(), formulario);
+                        descricaoCompletaData.descricao(), formulario,keywords);
             } catch (final IntegrityViolationException e) {
                 System.out.println("Erro.");
             }
@@ -92,7 +113,7 @@ public class EspecificarServicoUI extends AbstractUI {
         final List<DraftServico> listDrafts = (List<DraftServico>) this.theController.listDrafts();
         DraftServico draftServico = null;
         if(listDrafts.isEmpty()) {
-            System.out.println("Não existem serviços registados");
+            System.out.println("Não existem serviços incompletos registados");
             return;
         }
         final SelectWidget<DraftServico> selector = new SelectWidget<>("Servico: ", listDrafts, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
@@ -111,7 +132,7 @@ public class EspecificarServicoUI extends AbstractUI {
             this.theController.removeDraft(draftServico);
             Formulario formulario = this.theController.createFormulario(draftServico.tituloFormulario(), draftServico.listaAtributos());
             this.theController.especificarServico(draftServico.codigoUnico(), draftServico.titulo(), descricaoBreveData.descricao(),
-                    descricaoCompletaData.descricao(), formulario);
+                    descricaoCompletaData.descricao(), formulario,draftServico.keywords());
         } catch (final IntegrityViolationException e) {
             System.out.println("Erro.");
         }

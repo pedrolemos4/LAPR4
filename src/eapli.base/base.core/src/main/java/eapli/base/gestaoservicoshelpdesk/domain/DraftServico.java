@@ -29,6 +29,9 @@ public class DraftServico implements AggregateRoot<String> {
     @ElementCollection
     private Set<Atributo> listaAtributos;
 
+    @ElementCollection
+    private Set<String> keywords;
+
     //private Catalogo catalogo;
 
     protected DraftServico(){
@@ -37,10 +40,11 @@ public class DraftServico implements AggregateRoot<String> {
         this.descricaoBreve=null;
         this.titulo=null;
         this.tituloFormulario=null;
+        this.keywords = null;
     }
 
     public DraftServico(String codigoUnico,String descricaoBreve,String descricaoCompleta,String titulo,
-                        String tituloFormulario,Set<Atributo> listaAtributos){
+                        String tituloFormulario,Set<Atributo> listaAtributos,Set<String> keywords){
         Preconditions.nonEmpty(codigoUnico,"O código único tem de ser especificado.");
         Preconditions.nonEmpty(titulo,"O título tem de ser especificado.");
         Preconditions.nonEmpty(tituloFormulario,"O título do formulário tem de ser especificado.");
@@ -52,6 +56,7 @@ public class DraftServico implements AggregateRoot<String> {
         this.titulo=titulo;
         this.tituloFormulario=tituloFormulario;
         this.listaAtributos=new HashSet<>(listaAtributos);
+        this.keywords = new HashSet<>(keywords);
     }
 
     public String codigoUnico(){
@@ -73,6 +78,10 @@ public class DraftServico implements AggregateRoot<String> {
     public String tituloFormulario() {return this.tituloFormulario;}
 
     public Set<Atributo> listaAtributos() {return this.listaAtributos;}
+
+    public Set<String> keywords(){
+        return this.keywords;
+    }
 
     @Override
     public boolean sameAs(Object other) {
