@@ -43,7 +43,7 @@ public class Catalogo implements AggregateRoot<Long>{
     @OneToMany(mappedBy = "catalogo")
     private Set<DraftServico> listDrafts = new HashSet<>();
 
-    @OneToOne()
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
 

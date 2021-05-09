@@ -53,9 +53,6 @@ public class NovoCatalogoUI extends AbstractUI {
         final TituloDataWidget tituloDataWidget = new TituloDataWidget();
         tituloDataWidget.show();
 
-       // final IdentificadorDataWidget identificadorDataWidget = new IdentificadorDataWidget();
-        //identificadorDataWidget.show();
-
         final DescricaoBreveDataWidget descricaoBreveDataWidget = new DescricaoBreveDataWidget();
         descricaoBreveDataWidget.show();
 
@@ -67,10 +64,11 @@ public class NovoCatalogoUI extends AbstractUI {
 
         try {
             this.controller.novoCatalogo(tituloDataWidget.titulo(),descricaoBreveDataWidget.descricao(),iconeDataWidget.icone(),descricaoCompletaDataWidget.descricao(),listaEquipas, colaborador);
-        } catch (final IntegrityViolationException e){
-            System.out.println("Erro.");
+        } catch (Exception e) {
+            System.out.println("Erro");
+            System.out.println("");
+            doShow();
         }
-
         return false;
     }
 
