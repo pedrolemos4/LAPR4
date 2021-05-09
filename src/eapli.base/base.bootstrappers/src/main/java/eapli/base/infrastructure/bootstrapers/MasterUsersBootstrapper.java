@@ -47,7 +47,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     public boolean execute() {
         registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 931203457, "Bairro Baixo", EMAILADMIN);
 
-        registerUser("orgColab","Admin1","Joao","Alves Pereira",EMAILADMIN, BaseRoles.COLABORADOR);
+        registerUser("orgColab","Admin1","Joao","Alves Pereira","joao@gmail.com", BaseRoles.COLABORADOR);
 
         registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 

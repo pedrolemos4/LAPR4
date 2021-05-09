@@ -90,7 +90,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByKeywordsDescricaoBreveDescricaoCompleta(CodigoUnico identity, Set<String> keywords, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k.keywords = :keywords AND e.descricaoBreve = :descricaoBreve" +
+                        "AND k = :keywords AND e.descricaoBreve = :descricaoBreve" +
                         "AND e.descricaoCompleta = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
@@ -103,7 +103,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByTituloKeywordsDescricaoCompleta(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoCompleta descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity AND e.titulo = :titulo" +
-                        "AND k.keywords = :keywords AND e.descricaoCompleta = :descricaoCompleta",
+                        "AND k = :keywords AND e.descricaoCompleta = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -115,7 +115,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByTituloKeywordsDescricaoBreve(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoBreve descricaoBreve) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity AND e.titulo = :titulo" +
-                        "AND k.keywords = :keywords AND e.descricaoBreve = :descricaoBreve",
+                        "AND k = :keywords AND e.descricaoBreve = :descricaoBreve",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -127,7 +127,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByKeywordsdescricaoBreve(CodigoUnico identity, Set<String> keywords, DescricaoBreve descricaoBreve) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k.keywords = :keywords AND e.descricaoBreve = :descricaoBreve",
+                        "AND k = :keywords AND e.descricaoBreve = :descricaoBreve",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -138,7 +138,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByKeywordsDescricaoCompleta(CodigoUnico identity, Set<String> keywords, DescricaoCompleta descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k.keywords = :keywords AND e.descricaoCompleta = :descricaoCompleta",
+                        "AND k = :keywords AND e.descricaoCompleta = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -149,7 +149,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByTituloKeywords(CodigoUnico identity, Titulo titulo, Set<String> keywords) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k.keywords = :keywords AND e.titulo = :titulo",
+                        "AND k = :keywords AND e.titulo = :titulo",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -160,7 +160,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     private Iterable<Servico> findByKeywords(CodigoUnico identity, Set<String> keywords) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k.keywords = :keywords",
+                        "AND k = :keywords",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -228,7 +228,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     public Iterable<Servico>findTodos(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta){
         final TypedQuery<Servico> q = createQuery(
                 "SELECT e FROM Servico e JOIN e.keywords le WHERE e.codigoUnico = :identity AND e.titulo = :titulo AND" +
-                        " le.keywords = :keywords AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
+                        " le = :keywords AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);

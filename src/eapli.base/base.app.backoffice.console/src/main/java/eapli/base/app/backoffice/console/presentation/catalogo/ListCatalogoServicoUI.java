@@ -28,7 +28,7 @@ public class ListCatalogoServicoUI extends AbstractUI {
         boolean flag = true;
 
         while (flag) {
-            String opcao = Console.readLine("Deseja consultar catalogos ou servicos? (catalogo|servico)");
+            String opcao = Console.readLine("Deseja consultar catalogos ou servicos ou ambos? (catalogo|servico|ambos)");
             if ("catalogo".equalsIgnoreCase(opcao)) {
 
                 final TituloDataWidget tituloDataWidget = new TituloDataWidget();
@@ -53,8 +53,6 @@ public class ListCatalogoServicoUI extends AbstractUI {
                 }
 
             } else if ("servico".equalsIgnoreCase(opcao)) {
-
-                System.out.println("Insira informação relativa aos catalogos");
 
                 final TituloDataWidget tituloData = new TituloDataWidget();
                 tituloData.show();
@@ -96,6 +94,8 @@ public class ListCatalogoServicoUI extends AbstractUI {
                 }
 
             } else {
+
+                System.out.println("Insira informação relativa ao catalogo");
 
                 final TituloDataWidget tituloDataWidget = new TituloDataWidget();
                 tituloDataWidget.show();
@@ -169,6 +169,6 @@ public class ListCatalogoServicoUI extends AbstractUI {
 
     @Override
     public String headline() {
-        return "Consulta de catalogos e/ou servicos:";
+        return "Consulta de catalogos e/ou servicos: ";
     }
 }

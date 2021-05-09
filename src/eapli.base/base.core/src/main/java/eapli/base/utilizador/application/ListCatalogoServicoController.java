@@ -21,7 +21,6 @@ import java.util.Set;
 public class ListCatalogoServicoController {
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
-    private UserRepository userRepo = PersistenceContext.repositories().users();
     private CatalogoRepository catRepo = PersistenceContext.repositories().catalogo();
     private ColaboradorRepository colabRepo= PersistenceContext.repositories().colaborador();
     private EquipaRepository equipaRepo= PersistenceContext.repositories().equipas();
@@ -29,8 +28,6 @@ public class ListCatalogoServicoController {
 
     private SystemUser currentUser() {
         return authz.session().get().authenticatedUser();
-        //return authz.session().flatMap(s -> userRepo.findByUsername(s.authenticatedUser().username()));
-
     }
 
     public Set<Catalogo> findCatalogo(Set<Equipa> listaEquipa, final String titulo,
@@ -113,7 +110,7 @@ public class ListCatalogoServicoController {
     }
 
     public Set<Equipa> getEquipasDoUser(){
-        final SystemUser user = currentUser()/*.orElseThrow(IllegalStateException::new)*/;
+        final SystemUser user = currentUser();
         EmailAddress email = user.email();
         Colaborador colab = colabRepo.findEmailColaborador(email);
         MecanographicNumber number = colab.identity();
