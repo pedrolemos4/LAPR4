@@ -1,6 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
 import eapli.base.gestaoservicosrh.domain.Designacao;
+import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class ContratoSLA {
+public class ContratoSLA  implements AggregateRoot<Long> {
 
     @Id
     @GeneratedValue
@@ -19,7 +20,7 @@ public class ContratoSLA {
     @Version
     private Long version;
 
-    @Column(name="Designacao")
+    @Column(name = "Designacao")
     private final Designacao designacao;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -46,21 +47,35 @@ public class ContratoSLA {
         return this.niveisCriticidade.add(c);
     }
 
-    protected ContratoSLA(){
+    protected ContratoSLA() {
         this.designacao = null;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContratoSLA that = (ContratoSLA) o;
-        return Objects.equals(identificador, that.identificador)  && Objects.equals(designacao, that.designacao) && Objects.equals(niveisCriticidade, that.niveisCriticidade);
+    public boolean equals(final Object o) {
+        return DomainEntities.areEqual(this, o);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(identificador, version, designacao, niveisCriticidade);
+        return DomainEntities.hashCode(this);
     }
 
+    @Override
+    public boolean sameAs(Object other) {
+        return false;
+    }
+
+    @Override
+    public Long identity() {
+        return identificador;
+    }
+
+    @Override
+    public String toString() {
+        return "ContratoSLA{" +
+                "designacao=" + designacao +
+                ", niveisCriticidade=" + niveisCriticidade +
+                '}';
+    }
 }

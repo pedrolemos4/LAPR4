@@ -91,7 +91,12 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 		return new JpaColaboradorRepository();
 	}
 
-    @Override
+	@Override
+	public ContratoRepository contrato() {
+		return new JpaContratoRepository();
+	}
+
+	@Override
 	public TransactionalContext newTransactionalContext() {
 		return JpaAutoTxRepository.buildTransactionalContext(Application.settings().getPersistenceUnitName(),
 				Application.settings().getExtendedPersistenceProperties());

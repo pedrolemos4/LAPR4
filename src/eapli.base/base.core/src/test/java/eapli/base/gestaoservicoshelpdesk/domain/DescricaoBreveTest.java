@@ -61,8 +61,8 @@ public class DescricaoBreveTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        DescricaoBreve instance = new DescricaoBreve();
-        String expResult = "";
+        DescricaoBreve instance = new DescricaoBreve("descricaoBreve");
+        String expResult = "descricaoBreve";
         String result = instance.toString();
         assertEquals(expResult, result);
     }

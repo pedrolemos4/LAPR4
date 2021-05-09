@@ -85,4 +85,6 @@ public interface RepositoryFactory {
 	FormularioRepository formularios();
 
     ColaboradorRepository colaborador();
+
+    ContratoRepository contrato();
 }
