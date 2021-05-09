@@ -1,6 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
 import eapli.framework.domain.model.ValueObject;
+import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -12,7 +13,8 @@ public class LocalResidencia implements ValueObject {
     private final String endereco;
 
     public LocalResidencia(String endereco){
-        this.endereco=endereco;
+        Preconditions.nonEmpty(endereco);
+        this.endereco = endereco;
     }
 
     public LocalResidencia() {
