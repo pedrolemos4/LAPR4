@@ -11,7 +11,7 @@ public class JpaColaboradorRepository extends BasepaRepositoryBase<Colaborador, 
         implements ColaboradorRepository {
 
     public JpaColaboradorRepository() {
-        super("Mecanographic Number");
+        super("numeroMecanografico");
     }
 
     @Override

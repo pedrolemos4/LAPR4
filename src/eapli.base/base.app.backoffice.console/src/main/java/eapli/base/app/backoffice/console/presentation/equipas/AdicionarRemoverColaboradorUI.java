@@ -27,7 +27,6 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                            "=0-SAIR                                                                                   =\n"+
                            "===========================================================================================\n");
         int opcao = sc.nextInt();
-        while (opcao != 0){
             switch (opcao) {
                 case 1:
                     System.out.println("===========================================================================================\n"+
@@ -57,8 +56,9 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                     System.out.println("===========================================================================================\n");
                     controller1.removerColaboradorEquipa(codigoUnico,nrMecanografico);
                     break;
+                default:
+                    break;
             }
-        }
         return true;
     }
 

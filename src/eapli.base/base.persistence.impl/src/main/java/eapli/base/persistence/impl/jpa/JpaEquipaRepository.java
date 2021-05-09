@@ -15,7 +15,7 @@ import java.util.Optional;
 public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, CodigoUnico> implements EquipaRepository {
 
     public JpaEquipaRepository() {
-        super("Codigo Unico");
+        super("codigo");
     }
 
     @Override
@@ -41,8 +41,7 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
     @Override
     public Equipa validate(TipoEquipa tipo, MecanographicNumber identity) {
         final TypedQuery<Equipa> q = createQuery(
-                "SELECT e FROM Equipa e JOIN e.listMembros ec WHERE " +
-                        " ec.numeroMecanografico =:identity AND e.TipoEquipa =:tipo",
+                "SELECT e FROM Equipa e JOIN e.listMembros ec WHERE ec.numeroMecanografico =:identity AND e.tipo =:tipo" ,
                 Equipa.class);
         q.setParameter("identity", identity);
         q.setParameter("tipo", tipo);
