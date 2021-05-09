@@ -29,6 +29,7 @@ public class RegistarTipoEquipaUI  extends AbstractUI {
         try{
             this.controller.registarTipoEquipa(codigoUnicoData.codigoUnico(),designacaoData.designacao(),
                     c.newColor());
+            System.out.println("Registado com sucesso!!");
         } catch (final IntegrityViolationException e) {
             System.out.println("Erro.");
         }

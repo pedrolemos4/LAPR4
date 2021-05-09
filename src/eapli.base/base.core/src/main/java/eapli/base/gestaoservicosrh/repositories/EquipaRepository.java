@@ -18,4 +18,5 @@ public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> 
     Equipa validate(TipoEquipa tipo, MecanographicNumber identity);
 
 
+    Equipa findByTipoEquipa(CodigoUnico identity, TipoEquipa tipo);
 }

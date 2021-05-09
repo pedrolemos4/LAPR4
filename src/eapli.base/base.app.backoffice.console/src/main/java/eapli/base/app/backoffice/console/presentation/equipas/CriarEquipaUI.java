@@ -2,6 +2,7 @@ package eapli.base.app.backoffice.console.presentation.equipas;
 
 import eapli.base.app.backoffice.console.presentation.servicos.CodigoUnicoDataWidget;
 import eapli.base.gestaoservicosrh.application.CriarEquipaController;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
@@ -9,6 +10,7 @@ import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CriarEquipaUI extends AbstractUI {
@@ -23,7 +25,7 @@ public class CriarEquipaUI extends AbstractUI {
         AcronimoDataWidget acronimoData = null;
         DesignacaoDataWidget designacaoData = null;
             TipoEquipa tipo = null;
-        Set<Colaborador> colabs = null;
+        Set<Colaborador> colabs = new HashSet<>();
 
         while(true){
             try{
@@ -44,11 +46,22 @@ public class CriarEquipaUI extends AbstractUI {
                 while(true) {
                     final SelectWidget<Colaborador> selector2 = new SelectWidget<>("Lista de Colaboradores: ", listColab, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
                     selector2.show();
+                    Colaborador c =selector2.selectedElement();
+                    System.out.println(c.toString());
 
                     if (colabs.contains(selector2.selectedElement())) {
                         System.out.println("Já colocou este colaborador!");
                     } else {
-                        colabs.add(selector2.selectedElement());
+                        //System.out.println("EQUIPA!!!!!!!  " + this.controller.validar(tipo,selector2.selectedElement().identity()));
+                        //if(this.controller.validar(tipo,selector2.selectedElement().identity()) != null) {
+                        Iterable<Equipa> list = this.controller.findEquipasDosColaborador(selector2.selectedElement());
+                        boolean flag = this.controller.verificarTipo(list, tipo);
+                        if(flag) {
+                            colabs.add(selector2.selectedElement());
+                        } else {
+                            System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!");
+                        }
+                        //}
                     }
 
                     String answer = Console.readLine("Deseja adicionar mais colaboradores responsáveis? (S/N)?");
@@ -63,9 +76,18 @@ public class CriarEquipaUI extends AbstractUI {
                 break;
             }
 
+
             try {
-                this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colabs);
-                System.out.println("Equipa criada com sucesso!");
+                if(!colabs.isEmpty() ){
+                    if(tipo != null) {
+                        this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colabs);
+                        System.out.println("Equipa criada com sucesso!");
+                    } else{
+                        System.out.println("Nao existem tipos para a criação da equipa.");
+                    }
+                }else{
+                    System.out.println("Nao existem colaboradores para a criação da equipa.");
+                }
                 break;
             } catch (final IntegrityViolationException e){
                 System.out.println("A equipa criada já existe na base de dados.");
