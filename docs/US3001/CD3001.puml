@@ -12,33 +12,37 @@ class PersistenceContext <<persistence>>
 class RepositoryFactory <<factory>>
 class CatalogoRepository <<repository>>
 class ServicoRepository <<repository>>
+class EquipaRepository <<repository>>
 
 
 ListCatalogoServicoUI --> ListCatalogoServicoController
 ListCatalogoServicoController : listCatalogo()
 ListCatalogoServicoController : listServico()
+ListCatalogoServicoController : listEquipas()
 
-ListCatalogoServicoController : findCatalogo(dados)
-ListCatalogoServicoController : findServicosUtilizador(dadosServico)
-ListCatalogoServicoController : findCatalogoServico(dadosCatalogo,dadosServico)
+ListCatalogoServicoController : findCatalogos(listEquipas, dados)
+ListCatalogoServicoController : getEquipasDoUser()
+ListCatalogoServicoController : findServicos(listEquipas, listCatalogos, dadosServico)
 
 ListCatalogoServicoController --> CatalogoRepository
 ListCatalogoServicoController --> ServicoRepository
+ListCatalogoServicoController --> EquipaRepository
 ListCatalogoServicoController --> PersistenceContext
 PersistenceContext : repositories()
 ListCatalogoServicoController --> RepositoryFactory
 RepositoryFactory : catalogos()
 RepositoryFactory : servicos()
+RepositoryFactory : equipas()
 
 PersistenceContext --> RepositoryFactory
 RepositoryFactory --> CatalogoRepository
 RepositoryFactory --> ServicoRepository
+RepositoryFactory --> EquipaRepository
 
-CatalogoRepository : findCatalogo(dados)
-CatalogoRepository : findServicosUtilizador(dadosServico)
-CatalogoRepository : findCatalogo(dadosCatalogo,dadosServico)
+EquipaRepository : getEquipasDoUser()
 
-ServicoRepository : findAllServicos(listaCatalogos, dadosServico)
-ServicoRepository : findServicos(catalogo, dadosServico)
+CatalogoRepository : findCatalogos(listEquipas, dados)
+
+ServicoRepository : findServicos(listEquipas, listCatalogos, dadosServico)
 
 @enduml

@@ -15,7 +15,7 @@ participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 database CatalogoRepository as CRepository <<repository>>
 database ServicoRepository as  SRepository <<repository>>
-
+database EquipaRepository as  ERepository <<repository>>
 
 activate Actor
 Actor -> UI: pretende consultar os catálogos de serviços e respetivos serviços
@@ -53,7 +53,23 @@ activate UI
             activate SRepository
             deactivate SRepository
         deactivate Factory
-        
+    deactivate Controller
+    UI -> Controller: listEquipas()
+    activate Controller
+        Controller -> Persistence: repositories()
+        activate Persistence
+            Persistence --> Factory: create()
+            activate Factory
+                Factory --> Persistence:
+            deactivate Factory
+            Persistence --> Controller:
+        deactivate Persistence
+        Controller -> Factory: equipas()
+        activate Factory
+            Factory --> ERepository : create()
+            activate ERepository
+            deactivate ERepository
+        deactivate Factory
     deactivate Controller
     loop enquanto pretender fazer consulta
 UI --> Actor: pergunta se pretende consultar catalogos e/ou servicos
@@ -67,7 +83,10 @@ Actor -> UI: introduz dados solicitados
 activate UI
 UI -> Controller:  findCatalogo(dados)
     activate Controller
-        Controller -> CRepository: Catalogo  = findCatalogos(dados)
+        Controller --> ERepository: listEquipas = getEquipasDoUser()
+        activate ERepository
+        deactivate ERepository
+        Controller -> CRepository: Catalogo  = findCatalogos(listEquipas, dados)
         activate CRepository
         deactivate CRepository
     deactivate Controller
@@ -82,10 +101,10 @@ Actor -> UI: introduz dados solicitados
 activate UI
 UI -> Controller:  findServicosUtilizador()
     activate Controller
-        Controller -> CRepository: listaCatalogos  = findCatalogosUtilizador()
-            activate CRepository
-            deactivate CRepository
-        Controller -> SRepository: listaServicos = findAllServicos(listaCatalogos, dadosServico)
+        Controller --> ERepository: listEquipas = getEquipasDoUser()
+        activate ERepository
+        deactivate ERepository
+        Controller -> SRepository: listaServicos = findServicosUtilizador(listEquipas, dadosServico)
             activate SRepository
             deactivate SRepository
     deactivate Controller
@@ -100,10 +119,13 @@ Actor -> UI: introduz dados solicitados
 activate UI
 UI -> Controller:  findCatalogo()
     activate Controller
-        Controller -> CRepository: catalogo  = findCatalogo()
+        Controller --> ERepository: listEquipas = getEquipasDoUser()
+        activate ERepository
+        deactivate ERepository
+    Controller -> CRepository: listCatalogos  = findCatalogos(listEquipas, dados)
         activate CRepository
         deactivate CRepository
-    Controller -> SRepository: listaServicos = findServicos(catalogo, dadosServico)
+    Controller -> SRepository: listaServicos = findServicos(listEquipas, listCatalogos, dadosServico)
         activate SRepository
         deactivate SRepository
     deactivate Controller
