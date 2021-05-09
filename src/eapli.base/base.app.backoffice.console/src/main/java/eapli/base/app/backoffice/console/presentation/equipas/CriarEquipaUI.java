@@ -24,7 +24,7 @@ public class CriarEquipaUI extends AbstractUI {
         CodigoUnicoDataWidget codigoUnicoData = null;
         AcronimoDataWidget acronimoData = null;
         DesignacaoDataWidget designacaoData = null;
-            TipoEquipa tipo = null;
+        TipoEquipa tipo = null;
         Set<Colaborador> colabs = new HashSet<>();
 
         while(true){
@@ -52,8 +52,6 @@ public class CriarEquipaUI extends AbstractUI {
                     if (colabs.contains(selector2.selectedElement())) {
                         System.out.println("Já colocou este colaborador!");
                     } else {
-                        //System.out.println("EQUIPA!!!!!!!  " + this.controller.validar(tipo,selector2.selectedElement().identity()));
-                        //if(this.controller.validar(tipo,selector2.selectedElement().identity()) != null) {
                         Iterable<Equipa> list = this.controller.findEquipasDosColaborador(selector2.selectedElement());
                         boolean flag = this.controller.verificarTipo(list, tipo);
                         if(flag) {
@@ -61,7 +59,6 @@ public class CriarEquipaUI extends AbstractUI {
                         } else {
                             System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!");
                         }
-                        //}
                     }
 
                     String answer = Console.readLine("Deseja adicionar mais colaboradores responsáveis? (S/N)?");
@@ -78,14 +75,14 @@ public class CriarEquipaUI extends AbstractUI {
 
 
             try {
-                if(!colabs.isEmpty() ){
+                if(!colabs.isEmpty()){
                     if(tipo != null) {
                         this.controller.novaEquipa(codigoUnicoData.codigoUnico(), acronimoData.acronimo(), designacaoData.designacao(), tipo, colabs);
                         System.out.println("Equipa criada com sucesso!");
                     } else{
                         System.out.println("Nao existem tipos para a criação da equipa.");
                     }
-                }else{
+                } else {
                     System.out.println("Nao existem colaboradores para a criação da equipa.");
                 }
                 break;

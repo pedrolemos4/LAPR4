@@ -1,6 +1,5 @@
 package eapli.base.gestaoservicosrh.application;
 
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.gestaoservicosrh.domain.*;
 import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
@@ -9,7 +8,6 @@ import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.application.UseCaseController;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @UseCaseController
@@ -20,13 +18,6 @@ public class CriarEquipaController {
     private final ColaboradorRepository repo3 = PersistenceContext.repositories().colaborador();
 
     public Equipa novaEquipa(String cod, String acronimo, String desig, TipoEquipa tipo, Set<Colaborador> responsaveis){
-        /*for (Equipa eq : repo.findAll()) {
-            for (Colaborador colab : eq.listMembros()){
-                if (responsaveis.contains(colab) && eq.getTipo().equals(tipo)){
-                    throw new IllegalArgumentException("O colaborador selecionado ja existe numa equipa com este tipo!");
-                }
-            }
-        }*/
         final Equipa novaEquipa = new Equipa(new CodigoUnico(cod), new Acronimo(acronimo), new Designacao(desig), tipo, responsaveis);
         return this.repo.save(novaEquipa);
     }
@@ -47,16 +38,11 @@ public class CriarEquipaController {
 
     public boolean verificarTipo(Iterable<Equipa> list, TipoEquipa tipo) {
         for(Equipa eq :list) {
-            if(this.repo.findByTipoEquipa(eq.identity(),tipo) != null){
+            if(this.repo.findByTipoEquipa(eq.identity(),tipo) != null) {
                 return false;
             }
         }
         return true;
     }
-
-    /*public Equipa validar(TipoEquipa tipo, MecanographicNumber identity) {
-        return this.repo.validate(tipo, identity);
-    }*/
-
 
 }
