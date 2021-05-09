@@ -2,9 +2,11 @@ package eapli.base.app.backoffice.console.presentation.catalogo;
 
 import eapli.base.app.backoffice.console.presentation.servicos.DescricaoBreveDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.DescricaoCompletaDataWidget;
+import eapli.base.app.backoffice.console.presentation.servicos.KeywordsDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.TituloDataWidget;
 import eapli.base.gestaoservicoshelpdesk.domain.Catalogo;
 import eapli.base.gestaoservicoshelpdesk.domain.Servico;
+import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.utilizador.application.ListCatalogoServicoController;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.io.util.Console;
@@ -39,8 +41,9 @@ public class ListCatalogoServicoUI extends AbstractUI {
                 descricaoCompletaDataWidget.show();
 
                 try {
-                    Set<Catalogo> list = new HashSet<>();
-                    this.controller.findCatalogo(list, tituloDataWidget.titulo(),
+                    Set<Equipa> listaEquipaUser = this.controller.getEquipasDoUser();
+
+                    Set<Catalogo> list = this.controller.findCatalogo(listaEquipaUser, tituloDataWidget.titulo(),
                             descricaoBreveDataWidget.descricao(), descricaoCompletaDataWidget.descricao());
                     for(Catalogo c: list){
                         System.out.println(c.toString());
@@ -54,17 +57,34 @@ public class ListCatalogoServicoUI extends AbstractUI {
                 final TituloDataWidget tituloData = new TituloDataWidget();
                 tituloData.show();
 
-                ///FALTAM AS KEYWORDS
-
                 final DescricaoBreveDataWidget descricaoBreveData = new DescricaoBreveDataWidget();
                 descricaoBreveData.show();
 
                 final DescricaoCompletaDataWidget descricaoCompletaData = new DescricaoCompletaDataWidget();
                 descricaoCompletaData.show();
 
+                final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
+                keywordsDataWidget.show();
+                boolean flag1 = true;
+
+                Set<String> keywords = new HashSet<>();
+                keywords.add(keywordsDataWidget.keyword());
+
+                while(flag1){
+                    String answer;
+                    System.out.println("Deseja adicionar mais keywords?");
+                    answer=Console.readLine("Resposta(S/N):");
+                    if(answer.equalsIgnoreCase("Sim") || answer.equalsIgnoreCase("S")){
+                        keywordsDataWidget.show();
+                        keywords.add(keywordsDataWidget.keyword());
+                    } else {
+                        flag1 = false;
+                    }
+                }
+
                 try {
-                    Set<Servico> list = new HashSet<>();
-                    this.controller.findServicosUtilizador(list, tituloData.titulo(),
+                    Set<Equipa> listaEquipaUser = this.controller.getEquipasDoUser();
+                    Set<Servico> list = this.controller.findServicosUtilizador(listaEquipaUser, keywords, tituloData.titulo(),
                             descricaoBreveData.descricao(), descricaoCompletaData.descricao());
                     for(Servico c: list){
                         System.out.println(c.toString());
@@ -84,8 +104,58 @@ public class ListCatalogoServicoUI extends AbstractUI {
                 final DescricaoCompletaDataWidget descricaoCompletaDataWidget = new DescricaoCompletaDataWidget();
                 descricaoCompletaDataWidget.show();
 
+                Set<Catalogo> listCatalogos = new HashSet<>();
+                try {
+                    Set<Equipa> listaEquipa = this.controller.getEquipasDoUser();
+                    listCatalogos = this.controller.findCatalogo(listaEquipa,tituloDataWidget.titulo(),
+                            descricaoBreveDataWidget.descricao(), descricaoCompletaDataWidget.descricao());
+                    for(Catalogo c: listCatalogos){
+                        System.out.println(c.toString());
+                    }
+                } catch (final IntegrityViolationException e) {
+                    System.out.println("Erro.");
+                }
 
+                System.out.println("Para estes catálogos agora consulte os seus servicos:");
 
+                final TituloDataWidget tituloData = new TituloDataWidget();
+                tituloData.show();
+
+                final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
+                keywordsDataWidget.show();
+                boolean flag1 = true;
+
+                Set<String> keywords = new HashSet<>();
+                keywords.add(keywordsDataWidget.keyword());
+
+                while(flag1){
+                    String answer;
+                    System.out.println("Deseja adicionar mais keywords?");
+                    answer=Console.readLine("Resposta(S/N):");
+                    if(answer.equalsIgnoreCase("Sim") || answer.equalsIgnoreCase("S")){
+                        keywordsDataWidget.show();
+                        keywords.add(keywordsDataWidget.keyword());
+                    } else {
+                        flag1 = false;
+                    }
+                }
+
+                final DescricaoBreveDataWidget descricaoBreveData = new DescricaoBreveDataWidget();
+                descricaoBreveData.show();
+
+                final DescricaoCompletaDataWidget descricaoCompletaData = new DescricaoCompletaDataWidget();
+                descricaoCompletaData.show();
+
+                try {
+                    Set<Equipa> listaEquipa = this.controller.getEquipasDoUser();
+                    Set<Servico> list1 = this.controller.findServicos(listaEquipa,listCatalogos, keywords, tituloData.titulo()
+                            , descricaoBreveData.descricao(), descricaoCompletaData.descricao());
+                    for(Servico c: list1){
+                        System.out.println(c.toString());
+                    }
+                } catch (final IntegrityViolationException e) {
+                    System.out.println("Erro.");
+                }
             }
             String answer = Console.readLine("Deseja consultar mais catalogos e/ou servicos (S/N)?");
             if ("N".equalsIgnoreCase(answer)) {
