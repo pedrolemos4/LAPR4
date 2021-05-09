@@ -13,7 +13,9 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class TituloTest {
-    
+
+    private Titulo instance = new Titulo("titulo");
+
     public TituloTest() {
     }
 
@@ -23,27 +25,35 @@ public class TituloTest {
     @Test
     public void testValueOf() {
         System.out.println("valueOf");
-        String name = "";
-        Titulo expResult = null;
+        String name = "titulo";
         Titulo result = Titulo.valueOf(name);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance, result);
     }
 
     /**
      * Test of equals method, of class Titulo.
      */
     @Test
-    public void testEquals() {
-        System.out.println("equals");
-        Object o = null;
-        Titulo instance = new Titulo();
+    public void testEquals1() {
+        System.out.println("equals=true");
+        Object o1 = new Titulo("titulo");
+        Titulo o = (Titulo) o1;
+        boolean expResult = true;
+        boolean result = instance.equals(o);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Titulo.
+     */
+    @Test
+    public void testEquals2() {
+        System.out.println("equals=false");
+        Object o1 = new Titulo("false");
+        Titulo o = (Titulo) o1;
         boolean expResult = false;
         boolean result = instance.equals(o);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -52,41 +62,33 @@ public class TituloTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Titulo instance = new Titulo();
-        String expResult = "";
+        String expResult = "titulo";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of hashCode method, of class Titulo.
-     */
-    @Test
-    public void testHashCode() {
-        System.out.println("hashCode");
-        Titulo instance = new Titulo();
-        int expResult = 0;
-        int result = instance.hashCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of compareTo method, of class Titulo.
      */
     @Test
-    public void testCompareTo() {
-        System.out.println("compareTo");
-        Titulo o = null;
-        Titulo instance = new Titulo();
+    public void testCompareTo1() {
+        System.out.println("compareTo=0");
+        Titulo o = new Titulo("titulo");
         int expResult = 0;
         int result = instance.compareTo(o);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of compareTo method, of class Titulo.
+     */
+    @Test
+    public void testCompareTo2() {
+        System.out.println("compareTo=-1");
+        Titulo o = new Titulo("titulo1");
+        int expResult = -1;
+        int result = instance.compareTo(o);
+        assertEquals(expResult, result);
     }
     
 }

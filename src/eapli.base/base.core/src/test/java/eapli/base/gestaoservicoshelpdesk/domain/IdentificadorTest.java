@@ -13,7 +13,9 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class IdentificadorTest {
-    
+
+    private Identificador instance = new Identificador("id1");
+
     public IdentificadorTest() {
     }
 
@@ -21,15 +23,24 @@ public class IdentificadorTest {
      * Test of compareTo method, of class Identificador.
      */
     @Test
-    public void testCompareTo() {
-        System.out.println("compareTo");
-        Identificador o = null;
-        Identificador instance = new Identificador();
+    public void testCompareTo1() {
+        System.out.println("compareTo equals");
+        Identificador o = new Identificador("id1");
         int expResult = 0;
         int result = instance.compareTo(o);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of compareTo method, of class Identificador.
+     */
+    @Test
+    public void testCompareTo2() {
+        System.out.println("compareTo not equals");
+        Identificador o = new Identificador("id2");
+        int expResult = -1;
+        int result = instance.compareTo(o);
+        assertEquals(expResult, result);
     }
     
 }
