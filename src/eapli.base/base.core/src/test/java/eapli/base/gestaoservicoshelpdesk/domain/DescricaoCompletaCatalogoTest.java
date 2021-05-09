@@ -13,7 +13,9 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class DescricaoCompletaCatalogoTest {
-    
+
+    private DescricaoCompletaCatalogo instance = new DescricaoCompletaCatalogo("desc");
+
     public DescricaoCompletaCatalogoTest() {
     }
 
@@ -23,27 +25,33 @@ public class DescricaoCompletaCatalogoTest {
     @Test
     public void testValueOf() {
         System.out.println("valueOf");
-        String name = "";
-        DescricaoCompletaCatalogo expResult = null;
-        DescricaoCompletaCatalogo result = DescricaoCompletaCatalogo.valueOf(name);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DescricaoCompletaCatalogo result = DescricaoCompletaCatalogo.valueOf("desc");
+        assertEquals(instance, result);
     }
 
     /**
      * Test of equals method, of class DescricaoCompletaCatalogo.
      */
     @Test
-    public void testEquals() {
-        System.out.println("equals");
-        Object o = null;
-        DescricaoCompletaCatalogo instance = new DescricaoCompletaCatalogo();
+    public void testEquals1() {
+        System.out.println("equals=true");
+        Object o = new DescricaoCompletaCatalogo("desc");
+        DescricaoCompletaCatalogo instance1 = (DescricaoCompletaCatalogo) o;
+        boolean expResult = true;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class DescricaoCompletaCatalogo.
+     */
+    @Test
+    public void testEquals2() {
+        System.out.println("equals=false");
+        Object o = new Object();
         boolean expResult = false;
         boolean result = instance.equals(o);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -52,26 +60,9 @@ public class DescricaoCompletaCatalogoTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        DescricaoCompletaCatalogo instance = new DescricaoCompletaCatalogo();
-        String expResult = "";
+        String expResult = "desc";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of hashCode method, of class DescricaoCompletaCatalogo.
-     */
-    @Test
-    public void testHashCode() {
-        System.out.println("hashCode");
-        DescricaoCompletaCatalogo instance = new DescricaoCompletaCatalogo();
-        int expResult = 0;
-        int result = instance.hashCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

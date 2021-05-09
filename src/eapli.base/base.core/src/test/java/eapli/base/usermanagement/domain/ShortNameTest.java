@@ -13,7 +13,9 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class ShortNameTest {
-    
+
+    private ShortName instance = new ShortName("shortName");
+
     public ShortNameTest() {
     }
 
@@ -23,12 +25,9 @@ public class ShortNameTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        ShortName instance = new ShortName();
-        String expResult = "";
+        String expResult = "shortName";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

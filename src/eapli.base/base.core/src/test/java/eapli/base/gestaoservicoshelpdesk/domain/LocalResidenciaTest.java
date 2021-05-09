@@ -23,12 +23,13 @@ public class LocalResidenciaTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        LocalResidencia instance = new LocalResidencia();
-        String expResult = "";
+        LocalResidencia instance = new LocalResidencia("end");
+        String endereco = "end";
+        String expResult = "LocalResidencia{" +
+                "endereco='" + endereco + '\'' +
+                '}';;
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

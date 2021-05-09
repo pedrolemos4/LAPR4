@@ -13,7 +13,9 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class FullNameTest {
-    
+
+    private FullName instance = new FullName("fullName");
+
     public FullNameTest() {
     }
 
@@ -23,12 +25,9 @@ public class FullNameTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        FullName instance = new FullName();
-        String expResult = "";
+        String expResult = "fullName";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
