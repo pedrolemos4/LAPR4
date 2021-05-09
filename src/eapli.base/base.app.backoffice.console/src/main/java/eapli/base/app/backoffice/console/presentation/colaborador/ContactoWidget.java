@@ -9,12 +9,12 @@ public class ContactoWidget {
 
     public void show(){
         String s = Console.readLine("Contacto:");
-        if(s.length()==1){
+        if(s.length()==9){
             this.value=Integer.parseInt(s);
             this.prefix=0;
         }else{
             String split[] = s.split(" ");
-            this.value=Integer.parseInt(split[0]);
+            this.value=Integer.parseInt(split[1]);
             this.prefix=Integer.parseInt(split[0]);
         }
     }
@@ -24,7 +24,7 @@ public class ContactoWidget {
     }
 
     public int prefix(){
-        return this.prefix();
+        return this.prefix;
     }
 
 }
