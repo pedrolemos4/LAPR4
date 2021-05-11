@@ -21,7 +21,7 @@ public class NovoCatalogoUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-        boolean bool=true;
+        boolean bool = true;
 
         final Iterable<Equipa> listaEquipas = this.controller.getEquipas();
 
@@ -32,38 +32,39 @@ public class NovoCatalogoUI extends AbstractUI {
 
         System.out.println("Selecione um colaborador responsável pelo catálogo");
         selectorColab.show();
-        Colaborador colaborador = selectorColab.selectedElement();
-
-        final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Lista Equipas:", listaEquipas,
-                new ListEquipasPrint());
-
-        while(bool) {
-            System.out.println("Pretende adicionar uma equipa ao catálogo?");
-            String s = Console.readLine("S/N");
-            if(s.equalsIgnoreCase("S")) {
-                System.out.println("Selectione a equipa que pretende adicionar ao catálogo:");
-                selectorEquipa.show();
-                final Equipa equipa = selectorEquipa.selectedElement();
-                list.add(equipa);
-            }else{
-                bool=false;
-            }
-        }
-
-        final TituloDataWidget tituloDataWidget = new TituloDataWidget();
-        tituloDataWidget.show();
-
-        final DescricaoBreveDataWidget descricaoBreveDataWidget = new DescricaoBreveDataWidget();
-        descricaoBreveDataWidget.show();
-
-        final DescricaoCompletaDataWidget descricaoCompletaDataWidget = new DescricaoCompletaDataWidget();
-        descricaoCompletaDataWidget.show();
-
-        final IconeDataWidget iconeDataWidget = new IconeDataWidget();
-        iconeDataWidget.show();
 
         try {
-            this.controller.novoCatalogo(tituloDataWidget.titulo(),descricaoBreveDataWidget.descricao(),iconeDataWidget.icone(),descricaoCompletaDataWidget.descricao(),listaEquipas, colaborador);
+            Colaborador colaborador = selectorColab.selectedElement();
+
+            final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Lista Equipas:", listaEquipas,
+                    new ListEquipasPrint());
+
+            while (bool) {
+                System.out.println("Pretende adicionar uma equipa ao catálogo?");
+                String s = Console.readLine("S/N");
+                if (s.equalsIgnoreCase("S")) {
+                    System.out.println("Selectione a equipa que pretende adicionar ao catálogo:");
+                    selectorEquipa.show();
+                    final Equipa equipa = selectorEquipa.selectedElement();
+                    list.add(equipa);
+                } else {
+                    bool = false;
+                }
+            }
+
+            final TituloDataWidget tituloDataWidget = new TituloDataWidget();
+            tituloDataWidget.show();
+
+            final DescricaoBreveDataWidget descricaoBreveDataWidget = new DescricaoBreveDataWidget();
+            descricaoBreveDataWidget.show();
+
+            final DescricaoCompletaDataWidget descricaoCompletaDataWidget = new DescricaoCompletaDataWidget();
+            descricaoCompletaDataWidget.show();
+
+            final IconeDataWidget iconeDataWidget = new IconeDataWidget();
+            iconeDataWidget.show();
+
+            this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador);
         } catch (Exception e) {
             System.out.println("Erro");
             System.out.println("");
