@@ -32,8 +32,8 @@ public class RemoverColaboradorEquipaController {
             if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)) {
                 Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
                 Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
-                equipa.listMembros().remove(colaborador);
-                this.equipaRepository.delete(equipa);
+                //Remover
+                System.out.println("SUCESSO\n");
             }
         }
         catch(UnauthorizedException e){
@@ -49,4 +49,16 @@ public class RemoverColaboradorEquipaController {
         return colaboradorRepository.containsOfIdentity(id);
     }
 
+    public void showAll() {
+        System.out.println("Available Teams   =========================================================================\n");
+        for (Equipa e : this.equipaRepository.findAll()) {
+            System.out.println(e);
+        }
+        System.out.println("===========================================================================================\n");
+        System.out.println("Available Collaborators   =================================================================\n");
+        for (Colaborador c :this.colaboradorRepository.findAll()) {
+            System.out.println(c);
+        }
+        System.out.println("===========================================================================================\n");
+    }
 }

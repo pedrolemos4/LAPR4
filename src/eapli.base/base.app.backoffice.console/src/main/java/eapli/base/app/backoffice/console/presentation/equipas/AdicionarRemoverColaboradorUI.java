@@ -34,6 +34,7 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                             "===========================================================================================\n"+
                             "=INTRODUZA ID DE EQUIPA E NR MECANOGRAFICO DE COLABORADOR A ADICIONAR:                    =\n"+
                             "===========================================================================================\n");
+                    controller.showAll();
                     System.out.println("=ID EQUIPA:                                                                               =\n");
                     codigoUnico = sc.next();
                     System.out.println("===========================================================================================\n");
@@ -48,15 +49,17 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                             "===========================================================================================\n"+
                             "=INTRODUZA ID DE EQUIPA E NR MECANOGRAFICO DE COLABORADOR A ADICIONAR:                    =\n"+
                             "===========================================================================================\n");
+                    controller1.showAll();
                     System.out.println("=ID EQUIPA:                                                                               =\n");
                     codigoUnico = sc.next();
                     System.out.println("===========================================================================================\n");
                     System.out.println("=NUMERO MECANOGRAFICO:                                                                    =\n");
                     nrMecanografico = sc.nextInt();
-                    System.out.println("===========================================================================================\n");
+                    System.out.println("===========================================================================================");
                     controller1.removerColaboradorEquipa(codigoUnico,nrMecanografico);
                     break;
                 default:
+                    System.out.println("INVALID OPTION=============================================================================\n");
                     break;
             }
         return true;

@@ -6,6 +6,8 @@ import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.framework.domain.repositories.DomainRepository;
 
+import java.util.List;
+
 public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> {
 
     Iterable<Equipa> findByColaborador(MecanographicNumber colab);
@@ -15,4 +17,6 @@ public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> 
     Equipa validate(TipoEquipa tipo, MecanographicNumber identity);
 
     Equipa findByTipoEquipa(CodigoUnico identity, TipoEquipa tipo);
+
+    List<Equipa> findAll();
 }

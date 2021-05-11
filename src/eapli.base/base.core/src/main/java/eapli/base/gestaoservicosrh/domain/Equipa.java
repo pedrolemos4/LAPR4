@@ -105,11 +105,10 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
 
     @Override
     public String toString() {
-        return "Equipa{" +
-                "codigo=" + codigo +
-                ", acronimo=" + acronimo +
-                ", designacao=" + designacao +
-                ", tipo=" + tipo +
-                '}';
+        return "Equipa\n" +
+                "Codigo: " + codigo +
+                " Acronimo: " + acronimo +
+                " Designacao: " + designacao +
+                " Tipo: " + tipo ;
     }
 }

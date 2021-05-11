@@ -10,6 +10,7 @@ import eapli.base.usermanagement.domain.Colaborador;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, CodigoUnico> implements EquipaRepository {
@@ -57,6 +58,13 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
         q.setParameter("identity", identity);
         q.setParameter("tipo", tipo);
         return q.getSingleResult();
+    }
+
+    @Override
+    public List<Equipa> findAll(){
+        final TypedQuery<Equipa> q = createQuery(
+                "SELECT e FROM Equipa e " , Equipa.class);
+        return q.getResultList();
     }
 
 }
