@@ -25,60 +25,61 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     }
 
     @Override
-    public Iterable<Servico> findAllServicos(CodigoUnico identity, Titulo titulo,Set<String> keywords, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta) {
+    public Iterable<Servico> findAllServicos(CodigoUnico identity, String titulo,Set<String> keywords, String descricaoBreve, String descricaoCompleta) {
         //APENAS DESCRICAOCOMPLETA
-        if(titulo==null && keywords == null && descricaoBreve == null && descricaoCompleta != null) {
+        if(titulo.isEmpty() && keywords.isEmpty() && descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByDescricaoCompleta(identity, descricaoCompleta);
         } //APENAS DESCRICAOBREVE
-        else if(titulo==null && keywords == null && descricaoBreve != null && descricaoCompleta == null) {
+        else if(titulo.isEmpty() && keywords.isEmpty() && !descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByDescricaoBreve(identity, descricaoBreve);
         } //APENAS TITULO
-        else if(titulo!=null && keywords == null && descricaoBreve == null && descricaoCompleta == null) {
+        else if(!titulo.isEmpty() && keywords.isEmpty() && descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByTitulo(identity, titulo);
         }//APENAS KEYWORDS
-        else if(titulo==null && keywords != null && descricaoBreve == null && descricaoCompleta == null) {
+        else if(titulo.isEmpty() && !keywords.isEmpty() && descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByKeywords(identity, keywords);
         } // TITULO E DESCRICAOBREVE
-        else if(titulo!=null && keywords == null && descricaoBreve != null && descricaoCompleta == null) {
+        else if(!titulo.isEmpty() && keywords.isEmpty() && !descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByTituloDescricaoBreve(identity, titulo, descricaoBreve);
         } // TITULO E DESCRICAOCOMPLETA
-        else if(titulo!=null && keywords == null && descricaoBreve != null && descricaoCompleta == null) {
+        else if(!titulo.isEmpty() && keywords.isEmpty() && descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByTituloDescricaoCompleta(identity, titulo, descricaoCompleta);
         } // TITULO E KEYWORDS
-        else if(titulo!=null && keywords != null && descricaoBreve != null && descricaoCompleta == null) {
+        else if(!titulo.isEmpty() && !keywords.isEmpty() && descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByTituloKeywords(identity, titulo, keywords);
         } // DESCRICAOBREVE E DESCRICAOCOMPLETA
-        else if(titulo==null && keywords == null && descricaoBreve != null && descricaoCompleta != null) {
+        else if(titulo.isEmpty() && keywords.isEmpty() && !descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByDescricaoBreveDescricaoCompleta(identity, descricaoBreve, descricaoCompleta);
         }// KEYWORDS E DESCRICAOCOMPLETA
-        else if(titulo==null && keywords != null && descricaoBreve == null && descricaoCompleta != null) {
+        else if(titulo.isEmpty() && !keywords.isEmpty() && descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByKeywordsDescricaoCompleta(identity, keywords, descricaoCompleta);
         }// KEYWORDS E DESCRICAOBREVE
-        else if(titulo==null && keywords != null && descricaoBreve != null && descricaoCompleta == null) {
+        else if(titulo.isEmpty() && !keywords.isEmpty() && !descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByKeywordsdescricaoBreve(identity, keywords, descricaoBreve);
         } // TITULO E DESCRICAOBREVE E KEYWORDS
-        else if(titulo!=null && keywords != null && descricaoBreve != null && descricaoCompleta == null) {
+        else if(!titulo.isEmpty() && !keywords.isEmpty() && !descricaoBreve.isEmpty() && descricaoCompleta.isEmpty()) {
             return findByTituloKeywordsDescricaoBreve(identity, titulo, keywords, descricaoBreve);
         } // TITULO E DESCRICAOCOMPLETA E KEYWORDS
-        else if(titulo!=null && keywords != null && descricaoBreve == null && descricaoCompleta != null) {
+        else if(!titulo.isEmpty() && !keywords.isEmpty() && descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByTituloKeywordsDescricaoCompleta(identity, titulo, keywords, descricaoCompleta);
         } // DESCRICAOBREVE E DESCRICAOCOMPLETA E KEYWORDS
-        else if(titulo==null && keywords != null && descricaoBreve != null && descricaoCompleta != null) {
+        else if(titulo.isEmpty() && !keywords.isEmpty() && !descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByKeywordsDescricaoBreveDescricaoCompleta(identity, keywords, descricaoBreve, descricaoCompleta);
         }// TITULO E DESCRICAOBREVE E DESCRICAOCOMPLETA
-        else if(titulo!=null && keywords == null && descricaoBreve != null && descricaoCompleta != null) {
+        else if(!titulo.isEmpty() && keywords.isEmpty() && !descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findByTituloDescricaoBreveDescricaoCompleta(identity, titulo, descricaoBreve, descricaoCompleta);
         } // TITULO E DESCRICAOBREVE E DESCRICAOCOMPLETA E KEYWORDS
-        else if(titulo!=null && keywords != null && descricaoBreve != null && descricaoCompleta != null) {
+        else if(!titulo.isEmpty() && !keywords.isEmpty() && !descricaoBreve.isEmpty() && !descricaoCompleta.isEmpty()) {
             return findTodos(identity, titulo, keywords, descricaoBreve, descricaoCompleta);
         }
         return null;
     }
 
-    private Iterable<Servico> findByTituloDescricaoBreveDescricaoCompleta(CodigoUnico identity, Titulo titulo, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta) {
+    private Iterable<Servico> findByTituloDescricaoBreveDescricaoCompleta(CodigoUnico identity, String titulo, String descricaoBreve, String descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e e.codigoUnico = :identity AND WHERE e.titulo = :titulo AND" +
-                        " e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.titulo ec INNER JOIN e.descricaoBreve db INNER JOIN e.descricaoCompleta dc" +
+                        " WHERE e.codigoUnico = :identity AND ec.titulo = :titulo AND" +
+                        " db.value = :descricaoBreve AND dc.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -87,11 +88,11 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    private Iterable<Servico> findByKeywordsDescricaoBreveDescricaoCompleta(CodigoUnico identity, Set<String> keywords, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta) {
+    private Iterable<Servico> findByKeywordsDescricaoBreveDescricaoCompleta(CodigoUnico identity, Set<String> keywords, String descricaoBreve, String descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k = :keywords AND e.descricaoBreve = :descricaoBreve" +
-                        "AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.keywords k INNER JOIN e.descricaoBreve db INNER JOIN e.descricaoCompleta dc " +
+                        "WHERE e.codigoUnico = :identity AND k = :keywords AND db.value = :descricaoBreve" +
+                        "AND dc.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -100,10 +101,11 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    private Iterable<Servico> findByTituloKeywordsDescricaoCompleta(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoCompleta descricaoCompleta) {
+    private Iterable<Servico> findByTituloKeywordsDescricaoCompleta(CodigoUnico identity, String titulo, Set<String> keywords, String descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity AND e.titulo = :titulo" +
-                        "AND k = :keywords AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.keywords k INNER JOIN e.titulo t INNER JOIN e.descricaoCompleta db" +
+                        "WHERE e.codigoUnico = :identity AND t.titulo = :titulo" +
+                        "AND k = :keywords AND db.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -112,10 +114,11 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    private Iterable<Servico> findByTituloKeywordsDescricaoBreve(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoBreve descricaoBreve) {
+    private Iterable<Servico> findByTituloKeywordsDescricaoBreve(CodigoUnico identity, String titulo, Set<String> keywords, String descricaoBreve) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity AND e.titulo = :titulo" +
-                        "AND k = :keywords AND e.descricaoBreve = :descricaoBreve",
+                "SELECT e FROM Servico e INNER JOIN e.keywords k INNER JOIN e.titulo ec INNER JOIN e.descricaoBreve db " +
+                        "WHERE e.codigoUnico = :identity AND ec.titulo = :titulo" +
+                        "AND k = :keywords AND db.value = :descricaoBreve",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -124,10 +127,11 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    private Iterable<Servico> findByKeywordsdescricaoBreve(CodigoUnico identity, Set<String> keywords, DescricaoBreve descricaoBreve) {
+    private Iterable<Servico> findByKeywordsdescricaoBreve(CodigoUnico identity, Set<String> keywords, String descricaoBreve) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k = :keywords AND e.descricaoBreve = :descricaoBreve",
+                "SELECT e FROM Servico e INNER JOIN e.keywords k INNER JOIN e.descricaoBreve db " +
+                        "WHERE e.codigoUnico = :identity " +
+                        "AND k = :keywords AND db.value = :descricaoBreve",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -135,10 +139,11 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    private Iterable<Servico> findByKeywordsDescricaoCompleta(CodigoUnico identity, Set<String> keywords, DescricaoCompleta descricaoCompleta) {
+    private Iterable<Servico> findByKeywordsDescricaoCompleta(CodigoUnico identity, Set<String> keywords, String descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k = :keywords AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.keywords k INNER JOIN e.descricaoCompleta db " +
+                        "WHERE e.codigoUnico = :identity " +
+                        "AND k = :keywords AND db.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -146,10 +151,10 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    private Iterable<Servico> findByTituloKeywords(CodigoUnico identity, Titulo titulo, Set<String> keywords) {
+    private Iterable<Servico> findByTituloKeywords(CodigoUnico identity, String titulo, Set<String> keywords) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
-                        "AND k = :keywords AND e.titulo = :titulo",
+                "SELECT e FROM Servico e JOIN e.keywords k INNER JOIN e.titulo ec WHERE e.codigoUnico = :identity " +
+                        "AND k = :keywords AND ec.titulo = :titulo",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("keywords", keywords);
@@ -159,7 +164,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     private Iterable<Servico> findByKeywords(CodigoUnico identity, Set<String> keywords) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords k WHERE e.codigoUnico = :identity " +
+                "SELECT e FROM Servico e INNER JOIN e.keywords k WHERE e.codigoUnico = :identity " +
                         "AND k = :keywords",
                 Servico.class);
         q.setParameter("identity", identity);
@@ -167,37 +172,39 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public Iterable<Servico>findByDescricaoCompleta(CodigoUnico identity, DescricaoCompleta descricaoCompleta){
+    public Iterable<Servico>findByDescricaoCompleta(CodigoUnico identity, String descricaoCompleta){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND" +
-                        " e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.descricaoCompleta db WHERE e.codigoUnico = :identity AND" +
+                        " db.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
     }
 
-    public Iterable<Servico>findByDescricaoBreve(CodigoUnico identity, DescricaoBreve descricaoBreve){
+    public Iterable<Servico>findByDescricaoBreve(CodigoUnico identity, String descricaoBreve){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND e.descricaoBreve = :descricaoBreve",
+                "SELECT e FROM Servico e INNER JOIN e.descricaoBreve db " +
+                        "WHERE e.codigoUnico = :identity AND db.value = :descricaoBreve",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("descricaoBreve", descricaoBreve);
         return q.getResultList();
     }
 
-    public Iterable<Servico>findByTitulo(CodigoUnico identity, Titulo titulo){
+    public Iterable<Servico>findByTitulo(CodigoUnico identity, String titulo){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND e.titulo = :titulo",
+                "SELECT e FROM Servico e INNER JOIN e.titulo db WHERE e.codigoUnico = :identity AND db.titulo = :titulo",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
         return q.getResultList();
     }
 
-    public Iterable<Servico>findByTituloDescricaoBreve(CodigoUnico identity, Titulo titulo, DescricaoBreve descricaoBreve){
+    public Iterable<Servico>findByTituloDescricaoBreve(CodigoUnico identity, String titulo, String descricaoBreve){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND e.titulo = :titulo AND e.descricaoBreve = :descricaoBreve",
+                "SELECT e FROM Servico e INNER JOIN e.titulo ec INNER JOIN e.descricaoBreve db " +
+                        "WHERE e.codigoUnico = :identity AND ec.titulo = :titulo AND db.value = :descricaoBreve",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -205,9 +212,10 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public Iterable<Servico>findByTituloDescricaoCompleta(CodigoUnico identity, Titulo titulo, DescricaoCompleta descricaoCompleta){
+    public Iterable<Servico>findByTituloDescricaoCompleta(CodigoUnico identity, String titulo, String descricaoCompleta){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND e.titulo = :titulo AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.titulo ec INNER JOIN e.descricaoCompleta db " +
+                        "WHERE e.codigoUnico = :identity AND ec.titulo = :titulo AND db.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -215,9 +223,10 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public Iterable<Servico>findByDescricaoBreveDescricaoCompleta(CodigoUnico identity, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta) {
+    public Iterable<Servico>findByDescricaoBreveDescricaoCompleta(CodigoUnico identity, String descricaoBreve, String descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico = :identity AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.descricaoBreve db INNER JOIN e.descricaoCompleta dc " +
+                        "WHERE e.codigoUnico = :identity AND db.value = :descricaoBreve AND dc.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("descricaoBreve", descricaoBreve);
@@ -225,10 +234,11 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public Iterable<Servico>findTodos(CodigoUnico identity, Titulo titulo, Set<String> keywords, DescricaoBreve descricaoBreve, DescricaoCompleta descricaoCompleta){
+    public Iterable<Servico>findTodos(CodigoUnico identity, String titulo, Set<String> keywords, String descricaoBreve, String descricaoCompleta){
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e JOIN e.keywords le WHERE e.codigoUnico = :identity AND e.titulo = :titulo AND" +
-                        " le = :keywords AND e.descricaoBreve = :descricaoBreve AND e.descricaoCompleta = :descricaoCompleta",
+                "SELECT e FROM Servico e INNER JOIN e.keywords le INNER JOIN e.titulo ec INNER JOIN e.descricaoBreve db " +
+                        "INNER JOIN e.descricaoCompleta dc WHERE e.codigoUnico = :identity AND ec.titulo = :titulo AND" +
+                        " le = :keywords AND db.value = :descricaoBreve AND dc.value = :descricaoCompleta",
                 Servico.class);
         q.setParameter("identity", identity);
         q.setParameter("titulo", titulo);
@@ -237,8 +247,5 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
     }
-
-
-
 
 }

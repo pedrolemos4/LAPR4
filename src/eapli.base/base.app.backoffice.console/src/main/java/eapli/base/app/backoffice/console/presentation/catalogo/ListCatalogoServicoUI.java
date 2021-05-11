@@ -68,7 +68,9 @@ public class ListCatalogoServicoUI extends AbstractUI {
                 boolean flag1 = true;
 
                 Set<String> keywords = new HashSet<>();
-                keywords.add(keywordsDataWidget.keyword());
+                if(!keywordsDataWidget.keyword().isEmpty()) {
+                    keywords.add(keywordsDataWidget.keyword());
+                }
 
                 while(flag1){
                     String answer;
@@ -76,7 +78,9 @@ public class ListCatalogoServicoUI extends AbstractUI {
                     answer=Console.readLine("Resposta(S/N):");
                     if(answer.equalsIgnoreCase("Sim") || answer.equalsIgnoreCase("S")){
                         keywordsDataWidget.show();
-                        keywords.add(keywordsDataWidget.keyword());
+                        if(!keywordsDataWidget.keyword().isEmpty()) {
+                            keywords.add(keywordsDataWidget.keyword());
+                        }
                     } else {
                         flag1 = false;
                     }

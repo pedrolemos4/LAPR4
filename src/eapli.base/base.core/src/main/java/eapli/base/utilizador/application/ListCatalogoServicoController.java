@@ -40,7 +40,7 @@ public class ListCatalogoServicoController {
             for(Equipa e : equipaTotal) {
                 if(listaEquipa.contains(e)) {
                     // catalogos dele e verifica se tem ou nao os requisitos
-                    Iterable<Catalogo> l = catRepo.findCatalogos(c.identity(),new Titulo(titulo), new DescricaoBreve(descricaobreve), new DescricaoCompletaCatalogo(descricaocompleta));
+                    Iterable<Catalogo> l = catRepo.findCatalogos(c.identity(), titulo, descricaobreve, descricaocompleta);
                     for (Catalogo cat : l) {
                         listaFinal.add(cat);
                     }
@@ -71,8 +71,8 @@ public class ListCatalogoServicoController {
 
         for(Servico servico : temp) {
             // ve para cada servico se os requisitos sao iguais ao servico
-            Iterable<Servico> listServico = servicoRepo.findAllServicos(servico.identity(), new Titulo(titulo), keywords,
-                    new DescricaoBreve(descricaobreve), new DescricaoCompleta(descricaocompleta));
+            Iterable<Servico> listServico = servicoRepo.findAllServicos(servico.identity(), titulo, keywords,
+                    descricaobreve, descricaocompleta);
             for(Servico s : listServico) {
                 listaFinal.add(s);
             }
@@ -100,8 +100,8 @@ public class ListCatalogoServicoController {
 
         for(Servico servico : temp) {
             // ve para cada servico se os requisitos sao iguais ao servico
-            Iterable<Servico> listServico = servicoRepo.findAllServicos(servico.identity(),new Titulo(titulo),
-                    keywords, new DescricaoBreve(descricao), new DescricaoCompleta(descricao1));
+            Iterable<Servico> listServico = servicoRepo.findAllServicos(servico.identity(),titulo,
+                    keywords, descricao, descricao1);
             for(Servico s : listServico) {
                 listaFinal.add(s);
             }
