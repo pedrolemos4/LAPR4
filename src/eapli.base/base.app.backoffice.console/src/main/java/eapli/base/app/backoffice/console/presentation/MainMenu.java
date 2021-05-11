@@ -32,6 +32,7 @@ import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverCo
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipaUI;
 import eapli.base.app.backoffice.console.presentation.servicos.EspecificarServicoUI;
+import eapli.base.app.common.console.presentation.authz.LoginUI;
 import eapli.base.app.common.console.presentation.authz.MyUserMenu;
 import eapli.base.Application;
 import eapli.base.app.backoffice.console.presentation.authz.DeactivateUserAction;
@@ -52,6 +53,8 @@ import eapli.framework.presentation.console.menu.MenuItemRenderer;
 import eapli.framework.presentation.console.menu.MenuRenderer;
 import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
 
+import javax.swing.*;
+
 /**
  * TODO split this class in more specialized classes for each menu
  *
@@ -61,8 +64,10 @@ import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
 public class MainMenu extends AbstractUI {
 
     private static final String RETURN_LABEL = "Return ";
+    private static final String LOGOUT_LABEL = "Logout ";
 
     private static final int EXIT_OPTION = 0;
+    private static final int LOGOUT_OPTION = 9;
 
     //gestor de serviços helpdesk
     private static final int CRIAR_CATALOGO = 1;
@@ -169,6 +174,7 @@ public class MainMenu extends AbstractUI {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
+        mainMenu.addItem(LOGOUT_OPTION, LOGOUT_LABEL, ()-> new LoginUI().show());
         mainMenu.addItem(EXIT_OPTION, "Exit", new ExitWithMessageAction("Bye, Bye"));
 
         return mainMenu;
@@ -177,7 +183,7 @@ public class MainMenu extends AbstractUI {
     private Menu buildAssociarRemoverColaborador() {
         final Menu associarRemoverColaborador = new Menu("Associar/Remover Colaborador");
         associarRemoverColaborador.addItem(CONSULTAR_CATALOGO_SERVICO,"Associar/Remover Colaborador",()->new AdicionarRemoverColaboradorUI().show());
-        associarRemoverColaborador.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        associarRemoverColaborador.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return associarRemoverColaborador;
     }
 
@@ -207,56 +213,56 @@ public class MainMenu extends AbstractUI {
     private Menu buildConsultarCatalogoServico(){
         final Menu consultarCatalogoServicoMenu = new Menu("Consultar Catálogo e/ou Serviço");
         consultarCatalogoServicoMenu.addItem(CONSULTAR_CATALOGO_SERVICO,"Consultar Catálogo e/ou Serviço",()->new ListCatalogoServicoUI().show());
-        consultarCatalogoServicoMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        consultarCatalogoServicoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
         return consultarCatalogoServicoMenu;
     }
 
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
         tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Equipa",()->new RegistarTipoEquipaUI().show());
-        tipoEquipaMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        tipoEquipaMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return tipoEquipaMenu;
     }
 
     private Menu buildEquipaMenu() {
         final Menu equipaMenu = new Menu("Equipa");
         equipaMenu.addItem(CRIAR_NOVA_EQUIPA, "Criar Equipa", () -> new CriarEquipaUI().show());
-        equipaMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        equipaMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return equipaMenu;
     }
 
     private Menu buildCriticidadeMenu(){
         final Menu criticidadeMenu = new Menu("Criticidade");
         criticidadeMenu.addItem(DEFINIR_NIVEIS_CRITICIDADE, "Definir Criticidade",()->new DefinirCriticidadeUI().show());
-        criticidadeMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        criticidadeMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
         return criticidadeMenu;
     }
 
     private Menu buildCatalogoMenu(){
         final Menu catalogoMenu = new Menu("Catalogo");
         catalogoMenu.addItem(CRIAR_CATALOGO,"Criar Catalogo",()->new NovoCatalogoUI().show());
-        catalogoMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        catalogoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
         return catalogoMenu;
     }
 
     private Menu buildServicoMenu(){
         final Menu servicoMenu = new Menu("Serviço");
         servicoMenu.addItem(ESPECIFICAR_SERVICO,"Especificar Serviço",()->new EspecificarServicoUI().show());
-        servicoMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        servicoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
         return servicoMenu;
     }
 
     private Menu buildEspecificaColaboradorMenu(){
         final Menu colaboradorMenu = new Menu("Especificar Colaborador");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador",()->new EspecificarColaboradorUI().show());
-        colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return colaboradorMenu;
     }
 
     private Menu buildEspecificaColaboradorFicheiroMenu(){
         final Menu colaboradorMenu = new Menu("Especificar Colaborador Pelo Ficheiro");
         colaboradorMenu.addItem(ESPECIFICAR_COLABORADOR,"Especificar Colaborador Pelo Ficheiro",()->new LerFicheiroColaboradorUI().show());
-        colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
+        colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return colaboradorMenu;
     }
 /*
