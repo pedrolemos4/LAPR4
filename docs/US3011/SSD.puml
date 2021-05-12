@@ -1,0 +1,12 @@
+@startuml
+
+actor Utilizador as act
+actor System as sys
+
+act->sys: Autentica-se
+activate act
+activate sys
+sys->act : Apresentação do dashboard
+deactivate sys
+deactivate act
+@enduml
