@@ -32,6 +32,8 @@ public class RegistarTipoEquipaUI  extends AbstractUI {
             System.out.println("Registado com sucesso!!");
         } catch (final IntegrityViolationException e) {
             System.out.println("Erro.");
+            System.out.println("");
+
         }
         return false;
     }
