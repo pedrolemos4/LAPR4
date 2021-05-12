@@ -22,23 +22,19 @@ public class LerFicheiroColaboradorController {
     private final EspecificarColaboradorController colaboradorController = new EspecificarColaboradorController();
     private final AddUserController userController = new AddUserController();
 
-    public void lerDados(final String nomeFicheiro){
+    public void lerDados(final String nomeFicheiro) throws FileNotFoundException {
         authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
-        try{
-            Map<Integer,List<String>> mapa = lerFicheiroColaborador.lerDados(nomeFicheiro);
-            for(Integer i : mapa.keySet()){
-                List<String> strings = mapa.get(i);
-                String [] roles = strings.get(12).split(" ");
-                Set<Role>finalRoles = new HashSet<>();
-                for(int p=0; p<roles.length;p++){
-                    finalRoles.add(Role.valueOf(roles[p]));
-                }
-                System.out.println("pass: "+strings.get(1));
-                this.userController.addUser(strings.get(0),strings.get(1),strings.get(2),strings.get(3),strings.get(4),finalRoles);
-                this.colaboradorController.novoColaborador(Integer.parseInt(strings.get(5)),strings.get(6),strings.get(7),strings.get(8),Integer.parseInt(strings.get(9)),Integer.parseInt(strings.get(10)),strings.get(11),strings.get(4));
+        Map<Integer, List<String>> mapa = lerFicheiroColaborador.lerDados(nomeFicheiro);
+        for (Integer i : mapa.keySet()) {
+            List<String> strings = mapa.get(i);
+            String[] roles = strings.get(12).split(" ");
+            Set<Role> finalRoles = new HashSet<>();
+            for (int p = 0; p < roles.length; p++) {
+                finalRoles.add(Role.valueOf(roles[p]));
             }
-        }catch(FileNotFoundException e){
-            System.out.println("Ficheiro não encontrado/ Nome errado");
+            System.out.println("pass: " + strings.get(1));
+            this.userController.addUser(strings.get(0), strings.get(1), strings.get(2), strings.get(3), strings.get(4), finalRoles);
+            this.colaboradorController.novoColaborador(Integer.parseInt(strings.get(5)), strings.get(6), strings.get(7), strings.get(8), Integer.parseInt(strings.get(9)), Integer.parseInt(strings.get(10)), strings.get(11), strings.get(4));
         }
     }
 
