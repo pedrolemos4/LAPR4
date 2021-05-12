@@ -7,6 +7,7 @@ import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.usermanagement.domain.Colaborador;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
@@ -46,7 +47,12 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
                 Equipa.class);
         q.setParameter("identity", identity);
         q.setParameter("tipo", tipo);
-        return q.getSingleResult();
+        try {
+            return q.getSingleResult();
+        }
+        catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override

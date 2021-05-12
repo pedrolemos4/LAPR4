@@ -7,12 +7,10 @@ import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
 import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
 import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.application.exceptions.UnauthorizedException;
 
 @UseCaseController
 public class RemoverColaboradorEquipaController {
@@ -24,21 +22,16 @@ public class RemoverColaboradorEquipaController {
 
 
 
-    public void removerColaboradorEquipa(String codigoEquipa, int nrColab){
+    public boolean removerColaboradorEquipa(String codigoEquipa, int nrColab){
         CodigoUnico codigoUnico = new CodigoUnico(codigoEquipa);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(nrColab);
-        try{
-            authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
-            if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)) {
-                Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
-                Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
-                //Remover
-                System.out.println("SUCESSO\n");
-            }
+        if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)) {
+            Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
+            Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
+            //Remover
+            return true;
         }
-        catch(UnauthorizedException e){
-            System.out.println("ERROR: You dont have the permission to do this action");
-        }
+        return false;
     }
 
     public boolean existsTeam(CodigoUnico ID){

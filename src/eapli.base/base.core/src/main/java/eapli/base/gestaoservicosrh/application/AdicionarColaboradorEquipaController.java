@@ -16,34 +16,40 @@ import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.application.exceptions.UnauthorizedException;
 
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @UseCaseController
 public class AdicionarColaboradorEquipaController {
 
-    private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final EquipaRepository equipaRepository = PersistenceContext.repositories().equipas();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
 
-    public Equipa adicionarColaboradorEquipa(String codigoEquipa, int nrColab) {
+    /*
+    No authorization needed bc role is guarentedd
+     */
+    public boolean adicionarColaboradorEquipa(String codigoEquipa, int nrColab) {
         CodigoUnico codigoUnico = new CodigoUnico(codigoEquipa);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(nrColab);
-        try{
-            authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.RRH);
-            if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)){
-                Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
-                Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
-                if (validate(equipa,colaborador)) {
-                    equipa.listMembros().add(colaborador);
-                    return this.equipaRepository.save(equipa);
+        if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)){
+            Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
+            Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
+            if (validate(equipa,colaborador)) {
+                System.out.println(equipa.listMembros());
+                equipa.listMembros().add(colaborador);
+                System.out.println(equipa.listMembros());
+                this.equipaRepository.save(equipa);
+                return true;
+            }
+            else{
+                System.out.println("Este colaborador já se encontra com uma equipa deste tipo associada.");
             }
         }
+        else{
+            System.out.println("Equipa ou Colaborador não encontrado");
         }
-        catch(UnauthorizedException e){
-            System.out.println("ERROR: You dont have the permission to do this action");
-        }
-        return null;
+        return false;
     }
 
     private boolean validate(Equipa equipa, Colaborador colaborador) {
