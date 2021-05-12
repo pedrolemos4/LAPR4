@@ -41,7 +41,9 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                     System.out.println("=NUMERO MECANOGRAFICO:                                                                    =\n");
                     nrMecanografico = sc.nextInt();
                     System.out.println("===========================================================================================\n");
-                    controller.adicionarColaboradorEquipa(codigoUnico,nrMecanografico);
+                    if(controller.adicionarColaboradorEquipa(codigoUnico,nrMecanografico)) {
+                        System.out.println("SUCESSO\n");
+                    }
                     break;
                 case 2:
                     System.out.println("===========================================================================================\n"+
@@ -56,7 +58,9 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                     System.out.println("=NUMERO MECANOGRAFICO:                                                                    =\n");
                     nrMecanografico = sc.nextInt();
                     System.out.println("===========================================================================================");
-                    controller1.removerColaboradorEquipa(codigoUnico,nrMecanografico);
+                    if(controller1.removerColaboradorEquipa(codigoUnico,nrMecanografico)){
+                        System.out.println("SUCESSO\n");
+                    }
                     break;
                 default:
                     System.out.println("INVALID OPTION=============================================================================\n");
