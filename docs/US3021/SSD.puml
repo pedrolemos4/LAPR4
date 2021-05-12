@@ -1,0 +1,12 @@
+@startuml
+autonumber
+actor "Utilizador" as USR
+
+activate USR
+USR -> ":Sistema" : pretende consultar tarefas assignadas
+activate ":Sistema"
+":Sistema" --> USR : devolve a lista de tarefas coorespondente
+deactivate ":Sistema"
+
+deactivate USR
+@enduml
