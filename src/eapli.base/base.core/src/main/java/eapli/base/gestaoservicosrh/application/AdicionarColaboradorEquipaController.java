@@ -26,18 +26,18 @@ public class AdicionarColaboradorEquipaController {
     private final EquipaRepository equipaRepository = PersistenceContext.repositories().equipas();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
 
+    /*
+    No authorization needed bc role is guarentedd
+     */
     public boolean adicionarColaboradorEquipa(String codigoEquipa, int nrColab) {
         CodigoUnico codigoUnico = new CodigoUnico(codigoEquipa);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(nrColab);
         if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)){
             Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
             Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
-            System.out.println("validate");
             if (validate(equipa,colaborador)) {
-                System.out.println("antes");
                 System.out.println(equipa.listMembros());
                 equipa.listMembros().add(colaborador);
-                System.out.println("depois");
                 System.out.println(equipa.listMembros());
                 this.equipaRepository.save(equipa);
                 return true;
