@@ -1,0 +1,17 @@
+@startuml
+autonumber
+actor "Sistema" as USR
+
+activate USR
+USR -> ":Sistema" : pretende validar formularios e atividades
+activate ":Sistema"
+":Sistema" --> USR : faz a validacao aplicando a gramatica desenvolvida
+deactivate ":Sistema"
+
+USR -> ":Sistema" : envia os resultados da validacao
+activate ":Sistema"
+":Sistema" --> USR : operacao bem sucedida
+deactivate ":Sistema"
+
+deactivate USR
+@enduml
