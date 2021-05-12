@@ -2,6 +2,8 @@ package eapli.base.app.backoffice.console.presentation.equipas;
 
 import eapli.base.gestaoservicosrh.application.AdicionarColaboradorEquipaController;
 import eapli.base.gestaoservicosrh.application.RemoverColaboradorEquipaController;
+import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.presentation.console.AbstractUI;
 
 import java.util.Scanner;
@@ -34,7 +36,15 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                             "===========================================================================================\n"+
                             "=INTRODUZA ID DE EQUIPA E NR MECANOGRAFICO DE COLABORADOR A ADICIONAR:                    =\n"+
                             "===========================================================================================\n");
-                    controller.showAll();
+                    System.out.println("Available Teams   =========================================================================\n");
+                    for (Equipa e : controller.showAllTeams()) {
+                        System.out.println(e);
+                    }
+                    System.out.println("Available Collaborators   =================================================================\n");
+                    for (Colaborador c : controller.showAllCollaborators()) {
+                        System.out.println(c);
+                    }
+                    System.out.println("===========================================================================================\n");
                     System.out.println("=ID EQUIPA:                                                                               =\n");
                     codigoUnico = sc.next();
                     System.out.println("===========================================================================================\n");
@@ -51,7 +61,15 @@ public class AdicionarRemoverColaboradorUI extends AbstractUI {
                             "===========================================================================================\n"+
                             "=INTRODUZA ID DE EQUIPA E NR MECANOGRAFICO DE COLABORADOR A ADICIONAR:                    =\n"+
                             "===========================================================================================\n");
-                    controller1.showAll();
+                    System.out.println("Available Teams   =========================================================================\n");
+                    for (Equipa e : controller1.showAllTeams()) {
+                        System.out.println(e);
+                    }
+                    System.out.println("Available Collaborators   =================================================================\n");
+                    for (Colaborador c : controller1.showAllCollaborators()) {
+                        System.out.println(c);
+                    }
+                    System.out.println("===========================================================================================\n");
                     System.out.println("=ID EQUIPA:                                                                               =\n");
                     codigoUnico = sc.next();
                     System.out.println("===========================================================================================\n");
