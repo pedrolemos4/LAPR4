@@ -12,6 +12,8 @@ import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 
+import java.util.List;
+
 @UseCaseController
 public class RemoverColaboradorEquipaController {
 
@@ -41,17 +43,11 @@ public class RemoverColaboradorEquipaController {
     public boolean existsColaborador(MecanographicNumber id){
         return colaboradorRepository.containsOfIdentity(id);
     }
+    public List<Equipa> showAllTeams() {
+        return this.equipaRepository.findAll();
+    }
 
-    public void showAll() {
-        System.out.println("Available Teams   =========================================================================\n");
-        for (Equipa e : this.equipaRepository.findAll()) {
-            System.out.println(e);
-        }
-        System.out.println("===========================================================================================\n");
-        System.out.println("Available Collaborators   =================================================================\n");
-        for (Colaborador c :this.colaboradorRepository.findAll()) {
-            System.out.println(c);
-        }
-        System.out.println("===========================================================================================\n");
+    public List<Colaborador> showAllCollaborators() {
+        return (List<Colaborador>) this.colaboradorRepository.findAll();
     }
 }
