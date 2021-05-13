@@ -31,13 +31,18 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
     }
 
     @Override
-    public Iterable<Equipa> findEquipaDoCatalogo(Long identity) {
+    public boolean findEquipaDoCatalogo(Long identity, MecanographicNumber number) {
         final TypedQuery<Equipa> q = createQuery(
-                "SELECT ec FROM Catalogo e JOIN e.listEquipas ec WHERE" +
-                        " e.identificador =:identity",
+                "SELECT ec FROM Catalogo e, Equipa eq, Colaborador c JOIN c.likes l JOIN e.listEquipas ec " +
+                        "JOIN eq.listMembros el WHERE" +
+                        " e.identificador =:identity AND ec.codigo = l.codigo AND el.numeroMecanografico =:number",
                 Equipa.class);
         q.setParameter("identity", identity);
-        return q.getResultList();
+        q.setParameter("number", number);
+        if(q.getResultList().isEmpty()){
+            return false;
+        }
+        return true;
     }
 
     @Override
