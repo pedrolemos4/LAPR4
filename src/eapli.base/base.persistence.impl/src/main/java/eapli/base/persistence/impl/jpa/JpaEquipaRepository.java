@@ -57,13 +57,18 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
 
     @Override
     public Equipa findByTipoEquipa(CodigoUnico identity, TipoEquipa tipo) {
-        final TypedQuery<Equipa> q = createQuery(
-                "SELECT e FROM Equipa e " +
-                        "WHERE e.codigo = :identity AND e.tipo =:tipo",
-                Equipa.class);
-        q.setParameter("identity", identity);
-        q.setParameter("tipo", tipo);
-        return q.getSingleResult();
+        try{
+            final TypedQuery<Equipa> q = createQuery(
+                    "SELECT e FROM Equipa e " +
+                            "WHERE e.codigo = :identity AND e.tipo =:tipo",
+                    Equipa.class);
+            q.setParameter("identity", identity);
+            q.setParameter("tipo", tipo);
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+
     }
 
     @Override
