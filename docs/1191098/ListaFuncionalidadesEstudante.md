@@ -7,6 +7,8 @@
 
 | Sprint | Funcionalidade     |
 |--------|--------------------|
-| **B**  | [US2002](/docs/US2002) |
-| **B**  | [US2054](/docs/US2054) |
-| **B**  | [US2103](/docs/US2103) |
+| **B**  | [US2002](/docs/Sprint B/1191098/US2002) |
+| **B**  | [US2054](/docs/Sprint B/1191098/US2054) |
+| **C**  | [US2003](/docs/Sprint C/1191098/US2003) |
+| **C**  | [US2003](/docs/Sprint C/1191098/US2012) |
+| **C**  | [US2003](/docs/Sprint C/1191098/US4001) |
