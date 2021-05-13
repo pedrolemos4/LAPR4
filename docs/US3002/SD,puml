@@ -1,0 +1,37 @@
+@startuml
+
+hide footbox
+
+actor Utilizador as ACT
+actor SolicitarServicoUI as UI
+actor SolicitarServicoController as CT
+boundary SystemUserRepository as SRP 
+boundary ServicoRepository as SVRP 
+boundary FormularioRepository as FRP 
+database SystemUserDatabase as SDB
+database ServicoDatabase as SVDB
+database FormularioDatabase as FDB
+
+ACT->UI: Inicia o processo de especificação de serviço
+UI->CT: checkUserType()
+CT->SRP: type = getUser(this.MecanographicNumber).tipo()
+SRP->SDB: ofIdentity(this.MecanographicNumber)
+CT->SVRP: listaServicos = getAvailableServices(type)
+SVRP->SVDB:getAvailableServices(type)
+UI->ACT: Apresenta os serviços disponiveis para o tipo de utilizador loggado
+ACT->UI: Seleciona o serviço pretendido
+UI->CT:serviceRequest(servicoID)
+CT->SVRP:servico = ofIdentity(servicoID)
+SVRP->SVDB:ofIdentity(servicoID)
+CT->FRP:getFormulario(FormularioID)
+FRP->FDB:ofIdentity(FormularioID)
+CT->UI
+UI->ACT: Apresenta o formulario para o servico selecionado
+ACT->UI: Preenche e submete
+UI->ACT: Mostra o formulário realizado e pede confirmação
+ACT->UI: Confirma
+UI->CT: saveFormulario()
+CT->FRP:saveForm(form)
+FRP->FDB: save()
+UI->ACT: Sucesso
+@enduml

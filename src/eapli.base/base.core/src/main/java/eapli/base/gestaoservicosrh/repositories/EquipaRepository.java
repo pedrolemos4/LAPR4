@@ -12,7 +12,7 @@ public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> 
 
     Iterable<Equipa> findByColaborador(MecanographicNumber colab);
 
-    Iterable<Equipa> findEquipaDoCatalogo(Long identity);
+    boolean findEquipaDoCatalogo(Long identity, MecanographicNumber number);
 
     Equipa validate(TipoEquipa tipo, MecanographicNumber identity);
 
