@@ -2,7 +2,6 @@ package eapli.base.app.backoffice.console.presentation.equipas;
 
 import eapli.base.app.backoffice.console.presentation.servicos.CodigoUnicoDataWidget;
 import eapli.base.gestaoservicosrh.application.CriarEquipaController;
-import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.gestaoservicosrh.domain.TipoEquipa;
 import eapli.base.usermanagement.domain.Colaborador;
 import eapli.framework.domain.repositories.IntegrityViolationException;
@@ -47,18 +46,11 @@ public class CriarEquipaUI extends AbstractUI {
                     final SelectWidget<Colaborador> selector2 = new SelectWidget<>("Lista de Colaboradores: ", listColab, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
                     selector2.show();
                     Colaborador c =selector2.selectedElement();
-                    System.out.println(c.toString());
 
                     if (colabs.contains(selector2.selectedElement())) {
                         System.out.println("Já colocou este colaborador!");
                     } else {
-                        Iterable<Equipa> list = this.controller.findEquipasDosColaborador(selector2.selectedElement());
-                        boolean flag = this.controller.verificarTipo(list, tipo);
-                        if(flag) {
-                            colabs.add(selector2.selectedElement());
-                        } else {
-                            System.out.println("O colaborador selecionado ja existe numa equipa com este tipo!");
-                        }
+                        colabs.add(selector2.selectedElement());
                     }
 
                     String answer = Console.readLine("Deseja adicionar mais colaboradores responsáveis? (S/N)?");
@@ -72,7 +64,6 @@ public class CriarEquipaUI extends AbstractUI {
                 System.out.println("Erro na criação de equipa.");
                 break;
             }
-
 
             try {
                 if(!colabs.isEmpty()){
