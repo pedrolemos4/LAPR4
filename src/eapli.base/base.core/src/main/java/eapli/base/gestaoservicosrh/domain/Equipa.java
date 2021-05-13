@@ -12,7 +12,7 @@ import java.util.Set;
 public class Equipa implements AggregateRoot<CodigoUnico> {
 
     @Id
-    @Column(name = "ID_EQUIPA")
+    @Column(name="codigoUnico")
     private final CodigoUnico codigo;
 
     @Column(name = "ACRONIMO", unique = true)

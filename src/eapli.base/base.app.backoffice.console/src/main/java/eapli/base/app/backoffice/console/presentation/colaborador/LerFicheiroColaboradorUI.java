@@ -3,7 +3,6 @@ package eapli.base.app.backoffice.console.presentation.colaborador;
 import eapli.base.gestaoservicosrh.application.LerFicheiroColaboradorController;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
-
 import java.io.FileNotFoundException;
 
 public class LerFicheiroColaboradorUI extends AbstractUI {
@@ -16,7 +15,12 @@ public class LerFicheiroColaboradorUI extends AbstractUI {
         System.out.println("Insira o ficheiro do colaborador");
         String nomeFicheiro=Console.readLine("Nome ficheiro");
 
-        this.controller.lerDados(nomeFicheiro);
+        try {
+            this.controller.lerDados(nomeFicheiro);
+        }catch(FileNotFoundException e){
+            System.out.println("Ficheiro não encontrado");
+            doShow();
+        }
 
         return false;
     }

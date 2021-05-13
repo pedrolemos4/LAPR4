@@ -16,7 +16,7 @@ public class LerFicheiroColaborador {
         while(ler.hasNextLine()){
             linha = ler.nextLine();
             String[] split = linha.split(",");
-            String username = split[0];
+            /*String username = split[0];
             String password = split[1];
             String firstName=split[2];
             String lastName = split[3];
@@ -28,7 +28,7 @@ public class LerFicheiroColaborador {
             int prefix = Integer.parseInt(split[9]);
             int contacto = Integer.parseInt(split[10]);
             String residencia = split[11];
-            String roles = split[12]; //Separado por espaços
+            String roles = split[12]; //Separado por espaços*/
 
             for(int i=0;i<split.length;i++){
                 list.add(split[i]);
