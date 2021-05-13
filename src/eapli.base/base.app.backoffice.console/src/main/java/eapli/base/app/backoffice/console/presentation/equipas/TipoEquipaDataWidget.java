@@ -1,6 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.equipas;
 
-import eapli.base.gestaoservicosrh.domain.TipoEquipa;
+import eapli.base.tipoequipa.domain.TipoEquipa;
 
 public class TipoEquipaDataWidget {
     private TipoEquipa tipo;

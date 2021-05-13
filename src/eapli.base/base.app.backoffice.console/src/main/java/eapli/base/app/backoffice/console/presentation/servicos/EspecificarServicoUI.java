@@ -1,15 +1,15 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
-import eapli.base.gestaoservicoshelpdesk.application.EspecificarServicoController;
-import eapli.base.gestaoservicoshelpdesk.application.NovoCatalogoController;
-import eapli.base.gestaoservicoshelpdesk.domain.*;
-import eapli.base.gestaoservicosrh.domain.TipoEquipa;
+import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.draft.domain.DraftServico;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.servico.application.EspecificarServicoController;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

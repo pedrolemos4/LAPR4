@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.criticidade.domain.Escala;
 import junit.framework.TestCase;
 
 public class EscalaTest extends TestCase {

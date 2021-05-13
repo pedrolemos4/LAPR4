@@ -8,10 +8,6 @@ package eapli.base.infrastructure.bootstrapers;
 import java.util.HashSet;
 import java.util.Set;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Descricao;
-import eapli.base.gestaoservicoshelpdesk.domain.Funcao;
-import eapli.base.gestaoservicosrh.domain.CodigoUnico;
-import eapli.base.gestaoservicosrh.domain.Equipa;
 import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.actions.Action;
 import eapli.framework.infrastructure.authz.domain.model.Role;

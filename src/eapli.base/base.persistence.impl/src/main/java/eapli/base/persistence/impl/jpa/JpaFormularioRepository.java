@@ -1,7 +1,7 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Formulario;
-import eapli.base.gestaoservicoshelpdesk.repositories.FormularioRepository;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.repositories.FormularioRepository;
 
 public class JpaFormularioRepository extends BasepaRepositoryBase<Formulario,Long, Long>
         implements FormularioRepository {

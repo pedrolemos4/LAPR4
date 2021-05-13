@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.criticidade.domain.Objetivo;
 import junit.framework.TestCase;
 
 public class ObjetivoTest extends TestCase {

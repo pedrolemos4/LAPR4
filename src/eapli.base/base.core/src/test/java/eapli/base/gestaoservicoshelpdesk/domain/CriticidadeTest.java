@@ -1,6 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
-import eapli.base.gestaoservicosrh.domain.Designacao;
+import eapli.base.criticidade.domain.*;
+import eapli.base.equipa.domain.Designacao;
 import junit.framework.TestCase;
 
 public class CriticidadeTest extends TestCase {

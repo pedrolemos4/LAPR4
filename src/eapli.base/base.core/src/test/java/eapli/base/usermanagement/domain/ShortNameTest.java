@@ -5,6 +5,7 @@
  */
 package eapli.base.usermanagement.domain;
 
+import eapli.base.colaborador.domain.ShortName;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

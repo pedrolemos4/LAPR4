@@ -6,7 +6,7 @@
 package eapli.base.usermanagement.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
+import eapli.base.colaborador.domain.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -1,6 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.colaborador;
 
-import eapli.base.gestaoservicosrh.application.LerFicheiroColaboradorController;
+import eapli.base.colaborador.application.LerFicheiroColaboradorController;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import java.io.FileNotFoundException;

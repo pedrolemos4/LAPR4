@@ -1,18 +1,14 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicosrh.domain.CodigoUnico;
-import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.gestaoservicosrh.domain.TipoEquipa;
-import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
-import eapli.base.usermanagement.domain.Colaborador;
+import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Equipa;
+import eapli.base.tipoequipa.domain.TipoEquipa;
+import eapli.base.equipa.repositories.EquipaRepository;
 
 import javax.persistence.NoResultException;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, CodigoUnico> implements EquipaRepository {
 

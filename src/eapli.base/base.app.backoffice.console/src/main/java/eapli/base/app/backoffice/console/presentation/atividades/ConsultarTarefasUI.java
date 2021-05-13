@@ -1,7 +1,7 @@
 package eapli.base.app.backoffice.console.presentation.atividades;
 
 import eapli.base.gestaoservicoshelpdesk.application.ConsultarTarefasController;
-import eapli.base.gestaoservicoshelpdesk.domain.Servico;
+import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
 

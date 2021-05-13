@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicosrh.domain;
 
+import eapli.base.equipa.domain.Acronimo;
 import junit.framework.TestCase;
 
 public class AcronimoTest extends TestCase {

@@ -1,6 +1,5 @@
 package eapli.base.app.backoffice.console.presentation.colaborador;
 
-import eapli.base.usermanagement.domain.Data;
 import eapli.framework.io.util.Console;
 
 public class DataWidget {

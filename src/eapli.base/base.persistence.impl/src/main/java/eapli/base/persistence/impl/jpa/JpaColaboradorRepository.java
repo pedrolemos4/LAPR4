@@ -1,8 +1,8 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
-import eapli.base.usermanagement.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.general.domain.model.EmailAddress;
 
 import javax.persistence.TypedQuery;

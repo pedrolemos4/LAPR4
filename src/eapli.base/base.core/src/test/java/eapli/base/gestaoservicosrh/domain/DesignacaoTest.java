@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicosrh.domain;
 
+import eapli.base.equipa.domain.Designacao;
 import junit.framework.TestCase;
 
 public class DesignacaoTest extends TestCase {

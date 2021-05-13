@@ -1,5 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
 import junit.framework.TestCase;
 
 import java.util.HashSet;

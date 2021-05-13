@@ -1,11 +1,13 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicoshelpdesk.domain.*;
-import eapli.base.gestaoservicosrh.application.CriarEquipaController;
-import eapli.base.gestaoservicosrh.application.RegistarTipoEquipaController;
-import eapli.base.gestaoservicosrh.domain.*;
-import eapli.base.usermanagement.domain.*;
+import eapli.base.colaborador.domain.*;
+import eapli.base.criticidade.domain.Cor;
+import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Designacao;
+import eapli.base.equipa.application.CriarEquipaController;
+import eapli.base.tipoequipa.application.RegistarTipoEquipaController;
+import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;

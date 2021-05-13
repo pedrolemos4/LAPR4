@@ -1,6 +1,9 @@
 package eapli.base.gestaoservicosrh.domain;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Cor;
+import eapli.base.criticidade.domain.Cor;
+import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Designacao;
+import eapli.base.tipoequipa.domain.TipoEquipa;
 import junit.framework.TestCase;
 
 public class TipoEquipaTest extends TestCase {

@@ -2,9 +2,8 @@ package eapli.base.app.backoffice.console.presentation.colaborador;
 
 import eapli.base.usermanagement.application.AddUserController;
 import eapli.framework.io.util.Console;
-import eapli.base.gestaoservicosrh.application.EspecificarColaboradorController;
+import eapli.base.colaborador.application.EspecificarColaboradorController;
 import eapli.base.usermanagement.domain.BaseRoles;
-import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.infrastructure.authz.domain.model.Role;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;

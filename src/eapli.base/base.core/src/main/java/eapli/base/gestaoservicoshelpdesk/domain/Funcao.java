@@ -1,6 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
-import eapli.base.gestaoservicosrh.domain.CodigoUnico;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;

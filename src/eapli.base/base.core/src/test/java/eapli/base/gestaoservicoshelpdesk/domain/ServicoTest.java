@@ -1,5 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.servico.domain.EstadoServico;
+import eapli.base.servico.domain.Servico;
 import junit.framework.TestCase;
 
 public class ServicoTest extends TestCase {

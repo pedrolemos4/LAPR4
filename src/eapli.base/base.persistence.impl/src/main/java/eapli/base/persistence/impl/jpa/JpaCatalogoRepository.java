@@ -1,7 +1,7 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.gestaoservicoshelpdesk.domain.*;
-import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
+import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.catalogo.repositories.CatalogoRepository;
 
 import javax.persistence.TypedQuery;
 

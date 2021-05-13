@@ -1,7 +1,7 @@
 package eapli.base.gestaoservicoshelpdesk.application;
 
-import eapli.base.gestaoservicoshelpdesk.domain.Servico;
-import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
+import eapli.base.servico.domain.Servico;
+import eapli.base.servico.repositories.ServicoRepository;
 
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.application.UseCaseController;

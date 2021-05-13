@@ -4,10 +4,10 @@ import eapli.base.app.backoffice.console.presentation.servicos.DescricaoBreveDat
 import eapli.base.app.backoffice.console.presentation.servicos.DescricaoCompletaDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.KeywordsDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.TituloDataWidget;
-import eapli.base.gestaoservicoshelpdesk.domain.Catalogo;
-import eapli.base.gestaoservicoshelpdesk.domain.Servico;
-import eapli.base.usermanagement.domain.Colaborador;
-import eapli.base.utilizador.application.ListCatalogoServicoController;
+import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.servico.domain.Servico;
+import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.servico.application.ListCatalogoServicoController;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import org.apache.logging.log4j.LogManager;

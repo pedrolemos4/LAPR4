@@ -5,6 +5,7 @@
  */
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.catalogo.domain.Titulo;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

@@ -1,5 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.criticidade.domain.Etiqueta;
 import junit.framework.TestCase;
 
 public class EtiquetaTest extends TestCase {

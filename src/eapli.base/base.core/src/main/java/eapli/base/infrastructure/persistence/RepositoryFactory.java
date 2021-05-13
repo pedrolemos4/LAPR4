@@ -3,13 +3,18 @@
  */
 package eapli.base.infrastructure.persistence;
 
+import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.clientusermanagement.repositories.ClientUserRepository;
 
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.*;
-import eapli.base.gestaoservicosrh.repositories.ColaboradorRepository;
-import eapli.base.gestaoservicosrh.repositories.EquipaRepository;
-import eapli.base.gestaoservicosrh.repositories.TipoEquipaRepository;
+import eapli.base.contrato.repositories.ContratoRepository;
+import eapli.base.criticidade.repositories.CriticidadeRepository;
+import eapli.base.draft.repositories.DraftServicoRepository;
+import eapli.base.formulario.repositories.FormularioRepository;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.equipa.repositories.EquipaRepository;
+import eapli.base.tipoequipa.repositories.TipoEquipaRepository;
+import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
 

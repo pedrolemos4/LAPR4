@@ -1,6 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
-import eapli.base.gestaoservicosrh.domain.Designacao;
+import eapli.base.criticidade.domain.Cor;
 import junit.framework.TestCase;
 
 public class CorTest extends TestCase {

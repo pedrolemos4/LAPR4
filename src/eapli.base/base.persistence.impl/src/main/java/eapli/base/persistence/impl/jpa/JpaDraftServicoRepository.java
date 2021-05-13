@@ -1,7 +1,7 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.gestaoservicoshelpdesk.domain.DraftServico;
-import eapli.base.gestaoservicoshelpdesk.repositories.DraftServicoRepository;
+import eapli.base.draft.domain.DraftServico;
+import eapli.base.draft.repositories.DraftServicoRepository;
 
 public class JpaDraftServicoRepository extends BasepaRepositoryBase<DraftServico, Long, String>
         implements DraftServicoRepository {

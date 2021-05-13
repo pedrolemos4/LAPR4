@@ -1,10 +1,13 @@
 package eapli.base.gestaoservicosrh.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicoshelpdesk.domain.Cor;
-import eapli.base.gestaoservicoshelpdesk.domain.EnderecoEmail;
-import eapli.base.gestaoservicoshelpdesk.domain.LocalResidencia;
-import eapli.base.usermanagement.domain.*;
+import eapli.base.colaborador.domain.*;
+import eapli.base.criticidade.domain.Cor;
+import eapli.base.equipa.domain.Acronimo;
+import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Designacao;
+import eapli.base.equipa.domain.Equipa;
+import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.general.domain.model.EmailAddress;
 import junit.framework.TestCase;
 

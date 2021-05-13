@@ -1,9 +1,9 @@
 package eapli.base.app.backoffice.console.presentation.equipas;
 
-import eapli.base.gestaoservicosrh.application.AdicionarColaboradorEquipaController;
-import eapli.base.gestaoservicosrh.application.RemoverColaboradorEquipaController;
-import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.usermanagement.domain.Colaborador;
+import eapli.base.equipa.application.AdicionarColaboradorEquipaController;
+import eapli.base.equipa.application.RemoverColaboradorEquipaController;
+import eapli.base.equipa.domain.Equipa;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.presentation.console.AbstractUI;
 
 import java.util.Scanner;

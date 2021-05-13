@@ -1,11 +1,14 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicoshelpdesk.application.EspecificarServicoController;
-import eapli.base.gestaoservicoshelpdesk.application.NovoCatalogoController;
-import eapli.base.gestaoservicoshelpdesk.domain.*;
-import eapli.base.gestaoservicosrh.domain.*;
-import eapli.base.usermanagement.domain.*;
+import eapli.base.catalogo.application.NovoCatalogoController;
+import eapli.base.colaborador.domain.*;
+import eapli.base.criticidade.domain.Cor;
+import eapli.base.equipa.domain.Acronimo;
+import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Designacao;
+import eapli.base.equipa.domain.Equipa;
+import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
@@ -13,9 +16,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.InputStream;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class CatalogoBootstrapper implements Action {

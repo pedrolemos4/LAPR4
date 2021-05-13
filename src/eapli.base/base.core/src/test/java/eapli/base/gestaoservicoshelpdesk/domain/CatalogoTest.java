@@ -5,15 +5,14 @@
  */
 package eapli.base.gestaoservicoshelpdesk.domain;
 
+import eapli.base.catalogo.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
-import eapli.base.gestaoservicosrh.domain.Equipa;
-import eapli.base.usermanagement.domain.*;
+import eapli.base.colaborador.domain.*;
+import eapli.base.equipa.domain.Equipa;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.Test;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import static org.junit.Assert.*;

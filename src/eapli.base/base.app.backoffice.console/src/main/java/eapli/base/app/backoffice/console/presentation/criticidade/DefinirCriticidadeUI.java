@@ -1,10 +1,7 @@
 package eapli.base.app.backoffice.console.presentation.criticidade;
 
-import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.presentation.console.AbstractUI;
-import eapli.base.gestaoservicoshelpdesk.application.DefinirCriticidadeController;
-import eapli.base.gestaoservicoshelpdesk.repositories.CatalogoRepository;
-import eapli.base.gestaoservicoshelpdesk.repositories.CriticidadeRepository;
+import eapli.base.criticidade.application.DefinirCriticidadeController;
 import eapli.framework.io.util.Console;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

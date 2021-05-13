@@ -1,6 +1,6 @@
 package eapli.base.gestaoservicoshelpdesk.domain;
 
-import eapli.base.gestaoservicosrh.domain.Designacao;
+import eapli.base.servico.domain.DescricaoCompleta;
 import junit.framework.TestCase;
 
 public class DescricaoCompletaTest extends TestCase {

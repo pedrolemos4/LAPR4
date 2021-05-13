@@ -2,7 +2,7 @@ package eapli.base.app.backoffice.console.presentation.equipas;
 ;
 import eapli.base.app.backoffice.console.presentation.criticidade.CorDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.CodigoUnicoDataWidget;
-import eapli.base.gestaoservicosrh.application.RegistarTipoEquipaController;
+import eapli.base.tipoequipa.application.RegistarTipoEquipaController;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.presentation.console.AbstractUI;
 import org.apache.logging.log4j.LogManager;

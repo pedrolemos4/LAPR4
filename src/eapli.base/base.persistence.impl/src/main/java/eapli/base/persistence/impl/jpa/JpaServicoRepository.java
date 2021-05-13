@@ -1,9 +1,8 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.gestaoservicoshelpdesk.domain.*;
-import eapli.base.gestaoservicoshelpdesk.repositories.ServicoRepository;
-import eapli.base.gestaoservicosrh.domain.CodigoUnico;
-import eapli.base.gestaoservicosrh.domain.Equipa;
+import eapli.base.servico.domain.Servico;
+import eapli.base.servico.repositories.ServicoRepository;
+import eapli.base.equipa.domain.CodigoUnico;
 
 import javax.persistence.TypedQuery;
 import java.util.Set;
