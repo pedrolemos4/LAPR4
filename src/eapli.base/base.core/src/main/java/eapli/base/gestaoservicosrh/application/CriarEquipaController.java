@@ -32,17 +32,4 @@ public class CriarEquipaController {
         return lc;
     }
 
-    public Iterable<Equipa> findEquipasDosColaborador(Colaborador c) {
-        return this.repo.findByColaborador(c.identity());
-    }
-
-    public boolean verificarTipo(Iterable<Equipa> list, TipoEquipa tipo) {
-        for(Equipa eq :list) {
-            if(this.repo.findByTipoEquipa(eq.identity(),tipo) != null) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }
