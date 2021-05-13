@@ -1,0 +1,17 @@
+@startuml
+
+hide footbox
+
+actor Utilizador as ACT
+actor System as UI
+
+
+ACT->UI: Inicia o processo de especificação de serviço
+UI->ACT: Apresenta os serviços disponiveis para o tipo de utilizador loggado
+ACT->UI: Seleciona o serviço pretendido
+UI->ACT: Apresenta o formulario para o servico selecionado
+ACT->UI: Preenche e submete
+UI->ACT: Mostra o formulário realizado e pede confirmação
+ACT->UI: Confirma
+UI->ACT: Sucesso
+@enduml
