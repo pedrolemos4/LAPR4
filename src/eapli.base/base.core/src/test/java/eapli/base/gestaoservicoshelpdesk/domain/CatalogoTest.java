@@ -12,6 +12,7 @@ import eapli.base.equipa.domain.Equipa;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +49,11 @@ public class CatalogoTest {
     @Test
     public void testSameAs2() {
         System.out.println("sameAs=False");
-        Object other = new Catalogo();
+        Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
+                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,EmailAddress.valueOf("exemplo@examplo.com"));
+        Object other = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descrição Completa"),
+                new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
         boolean expResult = false;
         boolean result = instance.sameAs(other);
         assertEquals(expResult, result);
@@ -60,12 +65,16 @@ public class CatalogoTest {
     @Test
     public void testEquals1() {
         System.out.println("equals=true");
-        Object o = new Catalogo();
-        Catalogo instance1 = (Catalogo) o;
+        Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
+                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,EmailAddress.valueOf("exemplo@examplo.com"));
+        Object other = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descrição Completa"),
+                new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
+        Catalogo instance1 = (Catalogo) other;
         System.out.println(instance1.toString());
         System.out.println(instance.toString());
         boolean expResult = true;
-        boolean result = instance.equals(o);
+        boolean result = instance.equals(other);
         assertEquals(expResult, result);
     }
 
@@ -87,12 +96,16 @@ public class CatalogoTest {
     @Test
     public void testToString1() {
         System.out.println("toString=true");
-        Catalogo instance = new Catalogo();
+        Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
+                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,EmailAddress.valueOf("exemplo@examplo.com"));
+        Catalogo instance = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descricao Completa"),
+                new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
         String expResult = "Catalogo{" +
-                "titulo=" + null +
-                ", descricaoCompleta=" + null +
-                ", descricaoBreve=" + null +
-                ", icone=" + null +
+                "titulo=" + "Test" +
+                ", descricaoCompleta=" + "Descricao Completa" +
+                ", descricaoBreve=" + "Descricao Breve" +
+                ", icone=" + "Icone" +
                 ", listEquipas=[]" +
                 ", listServicos=[]" +
                 ", colab=" + null +

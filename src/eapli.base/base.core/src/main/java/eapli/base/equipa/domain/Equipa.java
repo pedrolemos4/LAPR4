@@ -26,16 +26,31 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="TipoEquipa")
     private TipoEquipa tipo;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Colaborador.class)
     @JoinTable(
             name = "tabelaIntermedia",
             joinColumns = @JoinColumn(name = "equipa_id"),
             inverseJoinColumns = @JoinColumn(name = "colaborador_id"))
     private Set<Colaborador> listResponsavel;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "listMembros",
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade =
+                    {
+                            CascadeType.DETACH,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH,
+                            CascadeType.PERSIST
+                    },
+            targetEntity = Colaborador.class)
+    @JoinTable(name = "listMembros",
             joinColumns = @JoinColumn(name = "idEquipa"),
             inverseJoinColumns = @JoinColumn(name = "colaboradorId"))
     private Set<Colaborador> listMembros;

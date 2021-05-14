@@ -39,7 +39,9 @@ public class ColaboradorTest {
     @Test
     public void testSameAs1() {
         System.out.println("sameAs=true");
-        Object other = new Colaborador();
+        Object other = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
+                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,EmailAddress.valueOf("exemplo@examplo.com"));
         Object that = (Colaborador) other;
         boolean expResult = false;
         boolean result = instance.sameAs(that);
