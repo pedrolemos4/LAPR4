@@ -26,7 +26,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="TipoEquipa")
     private TipoEquipa tipo;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade =
                     {
                             CascadeType.DETACH,
@@ -41,7 +41,7 @@ public class Equipa implements AggregateRoot<CodigoUnico> {
             inverseJoinColumns = @JoinColumn(name = "colaborador_id"))
     private Set<Colaborador> listResponsavel;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade =
                     {
                             CascadeType.DETACH,

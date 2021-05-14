@@ -17,9 +17,7 @@ import java.util.List;
 @UseCaseController
 public class RemoverColaboradorEquipaController {
 
-    private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final EquipaRepository equipaRepository = PersistenceContext.repositories().equipas();
-    private final TipoEquipaRepository tipoEquipaRepository = PersistenceContext.repositories().tiposEquipa();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
 
 
@@ -28,9 +26,12 @@ public class RemoverColaboradorEquipaController {
         CodigoUnico codigoUnico = new CodigoUnico(codigoEquipa);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(nrColab);
         if(existsTeam(codigoUnico) && existsColaborador(mecanographicNumber)) {
-            Equipa equipa = equipaRepository.ofIdentity(codigoUnico).orElse(null);
-            Colaborador colaborador = colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
-            //Remover
+            Equipa equipa = this.equipaRepository.ofIdentity(codigoUnico).orElse(null);
+            Colaborador colaborador = this.colaboradorRepository.ofIdentity(mecanographicNumber).orElse(null);
+            this.equipaRepository.delete(equipa);
+            equipa.removerMembro(colaborador);
+            System.out.println(equipa.listMembros());
+            this.equipaRepository.save(equipa);
             return true;
         }
         return false;
