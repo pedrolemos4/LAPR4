@@ -41,6 +41,20 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
     @Override
     public boolean execute() {
+
+        initializeOrganizationOrganicStructure();
+
+        return true;
+    }
+
+    /**
+     * US 2103 - LEANDRO SOUSA 1190800
+     * -----------------------------------------------------------------------------------------------
+     * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
+     * para facilitar / acelerar o desenvolvimento das próximas user stories.
+     * @return true in case of sucess or false if fails
+     */
+    private void initializeOrganizationOrganicStructure(){
         registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 931203457, "Bairro Baixo", EMAILADMIN);
 
         registerUser("orgColab","Admin1","Joao","Alves Pereira","joao@gmail.com", BaseRoles.COLABORADOR);
@@ -54,12 +68,8 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
         registaColaborador(119876,"Afonso","Afonso Sousa","1992/07/05", 351,932705057, "Bairro Alto", "afonso@gmail.com");
 
         registerUser("orgUser","Client1","Paulo","Maio",EMAILUSER,BaseRoles.CLIENT_USER);
-        return true;
     }
 
-    /**
-     *
-     */
     private void registerAdmin(final String username, final String password, final String firstName,
             final String lastName, final String email) {
         final Set<Role> roles = new HashSet<>();
@@ -67,14 +77,6 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         registerUser(username, password, firstName, lastName, email, roles);
     }
-
-    /**
-     * US 2103 - LEANDRO SOUSA 1190800
-     * -----------------------------------------------------------------------------------------------
-     * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
-     * para facilitar / acelerar o desenvolvimento das próximas user stories.
-     * @return true in case of sucess or false if fails
-     */
 
     private void registerUser(final String username, final String password, final String firstName,
                               final String lastName, final String email, Role role) {

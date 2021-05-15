@@ -5,10 +5,7 @@ import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegister
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
 import eapli.base.clientusermanagement.domain.events.SignupAcceptedEvent;
 import eapli.base.infrastructure.bootstrapers.BaseBootstrapper;
-import eapli.base.infrastructure.bootstrapers.demo.BaseDemoBootstrapper;
-import eapli.base.infrastructure.bootstrapers.demo.CatalogoBootstrapper;
-import eapli.base.infrastructure.bootstrapers.demo.EquipaBootstrapper;
-import eapli.base.infrastructure.bootstrapers.demo.ServicoBootstrapper;
+import eapli.base.infrastructure.bootstrapers.demo.*;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.infrastructure.smoketests.BaseDemoSmokeTester;
 
@@ -50,6 +47,7 @@ public final class BaseBootstrap extends BaseApplication {
         new EquipaBootstrapper().execute();
         //new CatalogoBootstrapper().execute();
         new ServicoBootstrapper().execute();
+        new CriticidadeBootstrapperBase().execute();
 
 
 

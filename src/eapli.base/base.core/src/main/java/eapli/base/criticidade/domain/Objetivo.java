@@ -11,26 +11,38 @@ import java.util.Objects;
 public class Objetivo implements ValueObject {
     private static final long serialVersionUID = 1L;
 
-    @Column(name="TempoMaximo")
-    private final int tempoMax;
+    @Column(name="TempoMaximoAprov")
+    private final double tempoMaxAprov;
 
-    @Column(name="TempoMedio")
-    private final int tempoMedio;
+    @Column(name="TempoMedioAprov")
+    private final double tempoMedioAprov;
 
-    public Objetivo(final int tempoMax, final int tempoMedio) {
-        Preconditions.ensure(tempoMax >= 0, "TempoMax can't be negative");
-        Preconditions.ensure(tempoMedio >= 0, "TempoMedio can't be negative");
-        this.tempoMax = tempoMax;
-        this.tempoMedio = tempoMedio;
+    @Column(name="TempoMaximoRes")
+    private final double tempoMaxRes;
+
+    @Column(name="TempoMedioRes")
+    private final double tempoMedioRes;
+
+    public Objetivo(final double tempoMaxAprov, final double tempoMedioAprov, final double tempoMaxRes,final double tempoMedioRes) {
+        Preconditions.ensure(tempoMaxAprov >= 0, "tempoMaxAprov can't be negative");
+        Preconditions.ensure(tempoMedioAprov >= 0, "tempoMedioAprov can't be negative");
+        Preconditions.ensure(tempoMaxRes >= 0, "tempoMaxRes can't be negative");
+        Preconditions.ensure(tempoMedioRes >= 0, "tempoMedioRes can't be negative");
+        this.tempoMaxAprov = tempoMaxAprov;
+        this.tempoMedioAprov = tempoMedioAprov;
+        this.tempoMaxRes = tempoMaxRes;
+        this.tempoMedioRes = tempoMedioRes;
     }
 
     protected Objetivo(){
-        this.tempoMax = -1;
-        this.tempoMedio = -1;
+        this.tempoMedioAprov = -1;
+        this.tempoMaxAprov = -1;
+        this.tempoMedioRes = -1;
+        this.tempoMaxRes = -1;
     }
 
-    public static Objetivo valueOf (final int tempoMaximo, final int tempoMedio) {
-        return new Objetivo(tempoMaximo, tempoMedio);
+    public static Objetivo valueOf (final double tempoMaxAprov, final double tempoMedioAprov, final double tempoMaxRes,final double tempoMedioRes) {
+        return new Objetivo(tempoMaxAprov, tempoMedioAprov,tempoMaxRes,tempoMedioRes);
     }
 
     @Override
@@ -38,17 +50,19 @@ public class Objetivo implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Objetivo objetivo = (Objetivo) o;
-        return tempoMax == objetivo.tempoMax && tempoMedio == objetivo.tempoMedio;
+        return tempoMaxRes == objetivo.tempoMaxRes && tempoMedioRes == objetivo.tempoMedioRes && tempoMedioAprov == objetivo.tempoMedioAprov && tempoMaxAprov == objetivo.tempoMaxAprov;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tempoMax, tempoMedio);
+        return Objects.hash(tempoMaxAprov,tempoMedioAprov,tempoMaxRes, tempoMedioRes);
     }
 
     @Override
     public String toString() {
-        return "Objetivo: " + "tempoMax=" + tempoMax + ", tempoMedio=" + tempoMedio;
+        return "Objetivo\n" + "tempoMaxApro: " + tempoMaxAprov +
+                "\ntempoMedioAprov:" + tempoMedioAprov +
+                "\ntempoMaxRes:" + tempoMaxRes +
+                "\ntempoMedioRes:" + tempoMedioRes ;
     }
-
 }

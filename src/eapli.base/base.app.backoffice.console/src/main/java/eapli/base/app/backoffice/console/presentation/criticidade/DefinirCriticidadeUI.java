@@ -35,7 +35,7 @@ public class DefinirCriticidadeUI extends AbstractUI {
         desig.show();
         
         try{
-            this.controller.defineCriticidade(obj.tempoMax(), obj.tempoMedio()
+            this.controller.defineCriticidade(obj.tempoMaxAprov(), obj.tempoMedioAprov(), obj.tempoMaxRes(), obj.tempoMedioRes()
                     , et.etiqueta(), esc.escala(),  c.newColor()/*c.r(), c.g(), c.b()*/, desig.designacao());
         } catch (Exception e) {
             System.out.println("Erro");
