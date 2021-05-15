@@ -1,0 +1,37 @@
+@startuml
+
+
+class SolicitarServicoUI
+  
+class SolicitarServicoController{
+checkUserType()
+serviceRequest()
+saveFormulario()
+}
+
+class SystemUserRepository{
+getUser()/ofIdentity()
+}
+class SystemUserDatabase
+
+class ServicoRepository{
+getAvailableServices()
+getServico()/ofIdentity()
+}
+class ServicoDatabase
+
+class FormularioRepository{
+getFormulario()/ofIdentity()
+saveForm()/save()
+}
+class FormularioDatabase
+
+SolicitarServicoUI .-> SolicitarServicoController
+
+SolicitarServicoController --> SystemUserRepository
+SystemUserRepository --> SystemUserDatabase: connects to>
+SolicitarServicoController --> ServicoRepository
+ServicoRepository --> ServicoDatabase:connects to>
+SolicitarServicoController --> FormularioRepository
+FormularioRepository --> FormularioDatabase: connects to>
+@enduml
