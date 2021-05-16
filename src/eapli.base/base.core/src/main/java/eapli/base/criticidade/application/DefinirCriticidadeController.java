@@ -21,10 +21,10 @@ public class DefinirCriticidadeController {
     private ContratoRepository contRepo = PersistenceContext.repositories().contrato();
 
     
-    public Criticidade defineCriticidade(int tempoMaximo, int tempoMedio, String etiqueta, int escala,
+    public Criticidade defineCriticidade(double tempoMaximoAprov, double tempoMedioAprov,double tempoMaximoRes, double tempoMedioRes, String etiqueta, int escala,
                                          Color cor , String designacao){
         authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.GESTOR_SERVICO);
-        Objetivo objetivo = new Objetivo(tempoMaximo, tempoMedio);
+        Objetivo objetivo = new Objetivo(tempoMaximoAprov, tempoMedioAprov,tempoMaximoRes,tempoMedioRes);
         Etiqueta e = new Etiqueta(etiqueta);
         Escala esc = new Escala(escala);
         Cor c = new Cor(cor.getRed(),cor.getGreen(),cor.getBlue()/*red, green, blue*/);
