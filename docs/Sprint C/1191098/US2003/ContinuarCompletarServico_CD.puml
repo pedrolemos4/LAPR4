@@ -1,0 +1,67 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class CompletarServicoUI <<presentation>>
+class CompletarServicoController <<application>>
+class PersistenceContext <<persistence>>
+class RepositoryFactory <<factory>>
+class CatalogoRepository <<repository>>
+class FormularioRepository <<repository>>
+class ServicoRepository <<repository>>
+class DraftRepository <<repository>>
+class Servico <<domain>>
+class Formulario <<domain>>
+class ServicoBuilder <<builder>>
+
+
+
+CompletarServicoUI --> CompletarServicoController
+CompletarServicoController : listDrafts()
+CompletarServicoController : novoFluxoAtividades(atividadeAprovacao,atividadeResolucao)
+
+CompletarServicoController : especificarServico(descricaoBreve,descricaoCompleta,icone,título,codigoUnico,catalogo,form,fluxo)
+
+CompletarServicoController --> ServicoRepository
+CompletarServicoController --> PersistenceContext
+CompletarServicoController --> ServicoBuilder
+
+ServicoBuilder --> Formulario
+ServicoBuilder --> Servico
+
+PersistenceContext --> RepositoryFactory
+
+RepositoryFactory --> FormularioRepository
+RepositoryFactory --> CatalogoRepository
+RepositoryFactory --> ServicoRepository
+RepositoryFactory --> DraftRepository
+
+
+PersistenceContext : repositories()
+
+FormularioRepository : create()
+FormularioRepository : save(form)
+
+ServicoRepository : create()
+ServicoRepository : save(newServico)
+
+CatalogoRepository : create()
+CatalogoRepository : findAll()
+
+DraftRepository : create()
+DraftRepository : findAll()
+
+ServicoBuilder : withDescricaoBreve()
+ServicoBuilder : withDescricaoCompleta()
+ServicoBuilder : withIcone()
+ServicoBuilder : withTitulo()
+ServicoBuilder : withCodigoUnico()
+ServicoBuilder : withCatalogo()
+ServicoBuilder : withFormulario()
+ServicoBuilder : withFluxo()
+
+@enduml
