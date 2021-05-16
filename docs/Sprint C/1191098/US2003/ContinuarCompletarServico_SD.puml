@@ -6,17 +6,52 @@ skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-actor GestorServico as Actor
-participant System as System
-activate Actor
-Actor -> System: pretende continuar/continuar a especificação de um serviço
-activate System
-System --> Actor: requisita a informação sobre os fluxos de atividade e o preenchimento de um formulário
-deactivate System
-Actor -> System: insere os dados solicitados
-activate System
-System --> Actor: informa do sucesso da operação
-deactivate System
-deactivate Actor
+		participant ":CompletarServiçoUI" as ui <<presentation>>
+		participant ":CompletarServicoController" as ctrl <<application>>
+    note over ctrl: para efeitos de simplificação do diagrama, não foram representadas todas as classes repository,\n a classe persistence e a classe factory, tendo sido utilizado o procedimento do caso de uso US2002
+    participant "ServicoBuilder" as builder <<builder>>
+		participant ":Servico" as servico <<domain>>
+		participant ":ServicoRepository" as repo <<repository>>
 
+    activate ui
+		ui->ctrl:create()
+    activate ctrl
+		ui->ctrl:listDrafts()
+		ctrl-->ui:Drafts
+    deactivate ctrl
+		ui->ui:doShow()
+
+    ui->ctrl:listAtividades()
+    activate ctrl
+    ctrl-->ui:Atividades
+    deactivate ctrl
+    ui->ui:doShow()
+
+    ui->ctrl:novoFluxoAtividades(atividadeAprovacao,atividadeResolucao)
+    activate ctrl
+    ctrl->builder:withFluxo(atividadeAprovacao,atividadeResolucao)
+    activate builder
+    deactivate builder
+    deactivate ctrl
+    ui->ui:doShow()
+		
+		ui->ctrl:especificarServico(draft,fluxo)
+    activate ctrl
+    note over ctrl: para simplificação do diagrama, não foi representada a criação dos value objects que compõe o serviço 
+    activate builder
+    ctrl -> builder:withCodigoUnico(codigoUnico)
+    deactivate builder
+    note over ctrl: restantes componentes
+    ctrl -> builder: createServico()
+    activate builder 
+    builder->servico: create(codigoUnico,descricaoBreve,descricaoCompleta, titulo,icone,catalogo,form,fluxo)
+    builder -> ctrl: servico  
+    deactivate builder
+
+		ctrl->repo:save(servico)
+    ctrl->ui:servico
+    deactivate ctrl
+    ui->ui: showServico()
+    
+		
 @enduml

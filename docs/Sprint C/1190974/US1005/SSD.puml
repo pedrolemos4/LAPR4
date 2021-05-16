@@ -1,0 +1,23 @@
+@startuml
+autonumber
+actor "Colaborador" as COL
+
+activate COL
+COL -> ":Sistema" : Pretende realizar a tarefa manual
+activate ":Sistema"
+":Sistema" --> COL : solicita os dados necessários
+deactivate ":Sistema"
+
+
+COL -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> COL : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+COL -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> COL : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate COL
+@enduml
