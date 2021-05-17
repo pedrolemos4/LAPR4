@@ -19,8 +19,6 @@ ConsultarTarefasUI : doShow()
 ConsultarTarefasUI : listServicos()
 ConsultarTarefasUI : listTarefas()
 
-ConsultarTarefasController : repositories()
-ConsultarTarefasController : findAll()
 ConsultarTarefasController : tarefasPendentes(listServicos)
 
 ConsultarTarefasController --> ServicoRepository
@@ -29,8 +27,5 @@ ConsultarTarefasController --> PersistenceContext
 PersistenceContext --> RepositoryFactory
 
 RepositoryFactory --> ServicoRepository
-RepositoryFactory : create()
-
-PersistenceContext : create()
 
 @enduml

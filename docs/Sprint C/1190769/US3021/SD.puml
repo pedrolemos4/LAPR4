@@ -10,7 +10,6 @@ participant ConsultarTarefasUI as UI <<presentation>>
 control ConsultarTarefasController as CTRL <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
-database UserRepository as URepository <<repository>>
 database ServicoRepository as SRepository <<repository>>
 
 activate UI
@@ -19,18 +18,6 @@ UI -> UI : doShow()
 
 UI -> CTRL: listServicos()
     activate CTRL
-      CTRL -> Persistence: repositories()
-    activate Persistence
-      Persistence -> Factory: create()
-    activate Factory
-      Factory -> SRepository: create()
-    activate SRepository
-    deactivate Factory
-    deactivate Persistence
-        deactivate SRepository
-      CTRL -> SRepository: findAll()
-      activate SRepository
-      deactivate SRepository
       CTRL -> UI: listaServicos
     deactivate CTRL
 
