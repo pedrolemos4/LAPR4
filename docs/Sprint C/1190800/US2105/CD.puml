@@ -1,0 +1,22 @@
+@startuml
+
+title Classes - Class Diagram
+
+
+class CriticidadeBootstrapperBase{
+execute()
+}
+class Criticidade{
+Criticidade()
+}
+class CriticidadeRepository{
+save()
+}
+class CriticidadeDatabase{
+save()
+}
+
+CriticidadeBootstrapperBase --> Criticidade
+CriticidadeBootstrapperBase --> CriticidadeRepository
+CriticidadeRepository --> CriticidadeDatabase : connects to>
+@enduml

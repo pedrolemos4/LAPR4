@@ -1,0 +1,16 @@
+@startuml
+
+hide footbox
+
+actor RegistarCriticidadeBootstrapBase as UI
+actor Criticidade as CT
+actor CriticidadeRepository as CTR
+database CriticidadeDatabase as CTD
+
+loop  por cada criticidade
+UI->CT: Criticidade c = new Criticidade()
+CT->CTR: save(c)
+CTR->CTD: save(c)
+end loop
+
+@enduml
