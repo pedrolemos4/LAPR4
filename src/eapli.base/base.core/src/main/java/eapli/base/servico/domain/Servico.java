@@ -1,5 +1,6 @@
 package eapli.base.servico.domain;
 
+import eapli.base.atividades.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;
@@ -30,6 +31,9 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @Column(name="Titulo",unique = true)
     private final Titulo titulo;
 
+    @Column(name="Fluxo de Atividades")
+    private final FluxoAtividade fluxoAtividade;
+
     @Column(name="Estado_Servico")
     @Enumerated(EnumType.STRING)
     private EstadoServico estado;
@@ -54,6 +58,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.keywords = builder.keywords;
         this.formulario= builder.formulario;
         this.catalogo=builder.catalogo;
+        this.fluxoAtividade=builder.fluxoAtividade;
     }
 
     protected Servico() {
@@ -65,6 +70,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.keywords=null;
         this.formulario=null;
         this.catalogo=null;
+        this.formulario=null;
+        this.fluxoAtividade=null;
     }
 
     @Override
@@ -125,6 +132,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         private Catalogo catalogo;
 
+        private FluxoAtividade fluxoAtividade;
+
         public ServicoBuilder(String codigoUnico, String titulo) {
             this.codigoUnico = new CodigoUnico(codigoUnico);
             this.titulo = new Titulo(titulo);
@@ -152,6 +161,11 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         public ServicoBuilder withCatalogo(Catalogo catalogo){
             this.catalogo=catalogo;
+            return this;
+        }
+
+        public ServicoBuilder withFluxo(FluxoAtividade fluxo){
+            this.fluxoAtividade=fluxo;
             return this;
         }
 
