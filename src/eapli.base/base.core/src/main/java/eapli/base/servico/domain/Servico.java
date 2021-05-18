@@ -1,6 +1,6 @@
 package eapli.base.servico.domain;
 
-import eapli.base.atividades.FluxoAtividade;
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;
@@ -31,8 +31,9 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @Column(name="Titulo",unique = true)
     private final Titulo titulo;
 
-    @Column(name="Fluxo de Atividades")
-    private final FluxoAtividade fluxoAtividade;
+    //@Column(name="Fluxo de Atividades")
+    //@OneToOne(cascade = CascadeType.ALL)
+    //private final FluxoAtividade fluxoAtividade;
 
     @Column(name="Estado_Servico")
     @Enumerated(EnumType.STRING)
@@ -58,7 +59,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.keywords = builder.keywords;
         this.formulario= builder.formulario;
         this.catalogo=builder.catalogo;
-        this.fluxoAtividade=builder.fluxoAtividade;
+       // this.fluxoAtividade=builder.fluxoAtividade;
     }
 
     protected Servico() {
@@ -71,7 +72,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.formulario=null;
         this.catalogo=null;
         this.formulario=null;
-        this.fluxoAtividade=null;
+       // this.fluxoAtividade=null;
     }
 
     @Override
@@ -132,7 +133,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         private Catalogo catalogo;
 
-        private FluxoAtividade fluxoAtividade;
+     //   private FluxoAtividade fluxoAtividade;
 
         public ServicoBuilder(String codigoUnico, String titulo) {
             this.codigoUnico = new CodigoUnico(codigoUnico);
@@ -164,11 +165,11 @@ public class Servico implements AggregateRoot<CodigoUnico> {
             return this;
         }
 
-        public ServicoBuilder withFluxo(FluxoAtividade fluxo){
+     /*   public ServicoBuilder withFluxo(FluxoAtividade fluxo){
             this.fluxoAtividade=fluxo;
             return this;
         }
-
+*/
         public Servico build() {
             Servico servico = new Servico(this);
             //validateServico;

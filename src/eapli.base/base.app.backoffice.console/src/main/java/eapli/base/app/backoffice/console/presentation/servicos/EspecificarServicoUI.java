@@ -85,6 +85,8 @@ public class EspecificarServicoUI extends AbstractUI {
         final FormularioDataWidget formularioData = new FormularioDataWidget();
         formularioData.show();
 
+        //perguntar sobre os formulários e os atributos ao stor
+
         Set<Atributo> listaAtributos = new HashSet<>();
         Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
@@ -101,17 +103,21 @@ public class EspecificarServicoUI extends AbstractUI {
                 flag = false;
             }
         }
-        if (descricaoBreveData.descricao().isEmpty() || descricaoCompletaData.descricao().isEmpty()) {
-            this.theController.createDraftServico(codigoUnicoData.codigoUnico(), descricaoBreveData.descricao(),
-                    descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos, keywords, theCatalogo);
-        } else {
-            try {
-                Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
-                this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
-                        descricaoCompletaData.descricao(), formulario, keywords, theCatalogo);
-            } catch (final IntegrityViolationException e) {
-                System.out.println("Erro.");
+        try {
+            if (descricaoBreveData.descricao().isEmpty() || descricaoCompletaData.descricao().isEmpty()) {
+                this.theController.createDraftServico(codigoUnicoData.codigoUnico(), descricaoBreveData.descricao(),
+                        descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos, keywords, theCatalogo);
+            } else {
+                try {
+                    Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
+                    this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
+                            descricaoCompletaData.descricao(), formulario, keywords, theCatalogo);
+                } catch (final IntegrityViolationException e) {
+                    System.out.println("Erro.");
+                }
             }
+        } catch(final IllegalArgumentException ex){
+            System.out.println(ex.getMessage());
         }
     }
 

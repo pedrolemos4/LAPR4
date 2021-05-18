@@ -18,7 +18,7 @@ public class Titulo implements ValueObject, Comparable<Titulo>, StringMixin {
     private final String titulo;
 
     public Titulo(final String name) {
-        Preconditions.ensure(StringPredicates.isPhrase(name), "Name should neither be null nor empty nor have starting blank spaces");
+        Preconditions.ensure(StringPredicates.isPhrase(name), "O título tem de ser especificado");
         Preconditions.ensure(name.length() <= 50, "Um título tem no máximo 50 caracteres.");
         this.titulo = name;
     }
