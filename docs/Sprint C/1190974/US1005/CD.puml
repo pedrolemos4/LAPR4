@@ -31,7 +31,7 @@ Comentario : coment = create()
 Prioridade : prio = create()
 Data : data = create()
 EstadoAtividade : estado = create()
-AtividadeManual : create(crit,prio,data,estado,colab,des,coment)
+AtividadeManual : create(crit,prio,data,estado,des,coment)
 
 
 @enduml
