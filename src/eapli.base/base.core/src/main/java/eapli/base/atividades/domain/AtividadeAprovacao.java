@@ -23,4 +23,10 @@ public class AtividadeAprovacao extends Atividade{
         this.decisao = decisao;
         this.comentario = comentario;
     }
+
+    public AtividadeAprovacao(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade, Decisao decisao, Comentario comentario) {
+        super(criticidade, prioridade, dataLimite, estadoAtividade);
+        this.decisao = decisao;
+        this.comentario = comentario;
+    }
 }
