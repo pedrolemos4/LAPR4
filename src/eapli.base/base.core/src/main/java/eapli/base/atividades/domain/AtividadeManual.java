@@ -10,4 +10,8 @@ public class AtividadeManual extends AtividadeAprovacao{
         super(criticidade, prioridade, dataLimite, estadoAtividade, colab, decisao, comentario);
     }
 
+    public AtividadeManual(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade, Decisao decisao, Comentario comentario) {
+        super(criticidade, prioridade, dataLimite, estadoAtividade, decisao, comentario);
+    }
+
 }

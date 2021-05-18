@@ -6,25 +6,38 @@ skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-Actor "Gestor de Serviços de Help Desk" as Actor
-participant TarefaManualUI as UI <<presentation>>
-participant TarefaManualCTRL as Controller <<application>>
-participant TarefaManual as TarefaManual <<Domain>>
-database TarefaManualRepository as TRepository <<repository>>
+participant EspecificaServicoCTRL as Controller <<application>>
+participant Criticidade as Criticidade <<domain>>
+participant Prioridade as Prioridade <<domain>>
+participant Data as Data <<domain>>
+participant EstadoAtividade as EstadoAtividade <<domain>>
+participant Decisao as Decisao <<domain>>
+participant Comentario as Comentario <<domain>>
+participant AtividadeManual as AtividadeManual <<domain>>
 
-
-activate Actor
-    Actor -> UI: Inicia a criação de uma tarefa manual
-    activate UI
-      UI -> Controller: novaTarefaManual()
+    
+      Controller -> Criticidade: crit = create()
     activate Controller
-      Controller -> TarefaManual: tar = TarefaManual()
-    activate TarefaManual
-    deactivate TarefaManual
-      Controller -> TRepository: save(tar)
-    deactivate TRepository
+    activate Criticidade
+    deactivate Criticidade
+      Controller -> Prioridade: prio = create()
+    activate Prioridade
+    deactivate Prioridade
+      Controller -> Data: data = create()
+    activate Data
+    deactivate Data
+      Controller -> EstadoAtividade: estado = create()
+    deactivate EstadoAtividade
+    deactivate EstadoAtividade
+      Controller -> Decisao: des = create()
+    deactivate Decisao
+    deactivate Decisao
+      Controller -> Comentario: coment = create()
+    deactivate Comentario
+    deactivate Comentario
+      Controller -> AtividadeManual: create(crit,prio,data,estado,colab,des,coment)
+    activate AtividadeManual
+    deactivate AtividadeManual
     deactivate Controller
-    deactivate UI
 
-deactivate Actor
 @enduml
