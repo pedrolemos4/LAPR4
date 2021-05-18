@@ -1,0 +1,48 @@
+title SD - Consultar tarefas pendentes que um utilizador pode reivindicar
+
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+actor Utilizador as Actor
+participant ConsultarReivindicarTarefaUI as UI <<presentation>>
+control ConsultarReivindicarTarefaController as Controller <<application>>
+database ServicoRepository as SRepository <<repository>>
+participant "Servico" as Servico <<domain>>
+
+
+activate Actor
+Actor -> UI: pretende consultar tarefas pendentes que pode reivindicar
+activate UI
+UI -> Controller: getListaTarefasPendentes()
+    activate Controller
+    Controller -> SRepository: getListaTarefasPendentes()
+        activate SRepository
+        deactivate SRepository
+    deactivate Controller
+UI --> Actor: mostra lista de tarefas pendentes e solicita a escolha de uma
+deactivate UI
+
+Actor -> UI: insere os dados solicitados
+activate UI
+UI -> Controller:  adicionaColaborador()
+    activate Controller
+    Controller -> SRepository: ser = getServicoByTarefa(tarefa)
+        activate SRepository
+        deactivate SRepository
+    Controller -> Servico: adicionaColaborador()
+        activate Servico
+        deactivate Servico
+    Controller -> SRepository: save(ser)
+        activate SRepository
+        deactivate SRepository
+    deactivate Controller
+UI --> Actor: informa sucesso da operação
+deactivate UI
+deactivate Actor
+
+@enduml
