@@ -1,0 +1,37 @@
+@startuml
+
+class GestorDeEquipaUI {}
+
+class GestorDeEquipaController{
+    findTeam(ID)
+    addColab(teamID,ColabID)
+}
+
+class EquipaDB{
+    findTeam(ID)
+    validate(ID)
+    getTeam(ID)
+}
+
+class Equipa{
+    addColab(colabID)
+}
+
+class Colaborador{
+    addAssociatedTeam()
+}
+
+class ColaboradorDB{
+    getColab(colabID)
+    validate(ID)
+    getColab(ID)
+}
+
+GestorDeEquipaUI .-> GestorDeEquipaController
+GestorDeEquipaController-->EquipaDB
+GestorDeEquipaController-->Equipa
+GestorDeEquipaController-->Colaborador
+GestorDeEquipaController-->ColaboradorDB
+
+
+@enduml
