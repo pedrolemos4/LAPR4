@@ -8,7 +8,7 @@ public class ServicoTest extends TestCase {
 
     public void testTestToString() {
         Servico s1 = new Servico(new Servico.ServicoBuilder("1234","ServicoTest"));
-        assertEquals("Servico{codigoUnico=CodigoUnico{codigo='1234'}, descricaoBreve=null, descricaoCompleta=null, titulo=ServicoTest, estado=null}",s1.toString());}
+        assertEquals("Servico{codigoUnico=1234, descricaoBreve=null, descricaoCompleta=null, titulo=ServicoTest, estado=null}",s1.toString());}
 
     public void testIdentity() {
         Servico s1 = new Servico(new Servico.ServicoBuilder("1234","ServicoTest"));

@@ -110,6 +110,10 @@ public class Catalogo implements AggregateRoot<Long>{
         return this.identificador;
     }
 
+    public Titulo titulo(){
+        return this.titulo;
+    }
+
     @Override
     public boolean equals(final Object o) {
         return DomainEntities.areEqual(this, o);

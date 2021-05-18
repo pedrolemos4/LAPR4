@@ -2,6 +2,7 @@ package eapli.base.persistence.impl.jpa;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
+import eapli.base.equipa.domain.CodigoUnico;
 
 import javax.persistence.TypedQuery;
 
@@ -78,6 +79,24 @@ public class JpaCatalogoRepository extends BasepaRepositoryBase<Catalogo, Long, 
         q.setParameter("descricaoBreve", descricaoBreve);
         q.setParameter("descricaoCompleta", descricaoCompleta);
         return q.getResultList();
+    }
+
+    @Override
+    public Iterable<Catalogo> findCatalogoEquipa(CodigoUnico identity) {
+        final TypedQuery<Catalogo> q = createQuery(
+                "SELECT e FROM Catalogo e INNER JOIN e.listEquipas eq WHERE eq.id =: identity",
+                Catalogo.class);
+        q.setParameter("identity", identity);
+        return q.getResultList();
+    }
+
+    @Override
+    public Catalogo findById(long idCatalogo) {
+        final TypedQuery<Catalogo> q = createQuery(
+                "SELECT e FROM Catalogo e WHERE e.id =: id",
+                Catalogo.class);
+        q.setParameter("id", idCatalogo);
+        return q.getSingleResult();
     }
 
 

@@ -20,19 +20,14 @@ public class CriticidadeBootstrapperBase implements Action {
 
     @Override
     public boolean execute() {
-        //Criticidade 1
         registarCriticidade(new Etiqueta("LOWEST"), new Escala(1),new Designacao("Lowest"),
                 new Objetivo(180,120,1440,600),new Cor(3,252,128));
-        System.out.println("c2");
         registarCriticidade(new Etiqueta("LOW"), new Escala(2),new Designacao("Low"),
                 new Objetivo(120,90,720,480),new Cor(3,252,28));
-        System.out.println("c3");
         registarCriticidade(new Etiqueta("INTERMEDIATE"), new Escala(3),new Designacao("Intermediate"),
                 new Objetivo(90,60,360,240),new Cor(235, 252, 3));
-        System.out.println("c4");
         registarCriticidade(new Etiqueta("HIGH"), new Escala(4),new Designacao("High"),
                 new Objetivo(30,20,240,150),new Cor(252, 144, 3));
-        System.out.println("c5");
         registarCriticidade(new Etiqueta("HIGHEST"), new Escala(5),new Designacao("Highest"),
                 new Objetivo(20,10,120,60),new Cor(252, 3, 3));
         return true;

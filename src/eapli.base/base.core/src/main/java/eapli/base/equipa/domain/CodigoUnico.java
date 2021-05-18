@@ -33,8 +33,6 @@ public class CodigoUnico implements ValueObject, Comparable<CodigoUnico> {
 
     @Override
     public String toString() {
-        return "CodigoUnico{" +
-                "codigo='" + codigo + '\'' +
-                '}';
+        return codigo;
     }
 }

@@ -96,6 +96,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         return codigoUnico;
     }
 
+    public DescricaoBreve descricaoBreve() {
+        return descricaoBreve;
+    }
+
     public EstadoServico estado() {
         return estado;
     }

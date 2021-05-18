@@ -27,6 +27,7 @@ import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServi
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
+import eapli.base.app.backoffice.console.presentation.colaborador.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
@@ -85,6 +86,8 @@ public class MainMenu extends AbstractUI {
 
     //colaborador
     private static final int CONSULTAR_CATALOGO_SERVICO = 1;
+    private static final int SOLICITAR_SERVICO = 2;
+
 
     private static final String SEPARATOR_LABEL = "--------------";
 
@@ -171,6 +174,9 @@ public class MainMenu extends AbstractUI {
         } else if(authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR)){
             final Menu menuCatalogoServico = buildConsultarCatalogoServico();
             mainMenu.addSubMenu(CONSULTAR_CATALOGO_SERVICO,menuCatalogoServico);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuSolicitarServico = buildSolicitarServico();
+            mainMenu.addSubMenu(SOLICITAR_SERVICO,menuSolicitarServico);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
@@ -292,6 +298,14 @@ public class MainMenu extends AbstractUI {
         rrhMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
         return rrhMenu;
     }*/
+
+    private Menu buildSolicitarServico() {
+        final Menu solicitarServico = new Menu("Solicitar Servico");
+        solicitarServico.addItem(1,"Solicitar Servico",()->new SolicitarServicoUI().show());
+        solicitarServico.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
+        return solicitarServico;
+    }
+
 }
 
 

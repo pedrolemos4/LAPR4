@@ -75,7 +75,7 @@ public class EquipaTest extends TestCase {
         Set<Colaborador> list = new HashSet<>();
         list.add(c1);
         Equipa novaEquipa = new Equipa(new CodigoUnico("cod"), new Acronimo("acronimo1"), new Designacao("desig"), t1, list);
-        String expResult ="Equipa\nCodigo: CodigoUnico{codigo='cod'} Acronimo: acronimo1 Designacao: desig Tipo: TipoEquipa{, codigoUnico=CodigoUnico{codigo='t1'}, designacao=tipo1, cor=Cor: red=10, green=20, blue=30}";
+        String expResult ="Equipa\nCodigo: cod Acronimo: acronimo1 Designacao: desig Tipo: TipoEquipa{, codigoUnico=t1, designacao=tipo1, cor=Cor: red=10, green=20, blue=30}";
         assertEquals(expResult, novaEquipa.toString());
     }
 

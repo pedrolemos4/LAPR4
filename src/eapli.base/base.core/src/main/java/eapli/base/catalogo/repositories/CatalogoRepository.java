@@ -1,7 +1,10 @@
 package eapli.base.catalogo.repositories;
 
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.framework.domain.repositories.DomainRepository;
+
+import java.util.List;
 
 public interface CatalogoRepository extends DomainRepository<Long, Catalogo> {
 
@@ -18,4 +21,8 @@ public interface CatalogoRepository extends DomainRepository<Long, Catalogo> {
     Iterable<Catalogo> findByDescricaoBreveDescricaoCompleta(String descricaoBreve, String descricaoCompleta);
 
     Iterable<Catalogo> findTodos(String titulo, String descricaoBreve, String descricaoCompleta);
+
+    Iterable<Catalogo> findCatalogoEquipa(CodigoUnico identity);
+
+    Catalogo findById(long idCatalogo);
 }

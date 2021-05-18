@@ -17,6 +17,6 @@ public class TipoEquipaTest extends TestCase {
 
     public void testTestToString() {
         TipoEquipa tipo = new TipoEquipa(new CodigoUnico("cod"), new Designacao("desig"), new Cor(1,1,1));
-        assertEquals(tipo.toString(), "TipoEquipa{, codigoUnico=CodigoUnico{codigo='cod'}, designacao=desig, cor=Cor: red=1, green=1, blue=1}");
+        assertEquals(tipo.toString(), "TipoEquipa{, codigoUnico=cod, designacao=desig, cor=Cor: red=1, green=1, blue=1}");
     }
 }
