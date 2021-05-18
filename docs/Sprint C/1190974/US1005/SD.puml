@@ -35,7 +35,7 @@ participant AtividadeManual as AtividadeManual <<domain>>
       Controller -> Comentario: coment = create()
     deactivate Comentario
     deactivate Comentario
-      Controller -> AtividadeManual: create(crit,prio,data,estado,des,coment)
+      Controller -> AtividadeManual: create(crit,prio,data,estado,colab,des,coment)
     activate AtividadeManual
     deactivate AtividadeManual
     deactivate Controller
