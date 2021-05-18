@@ -1,5 +1,7 @@
 package eapli.base.persistence.impl.jpa;
 
+import eapli.base.atividades.domain.Atividade;
+import eapli.base.servico.domain.EstadoServico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.base.equipa.domain.CodigoUnico;
@@ -23,6 +25,17 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
+    public Iterable<Atividade> findTarefasServico(Long cod, Long identity2, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a INNER JOIN e.fluxo fl WHERE" +
+                        " e.identificador =:identity AND" + " fl.identificador =:identity2 AND" +
+                " a.estado like =:estado",
+                Atividade.class);
+        q.setParameter("identity", cod);
+        q.setParameter("identity2", identity2);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 
     public Iterable<Servico> findServicoByTituloDescricaoBreveDescricaoCompleta(String titulo, String descricaoBreve, String descricaoCompleta) {
         final TypedQuery<Servico> q = createQuery(

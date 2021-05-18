@@ -2,13 +2,12 @@ package eapli.base.atividades.domain;
 
 import eapli.base.colaborador.domain.Data;
 import eapli.base.criticidade.domain.Criticidade;
+import eapli.framework.domain.model.ValueObject;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-public class Atividade {
+@Embeddable
+public class Atividade implements ValueObject {
 
     @Column(name="CRITICIDADE")
     @OneToOne
@@ -29,5 +28,12 @@ public class Atividade {
         this.estadoAtividade=estadoAtividade;
         this.dataLimite=dataLimite;
         this.prioridade=prioridade;
+    }
+
+    protected Atividade() {
+        this.criticidade=null;
+        this.prioridade=null;
+        this.dataLimite=null;
+        this.estadoAtividade=null;
     }
 }

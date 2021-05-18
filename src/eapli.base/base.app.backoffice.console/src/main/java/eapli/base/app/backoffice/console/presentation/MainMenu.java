@@ -75,7 +75,7 @@ public class MainMenu extends AbstractUI {
     private static final int CRIAR_CATALOGO = 1;
     private static final int ESPECIFICAR_SERVICO = 2;
     private static final int COMPLETAR_SERVICO = 3;
-    private static final int DEFINIR_NIVEIS_CRITICIDADE = 4;
+    private static final int DEFINIR_NIVEIS_CRITICIDADE = 3;
 
     //responsável rrh
     private static final int CRIAR_NOVA_EQUIPA = 1;
@@ -143,9 +143,6 @@ public class MainMenu extends AbstractUI {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuServico = buildNovoServicoMenu();
             mainMenu.addSubMenu(ESPECIFICAR_SERVICO,menuServico);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            final Menu menuCompletarServico = buildCompletarServicoMenu();
-            mainMenu.addSubMenu(COMPLETAR_SERVICO,menuCompletarServico);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuCriticidade = buildCriticidadeMenu();
             mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE,menuCriticidade);
@@ -258,15 +255,9 @@ public class MainMenu extends AbstractUI {
     private Menu buildNovoServicoMenu(){
         final Menu servicoMenu = new Menu("Serviço");
         servicoMenu.addItem(ESPECIFICAR_SERVICO,"Especificar Serviço",()->new EspecificarServicoUI().show());
+        servicoMenu.addItem(COMPLETAR_SERVICO,"Completar Serviço",()->new  CompletarServicoUI().show());
         servicoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
         return servicoMenu;
-    }
-
-    private Menu buildCompletarServicoMenu(){
-        final Menu completarServicoMenu = new Menu("Completar Serviço");
-        completarServicoMenu.addItem(COMPLETAR_SERVICO,"Completar Serviço",()->new CompletarServicoUI().show());
-        completarServicoMenu.addItem(EXIT_OPTION,RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
-        return completarServicoMenu;
     }
 
     private Menu buildEspecificaColaboradorMenu(){
