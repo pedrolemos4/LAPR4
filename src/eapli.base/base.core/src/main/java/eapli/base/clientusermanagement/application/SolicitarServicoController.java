@@ -8,6 +8,7 @@ import eapli.base.equipa.domain.Equipa;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
+import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.NoResultException;
 import java.util.*;
 
+@UseCaseController
 public class SolicitarServicoController {
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();

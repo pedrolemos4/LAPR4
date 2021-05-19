@@ -31,7 +31,6 @@ public class ContratoSLA  implements AggregateRoot<Long> {
         this.designacao = designacao;
         Preconditions.nonNull(lista);
         copyCriticidade(lista);
-
     }
 
     private void copyCriticidade(final Iterable<Criticidade> lista) {

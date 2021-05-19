@@ -1,22 +1,41 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
+import eapli.base.catalogo.application.NovoCatalogoController;
+import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.catalogo.repositories.CatalogoRepository;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.colaborador.domain.*;
+import eapli.base.criticidade.application.AssociarCriticidadeCatalogoController;
 import eapli.base.criticidade.domain.*;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
+import eapli.base.equipa.domain.Acronimo;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Designacao;
+import eapli.base.equipa.domain.Equipa;
 import eapli.base.infrastructure.bootstrapers.UsersBootstrapperBase;
 
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.servico.domain.Servico;
+import eapli.base.servico.repositories.ServicoRepository;
+import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.general.domain.model.EmailAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class CriticidadeBootstrapperBase implements Action {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UsersBootstrapperBase.class);
+    private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
 
-    private final CriticidadeRepository repo = PersistenceContext.repositories().criticidade();
+    private final AssociarCriticidadeCatalogoController controller = new AssociarCriticidadeCatalogoController();
 
     @Override
     public boolean execute() {
@@ -43,12 +62,7 @@ public class CriticidadeBootstrapperBase implements Action {
     private void registarCriticidade(final Etiqueta etiqueta, final Escala escala, final Designacao designacao,
                                      final Objetivo objetivo, final Cor cor){
         Criticidade c = new Criticidade(etiqueta,escala,designacao,objetivo,cor);
-        try {
-            repo.save(c);
-        }catch (ConcurrencyException | IntegrityViolationException exception){
-            LOGGER.warn("Error saving " + c.toString() );
-            LOGGER.trace("Assuming existing record", exception);
-        }
+        controller.saveCriticidade(c);
     }
 
 }
