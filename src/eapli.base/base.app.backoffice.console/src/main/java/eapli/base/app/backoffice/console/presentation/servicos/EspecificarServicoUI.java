@@ -7,6 +7,7 @@ import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.draft.domain.DraftServico;
+import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.servico.application.EspecificarServicoController;
@@ -109,11 +110,12 @@ public class EspecificarServicoUI extends AbstractUI {
         String resposta;
         //System.out.println("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
         FluxoAtividade fluxoAtividade= null;
+        Equipa equipa = null;
         resposta = Console.readLine("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
         if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
             atividadeAprovacaoWidget.show();
-           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManual(theCriticidade,atividadeAprovacaoWidget.prior(),
-                    atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),
+           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(theCriticidade,atividadeAprovacaoWidget.prior(),
+                    atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),equipa,
                     atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario());
             fluxoAtividade = theController.createFluxo(atividadeAprovacao);
         }

@@ -94,13 +94,13 @@ public class EspecificarServicoController {
     }
 
     public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final Criticidade c, final String prior, final int ano,
-                                                           final int mes, final int dia, EstadoAtividade e, final Equipa equipa,
+                                                           final int mes, final int dia, final Equipa equipa,
                                                            final String decisao, final String comentario){
         final Prioridade p = new Prioridade(prior);
         final Data dataL = new Data(ano,mes,dia);
         final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);
-        e = EstadoAtividade.PENDENTE;
+        EstadoAtividade e = EstadoAtividade.PENDENTE;
         final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(c,p,dataL,e,equipa,des,com);
         return atividadeAprovacaoEquipa;
     }
