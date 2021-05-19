@@ -6,11 +6,16 @@ import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
 
-@Embeddable
-public class Atividade implements ValueObject {
+@Entity
+public class Atividade {
+
+    @Id
+    @GeneratedValue
+    @Column(name="id_Atividade")
+    private long id;
 
     @Column(name="CRITICIDADE")
-    @OneToOne
+  //  @OneToOne
     private Criticidade criticidade;
 
     @Column(name = "PRIORIDADE")
