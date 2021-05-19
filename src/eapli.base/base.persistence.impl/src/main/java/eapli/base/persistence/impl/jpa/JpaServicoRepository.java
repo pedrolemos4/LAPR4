@@ -1,12 +1,15 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.servico.domain.EstadoServico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Set;
 
 public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, CodigoUnico> implements ServicoRepository {
@@ -25,13 +28,22 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public Iterable<Atividade> findTarefasServico(Long cod, Long identity2, String estado) {
+    public FluxoAtividade findFluxoServico(CodigoUnico identity) {
+        final TypedQuery<FluxoAtividade> q = createQuery(
+                "SELECT fl FROM Fluxo WHERE" +
+                        " fl.servico =:identity",
+                FluxoAtividade.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    public List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Atividade a INNER JOIN e.fluxo fl WHERE" +
-                        " e.identificador =:identity AND" + " fl.identificador =:identity2 AND" +
-                " a.estado like =:estado",
+                       " fl.identificador =:identity AND" + " a.colaborador =:identity2 AND"
+                        + " a.estado like =:estado",
                 Atividade.class);
-        q.setParameter("identity", cod);
+        q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
         q.setParameter("estado", estado);
         return q.getResultList();

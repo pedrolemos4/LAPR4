@@ -1,0 +1,25 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class ConsultarReivindicarTarefaUI <<presentation>>
+class ConsultarReivindicarTarefaController <<application>>
+class "ServicoRepository" as ServicoRepository <<repository>>
+class "Servico" as Servico <<domain>>
+
+ConsultarReivindicarTarefaUI --> ConsultarReivindicarTarefaController
+ConsultarReivindicarTarefaController --> ServicoRepository
+ConsultarReivindicarTarefaController --> Servico
+
+ConsultarReivindicarTarefaController : getListaTarefasPendentes()
+ConsultarReivindicarTarefaController : adicionaColaborador()
+ServicoRepository : getListaTarefasPendentes()
+ServicoRepository : ser = getServicoByTarefa(tarefa)
+ServicoRepository : save(ser)
+Servico : adicionaColaborador()
+
+@enduml
