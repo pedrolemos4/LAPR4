@@ -15,6 +15,12 @@
     <class>eapli.base.gestaoservicoshelpdesk.domain.Funcao</class>
     <class>eapli.base.equipa.domain.Equipa</class>
     <class>eapli.base.criticidade.domain.Criticidade</class>
+    <class>eapli.base.atividades.domain.FluxoAtividade</class>
+    <class>eapli.base.atividades.domain.Atividade</class>
+    <class>eapli.base.atividades.domain.AtividadeManual</class>
+    <class>eapli.base.atividades.domain.AtividadeAprovacao</class>
+    <class>eapli.base.atividades.domain.AtividadeRealizacao</class>
+    <class>eapli.base.atividades.domain.AtividadeAutomatica</class>
     <class>eapli.base.servico.domain.Servico</class>
     <class>eapli.base.draft.domain.DraftServico</class>
     <class>eapli.base.formulario.domain.Formulario</class>
