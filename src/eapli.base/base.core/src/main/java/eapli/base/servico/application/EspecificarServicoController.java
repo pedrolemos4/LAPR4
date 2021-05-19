@@ -2,12 +2,14 @@ package eapli.base.servico.application;
 
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.domain.Data;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
+import eapli.base.equipa.repositories.EquipaRepository;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.catalogo.repositories.CatalogoRepository;
@@ -30,6 +32,7 @@ public class EspecificarServicoController {
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
+    private final EquipaRepository equipaRepo = PersistenceContext.repositories().equipas();
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
     private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
@@ -52,7 +55,7 @@ public class EspecificarServicoController {
     public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos){
         final Formulario formulario = new Formulario(titulo, listaAtributos);
         //System.out.println(formulario.toString());
-        this.formularioRepository.save(formulario);
+      //  this.formularioRepository.save(formulario);
         return formulario;
     }
 
@@ -122,5 +125,10 @@ public class EspecificarServicoController {
         final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(c,p,dataL,e,colaborador,des,com);
         return atividadeAprovacaoColaborador;
     }
+
+    public Iterable<Equipa> findEquipaDoCatalogo(Long identity) {
+        return this.equipaRepo.findEquipaDoCatalogo(identity);
+    }
+
 
 }

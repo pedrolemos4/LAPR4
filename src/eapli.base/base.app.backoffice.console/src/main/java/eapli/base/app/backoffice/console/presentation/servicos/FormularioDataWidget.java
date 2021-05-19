@@ -11,14 +11,14 @@ public class FormularioDataWidget {
     private String label;
 
     public void show(){
-        this.titulo= Console.readLine("Título do Formulario:");
+        this.titulo= Console.readLine("\nTítulo do Formulario:");
         atributo();
     }
 
     public void atributo(){
-        System.out.println("Dados do Atributo");
-        this.nomeVariavel=Console.readLine("Nome de variável:");
-        this.label=Console.readLine("Label:");
+        System.out.println("\nDados do Atributo");
+        this.nomeVariavel=Console.readLine("\nNome de variável:");
+        this.label=Console.readLine("\nLabel:");
     }
 
     public String titulo(){

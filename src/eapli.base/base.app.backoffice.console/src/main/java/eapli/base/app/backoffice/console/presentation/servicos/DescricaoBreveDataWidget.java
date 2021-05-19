@@ -8,7 +8,7 @@ public class DescricaoBreveDataWidget {
     private String descricaoBreve;
 
     public void show() {
-        this.descricaoBreve = Console.readLine("Descrição breve:");
+        this.descricaoBreve = Console.readLine("\nDescrição breve:");
     }
 
     public String descricao() {

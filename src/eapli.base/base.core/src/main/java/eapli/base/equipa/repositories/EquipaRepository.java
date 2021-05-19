@@ -14,6 +14,8 @@ public interface EquipaRepository extends DomainRepository<CodigoUnico, Equipa> 
 
     boolean findEquipaDoCatalogo(Long identity, MecanographicNumber number);
 
+    Iterable<Equipa> findEquipaDoCatalogo(Long identity);
+
     Equipa validate(TipoEquipa tipo, MecanographicNumber identity);
 
     Equipa findByTipoEquipa(CodigoUnico identity, TipoEquipa tipo);

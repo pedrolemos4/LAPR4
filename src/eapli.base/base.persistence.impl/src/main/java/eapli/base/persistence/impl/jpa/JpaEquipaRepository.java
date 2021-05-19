@@ -42,6 +42,16 @@ public class JpaEquipaRepository extends BasepaRepositoryBase<Equipa, Long, Codi
     }
 
     @Override
+    public Iterable<Equipa> findEquipaDoCatalogo(Long identity) {
+        final TypedQuery<Equipa> q = createQuery(
+                "SELECT ec FROM Catalogo e join e.listEquipas ec WHERE " +
+                        " e.identificador =:identity ",
+                Equipa.class);
+        q.setParameter("identity", identity);
+        return q.getResultList();
+    }
+
+    @Override
     public Equipa validate(TipoEquipa tipo, MecanographicNumber identity) {
         final TypedQuery<Equipa> q = createQuery(
                 "SELECT e FROM Equipa e JOIN e.listMembros ec WHERE ec.numeroMecanografico =:identity AND e.tipo =:tipo" ,

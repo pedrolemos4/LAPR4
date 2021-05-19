@@ -7,7 +7,7 @@ public class DescricaoCompletaDataWidget {
     private String descricaoCompleta;
 
     public void show(){
-        this.descricaoCompleta= Console.readLine("Descrição Completa:");
+        this.descricaoCompleta= Console.readLine("\nDescrição Completa:");
     }
 
     public String descricao(){
