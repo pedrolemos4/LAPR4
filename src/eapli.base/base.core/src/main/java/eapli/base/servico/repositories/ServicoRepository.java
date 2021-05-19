@@ -1,17 +1,22 @@
 package eapli.base.servico.repositories;
 
 import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.domain.repositories.LockableDomainRepository;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico>, LockableDomainRepository<CodigoUnico, Servico> {
     Iterable<Servico> findServicosDoCatalogo(Long identity);
 
-    Iterable<Atividade> findTarefasServico(Long identity, Long identity2, String estado);
+    List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado);
+
+    FluxoAtividade findFluxoServico(CodigoUnico identity);
 
     Iterable<Servico> findServicoByTituloDescricaoBreveDescricaoCompleta(String titulo, String descricaoBreve, String descricaoCompleta);
 
