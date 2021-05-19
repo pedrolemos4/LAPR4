@@ -90,8 +90,8 @@ public class EspecificarServicoController {
         final Data dataL = new Data(ano,mes,dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeManual atividadeAprovacao = new AtividadeManual(c,p,dataL,e,equipa,des,com);
-        return atividadeAprovacao;
+        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(c,p,dataL,e,equipa,des,com);
+        return atividadeAprovacaoEquipa;
     }
 
     public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final Criticidade c, final String prior, final int ano,
@@ -101,8 +101,8 @@ public class EspecificarServicoController {
         final Data dataL = new Data(ano,mes,dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeManual atividadeAprovacao = new AtividadeManual(c,p,dataL,e,colaborador,des,com);
-        return atividadeAprovacao;
+        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(c,p,dataL,e,colaborador,des,com);
+        return atividadeAprovacaoColaborador;
     }
 
 }
