@@ -3,8 +3,6 @@ package eapli.base.servico.application;
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.colaborador.domain.Data;
-import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
@@ -83,25 +81,19 @@ public class EspecificarServicoController {
         return lc;
     }
 
-    public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final Criticidade c, final String prior, final int ano,
-                                                           final int mes, final int dia, final EstadoAtividade e, final Equipa equipa,
-                                                           final String descisao, final String comentario){
-        final Prioridade p = new Prioridade(prior);
-        final Data dataL = new Data(ano,mes,dia);
+    public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
+                                                                 final String descisao, final String comentario){
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(c,p,dataL,e,equipa,des,com);
+        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com);
         return atividadeAprovacaoEquipa;
     }
 
-    public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final Criticidade c, final String prior, final int ano,
-                                                                 final int mes, final int dia, final EstadoAtividade e, final Colaborador colaborador,
+    public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,
                                                                  final String descisao, final String comentario){
-        final Prioridade p = new Prioridade(prior);
-        final Data dataL = new Data(ano,mes,dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(c,p,dataL,e,colaborador,des,com);
+        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(e,colaborador,des,com);
         return atividadeAprovacaoColaborador;
     }
 

@@ -13,9 +13,6 @@ public class Atividade implements ValueObject {
     @OneToOne
     private Criticidade criticidade;
 
-    @Column(name = "PRIORIDADE")
-    private Prioridade prioridade;
-
     @Column(name="DATALIMITE")
     private Data dataLimite;
 
@@ -23,16 +20,14 @@ public class Atividade implements ValueObject {
     @Enumerated(EnumType.STRING)
     private EstadoAtividade estadoAtividade;
 
-    public Atividade(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade){
+    public Atividade(Criticidade criticidade, Data dataLimite, EstadoAtividade estadoAtividade){
         this.criticidade=criticidade;
         this.estadoAtividade=estadoAtividade;
         this.dataLimite=dataLimite;
-        this.prioridade=prioridade;
     }
 
     protected Atividade() {
         this.criticidade=null;
-        this.prioridade=null;
         this.dataLimite=null;
         this.estadoAtividade=null;
     }
