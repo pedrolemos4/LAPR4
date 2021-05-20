@@ -16,7 +16,7 @@ public class AtividadeAprovacao{ //extends Atividade{
     @OneToOne
     private Colaborador colab;
 
-    @OneToOne
+    @OneToMany
     private Set<Equipa> equipa;
 
     @Enumerated(EnumType.STRING)

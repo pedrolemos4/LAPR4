@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class AtividadeAutomatica {
     private Long id;//extends AtividadeRealizacao {
 
-    public AtividadeAutomatica(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade) {
+    public AtividadeAutomatica(Criticidade criticidade/*, Prioridade prioridade*/, Data dataLimite, EstadoAtividade estadoAtividade) {
         //super(criticidade, prioridade, dataLimite, estadoAtividade);
     }
 

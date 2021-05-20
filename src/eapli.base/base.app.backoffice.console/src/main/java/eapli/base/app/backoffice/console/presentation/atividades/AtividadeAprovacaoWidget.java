@@ -16,7 +16,6 @@ public class AtividadeAprovacaoWidget {
     private String comentario;
 
     public void show(){
-        this.prior= Console.readLine("\nPrioridade:");
         this.ano=Console.readInteger("\nAno:");
         this.mes=Console.readInteger("\nMês:");
         this.dia=Console.readInteger("\nDia:");

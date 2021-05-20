@@ -11,7 +11,7 @@ public class AtividadeRealizacao{
     private Long id; //extends Atividade{
 
 
-    public AtividadeRealizacao(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade) {
+    public AtividadeRealizacao(Criticidade criticidade/*, Prioridade prioridade*/, Data dataLimite, EstadoAtividade estadoAtividade) {
         //super(criticidade, prioridade, dataLimite, estadoAtividade);
     }
 

@@ -82,7 +82,7 @@ public class EspecificarServicoUI extends AbstractUI {
         //perguntar sobre os formulários e os atributos ao stor
 
         Set<Atributo> listaAtributos = new HashSet<>();
-        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
+       /* Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
 
         while (flag) {
@@ -96,7 +96,7 @@ public class EspecificarServicoUI extends AbstractUI {
             } else {
                 flag = false;
             }
-        }
+        }*/
 
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
         System.out.println("\nEspecificação do fluxo de atividades");
