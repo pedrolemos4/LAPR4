@@ -1,5 +1,6 @@
 package eapli.base.draft.domain;
 
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.formulario.domain.Atributo;
 import eapli.framework.domain.model.AggregateRoot;
@@ -28,6 +29,10 @@ public class DraftServico implements AggregateRoot<String> {
     @Column(name = "TituloFormulario")
     private String tituloFormulario;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    //  @JoinColumn(name = "fluxo",referencedColumnName = "value")
+    private FluxoAtividade fluxo;
+
     @ElementCollection
     private Set<Atributo> listaAtributos;
 
@@ -46,10 +51,11 @@ public class DraftServico implements AggregateRoot<String> {
         this.tituloFormulario = null;
         this.keywords = null;
         this.catalogo = null;
+        this.fluxo = null;
     }
 
     public DraftServico(String codigoUnico, String descricaoBreve, String descricaoCompleta, String titulo,
-                        String tituloFormulario, Set<Atributo> listaAtributos, Set<String> keywords, Catalogo catalogo) {
+                        String tituloFormulario, Set<Atributo> listaAtributos, Set<String> keywords, Catalogo catalogo,FluxoAtividade fluxo) {
         Preconditions.nonEmpty(codigoUnico, "O código único tem de ser especificado.");
         Preconditions.nonEmpty(titulo, "O título tem de ser especificado.");
         Preconditions.nonEmpty(tituloFormulario, "O título do formulário tem de ser especificado.");
@@ -63,6 +69,7 @@ public class DraftServico implements AggregateRoot<String> {
         this.listaAtributos = new HashSet<>(listaAtributos);
         this.keywords = new HashSet<>(keywords);
         this.catalogo = catalogo;
+        this.fluxo=fluxo;
     }
 
     public String codigoUnico() {
@@ -96,6 +103,8 @@ public class DraftServico implements AggregateRoot<String> {
     public Set<String> keywords() {
         return this.keywords;
     }
+
+    public FluxoAtividade fluxo() { return this.fluxo; }
 
     @Override
     public boolean sameAs(Object other) {

@@ -7,7 +7,7 @@ public class TituloDataWidget {
     private String titulo;
 
     public void show(){
-        this.titulo = Console.readLine("Título:");
+        this.titulo = Console.readLine("\nTítulo:");
     }
 
     public String titulo(){

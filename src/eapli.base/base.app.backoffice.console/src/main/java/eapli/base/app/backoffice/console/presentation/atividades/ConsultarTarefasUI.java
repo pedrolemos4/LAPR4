@@ -1,10 +1,14 @@
 package eapli.base.app.backoffice.console.presentation.atividades;
 
 import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.gestaoservicoshelpdesk.application.ConsultarTarefasController;
+import eapli.base.atividades.application.ConsultarTarefasController;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConsultarTarefasUI extends AbstractUI {
@@ -12,9 +16,14 @@ public class ConsultarTarefasUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-        final Colaborador colab = null;
+        final Colaborador colab = this.controller.getUser();
         final Iterable<Servico> listServicos = this.controller.listServicos();
-        final Iterable<Atividade> listTarefas = this.controller.tarefasPendentes(listServicos, colab);
+        final List<Atividade> listTarefas = new ArrayList<>();
+
+        for (Servico s : listServicos) {
+            FluxoAtividade flx = this.controller.getFluxo(s);
+            listTarefas.addAll(this.controller.tarefasPendentes(flx, colab));
+        }
 
         System.out.println("Lista de tarefas pendentes: ");
         for (Atividade a : listTarefas) {

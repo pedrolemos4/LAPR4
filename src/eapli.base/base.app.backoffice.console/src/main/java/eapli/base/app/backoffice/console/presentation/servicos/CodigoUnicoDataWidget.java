@@ -7,7 +7,7 @@ public class CodigoUnicoDataWidget {
     private String codigoUnico;
 
     public void show(){
-        this.codigoUnico= Console.readLine("Código único:");
+        this.codigoUnico= Console.readLine("\nCódigo único:");
     }
 
     public String codigoUnico(){

@@ -11,6 +11,7 @@ control ConsultarTarefasController as CTRL <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
 database ServicoRepository as SRepository <<repository>>
+database ColaboradorRepository as CRepository <<repository>>
 
 activate UI
 
@@ -21,13 +22,30 @@ UI -> CTRL: listServicos()
       CTRL -> UI: listaServicos
     deactivate CTRL
 
-UI -> CTRL: listTarefas()
+UI -> CTRL: getUser()
     activate CTRL
-      CTRL -> SRepository: tarefasPendentes(listServicos)
+    CTRL -> CRepository: getUser()
+      activate CRepository
+      deactivate CRepository
+      CTRL -> UI: colab
+    deactivate CTRL
+    
+loop
+UI -> CTRL: getFluxo()
+    activate CTRL
+    CTRL -> SRepository: getFluxo(servico)
+      activate SRepository
+      deactivate SRepository
+      CTRL -> UI: fluxo
+    deactivate CTRL
+    
+UI -> CTRL: tarefasPendentes(fluxo, colab)
+    activate CTRL
+      CTRL -> SRepository: tarefasPendentes(fluxo, colab)
       activate SRepository
       deactivate SRepository
       CTRL -> UI: listaTarefas
     deactivate CTRL
-    
+end
 deactivate UI
 @enduml

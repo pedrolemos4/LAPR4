@@ -1,7 +1,13 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
+import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
+import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
+import eapli.base.atividades.domain.AtividadeAprovacao;
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.draft.domain.DraftServico;
+import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.servico.application.EspecificarServicoController;
@@ -24,19 +30,6 @@ public class EspecificarServicoUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-      /*  System.out.println("Deseja especificar um novo serviço (opção 20) ou continuar a especificação de um serviço (opção 21)? ");
-        int opcao = Console.readInteger("Opção:");
-        try {
-            if (opcao == ESPECIFICAR_SERVICO) {
-                especificarServico();
-            } else {
-                editarServico();
-            }
-        } catch (Exception e) {
-            System.out.println("Erro");
-            System.out.println("");
-            doShow();
-        }*/
         especificarServico();
         return false;
     }
@@ -57,7 +50,7 @@ public class EspecificarServicoUI extends AbstractUI {
         final Iterable<Catalogo> catalogos = this.theController.listCatalogos();
 
         final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos", catalogos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        System.out.println("Selecione o catálogo a que pertence o serviço:");
+        System.out.println("\nSelecione o catálogo a que pertence o serviço:");
         selector.show();
         final Catalogo theCatalogo = selector.selectedElement();
 
@@ -103,52 +96,50 @@ public class EspecificarServicoUI extends AbstractUI {
                 flag = false;
             }
         }
+
+        final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
+        System.out.println("\nEspecificação do fluxo de atividades");
+
+        final Iterable<Criticidade> listaCriticidade = this.theController.listCriticidades();
+        final SelectWidget<Criticidade> selector1 = new SelectWidget<>("Criticidade", listaCriticidade, visitee1 -> System.out.printf("%-15s%-80s\n", visitee1.identity(), visitee1.toString()));
+        System.out.println("\nSelecione a criticidade:");
+        selector1.show();
+        final Criticidade theCriticidade = selector1.selectedElement();
+
+        String resposta;
+        FluxoAtividade fluxoAtividade= null;
+        resposta = Console.readLine("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
+        if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
+            atividadeAprovacaoWidget.show();
+
+            final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
+            final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
+            System.out.println("\nSelecione a criticidade:");
+            selectorEquipa.show();
+            final Equipa equipa = selectorEquipa.selectedElement();
+           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(theCriticidade,atividadeAprovacaoWidget.prior(),
+                    atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),equipa,
+                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario());
+            fluxoAtividade = theController.createFluxo(atividadeAprovacao);
+        }
         try {
             if (descricaoBreveData.descricao().isEmpty() || descricaoCompletaData.descricao().isEmpty()) {
                 this.theController.createDraftServico(codigoUnicoData.codigoUnico(), descricaoBreveData.descricao(),
-                        descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos, keywords, theCatalogo);
+                        descricaoCompletaData.descricao(), tituloData.titulo(), formularioData.titulo(), listaAtributos,
+                        keywords, theCatalogo,fluxoAtividade);
             } else {
                 try {
                     Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
                     this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
-                            descricaoCompletaData.descricao(), formulario, keywords, theCatalogo);
+                            descricaoCompletaData.descricao(), formulario, keywords, theCatalogo,fluxoAtividade);
                 } catch (final IntegrityViolationException e) {
                     System.out.println("Erro.");
                 }
             }
-        } catch(final IllegalArgumentException ex){
+        } catch (final IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
     }
-
-//    private void editarServico() {
-//        final List<DraftServico> listDrafts = (List<DraftServico>) this.theController.listDrafts();
-//        DraftServico draftServico = null;
-//        if (listDrafts.isEmpty()) {
-//            System.out.println("Não existem serviços incompletos registados");
-//            return;
-//        }
-//        final SelectWidget<DraftServico> selector = new SelectWidget<>("Servico: ", listDrafts, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-//        selector.show();
-//        draftServico = selector.selectedElement();
-//        if (draftServico == null) {
-//            return;
-//        }
-//        System.out.println("Editar Serviço");
-//        final DescricaoBreveDataWidget descricaoBreveData = new DescricaoBreveDataWidget();
-//        descricaoBreveData.show();
-//
-//        final DescricaoCompletaDataWidget descricaoCompletaData = new DescricaoCompletaDataWidget();
-//        descricaoCompletaData.show();
-//        try {
-//            Formulario formulario = this.theController.createFormulario(draftServico.tituloFormulario(), draftServico.listaAtributos());
-//            this.theController.especificarServico(draftServico.codigoUnico(), draftServico.titulo(), descricaoBreveData.descricao(),
-//                    descricaoCompletaData.descricao(), formulario, draftServico.keywords(), draftServico.catalogo());
-//        } catch (final IntegrityViolationException e) {
-//            System.out.println("Erro.");
-//        }
-//        this.theController.removeDraft(draftServico);
-//    }
 
     @Override
     public String headline() {

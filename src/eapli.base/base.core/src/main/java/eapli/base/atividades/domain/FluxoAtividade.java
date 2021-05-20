@@ -1,14 +1,56 @@
 package eapli.base.atividades.domain;
 
+import eapli.base.equipa.domain.Equipa;
+import eapli.base.servico.domain.Servico;
+import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.domain.model.DomainEntity;
 import eapli.framework.domain.model.ValueObject;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
-@Embeddable
-public class FluxoAtividade implements ValueObject {
+@Entity
+public class FluxoAtividade implements DomainEntity<Long>{
 
-    @ElementCollection
-    private Set<Atividade> atividade;
+    @Version
+    private Long version;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="Id")
+    private Long id;
+
+
+    //@OneToOne (mappedBy = "fluxoAtividade")
+    //private Servico servico;
+
+    @Column(name="Fluxo")
+    private final String value;
+
+    //@OneToMany(fetch = FetchType.LAZY)
+    //@JoinColumn(name= "ID_ATIVIDADE", referencedColumnName = "id")
+   // private Set<Atividade> listaAtividade = new HashSet<>();
+
+
+    public FluxoAtividade(String bolsa){
+        this.value="pilha";
+     //   this.listaAtividade=atividades;
+    }
+
+    protected FluxoAtividade() {
+        this.value = null;
+      //  this.listaAtividade=null;
+    }
+
+    @Override
+    public boolean sameAs(Object other) {
+        return false;
+    }
+
+    @Override
+    public Long identity() {
+        return id;
+    }
 }

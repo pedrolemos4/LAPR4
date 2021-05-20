@@ -3,13 +3,15 @@ package eapli.base.atividades.domain;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.Equipa;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Set;
 
-public class AtividadeAprovacao {
+@Entity
+public class AtividadeAprovacao{ //extends Atividade{
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @OneToOne
     private Colaborador colab;
@@ -25,6 +27,10 @@ public class AtividadeAprovacao {
 
     @Column(name = "COMENTARIO")
     private Comentario comentario;
+
+    protected AtividadeAprovacao(){
+
+    }
 
     public AtividadeAprovacao(final EstadoAtividade estadoAtividade, final Colaborador colab, final Decisao decisao,
                               final Comentario comentario) {

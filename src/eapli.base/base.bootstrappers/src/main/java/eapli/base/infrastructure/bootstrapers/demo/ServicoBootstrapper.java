@@ -1,5 +1,6 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.*;
@@ -81,7 +82,8 @@ public class ServicoBootstrapper implements Action {
                           Set<String> keywords, Catalogo catalogo) {
         try {
             Formulario form = controller.createFormulario(tituloFormulario,listaAtributos);
-            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords,catalogo);
+            FluxoAtividade fluxoAtividade = new FluxoAtividade("bolsa");
+            controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords,catalogo,fluxoAtividade);
             LOGGER.info(codigoUnico);
         } catch (final IntegrityViolationException | ConcurrencyException e) {
             // ignoring exception. assuming it is just a primary key violation
