@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class AtividadeManual extends AtividadeAprovacao{
+public class AtividadeManual extends Atividade{
 
     @Id
     @GeneratedValue
@@ -45,25 +45,19 @@ public class AtividadeManual extends AtividadeAprovacao{
 
     public AtividadeManual(final EstadoAtividade estadoAtividade, final Colaborador colab, final Decisao decisao,
                            final Comentario comentario, final Formulario formulario, final Data data, final TipoAtividade tipoAtividade) {
-        super(estadoAtividade, colab, decisao, comentario,data);
+        super(data,estadoAtividade,tipoAtividade);
         this.colab = colab;
         this.decisao = decisao;
         this.comentario = comentario;
-        this.estadoAtividade=estadoAtividade;
-        this.data=data;
-        this.tipoAtividade=tipoAtividade;
         this.formulario=formulario;
     }
 
     public AtividadeManual(final EstadoAtividade estadoAtividade, final Set<Equipa> equipa, final Decisao decisao,
                            final Comentario comentario, final Formulario formulario, final Data data, final TipoAtividade tipoAtividade) {
-        super(estadoAtividade, equipa, decisao, comentario,data);
+        super(data,estadoAtividade,tipoAtividade);
         this.equipa = equipa;
         this.decisao = decisao;
         this.comentario = comentario;
-        this.estadoAtividade=estadoAtividade;
-        this.data=data;
-        this.tipoAtividade=tipoAtividade;
         this.formulario=formulario;
     }
 
