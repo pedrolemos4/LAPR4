@@ -1,17 +1,16 @@
 package eapli.base.atividades.domain;
 
 import eapli.base.colaborador.domain.Data;
-import eapli.base.criticidade.domain.Criticidade;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class AtividadeAutomatica {
-    private Long id;//extends AtividadeRealizacao {
+public class AtividadeAutomatica extends AtividadeRealizacao {
+    private Long id;
 
-    public AtividadeAutomatica(Criticidade criticidade/*, Prioridade prioridade*/, Data dataLimite, EstadoAtividade estadoAtividade) {
-        //super(criticidade, prioridade, dataLimite, estadoAtividade);
+    public AtividadeAutomatica(Data dataLimite, EstadoAtividade estadoAtividade) {
+        super(dataLimite, estadoAtividade);
     }
 
     public AtividadeAutomatica() {
