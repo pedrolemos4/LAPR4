@@ -23,6 +23,7 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
+import eapli.base.app.backoffice.console.presentation.atividades.ConsultarTarefasUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServicoUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
@@ -87,6 +88,7 @@ public class MainMenu extends AbstractUI {
     //colaborador
     private static final int CONSULTAR_CATALOGO_SERVICO = 1;
     private static final int SOLICITAR_SERVICO = 2;
+    private static final int CONSULTAR_TAREFAS = 3;
 
 
     private static final String SEPARATOR_LABEL = "--------------";
@@ -175,6 +177,9 @@ public class MainMenu extends AbstractUI {
             final Menu menuSolicitarServico = buildSolicitarServico();
             mainMenu.addSubMenu(SOLICITAR_SERVICO,menuSolicitarServico);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuConsultarTarefas = buildConsultarTarefas();
+            mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarTarefas);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -222,6 +227,13 @@ public class MainMenu extends AbstractUI {
         consultarCatalogoServicoMenu.addItem(CONSULTAR_CATALOGO_SERVICO,"Consultar Catálogo e/ou Serviço",()->new ListCatalogoServicoUI().show());
         consultarCatalogoServicoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
         return consultarCatalogoServicoMenu;
+    }
+
+    private Menu buildConsultarTarefas(){
+        final Menu consultarTarefasMenu = new Menu("Consultar Tarefas");
+        consultarTarefasMenu.addItem(CONSULTAR_TAREFAS,"Consultar Tarefas",()->new ConsultarTarefasUI().show());
+        consultarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
+        return consultarTarefasMenu;
     }
 
     private Menu buildTipoEquipaMenu(){
