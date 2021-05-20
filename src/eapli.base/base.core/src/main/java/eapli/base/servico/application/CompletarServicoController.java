@@ -71,22 +71,23 @@ public class CompletarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
-    public FluxoAtividade createFluxo (AtividadeAprovacao atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
-        Set<AtividadeAprovacao> atividades = new HashSet<>();
+    public FluxoAtividade createFluxo (AtividadeManual atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
+        Set<AtividadeManual> atividades = new HashSet<>();
         atividades.add(atividadeAprovacao);
         FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
         return fluxoAtividade;
     }
 
-
-    public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
-                                                                 final String descisao, final String comentario,
-                                                                 final int ano, final int mes, final int dia){
+    public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
+                                                              final String descisao, final String comentario,
+                                                              final int ano, final int mes, final int dia,
+                                                              final Formulario formulario){
         final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com,data);
-        return atividadeAprovacaoEquipa;
+        final TipoAtividade tipoAtividade = TipoAtividade.APROVACAO;
+        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipoAtividade);
+        return atividadeAprovacaoManualEquipa;
     }
 
 }

@@ -8,13 +8,13 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Data implements ValueObject {
 
-    @Column(name="ANO")
+    @Column(name="ANO",insertable = false,updatable = false)
     private final int ano;
 
-    @Column(name="MES")
+    @Column(name="MES",insertable = false,updatable = false)
     private final int mes;
 
-    @Column(name="DIA")
+    @Column(name="DIA",insertable = false,updatable = false)
     private final int dia;
 
     public Data (final int ano, final int mes, final int dia){

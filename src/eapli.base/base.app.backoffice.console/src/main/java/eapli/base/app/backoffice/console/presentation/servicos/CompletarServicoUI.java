@@ -1,6 +1,7 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
+import eapli.base.atividades.domain.AtividadeManual;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.criticidade.domain.Criticidade;
@@ -15,6 +16,7 @@ import eapli.framework.presentation.console.SelectWidget;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.RollbackException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -69,10 +71,13 @@ public class CompletarServicoUI  extends AbstractUI {
                 System.out.println("\nSelecione a equipa:");
                 selectorEquipa.show();
                 final Equipa equipa = selectorEquipa.selectedElement();
-                Set<Equipa> listEquipas = null;
-                AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
-                        atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia());
-                fluxoAtividade = theController.createFluxo(atividadeAprovacao);
+                Set<Equipa> listEquipas = new HashSet<>();
+                listEquipas.add(equipa);
+                Formulario form = null;
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
+                        atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
+                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),form);
+                fluxoAtividade = theController.createFluxo(atividadeManual);
             }
         }
         try {
