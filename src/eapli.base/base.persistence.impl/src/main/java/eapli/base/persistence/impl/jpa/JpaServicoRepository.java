@@ -30,7 +30,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     public FluxoAtividade findFluxoServico(CodigoUnico identity) {
         final TypedQuery<FluxoAtividade> q = createQuery(
-                "SELECT fl FROM Fluxo WHERE" +
+                "SELECT fl FROM Fluxo fl WHERE" +
                         " fl.servico =:identity",
                 FluxoAtividade.class);
         q.setParameter("identity", identity);
@@ -39,7 +39,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     public List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN e.fluxo fl WHERE" +
+                "SELECT a FROM Atividade a INNER JOIN a.fluxo fl WHERE" +
                        " fl.identificador =:identity AND" + " a.colaborador =:identity2 AND"
                         + " a.estado like =:estado",
                 Atividade.class);

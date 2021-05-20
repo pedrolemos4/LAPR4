@@ -1,4 +1,4 @@
-package eapli.base.gestaoservicoshelpdesk.application;
+package eapli.base.atividades.application;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.EstadoAtividade;
