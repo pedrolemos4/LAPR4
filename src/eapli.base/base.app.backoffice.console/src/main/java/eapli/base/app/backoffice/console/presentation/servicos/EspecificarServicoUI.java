@@ -120,7 +120,7 @@ public class EspecificarServicoUI extends AbstractUI {
             final Equipa equipa = selectorEquipa.selectedElement();
             Set<Equipa> listEquipas = null;
            AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
-                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario());
+                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia());
             fluxoAtividade = theController.createFluxo(atividadeAprovacao);
         }
         try {

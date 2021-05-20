@@ -108,18 +108,22 @@ public class EspecificarServicoController {
     }
 
     public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
-                                                                 final String descisao, final String comentario){
+                                                                 final String descisao, final String comentario,
+                                                                 final int ano, final int mes, final int dia){
+        final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com);
+        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com,data);
         return atividadeAprovacaoEquipa;
     }
 
     public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,
-                                                                      final String descisao, final String comentario){
+                                                                      final String descisao, final String comentario,
+                                                                      final int ano, final int mes, final int dia){
+        final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(e,colaborador,des,com);
+        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(e,colaborador,des,com,data);
         return atividadeAprovacaoColaborador;
     }
 }

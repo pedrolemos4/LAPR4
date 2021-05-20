@@ -2,6 +2,7 @@ package eapli.base.servico.application;
 
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.colaborador.domain.Data;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.domain.DraftServico;
@@ -79,10 +80,12 @@ public class CompletarServicoController {
 
 
     public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
-                                                                 final String descisao, final String comentario){
+                                                                 final String descisao, final String comentario,
+                                                                 final int ano, final int mes, final int dia){
+        final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com);
+        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com,data);
         return atividadeAprovacaoEquipa;
     }
 
