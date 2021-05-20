@@ -1,7 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
-import eapli.base.atividades.domain.AtividadeAprovacao;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.criticidade.domain.Criticidade;
@@ -9,7 +8,6 @@ import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.servico.application.CompletarServicoController;
-import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;

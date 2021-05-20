@@ -1,13 +1,10 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
-import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
-import eapli.base.atividades.domain.AtividadeAprovacao;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.criticidade.domain.Criticidade;
-import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -18,7 +15,6 @@ import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class EspecificarServicoUI extends AbstractUI {

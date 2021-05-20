@@ -107,23 +107,25 @@ public class EspecificarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
-    public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
-                                                                 final String descisao, final String comentario,
-                                                                 final int ano, final int mes, final int dia){
+    public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
+                                                              final String descisao, final String comentario,
+                                                              final int ano, final int mes, final int dia,
+                                                              final Formulario formulario, final TipoAtividade tipoAtividade){
         final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com,data);
+        final AtividadeManual atividadeAprovacaoEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipoAtividade);
         return atividadeAprovacaoEquipa;
     }
 
-    public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,
-                                                                      final String descisao, final String comentario,
-                                                                      final int ano, final int mes, final int dia){
+    public AtividadeManual novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,
+                                                                   final String descisao, final String comentario,
+                                                                   final int ano, final int mes, final int dia,
+                                                                   final Formulario formulario, final TipoAtividade tipoAtividade){
         final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(e,colaborador,des,com,data);
+        final AtividadeManual atividadeAprovacaoColaborador = new AtividadeManual(e,colaborador,des,com,formulario,data,tipoAtividade);
         return atividadeAprovacaoColaborador;
     }
 }
