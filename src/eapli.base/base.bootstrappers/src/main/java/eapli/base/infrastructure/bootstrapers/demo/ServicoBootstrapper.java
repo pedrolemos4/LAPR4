@@ -1,5 +1,7 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
+import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.AtividadeAprovacao;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
@@ -82,7 +84,8 @@ public class ServicoBootstrapper implements Action {
                           Set<String> keywords, Catalogo catalogo) {
         try {
             Formulario form = controller.createFormulario(tituloFormulario,listaAtributos);
-            FluxoAtividade fluxoAtividade = new FluxoAtividade("bolsa");
+            Set<AtividadeAprovacao> atividades = new HashSet<>();
+            FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
             controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords,catalogo,fluxoAtividade);
             LOGGER.info(codigoUnico);
         } catch (final IntegrityViolationException | ConcurrencyException e) {

@@ -20,9 +20,14 @@ public class Atividade implements ValueObject{
     @Enumerated(EnumType.STRING)
     private EstadoAtividade estadoAtividade;
 
-    public Atividade(Data dataLimite, EstadoAtividade estadoAtividade){
+    @Column(name="TIPOATIVIDADE")
+    @Enumerated(EnumType.STRING)
+    private TipoAtividade tipoAtividade;
+
+    public Atividade(Data dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade){
         this.estadoAtividade=estadoAtividade;
         this.dataLimite=dataLimite;
+        this.tipoAtividade = tipoAtividade;
     }
 
     protected Atividade() {

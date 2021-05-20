@@ -1,28 +1,25 @@
 package eapli.base.atividades.domain;
 
 import eapli.base.colaborador.domain.Data;
+import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class AtividadeAutomatica extends AtividadeRealizacao {
+public class AtividadeAutomatica extends Atividade {
+    @Id
+    @GeneratedValue
     private Long id;
 
-    public AtividadeAutomatica(Data dataLimite, EstadoAtividade estadoAtividade) {
-        super(dataLimite, estadoAtividade);
+    public AtividadeAutomatica(Data dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade) {
+        super(dataLimite, estadoAtividade, tipoAtividade);
+        Preconditions.ensure(tipoAtividade == TipoAtividade.REALIZACAO, "Atividade é de realização.");
+
     }
 
-    public AtividadeAutomatica() {
-        super();
-    }
+    protected AtividadeAutomatica() {
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
     }
 }
