@@ -4,6 +4,7 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.domain.Data;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Formulario;
+import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;
 import java.util.Set;

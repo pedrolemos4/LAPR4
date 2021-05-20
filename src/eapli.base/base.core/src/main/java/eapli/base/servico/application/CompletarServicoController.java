@@ -71,23 +71,29 @@ public class CompletarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
-    public FluxoAtividade createFluxo (AtividadeManual atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
-        Set<AtividadeManual> atividades = new HashSet<>();
-        atividades.add(atividadeAprovacao);
-        FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
+    public FluxoAtividade createFluxo (Set<Atividade> atividades){//, AtividadeRealizacao atividadeRealizacao)
+        Set<Atividade> listAtividades = new HashSet<>(atividades);
+        FluxoAtividade fluxoAtividade = new FluxoAtividade(listAtividades);
         return fluxoAtividade;
     }
 
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
-                                                              final String descisao, final String comentario,
+                                                              final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
-                                                              final Formulario formulario){
+                                                              final Formulario formulario,TipoAtividade tipo){
         final Data data = new Data(ano, mes, dia);
-        final Decisao des = new Decisao(descisao);
+        final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);
-        final TipoAtividade tipoAtividade = TipoAtividade.APROVACAO;
-        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipoAtividade);
+        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipo);
         return atividadeAprovacaoManualEquipa;
+    }
+
+    public AtividadeAutomatica novaAtividadeAutomatica(final int ano, final int mes, final int dia){
+        final Data data = new Data(ano,mes,dia);
+        final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
+        final EstadoAtividade e = EstadoAtividade.PENDENTE;
+        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade);
+        return atividadeAutomatica;
     }
 
 }

@@ -1,9 +1,8 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
-import eapli.base.atividades.domain.AtividadeManual;
-import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
+import eapli.base.atividades.domain.*;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
@@ -56,10 +55,46 @@ public class CompletarServicoUI  extends AbstractUI {
         descricaoCompletaData.show();
 
         FluxoAtividade fluxoAtividade= null;
-
+        boolean flag;
         if(draftServico.fluxo()==null){
+            final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
             final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
             System.out.println("\nEspecificação do fluxo de atividades");
+
+            Set<Atividade> listAtividades = new HashSet<>();
+            String tipoResolucao;
+            tipoResolucao = Console.readLine("A atividade de resolução é automática ou manual?");
+
+            flag = false;
+            while (flag) {
+                if (tipoResolucao.equalsIgnoreCase("manual")) {
+                    atividadeResolucaoWidget.doManual();
+                    final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(draftServico.catalogo().identity());
+                    final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
+                    System.out.println("\nSelecione a Equipa:");
+                    selectorEquipa.show();
+                    final Equipa equipa = selectorEquipa.selectedElement();
+                    Set<Equipa> listEquipas = new HashSet<>();
+                    listEquipas.add(equipa);
+                    Formulario form = null;
+                    TipoAtividade tipo = TipoAtividade.REALIZACAO;
+                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE, listEquipas,
+                            atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                            atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form,tipo);
+                    listAtividades.add(atividadeManual);
+                    flag = true;
+
+                } else if (tipoResolucao.equalsIgnoreCase("automatica") || tipoResolucao.equalsIgnoreCase("automática")) {
+                    atividadeResolucaoWidget.doAutomatica();
+                    AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica(atividadeResolucaoWidget.anoA(),
+                            atividadeResolucaoWidget.mesA(),atividadeResolucaoWidget.diaA());
+                    listAtividades.add(atividadeAutomatica);
+                    flag = true;
+                } else {
+                    System.out.println("Responda corretamente");
+                    flag = false;
+                }
+            }
 
             String resposta;
             resposta = Console.readLine("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
@@ -74,12 +109,15 @@ public class CompletarServicoUI  extends AbstractUI {
                 Set<Equipa> listEquipas = new HashSet<>();
                 listEquipas.add(equipa);
                 Formulario form = null;
+                TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
                         atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
-                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),form);
-                fluxoAtividade = theController.createFluxo(atividadeManual);
+                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),form,tipo);
+                listAtividades.add(atividadeManual);
             }
+            fluxoAtividade = theController.createFluxo(listAtividades);
         }
+
         try {
             Formulario formulario = this.theController.createFormulario(draftServico.tituloFormulario(), draftServico.listaAtributos());
             try{

@@ -84,7 +84,7 @@ public class ServicoBootstrapper implements Action {
                           Set<String> keywords, Catalogo catalogo) {
         try {
             Formulario form = controller.createFormulario(tituloFormulario,listaAtributos);
-            Set<AtividadeManual> atividades = new HashSet<>();
+            Set<Atividade> atividades = new HashSet<>();
             FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
             controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords,catalogo,fluxoAtividade);
             LOGGER.info(codigoUnico);

@@ -29,10 +29,10 @@ public class FluxoAtividade implements DomainEntity<Long>{
 
     @OneToMany(cascade = CascadeType.ALL)
     //@JoinColumn(name= "ID_ATIVIDADE", referencedColumnName = "id")
-    private Set<AtividadeManual> listaAtividade = new HashSet<>();
+    private Set<Atividade> listaAtividade = new HashSet<>();
 
 
-    public FluxoAtividade(Set<AtividadeManual> atividades){
+    public FluxoAtividade(Set<Atividade> atividades){
         this.listaAtividade=atividades;
     }
 
