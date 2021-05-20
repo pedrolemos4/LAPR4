@@ -3,6 +3,7 @@ package eapli.base.app.backoffice.console.presentation.servicos;
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.atividades.domain.AtividadeAprovacao;
+import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.criticidade.domain.Criticidade;
@@ -117,8 +118,8 @@ public class EspecificarServicoUI extends AbstractUI {
             System.out.println("\nSelecione a criticidade:");
             selectorEquipa.show();
             final Equipa equipa = selectorEquipa.selectedElement();
-           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(theCriticidade,atividadeAprovacaoWidget.prior(),
-                    atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),equipa,
+            Set<Equipa> listEquipas = null;
+           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
                     atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario());
             fluxoAtividade = theController.createFluxo(atividadeAprovacao);
         }
