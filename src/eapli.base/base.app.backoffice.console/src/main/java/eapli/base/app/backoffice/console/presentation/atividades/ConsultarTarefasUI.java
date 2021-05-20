@@ -3,7 +3,7 @@ package eapli.base.app.backoffice.console.presentation.atividades;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.gestaoservicoshelpdesk.application.ConsultarTarefasController;
+import eapli.base.atividades.application.ConsultarTarefasController;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 

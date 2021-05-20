@@ -2,10 +2,10 @@ package eapli.base.atividades.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.domain.Data;
-import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.Equipa;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class AtividadeAprovacao{ //extends Atividade{
@@ -17,30 +17,38 @@ public class AtividadeAprovacao{ //extends Atividade{
     @OneToOne
     private Colaborador colab;
 
-    @OneToOne
-    private Equipa equipa;
+    @OneToMany
+    private Set<Equipa> equipa;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoAtividade estadoAtividade;
 
     @Column(name = "DECISAO")
     private Decisao decisao;
 
-    @Column(name = "Comentário")
+    @Column(name = "COMENTARIO")
     private Comentario comentario;
 
-    protected AtividadeAprovacao(){
+    @Column(name = "DATA")
+    private Data data;
 
-    }
+    protected AtividadeAprovacao(){}
 
-    public AtividadeAprovacao(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade, Colaborador colab, Decisao decisao, Comentario comentario) {
-       // super(criticidade, prioridade, dataLimite, estadoAtividade);
+    public AtividadeAprovacao(final EstadoAtividade estadoAtividade, final Colaborador colab, final Decisao decisao,
+                              final Comentario comentario, final Data data) {
         this.colab = colab;
         this.decisao = decisao;
         this.comentario = comentario;
+        this.estadoAtividade=estadoAtividade;
+        this.data=data;
     }
 
-    public AtividadeAprovacao(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade, Equipa equipa, Decisao decisao, Comentario comentario) {
-      //  super(criticidade, prioridade, dataLimite, estadoAtividade);
+    public AtividadeAprovacao(final EstadoAtividade estadoAtividade, final Set<Equipa> equipa, final Decisao decisao,
+                              final Comentario comentario, final Data data) {
         this.equipa=equipa;
         this.decisao = decisao;
         this.comentario = comentario;
+        this.estadoAtividade=estadoAtividade;
+        this.data=data;
     }
 }

@@ -1,21 +1,20 @@
 package eapli.base.atividades.domain;
 
 import eapli.base.colaborador.domain.Data;
-import eapli.base.criticidade.domain.Criticidade;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class AtividadeRealizacao{
-    private Long id; //extends Atividade{
+public class AtividadeRealizacao extends Atividade{
+    private Long id;
 
 
-    public AtividadeRealizacao(Criticidade criticidade, Prioridade prioridade, Data dataLimite, EstadoAtividade estadoAtividade) {
-        //super(criticidade, prioridade, dataLimite, estadoAtividade);
+    public AtividadeRealizacao(Data dataLimite, EstadoAtividade estadoAtividade) {
+        super(dataLimite, estadoAtividade);
     }
 
-    public AtividadeRealizacao() {
+    protected AtividadeRealizacao() {
 
     }
 

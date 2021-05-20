@@ -2,12 +2,14 @@ package eapli.base.servico.application;
 
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.domain.Data;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
+import eapli.base.equipa.repositories.EquipaRepository;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.catalogo.repositories.CatalogoRepository;
@@ -30,6 +32,7 @@ public class EspecificarServicoController {
     private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
+    private final EquipaRepository equipaRepo = PersistenceContext.repositories().equipas();
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
     private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
@@ -52,7 +55,7 @@ public class EspecificarServicoController {
     public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos){
         final Formulario formulario = new Formulario(titulo, listaAtributos);
         //System.out.println(formulario.toString());
-        this.formularioRepository.save(formulario);
+      //  this.formularioRepository.save(formulario);
         return formulario;
     }
 
@@ -93,18 +96,6 @@ public class EspecificarServicoController {
         return lc;
     }
 
-    public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final Criticidade c, final String prior, final int ano,
-                                                           final int mes, final int dia, final Equipa equipa,
-                                                           final String decisao, final String comentario){
-        final Prioridade p = new Prioridade(prior);
-        final Data dataL = new Data(ano,mes,dia);
-        final Decisao des = new Decisao(decisao);
-        final Comentario com = new Comentario(comentario);
-        EstadoAtividade e = EstadoAtividade.PENDENTE;
-        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(c,p,dataL,e,equipa,des,com);
-        return atividadeAprovacaoEquipa;
-    }
-
     public FluxoAtividade createFluxo (AtividadeAprovacao atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
         Set<Atividade> atividades = new HashSet<>();
        // atividades.add(atividadeAprovacao);
@@ -112,15 +103,27 @@ public class EspecificarServicoController {
         return fluxoAtividade;
     }
 
-    public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final Criticidade c, final String prior, final int ano,
-                                                                 final int mes, final int dia, final EstadoAtividade e, final Colaborador colaborador,
-                                                                 final String descisao, final String comentario){
-        final Prioridade p = new Prioridade(prior);
-        final Data dataL = new Data(ano,mes,dia);
-        final Decisao des = new Decisao(descisao);
-        final Comentario com = new Comentario(comentario);
-        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(c,p,dataL,e,colaborador,des,com);
-        return atividadeAprovacaoColaborador;
+    public Iterable<Equipa> findEquipaDoCatalogo(Long identity) {
+        return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
+    public AtividadeAprovacao novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
+                                                                 final String descisao, final String comentario,
+                                                                 final int ano, final int mes, final int dia){
+        final Data data = new Data(ano, mes, dia);
+        final Decisao des = new Decisao(descisao);
+        final Comentario com = new Comentario(comentario);
+        final AtividadeAprovacao atividadeAprovacaoEquipa = new AtividadeAprovacao(e,equipa,des,com,data);
+        return atividadeAprovacaoEquipa;
+    }
+
+    public AtividadeAprovacao novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,
+                                                                      final String descisao, final String comentario,
+                                                                      final int ano, final int mes, final int dia){
+        final Data data = new Data(ano, mes, dia);
+        final Decisao des = new Decisao(descisao);
+        final Comentario com = new Comentario(comentario);
+        final AtividadeAprovacao atividadeAprovacaoColaborador = new AtividadeAprovacao(e,colaborador,des,com,data);
+        return atividadeAprovacaoColaborador;
+    }
 }

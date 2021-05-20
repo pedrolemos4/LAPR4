@@ -3,6 +3,7 @@ package eapli.base.app.backoffice.console.presentation.servicos;
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.atividades.domain.AtividadeAprovacao;
+import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.criticidade.domain.Criticidade;
@@ -50,7 +51,7 @@ public class EspecificarServicoUI extends AbstractUI {
         final Iterable<Catalogo> catalogos = this.theController.listCatalogos();
 
         final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos", catalogos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        System.out.println("Selecione o catálogo a que pertence o serviço:");
+        System.out.println("\nSelecione o catálogo a que pertence o serviço:");
         selector.show();
         final Catalogo theCatalogo = selector.selectedElement();
 
@@ -81,7 +82,7 @@ public class EspecificarServicoUI extends AbstractUI {
         //perguntar sobre os formulários e os atributos ao stor
 
         Set<Atributo> listaAtributos = new HashSet<>();
-        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
+       /* Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
 
         while (flag) {
@@ -95,28 +96,31 @@ public class EspecificarServicoUI extends AbstractUI {
             } else {
                 flag = false;
             }
-        }
+        }*/
 
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
-        System.out.println("Especificação do fluxo de atividades");
+        System.out.println("\nEspecificação do fluxo de atividades");
 
         final Iterable<Criticidade> listaCriticidade = this.theController.listCriticidades();
-
-        final SelectWidget<Criticidade> selector1 = new SelectWidget<>("Criticidade", listaCriticidade, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        System.out.println("Selecione a criticidade:");
-        selector.show();
+        final SelectWidget<Criticidade> selector1 = new SelectWidget<>("Criticidade", listaCriticidade, visitee1 -> System.out.printf("%-15s%-80s\n", visitee1.identity(), visitee1.toString()));
+        System.out.println("\nSelecione a criticidade:");
+        selector1.show();
         final Criticidade theCriticidade = selector1.selectedElement();
 
         String resposta;
-        //System.out.println("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
         FluxoAtividade fluxoAtividade= null;
-        Equipa equipa = null;
         resposta = Console.readLine("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
         if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
             atividadeAprovacaoWidget.show();
-           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(theCriticidade,atividadeAprovacaoWidget.prior(),
-                    atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),equipa,
-                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario());
+
+            final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
+            final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
+            System.out.println("\nSelecione a criticidade:");
+            selectorEquipa.show();
+            final Equipa equipa = selectorEquipa.selectedElement();
+            Set<Equipa> listEquipas = null;
+           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
+                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia());
             fluxoAtividade = theController.createFluxo(atividadeAprovacao);
         }
         try {

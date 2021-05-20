@@ -16,12 +16,11 @@ public class AtividadeAprovacaoWidget {
     private String comentario;
 
     public void show(){
-        this.prior= Console.readLine("Prioridade:");
-        this.ano=Console.readInteger("Ano:");
-        this.mes=Console.readInteger("Mês:");
-        this.dia=Console.readInteger("Dia:");
-        this.decisao=Console.readLine("Decisão:");
-        this.comentario=Console.readLine("Comentário");
+        this.ano=Console.readInteger("\nAno:");
+        this.mes=Console.readInteger("\nMês:");
+        this.dia=Console.readInteger("\nDia:");
+        this.decisao=Console.readLine("\nDecisão:");
+        this.comentario=Console.readLine("\nComentário");
     }
 
     public String prior(){
