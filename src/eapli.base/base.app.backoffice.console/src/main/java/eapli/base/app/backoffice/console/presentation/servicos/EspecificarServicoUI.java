@@ -1,6 +1,7 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
+import eapli.base.atividades.domain.AtividadeManual;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
@@ -70,8 +71,6 @@ public class EspecificarServicoUI extends AbstractUI {
             }
         }
 
-        flag = true;
-
         final FormularioDataWidget formularioData = new FormularioDataWidget();
         formularioData.show();
 
@@ -97,27 +96,25 @@ public class EspecificarServicoUI extends AbstractUI {
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
         System.out.println("\nEspecificação do fluxo de atividades");
 
-        final Iterable<Criticidade> listaCriticidade = this.theController.listCriticidades();
-        final SelectWidget<Criticidade> selector1 = new SelectWidget<>("Criticidade", listaCriticidade, visitee1 -> System.out.printf("%-15s%-80s\n", visitee1.identity(), visitee1.toString()));
-        System.out.println("\nSelecione a criticidade:");
-        selector1.show();
-        final Criticidade theCriticidade = selector1.selectedElement();
-
         String resposta;
         FluxoAtividade fluxoAtividade= null;
+
         resposta = Console.readLine("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
         if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
             atividadeAprovacaoWidget.show();
 
             final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
             final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
-            System.out.println("\nSelecione a criticidade:");
+            System.out.println("\nSelecione a Equipa:");
             selectorEquipa.show();
             final Equipa equipa = selectorEquipa.selectedElement();
-            Set<Equipa> listEquipas = null;
-           AtividadeAprovacao atividadeAprovacao = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
-                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(), atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia());
-            fluxoAtividade = theController.createFluxo(atividadeAprovacao);
+            Set<Equipa> listEquipas = new HashSet<>();
+            listEquipas.add(equipa);
+            Formulario form = null;
+            AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE,listEquipas,
+                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
+                   atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(),form);
+            fluxoAtividade = theController.createFluxo(atividadeManual);
         }
         try {
             if (descricaoBreveData.descricao().isEmpty() || descricaoCompletaData.descricao().isEmpty()) {
@@ -129,6 +126,7 @@ public class EspecificarServicoUI extends AbstractUI {
                     Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
                     this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
                             descricaoCompletaData.descricao(), formulario, keywords, theCatalogo,fluxoAtividade);
+                    System.out.println("\nServiço especificado com sucesso!\n");
                 } catch (final IntegrityViolationException e) {
                     System.out.println("Erro.");
                 }

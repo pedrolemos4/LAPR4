@@ -26,21 +26,18 @@ public class FluxoAtividade implements DomainEntity<Long>{
     //@OneToOne (mappedBy = "fluxoAtividade")
     //private Servico servico;
 
-    @Column(name="Fluxo")
-    private final String value;
 
-    //@OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)
     //@JoinColumn(name= "ID_ATIVIDADE", referencedColumnName = "id")
-   // private Set<Atividade> listaAtividade = new HashSet<>();
+    private Set<AtividadeManual> listaAtividade = new HashSet<>();
 
 
-    public FluxoAtividade(String bolsa){
-        this.value="pilha";
-     //   this.listaAtividade=atividades;
+    public FluxoAtividade(Set<AtividadeManual> atividades){
+        this.listaAtividade=atividades;
     }
 
     protected FluxoAtividade() {
-        this.value = null;
+     //   this.value = null;
       //  this.listaAtividade=null;
     }
 

@@ -96,10 +96,10 @@ public class EspecificarServicoController {
         return lc;
     }
 
-    public FluxoAtividade createFluxo (AtividadeAprovacao atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
-        Set<Atividade> atividades = new HashSet<>();
-       // atividades.add(atividadeAprovacao);
-        FluxoAtividade fluxoAtividade = new FluxoAtividade("bolsa");
+    public FluxoAtividade createFluxo (AtividadeManual atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
+        Set<AtividadeManual> atividades = new HashSet<>();
+        atividades.add(atividadeAprovacao);
+        FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
         return fluxoAtividade;
     }
 
@@ -110,12 +110,13 @@ public class EspecificarServicoController {
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
                                                               final String descisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
-                                                              final Formulario formulario, final TipoAtividade tipoAtividade){
+                                                              final Formulario formulario){
         final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(descisao);
         final Comentario com = new Comentario(comentario);
-        final AtividadeManual atividadeAprovacaoEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipoAtividade);
-        return atividadeAprovacaoEquipa;
+        final TipoAtividade tipoAtividade = TipoAtividade.APROVACAO;
+        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipoAtividade);
+        return atividadeAprovacaoManualEquipa;
     }
 
     public AtividadeManual novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,

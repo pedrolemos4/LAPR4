@@ -72,9 +72,9 @@ public class CompletarServicoController {
     }
 
     public FluxoAtividade createFluxo (AtividadeAprovacao atividadeAprovacao){//, AtividadeRealizacao atividadeRealizacao)
-        Set<Atividade> atividades = new HashSet<>();
-        // atividades.add(atividadeAprovacao);
-        FluxoAtividade fluxoAtividade = new FluxoAtividade("bolsa");
+        Set<AtividadeAprovacao> atividades = new HashSet<>();
+        atividades.add(atividadeAprovacao);
+        FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
         return fluxoAtividade;
     }
 
