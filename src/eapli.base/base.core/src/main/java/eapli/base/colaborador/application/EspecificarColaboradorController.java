@@ -11,6 +11,8 @@ import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.RandomRawPassword;
 
+import java.util.Calendar;
+
 @UseCaseController
 public class EspecificarColaboradorController {
 
@@ -25,7 +27,8 @@ public class EspecificarColaboradorController {
         ShortName shortName = new ShortName(nomeCurto);
         FullName fullName = new FullName(nomeCompleto);
         String[] split = dataNascimento.split("/");
-        Data date = new Data(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+        final Calendar data = Calendar.getInstance();
+        data.set(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]));
         Contacto contact ;
         if(prefix==0) {
             contact = new Contacto(contacto);
@@ -34,7 +37,7 @@ public class EspecificarColaboradorController {
         }
         LocalResidencia local1 = new LocalResidencia(local);
         EmailAddress email1 = EmailAddress.valueOf(email);
-        Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, date, contact, local1, email1);
+        Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, data, contact, local1, email1);
         repository.save(colab);
     }
 

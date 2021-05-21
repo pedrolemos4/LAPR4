@@ -13,6 +13,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,9 +26,12 @@ import static org.junit.Assert.*;
 public class CatalogoTest {
 
     private final Set<Equipa> iterable = new HashSet<>();
-    private Catalogo instance = new Catalogo(new Titulo("ti"),new Colaborador(new MecanographicNumber(123654),new ShortName("short"),new FullName("full name"),new Data(1995,02,01),new Contacto(963258741),new LocalResidencia("Local Residencia"),EmailAddress.valueOf("email@gmail.com")),new DescricaoCompletaCatalogo("Desc Completa"),new DescricaoBreve("Desc Breve"), new Icone("Icone"), iterable);
+    private Catalogo instance;
 
     public CatalogoTest() {
+        final Calendar data = Calendar.getInstance();
+        data.set(1000,02,03);
+        instance = new Catalogo(new Titulo("ti"),new Colaborador(new MecanographicNumber(123654),new ShortName("short"),new FullName("full name"), data,new Contacto(963258741),new LocalResidencia("Local Residencia"),EmailAddress.valueOf("email@gmail.com")),new DescricaoCompletaCatalogo("Desc Completa"),new DescricaoBreve("Desc Breve"), new Icone("Icone"), iterable);
     }
 
     /**
@@ -49,8 +53,10 @@ public class CatalogoTest {
     @Test
     public void testSameAs2() {
         System.out.println("sameAs=False");
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
-                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
                 ,EmailAddress.valueOf("exemplo@examplo.com"));
         Object other = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descrição Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
@@ -65,8 +71,11 @@ public class CatalogoTest {
     @Test
     public void testEquals1() {
         System.out.println("equals=true");
+
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
-                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
                 ,EmailAddress.valueOf("exemplo@examplo.com"));
         Object other = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descrição Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
@@ -96,8 +105,10 @@ public class CatalogoTest {
     @Test
     public void testToString1() {
         System.out.println("toString=true");
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
-                ,new Data(1993,4,3),new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
+                ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
                 ,EmailAddress.valueOf("exemplo@examplo.com"));
         Catalogo instance = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descricao Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
@@ -105,5 +116,5 @@ public class CatalogoTest {
         String result = instance.toString();
         assertEquals(expResult, result);
     }
-    
+
 }

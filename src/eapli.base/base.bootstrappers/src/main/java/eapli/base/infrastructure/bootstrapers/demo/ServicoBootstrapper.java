@@ -22,6 +22,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,8 +38,9 @@ public class ServicoBootstrapper implements Action {
         listAtributos.add(new Atributo("nomeVariavel", "label"));
         Set<String> keywords = new HashSet<>();
         keywords.add("key1");
-
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), new Data(1984, 10, 25)
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux
                 , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();
@@ -65,7 +67,7 @@ public class ServicoBootstrapper implements Action {
         keywords2.add("key1");
 
         //--------------------------------- SERVICOS DE OUTRO CATALOGO -------------------------------
-        Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), new Data(1992, 7, 5)
+        Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), dataAux
                 , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"));
         Set<Colaborador> setCol1 = new HashSet<>();
         setCol1.add(c2);

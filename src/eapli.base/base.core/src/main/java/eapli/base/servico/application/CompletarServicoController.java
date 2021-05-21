@@ -2,7 +2,6 @@ package eapli.base.servico.application;
 
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
-import eapli.base.colaborador.domain.Data;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.domain.DraftServico;
@@ -17,6 +16,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,7 +81,8 @@ public class CompletarServicoController {
                                                               final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
                                                               final Formulario formulario,TipoAtividade tipo){
-        final Data data = new Data(ano, mes, dia);
+        final Calendar data = Calendar.getInstance();
+        data.set(ano,mes,dia);
         final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);
         final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipo);
@@ -89,7 +90,9 @@ public class CompletarServicoController {
     }
 
     public AtividadeAutomatica novaAtividadeAutomatica(final int ano, final int mes, final int dia){
-        final Data data = new Data(ano,mes,dia);
+
+        final Calendar data = Calendar.getInstance();
+        data.set(ano,mes,dia);
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
         final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade);
