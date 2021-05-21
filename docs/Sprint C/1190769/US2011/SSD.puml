@@ -1,0 +1,12 @@
+@startuml
+autonumber
+actor "GSH" as USR
+
+activate USR
+USR -> ":Sistema" : pretende conhecer o estado atual do\n motor de fluxos de atividade
+activate ":Sistema"
+":Sistema" --> USR : informa o GSH do estado atual
+deactivate ":Sistema"
+
+deactivate USR
+@enduml
