@@ -106,13 +106,14 @@ public class EspecificarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
-    public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
+    public AtividadeManual novaAtividadeAprovacaoManualEquipa(/*final EstadoAtividade e,*/ final Set<Equipa> equipa,
                                                               final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
                                                               final Formulario formulario,TipoAtividade tipo){
         final Data data = new Data(ano, mes, dia);
         final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);
+        final EstadoAtividade e  = EstadoAtividade.PENDENTE ;
         final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,des,com,formulario,data,tipo);
         return atividadeAprovacaoManualEquipa;
     }

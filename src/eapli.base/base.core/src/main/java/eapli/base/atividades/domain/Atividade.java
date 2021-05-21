@@ -6,6 +6,8 @@ import eapli.framework.domain.model.ValueObject;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
 public class Atividade implements ValueObject{
 
     @Id
