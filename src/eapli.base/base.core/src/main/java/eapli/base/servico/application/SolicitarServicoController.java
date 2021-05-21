@@ -1,4 +1,4 @@
-package eapli.base.clientusermanagement.application;
+package eapli.base.servico.application;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;

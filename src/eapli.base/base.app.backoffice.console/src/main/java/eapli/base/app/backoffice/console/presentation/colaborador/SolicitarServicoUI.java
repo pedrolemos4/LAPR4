@@ -1,11 +1,10 @@
 package eapli.base.app.backoffice.console.presentation.colaborador;
 
 import eapli.base.catalogo.domain.Catalogo;
-import eapli.base.clientusermanagement.application.SolicitarServicoController;
+import eapli.base.servico.application.SolicitarServicoController;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class SolicitarServicoUI extends AbstractUI {

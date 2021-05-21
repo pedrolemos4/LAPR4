@@ -1,4 +1,4 @@
-package eapli.base.http_server;
+package http_server;
 
 import java.io.*;
 
