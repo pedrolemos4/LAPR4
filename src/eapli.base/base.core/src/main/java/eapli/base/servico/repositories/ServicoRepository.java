@@ -48,4 +48,7 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     Iterable<Servico> findServicoTodos(String titulo, Set<String> keywords, String descricaoBreve, String descricaoCompleta);
 
+    Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade);
+
+    Atividade getTarefaById(int idAtividade);
 }

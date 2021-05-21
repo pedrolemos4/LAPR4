@@ -62,4 +62,8 @@ public class AtividadeManual extends Atividade{
         public Long getId() {
             return id;
         }
+
+    public void adicionaColaborador(Colaborador colab) {
+        this.colab = colab;
+    }
 }

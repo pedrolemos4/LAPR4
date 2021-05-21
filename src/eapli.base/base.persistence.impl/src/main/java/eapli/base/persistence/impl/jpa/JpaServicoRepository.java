@@ -3,7 +3,6 @@ package eapli.base.persistence.impl.jpa;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.servico.domain.EstadoServico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.base.equipa.domain.CodigoUnico;
@@ -16,6 +15,28 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     public JpaServicoRepository() {
         super("Codigo Unico");
+    }
+
+    @Override
+    public Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a JOIN a.equipa eq " +
+                        "JOIN eq.listMembros lm WHERE" +
+                        " a.TYPE =:atividade AND lm.numeroMecanografico=:identity",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
+    }
+
+    @Override
+    public Atividade getTarefaById(int idAtividade) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade e WHERE" +
+                        " a.id =:idAtividade",
+                Atividade.class);
+        q.setParameter("idAtividade", idAtividade);
+        return q.getSingleResult();
     }
 
     @Override
