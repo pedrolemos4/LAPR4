@@ -1,11 +1,13 @@
 package eapli.base.atividades.domain;
 
-import eapli.base.colaborador.domain.Data;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
 public class Atividade implements ValueObject{
 
     @Id
@@ -14,7 +16,7 @@ public class Atividade implements ValueObject{
     private long id;
 
     @Column(name="DATALIMITE")
-    private Data dataLimite;
+    private Calendar dataLimite;
 
     @Column(name="ESTADOATIVIDADE")
     @Enumerated(EnumType.STRING)
@@ -24,7 +26,7 @@ public class Atividade implements ValueObject{
     @Enumerated(EnumType.STRING)
     private TipoAtividade tipoAtividade;
 
-    public Atividade(Data dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade){
+    public Atividade(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade){
         this.estadoAtividade=estadoAtividade;
         this.dataLimite=dataLimite;
         this.tipoAtividade = tipoAtividade;

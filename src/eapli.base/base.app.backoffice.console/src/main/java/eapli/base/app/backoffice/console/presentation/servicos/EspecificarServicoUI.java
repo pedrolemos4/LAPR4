@@ -113,18 +113,22 @@ public class EspecificarServicoUI extends AbstractUI {
                 listEquipas.add(equipa);
                 Formulario form = null;
                 TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE, listEquipas,
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
                         atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
-                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form,tipo);
+                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
                 listAtividades.add(atividadeManual);
                 flag = false;
 
             } else if (tipoResolucao.equalsIgnoreCase("automatica") || tipoResolucao.equalsIgnoreCase("automática")) {
-                atividadeResolucaoWidget.doAutomatica();
-                AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica(atividadeResolucaoWidget.anoA(),
-                        atividadeResolucaoWidget.mesA(),atividadeResolucaoWidget.diaA());
-                listAtividades.add(atividadeAutomatica);
-                flag = false;
+                try {
+                    atividadeResolucaoWidget.doAutomatica();
+                    AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica(atividadeResolucaoWidget.anoA(),
+                            atividadeResolucaoWidget.mesA(), atividadeResolucaoWidget.diaA());
+                    listAtividades.add(atividadeAutomatica);
+                    flag = false;
+                } catch(IllegalArgumentException ex){
+                    System.out.println(ex.getMessage());
+                }
             } else {
                 System.out.println("Responda corretamente");
                 flag = true;
@@ -146,9 +150,9 @@ public class EspecificarServicoUI extends AbstractUI {
             listEquipas.add(equipa);
             Formulario form = null;
             TipoAtividade tipo = TipoAtividade.APROVACAO;
-            AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(EstadoAtividade.PENDENTE, listEquipas,
+            AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE,*/ listEquipas,
                     atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
-                    atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form,tipo);
+                    atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form, tipo);
             listAtividades.add(atividadeManual);
         }
         fluxoAtividade = theController.createFluxo(listAtividades);

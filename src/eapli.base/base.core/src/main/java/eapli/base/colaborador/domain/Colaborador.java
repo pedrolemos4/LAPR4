@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Set;
 
 @Entity
@@ -29,7 +30,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     private LocalResidencia localResidencia;
 
     @Column(name="DATANASC")
-    private Data dataNasc;
+    private Calendar dataNasc;
 
     @Column(name="EMAIL")
     private EmailAddress endereco;
@@ -40,7 +41,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @ManyToMany(mappedBy = "listResponsavel")
     private Set<Equipa> likes;
 
-    public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Data dataNasc, Contacto contacto,
+    public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Calendar dataNasc, Contacto contacto,
                         LocalResidencia localResidencia, EmailAddress endereco){//}, Funcao funcao) {
         try {
             this.numeroMecanografico = numeroMecanografico;

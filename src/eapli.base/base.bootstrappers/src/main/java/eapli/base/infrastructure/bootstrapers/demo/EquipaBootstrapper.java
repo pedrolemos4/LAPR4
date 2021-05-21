@@ -15,6 +15,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,8 +27,10 @@ public class EquipaBootstrapper implements Action {
 
     @Override
     public boolean execute() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"),  EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> setCol = new HashSet<>();
@@ -39,7 +42,7 @@ public class EquipaBootstrapper implements Action {
         TipoEquipa t2 = new TipoEquipa(new CodigoUnico("t2"),new Designacao("tipo2"), new Cor(60,40,80));
        // registarTipoEquipaController.registarAlt(t2);
         //registarTipoEquipaController.registarTipoEquipa("t2","tipo2",60,40,80);
-        Colaborador c2 = new Colaborador(new MecanographicNumber(119876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),new Data(1992,7,5)
+        Colaborador c2 = new Colaborador(new MecanographicNumber(119876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),dataAux
                 ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));
 
         Set<Colaborador> setCol2 = new HashSet<>();

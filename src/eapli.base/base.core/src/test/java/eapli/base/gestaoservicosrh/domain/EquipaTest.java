@@ -11,14 +11,17 @@ import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.general.domain.model.EmailAddress;
 import junit.framework.TestCase;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
 public class EquipaTest extends TestCase {
 
     public void testIdentity() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
@@ -29,8 +32,10 @@ public class EquipaTest extends TestCase {
     }
 
     public void testListMembros() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
@@ -42,8 +47,10 @@ public class EquipaTest extends TestCase {
     }
 
     public void testGetTipo() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
@@ -55,8 +62,10 @@ public class EquipaTest extends TestCase {
     }
 
     public void testTestEquals() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
@@ -68,8 +77,10 @@ public class EquipaTest extends TestCase {
     }
 
     public void testTestToString() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
@@ -80,8 +91,10 @@ public class EquipaTest extends TestCase {
     }
 
     public void testHashCode() {
+        Calendar dataAux = Calendar.getInstance();
+        dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
-        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),new Data(1984,10,25)
+        Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
                 ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"), EmailAddress.valueOf("joao@gmail.com"));
 
         Set<Colaborador> list = new HashSet<>();
