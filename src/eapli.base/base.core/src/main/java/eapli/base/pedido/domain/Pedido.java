@@ -1,14 +1,13 @@
 package eapli.base.pedido.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.colaborador.domain.Data;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.servico.domain.Servico;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
-import javax.swing.plaf.FileChooserUI;
 import java.io.File;
+import java.util.Calendar;
 import java.util.Set;
 
 public class Pedido {
@@ -21,7 +20,7 @@ public class Pedido {
     private Colaborador colaborador;
 
     @Column(name = "dataSolicitacao")
-    private Data dataSolicitacao;
+    private Calendar dataSolicitacao;
 
     @Column(name = "servicoSolicitado")
     private Servico servico;
@@ -33,12 +32,12 @@ public class Pedido {
     private UrgenciaPedido urgenciaPedido;
 
     @Column(name = "dataLimiteResolucao")
-    private Data dataLimiteResolucao;
+    private Calendar dataLimiteResolucao;
 
     Set<File> annexedFiles;
 
 
-    public Pedido(Colaborador colaborador, Data dataSolicitacao, Servico servico, Criticidade criticidade, UrgenciaPedido urgenciaPedido, Data dataLimiteResolucao) {
+    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, Criticidade criticidade, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
         this.Id = new Identificador().getIdentificador();
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;

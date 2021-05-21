@@ -2,11 +2,11 @@
 package eapli.base.validacoes.validarFormulario;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.LexerATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class validarFormularioLexer extends Lexer {
@@ -118,21 +118,21 @@ public class validarFormularioLexer extends Lexer {
 	private void TITULO_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
 		case 0:
-			1,50
+			//1,50
 			break;
 		}
 	}
 	private void NOME_VAR_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
 		case 1:
-			1,30
+			//1,30
 			break;
 		}
 	}
 	private void LABEL_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
 		case 2:
-			1,30
+			//1,30
 			break;
 		}
 	}
