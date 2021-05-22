@@ -37,6 +37,18 @@ public class ConsultarTarefasController {
         return repo.findTarefasServico(null, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
+    public List<Atividade> filtrarPrioridadeAlta(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.findTarefasServicoPAlta(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> filtrarPrioridadeMedia(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.findTarefasServicoPMedia(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> filtrarPrioridadeBaixa(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.findTarefasServicoPBaixa(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
     public FluxoAtividade getFluxo(Servico s) {
         return repo.findFluxoServico(s.identity());
     }
