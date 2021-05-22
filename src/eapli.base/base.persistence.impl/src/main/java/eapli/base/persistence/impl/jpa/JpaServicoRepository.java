@@ -3,9 +3,10 @@ package eapli.base.persistence.impl.jpa;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.criticidade.domain.Criticidade;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
-import eapli.base.equipa.domain.CodigoUnico;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -36,6 +37,15 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
                         " a.id =:idAtividade",
                 Atividade.class);
         q.setParameter("idAtividade", idAtividade);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Criticidade getCriticidade(CodigoUnico identity) {
+        final TypedQuery<Criticidade> q = createQuery(
+                "SELECT s FROM Servico s INNER JOIN s.Criticidade c WHERE s.codigoUnico =: identity",
+                Criticidade.class);
+        q.setParameter("identity", identity);
         return q.getSingleResult();
     }
 

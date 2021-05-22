@@ -3,6 +3,7 @@ package eapli.base.servico.repositories;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
@@ -51,4 +52,6 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
     Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade);
 
     Atividade getTarefaById(int idAtividade);
+
+    Criticidade getCriticidade(CodigoUnico identity);
 }

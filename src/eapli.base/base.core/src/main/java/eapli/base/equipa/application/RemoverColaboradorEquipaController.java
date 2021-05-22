@@ -1,16 +1,13 @@
 package eapli.base.equipa.application;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
-import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.repositories.EquipaRepository;
-import eapli.base.tipoequipa.repositories.TipoEquipaRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.application.UseCaseController;
-import eapli.framework.infrastructure.authz.application.AuthorizationService;
-import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 
 import java.util.List;
 
@@ -19,7 +16,6 @@ public class RemoverColaboradorEquipaController {
 
     private final EquipaRepository equipaRepository = PersistenceContext.repositories().equipas();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
-
 
 
     public boolean removerColaboradorEquipa(String codigoEquipa, int nrColab){

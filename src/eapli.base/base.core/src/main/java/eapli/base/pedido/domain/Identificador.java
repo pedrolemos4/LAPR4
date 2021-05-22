@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Calendar;
 
 @Embeddable
-public class Identificador {
+public class Identificador implements Comparable<Identificador> {
 
     private int ano;
 
@@ -23,5 +23,12 @@ public class Identificador {
     @Override
     public String toString() {
         return ano + "/" + id ;
+    }
+
+    @Override
+    public int compareTo(Identificador o) {
+        if (this == o.getIdentificador())
+        return 0;
+        return -1;
     }
 }

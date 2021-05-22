@@ -3,15 +3,16 @@ package eapli.base.persistence.impl.jpa;
 import eapli.base.Application;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.clientusermanagement.repositories.SignupRequestRepository;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.contrato.repositories.ContratoRepository;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.repositories.DraftServicoRepository;
-import eapli.base.formulario.repositories.FormularioRepository;
-import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.repositories.EquipaRepository;
-import eapli.base.tipoequipa.repositories.TipoEquipaRepository;
+import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.RepositoryFactory;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.repositories.ServicoRepository;
+import eapli.base.tipoequipa.repositories.TipoEquipaRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
 import eapli.framework.infrastructure.authz.repositories.impl.JpaAutoTxUserRepository;
@@ -99,6 +100,11 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public ContratoRepository contrato() {
 		return new JpaContratoRepository();
+	}
+
+	@Override
+	public PedidoRepository pedidos() {
+		return new JpaPedidoRepository();
 	}
 
 	@Override

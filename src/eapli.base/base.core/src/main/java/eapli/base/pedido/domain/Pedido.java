@@ -3,14 +3,17 @@ package eapli.base.pedido.domain;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.servico.domain.Servico;
+import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import java.io.File;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
-public class Pedido {
+@Entity
+public class Pedido implements AggregateRoot<Identificador> {
 
     @EmbeddedId
     @Column(name="id")
@@ -20,7 +23,7 @@ public class Pedido {
     private Colaborador colaborador;
 
     @Column(name = "dataSolicitacao")
-    private Calendar dataSolicitacao;
+    private Date dataSolicitacao;
 
     @Column(name = "servicoSolicitado")
     private Servico servico;
@@ -32,12 +35,15 @@ public class Pedido {
     private UrgenciaPedido urgenciaPedido;
 
     @Column(name = "dataLimiteResolucao")
-    private Calendar dataLimiteResolucao;
+    private Date dataLimiteResolucao;
 
     Set<File> annexedFiles;
 
+    protected Pedido() {
 
-    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, Criticidade criticidade, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
+    }
+
+    public Pedido(Colaborador colaborador, Date dataSolicitacao, Servico servico, Criticidade criticidade, UrgenciaPedido urgenciaPedido, Date dataLimiteResolucao) {
         this.Id = new Identificador().getIdentificador();
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;
@@ -58,5 +64,16 @@ public class Pedido {
                 ", urgenciaPedido=" + urgenciaPedido +
                 ", dataLimiteResolucao=" + dataLimiteResolucao +
                 '}';
+    }
+
+    @Override
+    public boolean sameAs(Object other) {
+        Pedido pedido = (Pedido) other;
+        return this.identity() == pedido.identity();
+    }
+
+    @Override
+    public Identificador identity() {
+        return this.Id;
     }
 }

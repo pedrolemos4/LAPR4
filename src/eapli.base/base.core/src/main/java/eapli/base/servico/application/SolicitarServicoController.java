@@ -4,8 +4,12 @@ import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.domain.UrgenciaPedido;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
@@ -25,12 +29,16 @@ public class SolicitarServicoController {
     private final ColaboradorRepository repository = PersistenceContext.repositories().colaborador();
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
-    private static final Logger LOGGER = LoggerFactory.getLogger(Colaborador.class);
+    private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
+    private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
     private static ArrayList<Catalogo> catalogosAutorizados = new ArrayList<>();
 
+    private SystemUser loggedUser = this.authz.session().get().authenticatedUser();
+
     public List<Catalogo> displayAvailableCatalogos(){
-        SystemUser loggedUser = this.authz.session().get().authenticatedUser();
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
         try{
             Colaborador loggedColaborador = repository.findEmailColaborador(loggedUser.email());
@@ -61,5 +69,19 @@ public class SolicitarServicoController {
         }
     }
 
+    public boolean solicitarServico(Servico servico, UrgenciaPedido urgencia, Date dataLimiteRes){
+        try{
+            Criticidade criticidade = servicoRepository.getCriticidade(servico.identity());
+            Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
+            Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,criticidade,urgencia,dataLimiteRes);
+            pedidoRepository.save(pedido);
+            return true;
+        }
+        catch (Exception e){
+            LOGGER.error("Something went wrong");
+            return false;
+        }
+
+    }
 
 }

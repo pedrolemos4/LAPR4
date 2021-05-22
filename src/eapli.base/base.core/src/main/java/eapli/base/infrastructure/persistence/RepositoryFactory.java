@@ -13,6 +13,7 @@ import eapli.base.draft.repositories.DraftServicoRepository;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.repositories.EquipaRepository;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.tipoequipa.repositories.TipoEquipaRepository;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
@@ -92,4 +93,6 @@ public interface RepositoryFactory {
     ColaboradorRepository colaborador();
 
     ContratoRepository contrato();
+
+    PedidoRepository pedidos();
 }
