@@ -1,5 +1,6 @@
 package eapli.base.atividades.domain;
 
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -49,5 +50,14 @@ public class FluxoAtividade implements DomainEntity<Long>{
     @Override
     public Long identity() {
         return id;
+    }
+
+    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
+        for(Atividade atividade : listaAtividade){
+            if(atividade.equals(idAtividade)){
+                atividade.adicionaColaborador(colab, idAtividade);
+            }
+        }
+
     }
 }

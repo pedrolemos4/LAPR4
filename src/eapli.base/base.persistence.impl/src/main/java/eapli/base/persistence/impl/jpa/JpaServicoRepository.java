@@ -19,28 +19,6 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     }
 
     @Override
-    public Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a JOIN a.equipa eq " +
-                        "JOIN eq.listMembros lm WHERE" +
-                        " a.TYPE =:atividade AND lm.numeroMecanografico=:identity",
-                Atividade.class);
-        q.setParameter("identity", identity);
-        q.setParameter("atividade", atividade);
-        return q.getResultList();
-    }
-
-    @Override
-    public Atividade getTarefaById(int idAtividade) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade e WHERE" +
-                        " a.id =:idAtividade",
-                Atividade.class);
-        q.setParameter("idAtividade", idAtividade);
-        return q.getSingleResult();
-    }
-
-    @Override
     public Criticidade getCriticidade(CodigoUnico identity) {
         final TypedQuery<Criticidade> q = createQuery(
                 "SELECT s FROM Servico s INNER JOIN s.Criticidade c WHERE s.codigoUnico =: identity",

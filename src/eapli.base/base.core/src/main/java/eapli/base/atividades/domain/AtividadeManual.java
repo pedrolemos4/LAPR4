@@ -55,11 +55,11 @@ public class AtividadeManual extends Atividade{
         this.formulario=formulario;
     }
 
-        public void setId(Long id) {
+    public void setId(Long id) {
             this.id = id;
         }
 
-        public Long getId() {
+    public Long getId() {
             return id;
         }
 

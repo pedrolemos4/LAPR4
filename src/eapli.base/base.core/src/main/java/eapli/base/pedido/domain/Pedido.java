@@ -1,5 +1,6 @@
 package eapli.base.pedido.domain;
 
+import eapli.base.atividades.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.servico.domain.Servico;
@@ -75,5 +76,9 @@ public class Pedido implements AggregateRoot<Identificador> {
     @Override
     public Identificador identity() {
         return this.Id;
+    }
+
+    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
+        this.servico.adicionaColaborador(colab, idAtividade);
     }
 }

@@ -1,9 +1,11 @@
 package eapli.base.servico.domain;
 
+import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -128,6 +130,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     public boolean estaIndisponivel() {
         return estado() == EstadoServico.INDISPONIVEL;
+    }
+
+    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
+        this.fluxoAtividade.adicionaColaborador(colab, idAtividade);
     }
 
     public static class ServicoBuilder {

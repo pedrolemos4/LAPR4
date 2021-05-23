@@ -1,5 +1,6 @@
 package eapli.base.atividades.domain;
 
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
@@ -35,5 +36,14 @@ public class Atividade implements ValueObject{
     protected Atividade() {
         this.dataLimite=null;
         this.estadoAtividade=null;
+    }
+
+    public Long identity() {
+        return id;
+    }
+
+    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
+        AtividadeManual manual = (AtividadeManual) idAtividade;
+        manual.adicionaColaborador(colab);
     }
 }
