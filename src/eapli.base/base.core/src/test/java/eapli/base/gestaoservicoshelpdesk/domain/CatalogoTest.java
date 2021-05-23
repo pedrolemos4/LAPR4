@@ -112,7 +112,7 @@ public class CatalogoTest {
                 ,EmailAddress.valueOf("exemplo@examplo.com"));
         Catalogo instance = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descricao Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>());
-        String expResult = "Catalogo{titulo=Test, descricaoCompleta=Descricao Completa, descricaoBreve=Descricao Breve, icone=Icone{icone='Icone'}, listEquipas=[], listServicos=[], colab=Colaborador{numeroMecanografico=Number: 123456, shortName=Robert, fullName=Robert De Niro Dos Santos Afonso, localResidencia=LocalResidencia{endereco='Somewhere Over the rainbow'}, dataNasc=Data{ano=1993, mes=4, dia=3}, endereco=exemplo@examplo.com, contacto=Contacto{number=159753215, prefix=0}}}" ;
+        String expResult = "Catalogo{titulo=Test, descricaoCompleta=Descricao Completa, descricaoBreve=Descricao Breve, icone=Icone{icone='Icone'}, listEquipas=[], listServicos=[], colab=Colaborador{numeroMecanografico=Number: 123456, shortName=Robert, fullName=Robert De Niro Dos Santos Afonso, localResidencia=LocalResidencia{endereco='Somewhere Over the rainbow'}, endereco=exemplo@examplo.com, contacto=Contacto{number=159753215, prefix=0}}}" ;
         String result = instance.toString();
         assertEquals(expResult, result);
     }

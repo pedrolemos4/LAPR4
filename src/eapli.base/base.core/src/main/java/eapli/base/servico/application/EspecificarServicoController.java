@@ -47,7 +47,8 @@ public class EspecificarServicoController {
                 .withCatalogo(catalogo)
                 .withFluxo(fluxoAtividade)
                 .build();
-        servico.makeUnavailable();
+        //servico.makeUnavailable();
+        servico.makeAvailable();
         this.servicoRepository.save(servico);
     }
 

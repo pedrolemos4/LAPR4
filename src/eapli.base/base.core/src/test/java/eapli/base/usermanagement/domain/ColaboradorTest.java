@@ -34,7 +34,7 @@ public class ColaboradorTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        String expResult = "Colaborador{numeroMecanografico=Number: 123654, shortName=short, fullName=full name, localResidencia=LocalResidencia{endereco='Local Residencia'}, dataNasc=Data{ano=1995, mes=2, dia=1}, endereco=email@gmail.com, contacto=Contacto{number=963258741, prefix=0}}";
+        String expResult = "Colaborador{numeroMecanografico=Number: 123654, shortName=short, fullName=full name, localResidencia=LocalResidencia{endereco='Local Residencia'}, endereco=email@gmail.com, contacto=Contacto{number=963258741, prefix=0}}";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
