@@ -6,6 +6,7 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.pedido.domain.Identificador;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.domain.repositories.LockableDomainRepository;
@@ -20,6 +21,12 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
     List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado);
 
     FluxoAtividade findFluxoServico(CodigoUnico identity);
+
+    Servico findPedidoServico(Identificador identity);
+
+    List<Atividade> ordenarCritCrescente(Long identity, CodigoUnico identity2, MecanographicNumber identity3, String estado);
+
+    List<Atividade> ordenarCritDecrescente(Long identity, CodigoUnico identity2, MecanographicNumber identity3, String estado);
 
     Iterable<Servico> findServicoByTituloDescricaoBreveDescricaoCompleta(String titulo, String descricaoBreve, String descricaoCompleta);
 

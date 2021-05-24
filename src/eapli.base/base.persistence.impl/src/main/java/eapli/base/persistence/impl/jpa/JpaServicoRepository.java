@@ -6,6 +6,7 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.pedido.domain.Identificador;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 
@@ -22,7 +23,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     @Override
     public Criticidade getCriticidade(CodigoUnico identity) {
         final TypedQuery<Criticidade> q = createQuery(
-                "SELECT c FROM SERVICO s INNER JOIN c.SERVICO s WHERE s.codigoUnico =: identity",
+                "SELECT s FROM Servico s INNER JOIN s.Criticidade c WHERE s.codigoUnico =: identity",
                 Criticidade.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
@@ -47,6 +48,15 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
+    public Servico findPedidoServico(Identificador identity) {
+        final TypedQuery<Servico> q = createQuery(
+                "SELECT s FROM Servico s INNER JOIN Pedido p WHERE" +
+                        " s.Codigo_Unico =:identity AND p.servicoSolicitado =:identity",
+                Servico.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
     public FluxoAtividade findFluxoServico(CodigoUnico identity) {
         final TypedQuery<FluxoAtividade> q = createQuery(
                 "SELECT fl FROM Fluxo fl WHERE" +
@@ -58,12 +68,44 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     public List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN a.fluxo fl WHERE" +
-                       " fl.identificador =:identity AND" + " a.colaborador =:identity2 AND"
-                        + " a.estado like =:estado",
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla WHERE" +
+                        " fla.listatividade_id_atividade =:identity AND" +
+                        " a.colab_mecanographicnumber =:identity2 AND" + " a.estadoatividade like =:estado",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarCritCrescente(Long identity, CodigoUnico identity2,
+                                                MecanographicNumber identity3, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
+                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
+                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
+                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
+                        "ORDER BY p.criticidade ASC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("identity3", identity3);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarCritDecrescente(Long identity, CodigoUnico identity2,
+                                                MecanographicNumber identity3, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
+                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
+                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
+                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
+                        "ORDER BY p.criticidade DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("identity3", identity3);
         q.setParameter("estado", estado);
         return q.getResultList();
     }

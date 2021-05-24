@@ -30,6 +30,7 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     private LocalResidencia localResidencia;
 
     @Column(name="DATANASC")
+    @Temporal(TemporalType.DATE)
     private Calendar dataNasc;
 
     @Column(name="EMAIL")
