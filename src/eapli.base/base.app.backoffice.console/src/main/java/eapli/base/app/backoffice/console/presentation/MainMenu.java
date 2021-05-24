@@ -28,7 +28,7 @@ import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServi
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
-import eapli.base.app.backoffice.console.presentation.colaborador.SolicitarServicoUI;
+import eapli.base.app.backoffice.console.presentation.servicos.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
@@ -36,27 +36,19 @@ import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipa
 import eapli.base.app.backoffice.console.presentation.servicos.CompletarServicoUI;
 import eapli.base.app.backoffice.console.presentation.servicos.EspecificarServicoUI;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
-import eapli.base.app.common.console.presentation.authz.MyUserMenu;
 import eapli.base.Application;
-import eapli.base.app.backoffice.console.presentation.authz.DeactivateUserAction;
-import eapli.base.app.backoffice.console.presentation.authz.ListUsersAction;
-import eapli.base.app.backoffice.console.presentation.clientuser.AcceptRefuseSignupRequestAction;
 
 import eapli.base.usermanagement.domain.BaseRoles;
-import eapli.framework.actions.Actions;
 import eapli.framework.actions.menu.Menu;
 import eapli.framework.actions.menu.MenuItem;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.ExitWithMessageAction;
-import eapli.framework.presentation.console.ShowMessageAction;
 import eapli.framework.presentation.console.menu.HorizontalMenuRenderer;
 import eapli.framework.presentation.console.menu.MenuItemRenderer;
 import eapli.framework.presentation.console.menu.MenuRenderer;
 import eapli.framework.presentation.console.menu.VerticalMenuRenderer;
-
-import javax.swing.*;
 
 /**
  * TODO split this class in more specialized classes for each menu

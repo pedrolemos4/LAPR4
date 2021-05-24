@@ -17,7 +17,6 @@ public class login  extends BaseApplication {
 
     Server server = new Server();
 
-
     private login(){
 
     }

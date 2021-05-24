@@ -4,7 +4,6 @@ import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprova
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
-import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -76,7 +75,7 @@ public class EspecificarServicoUI extends AbstractUI {
         //perguntar sobre os formulários e os atributos ao stor
 
         Set<Atributo> listaAtributos = new HashSet<>();
-       /* Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
+        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
 
         while (flag) {
@@ -90,7 +89,7 @@ public class EspecificarServicoUI extends AbstractUI {
             } else {
                 flag = false;
             }
-        }*/
+        }
 
         final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();

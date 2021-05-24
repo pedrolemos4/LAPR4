@@ -5,6 +5,7 @@ import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, CodigoUnico> implements ServicoRepository {
 
     public JpaServicoRepository() {
-        super("Codigo Unico");
+        super("codigoUnico");
     }
 
     @Override
@@ -24,6 +25,15 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
                 "SELECT s FROM Servico s INNER JOIN s.Criticidade c WHERE s.codigoUnico =: identity",
                 Criticidade.class);
         q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Formulario getAssociatedFormulario(String codigoUnico) {
+        final TypedQuery<Formulario> q = createQuery(
+                "SELECT c FROM Servico s INNER JOIN s.Formulario c WHERE s.codigoUnico =: identity",
+                Formulario.class);
+        q.setParameter("identity", codigoUnico);
         return q.getSingleResult();
     }
 

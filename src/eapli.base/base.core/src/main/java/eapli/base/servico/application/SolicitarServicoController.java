@@ -5,7 +5,10 @@ import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Criticidade;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -31,12 +34,15 @@ public class SolicitarServicoController {
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
     private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
+    private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
     private static ArrayList<Catalogo> catalogosAutorizados = new ArrayList<>();
 
     private SystemUser loggedUser = this.authz.session().get().authenticatedUser();
+
+    private Servico servico;
 
     public List<Catalogo> displayAvailableCatalogos(){
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
@@ -69,7 +75,7 @@ public class SolicitarServicoController {
         }
     }
 
-    public boolean solicitarServico(Servico servico, UrgenciaPedido urgencia, Date dataLimiteRes){
+    public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
         try{
             Criticidade criticidade = servicoRepository.getCriticidade(servico.identity());
             Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
@@ -84,4 +90,20 @@ public class SolicitarServicoController {
 
     }
 
+    public boolean preencherFormulario(String idServico) {
+        //try{
+            servico = servicoRepository.ofIdentity(new CodigoUnico(idServico)).orElse(null);
+            if (servico != null) {
+                Formulario formulario = servicoRepository.getAssociatedFormulario(idServico);
+                formularioRepository.save(formulario);
+                return true;
+            }
+            return false;
+        //}
+        //catch (Exception e){
+          //  LOGGER.error("Something went wrong");
+            //return false;
+       // }
+
+    }
 }

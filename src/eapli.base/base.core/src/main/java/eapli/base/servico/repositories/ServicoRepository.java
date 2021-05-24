@@ -5,6 +5,7 @@ import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.domain.repositories.LockableDomainRepository;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico>, LockableDomainRepository<CodigoUnico, Servico> {
+
     Iterable<Servico> findServicosDoCatalogo(Long identity);
 
     List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado);
@@ -50,4 +52,6 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
     Iterable<Servico> findServicoTodos(String titulo, Set<String> keywords, String descricaoBreve, String descricaoCompleta);
 
     Criticidade getCriticidade(CodigoUnico identity);
+
+    Formulario getAssociatedFormulario(String codigoUnico);
 }
