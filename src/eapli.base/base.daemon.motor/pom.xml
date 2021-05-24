@@ -11,7 +11,7 @@
 
     <groupId>com.example</groupId>
     <artifactId>base_daemon_motor</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
     <name>base.daemon.motor</name>
 
     <properties>
