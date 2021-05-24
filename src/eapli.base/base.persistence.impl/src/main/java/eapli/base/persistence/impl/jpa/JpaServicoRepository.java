@@ -22,7 +22,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     @Override
     public Criticidade getCriticidade(CodigoUnico identity) {
         final TypedQuery<Criticidade> q = createQuery(
-                "SELECT s FROM Servico s INNER JOIN s.Criticidade c WHERE s.codigoUnico =: identity",
+                "SELECT c FROM SERVICO s INNER JOIN c.SERVICO s WHERE s.codigoUnico =: identity",
                 Criticidade.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();

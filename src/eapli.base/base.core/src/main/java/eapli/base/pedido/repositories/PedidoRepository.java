@@ -13,4 +13,5 @@ public interface PedidoRepository extends DomainRepository<Identificador, Pedido
     Atividade getTarefaById(int idAtividade);
 
     Pedido getPedidoByTarefa(int idAtividade);
+
 }
