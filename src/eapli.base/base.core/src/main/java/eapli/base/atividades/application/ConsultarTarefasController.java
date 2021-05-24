@@ -5,6 +5,8 @@ import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 
@@ -20,7 +22,8 @@ import java.util.List;
 @UseCaseController
 public class ConsultarTarefasController {
     private final ServicoRepository repo = PersistenceContext.repositories().servicos();
-    private final ColaboradorRepository repo2 = PersistenceContext.repositories().colaborador();
+    private final PedidoRepository repo2 = PersistenceContext.repositories().pedidos();
+    private final ColaboradorRepository repo3 = PersistenceContext.repositories().colaborador();
 
     private SystemUser currentUser() {
         AuthorizationService authz = AuthzRegistry.authorizationService();
@@ -30,31 +33,47 @@ public class ConsultarTarefasController {
     public Colaborador getUser(){
         final SystemUser user = currentUser();
         EmailAddress email = user.email();
-        return this.repo2.findEmailColaborador(email);
+        return this.repo3.findEmailColaborador(email);
     }
 
     public List<Atividade> tarefasPendentes(FluxoAtividade fluxo, Colaborador colab) {
         return repo.findTarefasServico(null, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> filtrarPrioridadeAlta(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.findTarefasServicoPAlta(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarUrgenciaCrescente(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.ordenarUrgenciaCrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> filtrarPrioridadeMedia(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.findTarefasServicoPMedia(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarUrgenciaDecrescente(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.ordenarUrgenciaDecrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> filtrarPrioridadeBaixa(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.findTarefasServicoPBaixa(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarDataCrescente(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.ordenarDataCrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> ordenarDataDecrescente(FluxoAtividade fluxo, Colaborador colab) {
+        return null; //repo.ordenarDataDecrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> ordenarCritCrescente(FluxoAtividade fluxo, Servico servico, Colaborador colab) {
+        return repo.ordenarCritCrescente(fluxo.identity(), servico.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> ordenarCritDecrescente(FluxoAtividade fluxo, Servico servico, Colaborador colab) {
+        return repo.ordenarCritDecrescente(fluxo.identity(), servico.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public Servico getServico(Pedido p) {
+        return repo.findPedidoServico(p.identity());
     }
 
     public FluxoAtividade getFluxo(Servico s) {
         return repo.findFluxoServico(s.identity());
     }
 
-    public Iterable<Servico> listServicos() {
-        final Iterable<Servico> ls = repo.findAll();
+    public Iterable<Pedido> listPedidos() {
+        final Iterable<Pedido> ls = repo2.findAll();
         return ls;
     }
 
