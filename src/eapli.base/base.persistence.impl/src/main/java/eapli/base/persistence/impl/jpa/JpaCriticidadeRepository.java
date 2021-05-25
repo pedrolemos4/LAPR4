@@ -32,7 +32,7 @@ public class JpaCriticidadeRepository extends BasepaRepositoryBase<Criticidade, 
     public Criticidade getCriticidadeDoCatalogo(Long identity) {
         try{
             final TypedQuery<Criticidade> q = createQuery(
-                    "SELECT c FROM Criticidade c, Catalogo ct JOIN ct.criticidades where ct.criticidades =: identity",
+                    "SELECT c FROM Criticidade c INNER JOIN c.catalogo ct where ct.id =: identity",
                     Criticidade.class);
             q.setParameter("identity", identity);
             return q.getSingleResult();

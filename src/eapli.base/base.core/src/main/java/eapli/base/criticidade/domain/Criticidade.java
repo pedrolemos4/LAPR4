@@ -1,5 +1,6 @@
 package eapli.base.criticidade.domain;
 
+import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.equipa.domain.Designacao;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
@@ -31,6 +32,9 @@ public class Criticidade implements AggregateRoot<Long> {
 
     @Column(name = "Cor")
     private final Cor cor;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Catalogo catalogo;
 
     public Criticidade(final Etiqueta etiqueta, final Escala escala, final Designacao designacao,
                        final Objetivo objetivo, final Cor cor) {

@@ -8,6 +8,7 @@ import eapli.base.catalogo.domain.Titulo;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
@@ -62,6 +63,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="catalogo")
     private Catalogo catalogo;
 
+    @OneToOne(mappedBy = "servico")
+    private Pedido pedido;
 
     public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;

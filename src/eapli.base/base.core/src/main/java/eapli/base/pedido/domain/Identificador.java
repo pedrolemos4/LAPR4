@@ -1,10 +1,12 @@
 package eapli.base.pedido.domain;
 
+import eapli.framework.domain.model.ValueObject;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Embeddable
-public class Identificador implements Comparable<Identificador> {
+public class Identificador implements ValueObject,Comparable<Identificador> {
 
     private int ano;
 
@@ -15,10 +17,6 @@ public class Identificador implements Comparable<Identificador> {
         this.ano = Calendar.getInstance().get(Calendar.YEAR);
     }
 
-    @Id
-    public Identificador getIdentificador(){
-        return new Identificador();
-    }
 
     @Override
     public String toString() {
@@ -27,8 +25,6 @@ public class Identificador implements Comparable<Identificador> {
 
     @Override
     public int compareTo(Identificador o) {
-        if (this == o.getIdentificador())
-        return 0;
         return -1;
     }
 }

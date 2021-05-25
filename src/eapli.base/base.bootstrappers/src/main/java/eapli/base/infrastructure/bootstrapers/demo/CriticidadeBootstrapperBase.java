@@ -1,6 +1,5 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
-import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.criticidade.application.AssociarCriticidadeCatalogoController;
 import eapli.base.criticidade.domain.*;
@@ -29,10 +28,6 @@ public class CriticidadeBootstrapperBase implements Action {
                 new Objetivo(30,20,240,150),new Cor(252, 144, 3));
         registarCriticidade(new Etiqueta("HIGHEST"), new Escala(5),new Designacao("Highest"),
                 new Objetivo(20,10,120,60),new Cor(252, 3, 3));
-        Criticidade criticidade = criticidadeRepository.findByTag(new Etiqueta("LOW"));
-        Catalogo c = catalogoRepository.findById(13);
-        c.associarCriticidades(criticidade);
-        catalogoRepository.save(c);
         return true;
     }
 

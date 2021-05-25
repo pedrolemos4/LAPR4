@@ -6,27 +6,25 @@ import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import java.io.File;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 public class Pedido implements AggregateRoot<Identificador> {
 
-    @EmbeddedId
+    @Id
     @Column(name="id")
     private Identificador Id;
 
-    @Column(name = "solicitador")
+    @ManyToOne
+    @JoinColumn(name = "colaborador")
     private Colaborador colaborador;
 
     @Column(name = "dataSolicitacao")
     private Date dataSolicitacao;
 
-    @Column(name = "servicoSolicitado")
+    @OneToOne
+    @JoinColumn(name = "servico")
     private Servico servico;
 
     @Column(name = "criticidade")
@@ -38,14 +36,14 @@ public class Pedido implements AggregateRoot<Identificador> {
     @Column(name = "dataLimiteResolucao")
     private Date dataLimiteResolucao;
 
-    Set<File> annexedFiles;
+    //Set<File> annexedFiles;
 
     protected Pedido() {
 
     }
 
     public Pedido(Colaborador colaborador, Date dataSolicitacao, Servico servico, Criticidade criticidade, UrgenciaPedido urgenciaPedido, Date dataLimiteResolucao) {
-        this.Id = new Identificador().getIdentificador();
+        this.Id = new Identificador();
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;

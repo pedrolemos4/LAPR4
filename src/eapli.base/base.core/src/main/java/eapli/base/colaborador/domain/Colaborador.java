@@ -2,6 +2,7 @@ package eapli.base.colaborador.domain;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.Equipa;
+import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.slf4j.Logger;
@@ -41,6 +42,9 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
 
     @ManyToMany(mappedBy = "listResponsavel")
     private Set<Equipa> likes;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Pedido> pediddosEfetuados;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Calendar dataNasc, Contacto contacto,
                         LocalResidencia localResidencia, EmailAddress endereco){//}, Funcao funcao) {
