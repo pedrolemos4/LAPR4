@@ -2,7 +2,6 @@ package eapli.base.pedido.domain;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
 
@@ -27,9 +26,6 @@ public class Pedido implements AggregateRoot<Identificador> {
     @JoinColumn(name = "servico")
     private Servico servico;
 
-    @Column(name = "criticidade")
-    private Criticidade criticidade;
-
     @Column(name = "urgencia")
     private UrgenciaPedido urgenciaPedido;
 
@@ -42,12 +38,11 @@ public class Pedido implements AggregateRoot<Identificador> {
 
     }
 
-    public Pedido(Colaborador colaborador, Date dataSolicitacao, Servico servico, Criticidade criticidade, UrgenciaPedido urgenciaPedido, Date dataLimiteResolucao) {
+    public Pedido(Colaborador colaborador, Date dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Date dataLimiteResolucao) {
         this.Id = new Identificador();
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
-        this.criticidade = criticidade;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;
     }
@@ -59,7 +54,6 @@ public class Pedido implements AggregateRoot<Identificador> {
                 ", colaborador=" + colaborador +
                 ", dataSolicitacao=" + dataSolicitacao +
                 ", servico=" + servico +
-                ", criticidade=" + criticidade +
                 ", urgenciaPedido=" + urgenciaPedido +
                 ", dataLimiteResolucao=" + dataLimiteResolucao +
                 '}';

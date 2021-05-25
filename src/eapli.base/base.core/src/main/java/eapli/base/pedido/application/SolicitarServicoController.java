@@ -90,10 +90,8 @@ public class SolicitarServicoController {
 
     public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
         //try{
-            Criticidade criticidade = criticidadeRepository.getCriticidadeDoCatalogo(catalogo.identity());
-        System.out.println(criticidade);
             Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
-            Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,criticidade,urgencia,dataLimiteRes);
+            Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,urgencia,dataLimiteRes);
             pedidoRepository.save(pedido);
             return true;
     //    }
