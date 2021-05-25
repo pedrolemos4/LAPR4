@@ -1,17 +1,15 @@
 package eapli.base.app.backoffice.console.presentation.atividades;
 
 import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.atividades.application.ConsultarTarefasController;
 import eapli.base.pedido.domain.Pedido;
-import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
-
 
 public class ConsultarTarefasUI extends AbstractUI {
     private final ConsultarTarefasController controller = new ConsultarTarefasController();
@@ -27,9 +25,11 @@ public class ConsultarTarefasUI extends AbstractUI {
         do {
             listTarefas.clear();
             for (Pedido p : listPedidos) {
-                Servico servico = this.controller.getServico(p);
-                FluxoAtividade flx = this.controller.getFluxo(servico);
-                listTarefas.addAll(this.controller.tarefasPendentes(flx, colab));
+                String idServico = this.controller.getServico(p);
+                System.out.println("SERVICO: " + idServico);
+                Long idFlx = this.controller.getFluxo(idServico);
+                System.out.println("FLXO: " + idFlx);
+                listTarefas.addAll(this.controller.tarefasPendentes(idFlx, colab));
             }
 
             System.out.println("Lista de tarefas pendentes:");
@@ -54,10 +54,12 @@ public class ConsultarTarefasUI extends AbstractUI {
                         switch (opc2) {
                             case 1: {
                                 listTarefas.clear();
+                                System.out.println("Qual é o nível de urgência pelo qual quer pesquisar tarefas?");
+                                String urgencia = s.next();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.tarefasPendentes(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.filtrarUrgencia(idFlx, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -67,10 +69,20 @@ public class ConsultarTarefasUI extends AbstractUI {
                             }
                             case 2: {
                                 listTarefas.clear();
+                                System.out.println("Insira o intervalo de tempo onde quer procurar tarefas.");
+                                System.out.println("Data inicio: (yyyy/mm/dd)");
+                                String dataI[] = s.next().split("/");
+                                final Calendar data1 = Calendar.getInstance();
+                                data1.set(Integer.parseInt(dataI[0]),Integer.parseInt(dataI[1]),Integer.parseInt(dataI[2]));
+                                System.out.println("Data fim: (yyyy/mm/dd)");
+                                String dataF[] = s.next().split("/");
+                                final Calendar data2 = Calendar.getInstance();
+                                data2.set(Integer.parseInt(dataF[0]),Integer.parseInt(dataF[1]),Integer.parseInt(dataF[2]));
+
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.tarefasPendentes(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.filtrarData(idFlx, colab, data1, data2));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -80,10 +92,12 @@ public class ConsultarTarefasUI extends AbstractUI {
                             }
                             case 3: {
                                 listTarefas.clear();
+                                System.out.println("Qual é o nível de criticidade pelo qual quer pesquisar tarefas?");
+                                String crit = s.next();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.tarefasPendentes(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.filtrarCriticidade(idFlx, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -111,9 +125,9 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 1: {
                                 listTarefas.clear();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.ordenarUrgenciaCrescente(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.ordenarUrgenciaCrescente(idFlx, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -124,9 +138,9 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 2: {
                                 listTarefas.clear();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.ordenarUrgenciaDecrescente(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.ordenarUrgenciaDecrescente(idFlx, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -137,9 +151,9 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 3: {
                                 listTarefas.clear();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.ordenarDataCrescente(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.ordenarDataCrescente(idFlx, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -150,9 +164,9 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 4: {
                                 listTarefas.clear();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.ordenarDataDecrescente(flx, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.ordenarDataDecrescente(idFlx, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -163,9 +177,9 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 5: {
                                 listTarefas.clear();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.ordenarCritCrescente(flx, servico, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.ordenarCritCrescente(idFlx, idServico, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");
@@ -176,9 +190,9 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 6: {
                                 listTarefas.clear();
                                 for (Pedido p : listPedidos) {
-                                    Servico servico = this.controller.getServico(p);
-                                    FluxoAtividade flx = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.ordenarCritDecrescente(flx, servico, colab));
+                                    String idServico = this.controller.getServico(p);
+                                    Long idFlx = this.controller.getFluxo(idServico);
+                                    listTarefas.addAll(this.controller.ordenarCritDecrescente(idFlx, idServico, colab));
                                 }
 
                                 System.out.println("Lista de tarefas pendentes filtrada:");

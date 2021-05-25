@@ -11,6 +11,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.domain.repositories.LockableDomainRepository;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -18,15 +19,17 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     Iterable<Servico> findServicosDoCatalogo(Long identity);
 
-    List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado);
+    List<Atividade> findTarefasServico(Long identity, MecanographicNumber identity2, String estado);
 
-    FluxoAtividade findFluxoServico(CodigoUnico identity);
+    Long findFluxoServico(String identity);
 
-    Servico findPedidoServico(Identificador identity);
+    String findPedidoServico(Identificador identity);
 
-    List<Atividade> ordenarCritCrescente(Long identity, CodigoUnico identity2, MecanographicNumber identity3, String estado);
+    List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado);
 
-    List<Atividade> ordenarCritDecrescente(Long identity, CodigoUnico identity2, MecanographicNumber identity3, String estado);
+    List<Atividade> ordenarCritCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
+
+    List<Atividade> ordenarCritDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
     Iterable<Servico> findServicoByTituloDescricaoBreveDescricaoCompleta(String titulo, String descricaoBreve, String descricaoCompleta);
 
