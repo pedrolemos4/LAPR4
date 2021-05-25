@@ -51,7 +51,7 @@ public class Catalogo implements AggregateRoot<Long>{
     private final Colaborador colab;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private final Criticidade criticidade;
+    private Criticidade criticidade;
 
     public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
                     Icone icone, Iterable<Equipa> listEquipas, Criticidade criticidade){
@@ -98,6 +98,10 @@ public class Catalogo implements AggregateRoot<Long>{
         for(Servico s : listServico){
             this.listServicos.add(s);
         }
+    }
+
+    public void associarCriticidades(Criticidade criticidade) {
+        this.criticidade=criticidade;
     }
 
     @Override

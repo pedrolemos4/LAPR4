@@ -114,7 +114,11 @@ public class CatalogoTest {
                 ,EmailAddress.valueOf("exemplo@examplo.com"));
         Catalogo instance = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descricao Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>(), new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
-        String expResult = "Catalogo{titulo=Test, descricaoCompleta=Descricao Completa, descricaoBreve=Descricao Breve, icone=Icone{icone='Icone'}, listEquipas=[], listServicos=[], colab=Colaborador{numeroMecanografico=Number: 123456, shortName=Robert, fullName=Robert De Niro Dos Santos Afonso, localResidencia=LocalResidencia{endereco='Somewhere Over the rainbow'}, endereco=exemplo@examplo.com, contacto=Contacto{number=159753215, prefix=0}}}" ;
+        String expResult = "Catalogo{titulo=Test, descricaoCompleta=Descricao Completa, descricaoBreve=Descricao Breve, icone=Icone{icone='Icone'}, listEquipas=[], listServicos=[], colab=Colaborador{numeroMecanografico=Number: 123456, shortName=Robert, fullName=Robert De Niro Dos Santos Afonso, localResidencia=LocalResidencia{endereco='Somewhere Over the rainbow'}, endereco=exemplo@examplo.com, contacto=Contacto{number=159753215, prefix=0}} criticidade=Criticidade: etiqueta=Etiqueta2, escala=Valor:3, designacao=Name2, objetivo=Objetivo\n" +
+                "tempoMaxApro: 13.2\n" +
+                "tempoMedioAprov:11.0\n" +
+                "tempoMaxRes:13.2\n" +
+                "tempoMedioRes:11.0, cor=Cor: red=13, green=13, blue=13}" ;
         String result = instance.toString();
         assertEquals(expResult, result);
     }

@@ -20,15 +20,16 @@ public class NovoCatalogoController {
     private final EquipaRepository equipaRepository = PersistenceContext.repositories().equipas();
     private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
 
-    public Catalogo novoCatalogo(final String titulo, final String descricaoBreve, final String icone,
+    public void novoCatalogo(final String titulo, final String descricaoBreve, final String icone,
                                  final String descricaoCompleta, Iterable<Equipa> listEquipas, Colaborador colab, Criticidade crit){
         final Titulo titulo1 = new Titulo(titulo);
         final DescricaoBreve descBreve = new DescricaoBreve(descricaoBreve);
         final DescricaoCompletaCatalogo descCompleta = new DescricaoCompletaCatalogo(descricaoCompleta);
         final Icone icone1 = new Icone(icone);
-        final Catalogo catalogo = new Catalogo(titulo1,colab,descCompleta, descBreve, icone1, listEquipas, crit);
+
+        Catalogo catalogo = new Catalogo(titulo1, colab, descCompleta, descBreve, icone1, listEquipas, crit);
+
         this.catalogoRepository.save(catalogo);
-        return catalogo;
     }
 
     public Iterable<Equipa> getEquipas(){
