@@ -1,17 +1,16 @@
 package eapli.base.catalogo.domain;
 
-import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.servico.domain.Servico;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Catalogo implements AggregateRoot<Long>{
@@ -51,33 +50,30 @@ public class Catalogo implements AggregateRoot<Long>{
     @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
 
-    @OneToOne(targetEntity = Criticidade.class,fetch = FetchType.LAZY, cascade={
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST})
-    @JoinColumn(name="Catalogos")
-    private Criticidade criticidade;
+    @OneToOne(cascade = CascadeType.ALL)
+    private final Criticidade criticidade;
 
     public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
-                    Icone icone, Iterable<Equipa> listEquipas){
+                    Icone icone, Iterable<Equipa> listEquipas, Criticidade criticidade){
         this.titulo=titulo;
         Preconditions.nonNull(colab);
         this.colab=colab;
         this.descricaoBreve=descricaoBreve;
         this.descricaoCompleta=descricaoCompleta;
         this.icone=icone;
+        this.criticidade=criticidade;
         copyListEquipas(listEquipas);
     }
 
     public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
-                    Icone icone, Iterable<Equipa> listEquipas, Iterable<Servico> listServicos){
+                    Icone icone, Iterable<Equipa> listEquipas, Iterable<Servico> listServicos, Criticidade criticidade){
         this.titulo=titulo;
         Preconditions.nonNull(colab);
         this.colab=colab;
         this.descricaoBreve=descricaoBreve;
         this.descricaoCompleta=descricaoCompleta;
         this.icone=icone;
+        this.criticidade=criticidade;
         copyListEquipas(listEquipas);
         copyListServico(listServicos);
     }
@@ -88,6 +84,7 @@ public class Catalogo implements AggregateRoot<Long>{
         this.icone=null;
         this.colab=null;
         this.titulo=null;
+        this.criticidade=null;
     }
 
     private void copyListEquipas(Iterable<Equipa> listEquipas) {
@@ -101,10 +98,6 @@ public class Catalogo implements AggregateRoot<Long>{
         for(Servico s : listServico){
             this.listServicos.add(s);
         }
-    }
-
-    public void associarCriticidades(Criticidade Criticidade) {
-        this.criticidade = Criticidade;
     }
 
     @Override
@@ -149,6 +142,7 @@ public class Catalogo implements AggregateRoot<Long>{
                 ", listEquipas=" + listEquipas +
                 ", listServicos=" + listServicos +
                 ", colab=" + colab +
+                " criticidade=" + criticidade +
                 '}';
     }
 }
