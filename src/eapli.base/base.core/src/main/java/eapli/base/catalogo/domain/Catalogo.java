@@ -1,16 +1,17 @@
 package eapli.base.catalogo.domain;
 
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.servico.domain.Servico;
-import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Catalogo implements AggregateRoot<Long>{
@@ -50,13 +51,13 @@ public class Catalogo implements AggregateRoot<Long>{
     @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
 
-    @OneToMany(targetEntity = Criticidade.class,fetch = FetchType.LAZY, cascade={
+    @OneToOne(targetEntity = Criticidade.class,fetch = FetchType.LAZY, cascade={
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
             CascadeType.PERSIST})
-    @JoinColumn(name="Criticidades",referencedColumnName = "id")
-    private Set<Criticidade> criticidades = new HashSet<>();
+    @JoinColumn(name="Catalogos")
+    private Criticidade criticidade;
 
     public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
                     Icone icone, Iterable<Equipa> listEquipas){
@@ -102,10 +103,8 @@ public class Catalogo implements AggregateRoot<Long>{
         }
     }
 
-    public void associarCriticidades(Iterable<Criticidade> listCriticidades) {
-        for (Criticidade c : listCriticidades) {
-            this.criticidades.add(c);
-        }
+    public void associarCriticidades(Criticidade Criticidade) {
+        this.criticidade = Criticidade;
     }
 
     @Override

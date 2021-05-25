@@ -1,10 +1,11 @@
-package eapli.base.servico.application;
+package eapli.base.pedido.application;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Criticidade;
+import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.repositories.FormularioRepository;
@@ -34,6 +35,7 @@ public class SolicitarServicoController {
     private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
+    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
@@ -42,6 +44,8 @@ public class SolicitarServicoController {
     private SystemUser loggedUser = this.authz.session().get().authenticatedUser();
 
     private Servico servico;
+
+    private Catalogo catalogo;
 
     public List<Catalogo> displayAvailableCatalogos(){
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
@@ -62,6 +66,7 @@ public class SolicitarServicoController {
         try {
             Catalogo c = catalogoRepository.findById(idCatalogo);
             if(catalogosAutorizados.contains(c)){
+                catalogo = c;
                 return servicoRepository.findServicosDoCatalogo(idCatalogo);
             }
             else{
@@ -76,7 +81,7 @@ public class SolicitarServicoController {
 
     public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
         //try{
-            Criticidade criticidade = servicoRepository.getCriticidade(servico.identity());
+            Criticidade criticidade = criticidadeRepository.getCriticidadeDoCatalogo(catalogo.identity());
         System.out.println(criticidade);
             Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
             Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,criticidade,urgencia,dataLimiteRes);

@@ -28,7 +28,7 @@ import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServi
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
-import eapli.base.app.backoffice.console.presentation.servicos.SolicitarServicoUI;
+import eapli.base.app.backoffice.console.presentation.pedidos.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;

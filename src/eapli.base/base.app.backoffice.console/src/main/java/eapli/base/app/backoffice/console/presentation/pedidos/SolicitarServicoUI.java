@@ -1,8 +1,8 @@
-package eapli.base.app.backoffice.console.presentation.servicos;
+package eapli.base.app.backoffice.console.presentation.pedidos;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.pedido.domain.UrgenciaPedido;
-import eapli.base.servico.application.SolicitarServicoController;
+import eapli.base.pedido.application.SolicitarServicoController;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
