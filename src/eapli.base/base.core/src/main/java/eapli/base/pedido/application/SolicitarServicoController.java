@@ -1,10 +1,11 @@
-package eapli.base.servico.application;
+package eapli.base.pedido.application;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Criticidade;
+import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.repositories.FormularioRepository;
@@ -43,6 +44,7 @@ public class SolicitarServicoController {
     private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
+    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
@@ -52,45 +54,49 @@ public class SolicitarServicoController {
 
     private Servico servico;
 
-    public List<Catalogo> displayAvailableCatalogos() {
+    private Catalogo catalogo;
+
+    public List<Catalogo> displayAvailableCatalogos(){
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
-        try {
+        try{
             Colaborador loggedColaborador = repository.findEmailColaborador(loggedUser.email());
             ArrayList<Equipa> associatedTeams = (ArrayList<Equipa>) repository.findAssociatedTeams(loggedColaborador.identity());
             for (Equipa e : associatedTeams) {
                 catalogosDisponiveis.addAll((Collection<? extends Catalogo>) catalogoRepository.findCatalogoEquipa(e.identity()));
             }
             catalogosAutorizados = (ArrayList<Catalogo>) catalogosDisponiveis;
-        } catch (Exception e) {
+        }catch (Exception e){
             LOGGER.error("Unexpected error");
-        }
+       }
         return catalogosDisponiveis;
     }
 
-    public Iterable<Servico> getServicosCatalogo(long idCatalogo) {
+    public Iterable<Servico> getServicosCatalogo(long idCatalogo){
         try {
             Catalogo c = catalogoRepository.findById(idCatalogo);
-            if (catalogosAutorizados.contains(c)) {
+            if(catalogosAutorizados.contains(c)){
+                catalogo = c;
                 return servicoRepository.findServicosDoCatalogo(idCatalogo);
-            } else {
+            }
+            else{
                 LOGGER.error("No authorization to access this catalog");
                 return null;
             }
-        } catch (NoResultException e) {
+        }catch (NoResultException e){
             LOGGER.error("Not found");
             return null;
         }
     }
 
-    public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes) {
+    public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
         //try{
-        Criticidade criticidade = servicoRepository.getCriticidade(servico.identity());
+            Criticidade criticidade = criticidadeRepository.getCriticidadeDoCatalogo(catalogo.identity());
         System.out.println(criticidade);
-        Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
-        Pedido pedido = new Pedido(colab, Calendar.getInstance().getTime(), servico, criticidade, urgencia, dataLimiteRes);
-        pedidoRepository.save(pedido);
-        return true;
-        //    }
+            Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
+            Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,criticidade,urgencia,dataLimiteRes);
+            pedidoRepository.save(pedido);
+            return true;
+    //    }
         //catch (Exception e){
         //    LOGGER.error("Something went wrong");
         //    return false;
@@ -100,18 +106,18 @@ public class SolicitarServicoController {
 
     public boolean preencherFormulario(String idServico) {
         //try{
-        servico = servicoRepository.ofIdentity(new CodigoUnico(idServico)).orElse(null);
-        if (servico != null) {
-            //Formulario formulario = servicoRepository.getAssociatedFormulario(idServico);
-            //formularioRepository.save(formulario);
-            return true;
-        }
-        return false;
+            servico = servicoRepository.ofIdentity(new CodigoUnico(idServico)).orElse(null);
+            if (servico != null) {
+                //Formulario formulario = servicoRepository.getAssociatedFormulario(idServico);
+                //formularioRepository.save(formulario);
+                return true;
+            }
+            return false;
         //}
         //catch (Exception e){
-        //  LOGGER.error("Something went wrong");
-        //return false;
-        // }
+          //  LOGGER.error("Something went wrong");
+            //return false;
+       // }
 
     }
 

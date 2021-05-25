@@ -8,4 +8,5 @@ public interface CriticidadeRepository extends DomainRepository<Long, Criticidad
 
     Criticidade findByTag(Etiqueta etiqueta);
 
+    Criticidade getCriticidadeDoCatalogo(Long identity);
 }

@@ -50,33 +50,30 @@ public class Catalogo implements AggregateRoot<Long>{
     @JoinColumn(name="COLABORADOR")
     private final Colaborador colab;
 
-    @OneToMany(targetEntity = Criticidade.class,fetch = FetchType.LAZY, cascade={
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST})
-    @JoinColumn(name="Criticidades",referencedColumnName = "id")
-    private Set<Criticidade> criticidades = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    private Criticidade criticidade;
 
     public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
-                    Icone icone, Iterable<Equipa> listEquipas){
+                    Icone icone, Iterable<Equipa> listEquipas, Criticidade criticidade){
         this.titulo=titulo;
         Preconditions.nonNull(colab);
         this.colab=colab;
         this.descricaoBreve=descricaoBreve;
         this.descricaoCompleta=descricaoCompleta;
         this.icone=icone;
+        this.criticidade=criticidade;
         copyListEquipas(listEquipas);
     }
 
     public Catalogo(Titulo titulo, Colaborador colab, DescricaoCompletaCatalogo descricaoCompleta, DescricaoBreve descricaoBreve,
-                    Icone icone, Iterable<Equipa> listEquipas, Iterable<Servico> listServicos){
+                    Icone icone, Iterable<Equipa> listEquipas, Iterable<Servico> listServicos, Criticidade criticidade){
         this.titulo=titulo;
         Preconditions.nonNull(colab);
         this.colab=colab;
         this.descricaoBreve=descricaoBreve;
         this.descricaoCompleta=descricaoCompleta;
         this.icone=icone;
+        this.criticidade=criticidade;
         copyListEquipas(listEquipas);
         copyListServico(listServicos);
     }
@@ -87,6 +84,7 @@ public class Catalogo implements AggregateRoot<Long>{
         this.icone=null;
         this.colab=null;
         this.titulo=null;
+        this.criticidade=null;
     }
 
     private void copyListEquipas(Iterable<Equipa> listEquipas) {
@@ -102,10 +100,8 @@ public class Catalogo implements AggregateRoot<Long>{
         }
     }
 
-    public void associarCriticidades(Iterable<Criticidade> listCriticidades) {
-        for (Criticidade c : listCriticidades) {
-            this.criticidades.add(c);
-        }
+    public void associarCriticidades(Criticidade criticidade) {
+        this.criticidade=criticidade;
     }
 
     @Override
@@ -150,6 +146,7 @@ public class Catalogo implements AggregateRoot<Long>{
                 ", listEquipas=" + listEquipas +
                 ", listServicos=" + listServicos +
                 ", colab=" + colab +
+                " criticidade=" + criticidade +
                 '}';
     }
 }

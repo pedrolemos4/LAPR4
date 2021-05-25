@@ -3,7 +3,7 @@ package eapli.base.infrastructure.bootstrapers.demo;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.catalogo.application.NovoCatalogoController;
 import eapli.base.colaborador.domain.*;
-import eapli.base.criticidade.domain.Cor;
+import eapli.base.criticidade.domain.*;
 import eapli.base.equipa.domain.Acronimo;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Designacao;
@@ -37,7 +37,7 @@ public class CatalogoBootstrapper implements Action {
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
         list.add(new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol));
-        register("titulo1", "descricaoBreve", "icone", "descricaoCompleta", list, c1);
+        register("titulo1", "descricaoBreve", "icone", "descricaoCompleta", list, c1, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
 
         // SEGUNDO CATALOGO
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), dataAux
@@ -46,13 +46,14 @@ public class CatalogoBootstrapper implements Action {
         setCol1.add(c2);
         Set<Equipa> list2 = new HashSet<>();
         list2.add(new Equipa(new CodigoUnico("e2"), new Acronimo("EQP2"), new Designacao("equipa2"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo2"), new Cor(60, 60, 80)), setCol1));
-        register("titulo2", "descricaoBreve2", "icone2", "descricaoCompleta2", list2, c2);
+        register("titulo2", "descricaoBreve2", "icone2", "descricaoCompleta2", list2, c2, new Criticidade(new Etiqueta("Etiqueta1"), new Escala(2), new Designacao("Name1"), new Objetivo(12.2,10,12.2,10), new Cor(12,12,12)));
 
         return true;
     }
 
     private void register(final String titulo, final String descricaoBreve, final String icone,
-                          final String descricaoCompleta, final Iterable<Equipa> listaEquipas, Colaborador colaborador) {
+                          final String descricaoCompleta, final Iterable<Equipa> listaEquipas, Colaborador colaborador,
+                          Criticidade criticidade) {
       /*  final InputStream inputStream = this.getClass()
                 .getClassLoader()
                 .getResourceAsStream(icone);
@@ -64,7 +65,7 @@ public class CatalogoBootstrapper implements Action {
         } else {*/
 
         try {
-            controller.novoCatalogo(titulo, descricaoBreve, icone, descricaoCompleta, listaEquipas, colaborador);
+            controller.novoCatalogo(titulo, descricaoBreve, icone, descricaoCompleta, listaEquipas, colaborador, criticidade);
             LOGGER.info(titulo);
         } catch (final IntegrityViolationException | ConcurrencyException e) {
             // ignoring exception. assuming it is just a primary key violation
