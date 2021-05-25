@@ -3,24 +3,72 @@ package base.daemon.motor.presentation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class MotorServer {
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
-    private static class ClientHandler extends Thread {
-        private final Socket clientSocket;
+    private static HashMap<Socket,DataOutputStream> cliList = new HashMap<>();
 
-        public ClientHandler(final Socket socket) {
-            this.clientSocket = socket;
+    public static synchronized void addCli(Socket s) throws Exception {
+        cliList.put(s,new DataOutputStream(s.getOutputStream()));
+    }
+
+    public static synchronized void remCli(Socket s) throws Exception {
+        cliList.get(s).write(0);
+        cliList.remove(s);
+        s.close();
+    }
+
+    private static ServerSocket sock;
+
+    public static void main(String args[]) throws Exception {
+        int i;
+
+        try { sock = new ServerSocket(32507); }
+        catch(IOException ex) {
+            System.out.println("Local port number not available.");
+            System.exit(1); }
+
+        while(true) {
+            Socket s=sock.accept(); // wait for a new client connection request
+            addCli(s);
+            Thread cli = new ClientHandler(s);
+            cli.start();
         }
+    }
+
+    private static class ClientHandler extends Thread {
+
+        private Socket myS;
+        private DataInputStream sIn;
+
+        public ClientHandler(Socket s) { myS=s;}
 
         @Override
+        public void run() {
+            int nChars;
+            byte[] data = new byte[300];
+
+            try {
+                sIn = new DataInputStream(myS.getInputStream());
+                while(true) {
+                  //  nChars=sIn.read();
+                    //if(nChars==0) break; // empty line means client wants to exit
+                    //sIn.read(data,0,nChars);
+                    //TcpChatSrv.sendToAll(nChars,data);
+                }
+                // the client wants to exit
+                //TcpChatSrv.remCli(myS);
+            }
+            catch(Exception ex) { System.out.println("Error"); }
+        }
+    }
+        /*@Override
         public void run() {
             final InetAddress clientIP = clientSocket.getInetAddress();
             LOGGER.debug("Acepted connection from {}:{}", clientIP.getHostAddress(), clientSocket.getPort());
@@ -38,7 +86,7 @@ public class MotorServer {
                     /*if (request.isGoodbye()) {
                         break;
                     }*/
-                }
+             /*   }
             } catch (final IOException e) {
                 LOGGER.error(e);
             } finally {
@@ -47,9 +95,9 @@ public class MotorServer {
                 } catch (final IOException e) {
                     LOGGER.error("While closing the client socket", e);
                 }
-            }
-        }
-    }
+            }*/
+
+
 
 }
 
