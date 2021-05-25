@@ -17,6 +17,7 @@ import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
+import java.util.Calendar;
 import java.util.List;
 
 @UseCaseController
@@ -36,40 +37,52 @@ public class ConsultarTarefasController {
         return this.repo3.findEmailColaborador(email);
     }
 
-    public List<Atividade> tarefasPendentes(FluxoAtividade fluxo, Colaborador colab) {
-        return repo.findTarefasServico(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> tarefasPendentes(Long fluxo, Colaborador colab) {
+        return repo.findTarefasServico(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarUrgenciaCrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarUrgenciaCrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarUrgencia(Long fluxo, Colaborador colab) {
+        return null; //repo.ordenarUrgenciaCrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarUrgenciaDecrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarUrgenciaDecrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarData(Long fluxo, Colaborador colab, Calendar dataI, Calendar dataF) {
+        return null; //repo.filtrarData(fluxo, colab.identity(), dataI, dataF, EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarDataCrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarDataCrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarCriticidade(Long fluxo, Colaborador colab) {
+        return null; //repo.ordenarUrgenciaCrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarDataDecrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarDataDecrescente(null, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarUrgenciaCrescente(Long fluxo, Colaborador colab) {
+        return null; //repo.ordenarUrgenciaCrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarCritCrescente(FluxoAtividade fluxo, Servico servico, Colaborador colab) {
-        return repo.ordenarCritCrescente(fluxo.identity(), servico.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarUrgenciaDecrescente(Long fluxo, Colaborador colab) {
+        return null; //repo.ordenarUrgenciaDecrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarCritDecrescente(FluxoAtividade fluxo, Servico servico, Colaborador colab) {
-        return repo.ordenarCritDecrescente(fluxo.identity(), servico.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarDataCrescente(Long fluxo, Colaborador colab) {
+        return null; //repo.ordenarDataCrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public Servico getServico(Pedido p) {
+    public List<Atividade> ordenarDataDecrescente(Long fluxo, Colaborador colab) {
+        return null; //repo.ordenarDataDecrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> ordenarCritCrescente(Long fluxo, String servico, Colaborador colab) {
+        return repo.ordenarCritCrescente(fluxo, servico, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public List<Atividade> ordenarCritDecrescente(Long fluxo, String servico, Colaborador colab) {
+        return repo.ordenarCritDecrescente(fluxo, servico, colab.identity(), EstadoAtividade.PENDENTE.name());
+    }
+
+    public String getServico(Pedido p) {
         return repo.findPedidoServico(p.identity());
     }
 
-    public FluxoAtividade getFluxo(Servico s) {
-        return repo.findFluxoServico(s.identity());
+    public Long getFluxo(String servico) {
+        return repo.findFluxoServico(servico);
     }
 
     public Iterable<Pedido> listPedidos() {

@@ -10,6 +10,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 
 import javax.persistence.TypedQuery;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -38,29 +39,27 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public Servico findPedidoServico(Identificador identity) {
-        final TypedQuery<Servico> q = createQuery(
-                "SELECT s FROM Servico s INNER JOIN Pedido p WHERE" +
-                        " s.Codigo_Unico =:identity AND p.servicoSolicitado =:identity",
-                Servico.class);
+    public String findPedidoServico(Identificador identity) {
+        final TypedQuery<String> q = createQuery(
+                "SELECT p.servicoSolicitado FROM Pedido p WHERE p.id =:identity",
+                String.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
     }
 
-    public FluxoAtividade findFluxoServico(CodigoUnico identity) {
-        final TypedQuery<FluxoAtividade> q = createQuery(
-                "SELECT fl FROM Fluxo fl WHERE" +
-                        " fl.servico =:identity",
-                FluxoAtividade.class);
+    public Long findFluxoServico(String identity) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT s.fluxoAtividade_id FROM Servico s WHERE s.codigoUnico =:identity",
+                Long.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
     }
 
-    public List<Atividade> findTarefasServico(CodigoUnico identity, MecanographicNumber identity2, String estado) {
+    public List<Atividade> findTarefasServico(Long identity, MecanographicNumber identity2, String estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla WHERE" +
-                        " fla.listatividade_id_atividade =:identity AND" +
-                        " a.colab_mecanographicnumber =:identity2 AND" + " a.estadoatividade like =:estado",
+                        " fla.fluxoAtividade_id =:identity AND" +
+                        " a.colab_mecanographicnumber =:identity2 AND" + " a.estadoatividade =:estado",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
@@ -68,7 +67,22 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public List<Atividade> ordenarCritCrescente(Long identity, CodigoUnico identity2,
+    public List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla WHERE" +
+                        " fla.fluxoAtividade_id =:identity AND" +
+                        " a.colab_mecanographicnumber =:identity2 AND" + " a.estadoatividade =:estado AND" +
+                        " a.datalimite BETWEEN :dataI AND :dataF",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("dataI", dataI);
+        q.setParameter("dataF", dataF);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarCritCrescente(Long identity, String identity2,
                                                 MecanographicNumber identity3, String estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
@@ -84,7 +98,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    public List<Atividade> ordenarCritDecrescente(Long identity, CodigoUnico identity2,
+    public List<Atividade> ordenarCritDecrescente(Long identity, String identity2,
                                                 MecanographicNumber identity3, String estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +

@@ -23,10 +23,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 
 @UseCaseController
 public class SolicitarServicoController {
+
+    static InetAddress serverIP;
+    static Socket sock;
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ColaboradorRepository repository = PersistenceContext.repositories().colaborador();
@@ -111,4 +120,72 @@ public class SolicitarServicoController {
        // }
 
     }
+
+    public void doConnection(Pedido pedido) throws IOException, InterruptedException {
+        byte[] data = new byte[300];
+        String frase;
+        try {
+            serverIP = InetAddress.getByName("endereçoIp");
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server: " + "endereçoIp");
+            System.exit(1);
+        }
+
+        try {
+            sock = new Socket(serverIP, 32507);
+        } catch (IOException ex) {
+            System.out.println("Failed to connect.");
+            System.exit(1);
+        }
+        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
+        System.out.println("Connected to server");
+        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
+        //serverConn.start();
+
+        //while(true) { // read messages from the console and send them to the server
+        frase = pedido.servico().identity().toString();
+        // if(frase.compareTo("exit")==0)
+        //{ sOut.write(0); break;}
+        data = frase.getBytes();
+        //  sOut.write((byte)frase.length());
+        //sOut.write(data,0,(byte)frase.length());
+        sOut.write((byte) 0);
+        sOut.write((byte) 3);
+        sOut.write((byte) frase.length());
+        sOut.write(data, 3, (byte) frase.length());
+        //}
+
+        // serverConn.join();
+        sock.close();
+    }
+
 }
+
+class TcpChatCliConn implements Runnable {
+    private Socket s;
+    private DataInputStream sIn;
+
+    public TcpChatCliConn(Socket tcp_s) {
+        s = tcp_s;
+    }
+
+    public void run() {
+        int nChars;
+        byte[] data = new byte[300];
+        String frase;
+
+        try {
+            sIn = new DataInputStream(s.getInputStream());
+            while (true) {
+                nChars = sIn.read();
+                if (nChars == 0) break;
+                sIn.read(data, 0, nChars);
+                frase = new String(data, 0, nChars);
+                System.out.println(frase);
+            }
+        } catch (IOException ex) {
+            System.out.println("Client disconnected.");
+        }
+    }
+}
+
