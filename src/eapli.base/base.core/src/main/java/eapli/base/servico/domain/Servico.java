@@ -6,9 +6,8 @@ import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.criticidade.domain.Criticidade;
-import eapli.base.formulario.domain.Formulario;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.formulario.domain.Formulario;
 import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
@@ -63,9 +62,6 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="catalogo")
     private Catalogo catalogo;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="criticidade")
-    private Criticidade criticidade;
 
     public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;
@@ -76,7 +72,6 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.formulario= builder.formulario;
         this.catalogo=builder.catalogo;
         this.fluxoAtividade=builder.fluxoAtividade;
-        this.criticidade= builder.criticidade;
     }
 
     protected Servico() {
@@ -160,8 +155,6 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
         private FluxoAtividade fluxoAtividade;
 
-        private Criticidade criticidade;
-
         public ServicoBuilder(String codigoUnico, String titulo) {
             this.codigoUnico = new CodigoUnico(codigoUnico);
             this.titulo = new Titulo(titulo);
@@ -197,10 +190,6 @@ public class Servico implements AggregateRoot<CodigoUnico> {
             return this;
         }
 
-        public ServicoBuilder withCriticidade(Criticidade criticidade){
-            this.criticidade=criticidade;
-            return this;
-        }
 
         public Servico build() {
             Servico servico = new Servico(this);

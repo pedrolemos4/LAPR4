@@ -3,7 +3,6 @@ package eapli.base.servico.repositories;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.domain.Identificador;
@@ -60,8 +59,6 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
     Iterable<Servico> findServicoByDescricaoBreveDescricaoCompleta(String descricaoBreve, String descricaoCompleta);
 
     Iterable<Servico> findServicoTodos(String titulo, Set<String> keywords, String descricaoBreve, String descricaoCompleta);
-
-    Criticidade getCriticidade(CodigoUnico identity);
 
     Formulario getAssociatedFormulario(String codigoUnico);
 }

@@ -1,41 +1,21 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
-import eapli.base.catalogo.application.NovoCatalogoController;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
-import eapli.base.colaborador.domain.*;
 import eapli.base.criticidade.application.AssociarCriticidadeCatalogoController;
 import eapli.base.criticidade.domain.*;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
-import eapli.base.equipa.domain.Acronimo;
-import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Designacao;
-import eapli.base.equipa.domain.Equipa;
-import eapli.base.infrastructure.bootstrapers.UsersBootstrapperBase;
-
 import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.servico.domain.Servico;
-import eapli.base.servico.repositories.ServicoRepository;
-import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
-import eapli.framework.domain.repositories.ConcurrencyException;
-import eapli.framework.domain.repositories.IntegrityViolationException;
-import eapli.framework.general.domain.model.EmailAddress;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class CriticidadeBootstrapperBase implements Action {
 
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
 
     private final AssociarCriticidadeCatalogoController controller = new AssociarCriticidadeCatalogoController();
+
+    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
 
     @Override
     public boolean execute() {
@@ -49,6 +29,10 @@ public class CriticidadeBootstrapperBase implements Action {
                 new Objetivo(30,20,240,150),new Cor(252, 144, 3));
         registarCriticidade(new Etiqueta("HIGHEST"), new Escala(5),new Designacao("Highest"),
                 new Objetivo(20,10,120,60),new Cor(252, 3, 3));
+        Criticidade criticidade = criticidadeRepository.findByTag(new Etiqueta("LOW"));
+        Catalogo c = catalogoRepository.findById(13);
+        c.associarCriticidades(criticidade);
+        catalogoRepository.save(c);
         return true;
     }
 

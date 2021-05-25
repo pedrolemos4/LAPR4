@@ -1,7 +1,6 @@
 package eapli.base.criticidade.domain;
 
 import eapli.base.equipa.domain.Designacao;
-import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
@@ -32,9 +31,6 @@ public class Criticidade implements AggregateRoot<Long> {
 
     @Column(name = "Cor")
     private final Cor cor;
-
-    @OneToOne (mappedBy = "criticidade")
-    private Servico servico;
 
     public Criticidade(final Etiqueta etiqueta, final Escala escala, final Designacao designacao,
                        final Objetivo objetivo, final Cor cor) {

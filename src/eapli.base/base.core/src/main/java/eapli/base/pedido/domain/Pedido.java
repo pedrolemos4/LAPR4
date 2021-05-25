@@ -81,4 +81,6 @@ public class Pedido implements AggregateRoot<Identificador> {
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
         this.servico.adicionaColaborador(colab, idAtividade);
     }
+
+    public Servico servico() { return this.servico;}
 }

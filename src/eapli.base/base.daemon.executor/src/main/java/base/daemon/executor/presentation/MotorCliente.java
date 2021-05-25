@@ -26,7 +26,7 @@ class MotorCliente {
         }
 
         try {
-            sock = new Socket(serverIP, 9999);
+            sock = new Socket(serverIP, 32507);
         } catch (IOException ex) {
             System.out.println("Failed to connect.");
             System.exit(1);
@@ -78,11 +78,11 @@ class TcpChatCliConn implements Runnable {
         try {
             sIn = new DataInputStream(s.getInputStream());
             while (true) {
-                /*nChars = sIn.read();
+                nChars = sIn.read();
                 if (nChars == 0) break;
                 sIn.read(data, 0, nChars);
                 frase = new String(data, 0, nChars);
-                System.out.println(frase);*/
+                System.out.println(frase);
             }
         } catch (IOException ex) {
             System.out.println("Client disconnected.");

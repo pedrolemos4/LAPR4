@@ -12,10 +12,10 @@ import java.util.HashMap;
 public class MotorServer {
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
-    private static HashMap<Socket,DataOutputStream> cliList = new HashMap<>();
+    private static HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
 
     public static synchronized void addCli(Socket s) throws Exception {
-        cliList.put(s,new DataOutputStream(s.getOutputStream()));
+        cliList.put(s, new DataOutputStream(s.getOutputStream()));
     }
 
     public static synchronized void remCli(Socket s) throws Exception {
@@ -29,14 +29,16 @@ public class MotorServer {
     public static void main(String args[]) throws Exception {
         int i;
 
-        try { sock = new ServerSocket(32507); }
-        catch(IOException ex) {
+        try {
+            sock = new ServerSocket(32507);
+        } catch (IOException ex) {
             System.out.println("Local port number not available.");
-            System.exit(1); }
+            System.exit(1);
+        }
 
-        while(true) {
-            Socket s=sock.accept(); // wait for a new client connection request
-            addCli(s);
+        while (true) {
+            Socket s = sock.accept(); // wait for a new client connection request
+            //    addCli(s);
             Thread cli = new ClientHandler(s);
             cli.start();
         }
@@ -47,7 +49,9 @@ public class MotorServer {
         private Socket myS;
         private DataInputStream sIn;
 
-        public ClientHandler(Socket s) { myS=s;}
+        public ClientHandler(Socket s) {
+            myS = s;
+        }
 
         @Override
         public void run() {
@@ -56,16 +60,19 @@ public class MotorServer {
 
             try {
                 sIn = new DataInputStream(myS.getInputStream());
-                while(true) {
-                  //  nChars=sIn.read();
-                    //if(nChars==0) break; // empty line means client wants to exit
-                    //sIn.read(data,0,nChars);
-                    //TcpChatSrv.sendToAll(nChars,data);
-                }
+                // while(true) {
+                nChars = sIn.read();
+                nChars = sIn.read();
+                nChars = sIn.read();
+                //if(nChars==0) break; // empty line means client wants to exit
+                sIn.read(data, 3, nChars);
+                //TcpChatSrv.sendToAll(nChars,data);
+                //}
                 // the client wants to exit
                 //TcpChatSrv.remCli(myS);
+            } catch (Exception ex) {
+                System.out.println("Error");
             }
-            catch(Exception ex) { System.out.println("Error"); }
         }
     }
         /*@Override
@@ -96,7 +103,6 @@ public class MotorServer {
                     LOGGER.error("While closing the client socket", e);
                 }
             }*/
-
 
 
 }

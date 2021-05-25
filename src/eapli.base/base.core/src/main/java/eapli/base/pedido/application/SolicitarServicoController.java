@@ -1,10 +1,11 @@
-package eapli.base.servico.application;
+package eapli.base.pedido.application;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Criticidade;
+import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.repositories.FormularioRepository;
@@ -22,10 +23,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 
 @UseCaseController
 public class SolicitarServicoController {
+
+    static InetAddress serverIP;
+    static Socket sock;
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ColaboradorRepository repository = PersistenceContext.repositories().colaborador();
@@ -34,6 +44,7 @@ public class SolicitarServicoController {
     private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
+    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
@@ -42,6 +53,8 @@ public class SolicitarServicoController {
     private SystemUser loggedUser = this.authz.session().get().authenticatedUser();
 
     private Servico servico;
+
+    private Catalogo catalogo;
 
     public List<Catalogo> displayAvailableCatalogos(){
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
@@ -62,6 +75,7 @@ public class SolicitarServicoController {
         try {
             Catalogo c = catalogoRepository.findById(idCatalogo);
             if(catalogosAutorizados.contains(c)){
+                catalogo = c;
                 return servicoRepository.findServicosDoCatalogo(idCatalogo);
             }
             else{
@@ -76,7 +90,7 @@ public class SolicitarServicoController {
 
     public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
         //try{
-            Criticidade criticidade = servicoRepository.getCriticidade(servico.identity());
+            Criticidade criticidade = criticidadeRepository.getCriticidadeDoCatalogo(catalogo.identity());
         System.out.println(criticidade);
             Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
             Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,criticidade,urgencia,dataLimiteRes);
@@ -106,4 +120,72 @@ public class SolicitarServicoController {
        // }
 
     }
+
+    public void doConnection(Pedido pedido) throws IOException, InterruptedException {
+        byte[] data = new byte[300];
+        String frase;
+        try {
+            serverIP = InetAddress.getByName("endereçoIp");
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server: " + "endereçoIp");
+            System.exit(1);
+        }
+
+        try {
+            sock = new Socket(serverIP, 32507);
+        } catch (IOException ex) {
+            System.out.println("Failed to connect.");
+            System.exit(1);
+        }
+        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
+        System.out.println("Connected to server");
+        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
+        //serverConn.start();
+
+        //while(true) { // read messages from the console and send them to the server
+        frase = pedido.servico().identity().toString();
+        // if(frase.compareTo("exit")==0)
+        //{ sOut.write(0); break;}
+        data = frase.getBytes();
+        //  sOut.write((byte)frase.length());
+        //sOut.write(data,0,(byte)frase.length());
+        sOut.write((byte) 0);
+        sOut.write((byte) 3);
+        sOut.write((byte) frase.length());
+        sOut.write(data, 3, (byte) frase.length());
+        //}
+
+        // serverConn.join();
+        sock.close();
+    }
+
 }
+
+class TcpChatCliConn implements Runnable {
+    private Socket s;
+    private DataInputStream sIn;
+
+    public TcpChatCliConn(Socket tcp_s) {
+        s = tcp_s;
+    }
+
+    public void run() {
+        int nChars;
+        byte[] data = new byte[300];
+        String frase;
+
+        try {
+            sIn = new DataInputStream(s.getInputStream());
+            while (true) {
+                nChars = sIn.read();
+                if (nChars == 0) break;
+                sIn.read(data, 0, nChars);
+                frase = new String(data, 0, nChars);
+                System.out.println(frase);
+            }
+        } catch (IOException ex) {
+            System.out.println("Client disconnected.");
+        }
+    }
+}
+

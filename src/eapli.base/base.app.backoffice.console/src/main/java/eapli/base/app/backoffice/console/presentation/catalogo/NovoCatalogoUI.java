@@ -4,6 +4,7 @@ import eapli.base.app.backoffice.console.presentation.servicos.DescricaoBreveDat
 import eapli.base.app.backoffice.console.presentation.servicos.DescricaoCompletaDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.TituloDataWidget;
 import eapli.base.catalogo.application.NovoCatalogoController;
+import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.io.util.Console;
@@ -19,6 +20,7 @@ public class NovoCatalogoUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
+        String s;
         boolean bool = true;
 
         final Iterable<Equipa> listaEquipas = this.controller.getEquipas();
@@ -39,7 +41,7 @@ public class NovoCatalogoUI extends AbstractUI {
 
             while (bool) {
                 System.out.println("Pretende adicionar uma equipa ao catálogo?");
-                String s = Console.readLine("S/N");
+                s = Console.readLine("S/N");
                 if (s.equalsIgnoreCase("S")) {
                     System.out.println("Selectione a equipa que pretende adicionar ao catálogo:");
                     selectorEquipa.show();
@@ -62,7 +64,21 @@ public class NovoCatalogoUI extends AbstractUI {
             final IconeDataWidget iconeDataWidget = new IconeDataWidget();
             iconeDataWidget.show();
 
-            this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador);
+            final Iterable<Criticidade> criticidades = this.controller.getCriticidades();
+
+            final SelectWidget<Criticidade> selectorCrit = new SelectWidget<>("Lista Colaboradores:", criticidades,
+                    new ListCriticidadePrint());
+
+            System.out.println("Pretende criar o catalogo com uma criticidade?");
+            s = Console.readLine("S/N");
+            if (s.equalsIgnoreCase("S")) {
+                System.out.println("Selecione o nível de criticidade que irá ser atribuido a este catalogo");
+                selectorCrit.show();
+
+                this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador, selectorCrit.selectedElement());
+            } else {
+                this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador, null);
+            }
         } catch (Exception e) {
             System.out.println("Erro");
             System.out.println("");

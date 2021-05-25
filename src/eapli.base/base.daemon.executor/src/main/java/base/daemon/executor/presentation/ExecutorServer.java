@@ -81,34 +81,5 @@ public class ExecutorServer {
             }
         }
     }
-        /*@Override
-        public void run() {
-            final InetAddress clientIP = clientSocket.getInetAddress();
-            LOGGER.debug("Acepted connection from {}:{}", clientIP.getHostAddress(), clientSocket.getPort());
-
-            try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    LOGGER.trace("Received message:----\n{}\n----", inputLine);
-                   // final BookingProtocolRequest request = BookingProtocolMessageParser.parse(inputLine);
-                    //final String response = request.execute();
-                    final String response = "Adeus";
-                    out.println(response);
-                    LOGGER.trace("Sent message:----\n{}\n----", response);
-                    /*if (request.isGoodbye()) {
-                        break;
-                    }*/
-             /*   }
-            } catch (final IOException e) {
-                LOGGER.error(e);
-            } finally {
-                try {
-                    clientSocket.close();
-                } catch (final IOException e) {
-                    LOGGER.error("While closing the client socket", e);
-                }
-            }*/
-
 
 }
