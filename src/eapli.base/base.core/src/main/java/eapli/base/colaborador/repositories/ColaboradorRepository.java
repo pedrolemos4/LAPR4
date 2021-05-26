@@ -2,6 +2,7 @@ package eapli.base.colaborador.repositories;
 
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.general.domain.model.EmailAddress;
@@ -14,4 +15,5 @@ public interface ColaboradorRepository extends DomainRepository<MecanographicNum
 
     List<Equipa> findAssociatedTeams(MecanographicNumber mecanographicNumber);
 
+    Iterable<Colaborador> findColaboradoresDaEquipa(CodigoUnico codigoUnico);
 }

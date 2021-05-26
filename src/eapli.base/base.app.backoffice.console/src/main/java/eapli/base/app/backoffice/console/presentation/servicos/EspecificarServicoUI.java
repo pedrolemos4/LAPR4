@@ -4,6 +4,7 @@ import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprova
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -13,6 +14,7 @@ import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -98,26 +100,41 @@ public class EspecificarServicoUI extends AbstractUI {
         Set<Atividade> listAtividades = new HashSet<>();
         String tipoResolucao;
         tipoResolucao = Console.readLine("A atividade de resolução é automática ou manual?");
-
+        String resposta2;
         flag = true;
         while (flag) {
             if (tipoResolucao.equalsIgnoreCase("manual")) {
-                atividadeResolucaoWidget.doManual();
-                final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
-                final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
-                System.out.println("\nSelecione a Equipa:");
-                selectorEquipa.show();
-                final Equipa equipa = selectorEquipa.selectedElement();
-                Set<Equipa> listEquipas = new HashSet<>();
-                listEquipas.add(equipa);
-                Formulario form = null;
-                TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
-                        atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
-                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
-                listAtividades.add(atividadeManual);
-                flag = false;
-
+                    atividadeResolucaoWidget.doManual();
+                    final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
+                    final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
+                    System.out.println("\nSelecione a Equipa:");
+                    selectorEquipa.show();
+                    final Equipa equipa = selectorEquipa.selectedElement();
+                    resposta2=Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
+                    if(resposta2.equalsIgnoreCase("sim")){
+                        final Iterable<Colaborador> listaColaboradores = this.theController.findColaboradoresDaEquipa(equipa.identity());
+                        final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis",listaColaboradores,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
+                        System.out.println("\nSelecione o Colaborador:");
+                        selectorColaborador.show();
+                        final Colaborador col = selectorColaborador.selectedElement();
+                        Formulario form = null;
+                        TipoAtividade tipo = TipoAtividade.REALIZACAO;
+                        AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
+                                atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                                atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                        listAtividades.add(atividadeManual);
+                        flag = false;
+                    } else {
+                        Set<Equipa> listEquipas = new HashSet<>();
+                        listEquipas.add(equipa);
+                        Formulario form = null;
+                        TipoAtividade tipo = TipoAtividade.REALIZACAO;
+                        AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
+                                atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                                atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                        listAtividades.add(atividadeManual);
+                        flag = false;
+                    }
             } else if (tipoResolucao.equalsIgnoreCase("automatica") || tipoResolucao.equalsIgnoreCase("automática")) {
                 try {
                     atividadeResolucaoWidget.doAutomatica();
@@ -125,7 +142,7 @@ public class EspecificarServicoUI extends AbstractUI {
                             atividadeResolucaoWidget.mesA(), atividadeResolucaoWidget.diaA());
                     listAtividades.add(atividadeAutomatica);
                     flag = false;
-                } catch(IllegalArgumentException ex){
+                } catch (IllegalArgumentException ex) {
                     System.out.println(ex.getMessage());
                 }
             } else {
