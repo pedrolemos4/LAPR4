@@ -1,8 +1,10 @@
 package eapli.base.pedido.repositories;
 
 import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.Identificador;
 import eapli.base.pedido.domain.Pedido;
@@ -16,7 +18,7 @@ public interface PedidoRepository extends DomainRepository<Identificador, Pedido
 
     Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade);
 
-    List<Atividade> findTarefasServico(Long identity, MecanographicNumber identity2, String estado);
+    List<Atividade> findTarefasServico(Long identity, Colaborador identity2, EstadoAtividade estado);
 
     FluxoAtividade findFluxoServico(CodigoUnico identity);
 

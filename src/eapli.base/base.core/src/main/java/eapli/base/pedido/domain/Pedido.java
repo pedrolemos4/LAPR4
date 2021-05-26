@@ -55,14 +55,10 @@ public class Pedido implements AggregateRoot<Identificador> {
 
     @Override
     public String toString() {
-        return "Pedido{" +
-                "Id=" + Id +
-                ", colaborador=" + colaborador +
-                ", dataSolicitacao=" + dataSolicitacao +
-                ", servico=" + servico +
-                ", urgenciaPedido=" + urgenciaPedido +
-                ", dataLimiteResolucao=" + dataLimiteResolucao +
-                ", estadoPedido=" + estado +
+        return "Pedido: " +
+                colaborador +
+                ", UrgenciaPedido: " + urgenciaPedido +
+                ", DataLimiteResolucao: " + dataLimiteResolucao +
                 '}';
     }
 

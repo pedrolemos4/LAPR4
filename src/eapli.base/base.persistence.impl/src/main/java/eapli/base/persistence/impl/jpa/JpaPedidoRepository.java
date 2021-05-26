@@ -1,8 +1,10 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.Identificador;
 import eapli.base.pedido.domain.Pedido;
@@ -45,11 +47,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,Identi
         return q.getSingleResult();
     }
 
-    public List<Atividade> findTarefasServico(Long identity, MecanographicNumber identity2, String estado) {
+    public List<Atividade> findTarefasServico(Long identity, Colaborador identity2, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla WHERE" +
-                        " fla.fluxoAtividade_id =:identity AND" +
-                        " a.colab =:identity2 AND a.estadoAtividade =:estado",
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
@@ -59,9 +60,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,Identi
 
     public List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla WHERE" +
-                        " fla.fluxoAtividade_id =:identity AND" +
-                        " a.colab_mecanographicnumber =:identity2 AND" + " a.estadoatividade =:estado AND" +
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade fl WHERE" +
+                        " fl.id =:identity AND a.colab =:identity2 AND a.estadoAtividade =:estado AND" +
                         " a.datalimite BETWEEN :dataI AND :dataF",
                 Atividade.class);
         q.setParameter("identity", identity);

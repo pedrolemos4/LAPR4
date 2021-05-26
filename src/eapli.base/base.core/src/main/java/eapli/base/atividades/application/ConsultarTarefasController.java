@@ -35,8 +35,8 @@ public class ConsultarTarefasController {
         return this.repo2.findEmailColaborador(email);
     }
 
-    public List<Atividade> tarefasPendentes(Long fluxo, Colaborador colab) {
-        return repo.findTarefasServico(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> tarefasPendentes(FluxoAtividade fluxo, Colaborador colab) {
+        return repo.findTarefasServico(fluxo.identity(), colab, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> filtrarUrgencia(Long fluxo, Colaborador colab) {

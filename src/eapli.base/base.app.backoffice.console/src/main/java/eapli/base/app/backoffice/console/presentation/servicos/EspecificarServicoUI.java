@@ -111,7 +111,7 @@ public class EspecificarServicoUI extends AbstractUI {
                     selectorEquipa.show();
                     final Equipa equipa = selectorEquipa.selectedElement();
                     resposta2=Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
-                    if(resposta2.equalsIgnoreCase("sim")){
+                    if(resposta2.equalsIgnoreCase("sim") || resposta2.equalsIgnoreCase("S")){
                         final Iterable<Colaborador> listaColaboradores = this.theController.findColaboradoresDaEquipa(equipa.identity());
                         final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis",listaColaboradores,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
                         System.out.println("\nSelecione o Colaborador:");
