@@ -1,6 +1,7 @@
 package eapli.base.pedido.repositories;
 
 import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividades.domain.EstadoFluxo;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
@@ -32,4 +33,5 @@ public interface PedidoRepository extends DomainRepository<Identificador, Pedido
 
     Pedido getPedidoByTarefa(int idAtividade);
 
+    EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId);
 }

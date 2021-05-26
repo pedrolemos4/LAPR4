@@ -36,9 +36,9 @@ public class FluxoRequest extends ServicosRhRequest {
 
         // execution
         try {
-            //final EstadoFluxo token = controller.getEstadoFluxoDoServico(servico, user);
+            final EstadoFluxo token = controller.getEstadoFluxoDoServico(servico, user);
             // response
-            return buildResponse(/*token*/null);
+            return buildResponse(token);
         } catch (final IllegalArgumentException e) {
             return buildBadRequest("Unknown servico and/or user name");
         } catch (final Exception e) {
