@@ -1,7 +1,11 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.atividades.domain.Atividade;
+<<<<<<< HEAD
 import eapli.base.atividades.domain.EstadoAtividade;
+=======
+import eapli.base.atividades.domain.EstadoFluxo;
+>>>>>>> 85e3e9155ad9a988aa19d4e4b7cce52537610118
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
@@ -121,6 +125,16 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,Identi
                         " WHERE lista.id =:idAtividade",
                 Pedido.class);
         q.setParameter("idAtividade", idAtividade);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId) {
+        final TypedQuery<EstadoFluxo> q = createQuery(
+                "SELECT fluxo FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl JOIN fl.estadoFluxo fluxo" +
+                        " WHERE ser.codigoUnico =:servicoId",
+                EstadoFluxo.class);
+        q.setParameter("servicoId", servicoId);
         return q.getSingleResult();
     }
 
