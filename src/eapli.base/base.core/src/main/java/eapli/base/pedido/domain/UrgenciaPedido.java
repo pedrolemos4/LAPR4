@@ -1,9 +1,11 @@
 package eapli.base.pedido.domain;
 
+import eapli.framework.domain.model.ValueObject;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class UrgenciaPedido {
+public class UrgenciaPedido implements ValueObject {
 
     private String urgencia;
 
