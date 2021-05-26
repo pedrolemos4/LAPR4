@@ -1,24 +1,15 @@
 package eapli.base.pedido.domain;
 
-import eapli.framework.domain.model.ValueObject;
 
-import javax.persistence.Embeddable;
+public enum UrgenciaPedido {
 
-@Embeddable
-public class UrgenciaPedido implements ValueObject {
+    EMERGENTE,
 
-    private String urgencia;
+    MUITO_URGENTE,
 
-    public UrgenciaPedido() {
+    URGENTE,
 
-    }
+    POUCO_URGENTE,
 
-    public UrgenciaPedido(String urgencia) {
-        this.urgencia = urgencia;
-    }
-
-    @Override
-    public String toString() {
-        return "UrgenciaPedido: " + urgencia;
-    }
+    NÃO_URGENTE
 }

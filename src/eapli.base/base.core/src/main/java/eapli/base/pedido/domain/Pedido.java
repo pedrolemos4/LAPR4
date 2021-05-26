@@ -27,6 +27,7 @@ public class Pedido implements AggregateRoot<Identificador> {
     private Servico servico;
 
     @Column(name = "urgencia")
+    @Enumerated(EnumType.STRING)
     private UrgenciaPedido urgenciaPedido;
 
     @Column(name = "dataLimiteResolucao")
