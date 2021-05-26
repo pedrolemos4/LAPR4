@@ -4,10 +4,10 @@ import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
-import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
@@ -54,8 +54,6 @@ public class SolicitarServicoController {
 
     private Servico servico;
 
-    private Catalogo catalogo;
-
     public List<Catalogo> displayAvailableCatalogos(){
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
         try{
@@ -75,7 +73,6 @@ public class SolicitarServicoController {
         try {
             Catalogo c = catalogoRepository.findById(idCatalogo);
             if(catalogosAutorizados.contains(c)){
-                catalogo = c;
                 return servicoRepository.findServicosDoCatalogo(idCatalogo);
             }
             else{
@@ -89,33 +86,33 @@ public class SolicitarServicoController {
     }
 
     public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
-        //try{
+        try{
             Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
             Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,urgencia,dataLimiteRes);
             pedidoRepository.save(pedido);
             return true;
-    //    }
-        //catch (Exception e){
-        //    LOGGER.error("Something went wrong");
-        //    return false;
-        //}
+        }
+        catch (Exception e){
+            LOGGER.error("Something went wrong");
+            return false;
+        }
 
     }
 
     public boolean preencherFormulario(String idServico) {
-        //try{
-            servico = servicoRepository.ofIdentity(new CodigoUnico(idServico)).orElse(null);
+        try{
+            servico = servicoRepository.ofIdentity(new CodigoUnico(idServico)).get();
             if (servico != null) {
-                //Formulario formulario = servicoRepository.getAssociatedFormulario(idServico);
-                //formularioRepository.save(formulario);
+                Formulario formulario = servicoRepository.getAssociatedFormulario(idServico);
+                formularioRepository.save(formulario);
                 return true;
             }
             return false;
-        //}
-        //catch (Exception e){
-          //  LOGGER.error("Something went wrong");
-            //return false;
-       // }
+        }
+        catch (Exception e){
+            LOGGER.error("Something went wrong");
+            return false;
+        }
 
     }
 

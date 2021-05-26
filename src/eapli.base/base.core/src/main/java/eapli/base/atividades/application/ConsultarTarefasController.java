@@ -8,7 +8,6 @@ import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
-import eapli.base.servico.repositories.ServicoRepository;
 
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.application.UseCaseController;
@@ -22,9 +21,8 @@ import java.util.List;
 
 @UseCaseController
 public class ConsultarTarefasController {
-    private final ServicoRepository repo = PersistenceContext.repositories().servicos();
-    private final PedidoRepository repo2 = PersistenceContext.repositories().pedidos();
-    private final ColaboradorRepository repo3 = PersistenceContext.repositories().colaborador();
+    private final PedidoRepository repo = PersistenceContext.repositories().pedidos();
+    private final ColaboradorRepository repo2 = PersistenceContext.repositories().colaborador();
 
     private SystemUser currentUser() {
         AuthorizationService authz = AuthzRegistry.authorizationService();
@@ -34,7 +32,7 @@ public class ConsultarTarefasController {
     public Colaborador getUser(){
         final SystemUser user = currentUser();
         EmailAddress email = user.email();
-        return this.repo3.findEmailColaborador(email);
+        return this.repo2.findEmailColaborador(email);
     }
 
     public List<Atividade> tarefasPendentes(Long fluxo, Colaborador colab) {
@@ -77,16 +75,16 @@ public class ConsultarTarefasController {
         return repo.ordenarCritDecrescente(fluxo, servico, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public String getServico(Pedido p) {
+    public Servico getServico(Pedido p) {
         return repo.findPedidoServico(p.identity());
     }
 
-    public Long getFluxo(String servico) {
-        return repo.findFluxoServico(servico);
+    public FluxoAtividade getFluxo(Servico s) {
+        return repo.findFluxoServico(s.identity());
     }
 
     public Iterable<Pedido> listPedidos() {
-        final Iterable<Pedido> ls = repo2.findAll();
+        final Iterable<Pedido> ls = repo.findAll();
         return ls;
     }
 

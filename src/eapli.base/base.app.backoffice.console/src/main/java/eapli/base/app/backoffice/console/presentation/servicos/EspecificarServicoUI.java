@@ -75,21 +75,21 @@ public class EspecificarServicoUI extends AbstractUI {
         //perguntar sobre os formulários e os atributos ao stor
 
         Set<Atributo> listaAtributos = new HashSet<>();
-//        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
-//        listaAtributos.add(atributo);
-//
-//        while (flag) {
-//            String resposta;
-//            System.out.println("Deseja adicionar mais atributos ao formulário?");
-//            resposta = Console.readLine("Resposta(S/N):");
-//            if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
-//                formularioData.atributo();
-//                atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
-//                listaAtributos.add(atributo);
-//            } else {
-//                flag = false;
-//            }
-//        }
+        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
+        listaAtributos.add(atributo);
+
+        while (flag) {
+            String resposta;
+            System.out.println("Deseja adicionar mais atributos ao formulário?");
+            resposta = Console.readLine("Resposta(S/N):");
+            if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
+                formularioData.atributo();
+                atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
+                listaAtributos.add(atributo);
+            } else {
+                flag = false;
+            }
+        }
 
         final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();

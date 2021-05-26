@@ -1,12 +1,13 @@
 package eapli.base.app.backoffice.console.presentation.pedidos;
 
 import eapli.base.catalogo.domain.Catalogo;
-import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.application.SolicitarServicoController;
+import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class SolicitarServicoUI extends AbstractUI {
@@ -33,12 +34,16 @@ public class SolicitarServicoUI extends AbstractUI {
             String idServico = sc.next();
             controller.preencherFormulario(idServico);
             System.out.println("Urgencia____________________________________________________________________");
+            for (UrgenciaPedido u : UrgenciaPedido.values()) {
+                System.out.println(u);
+            }
+            System.out.println("Introduza Urgencia");
             String urgencia = sc.next();
             System.out.println("Data Limite de Resolucao(yyyy/mm/dd)________________________________________");
             String data[] = sc.next().split("/");
             final Calendar data1 = Calendar.getInstance();
             data1.set(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]));
-            controller.efetuarPedido(new UrgenciaPedido(urgencia),data1.getTime());
+            controller.efetuarPedido(Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase(Locale.ROOT)),data1.getTime());
             return true;
         }
         return false;
