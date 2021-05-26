@@ -27,10 +27,15 @@ public class Pedido implements AggregateRoot<Identificador> {
     private Servico servico;
 
     @Column(name = "urgencia")
+    @Enumerated(EnumType.STRING)
     private UrgenciaPedido urgenciaPedido;
 
     @Column(name = "dataLimiteResolucao")
     private Date dataLimiteResolucao;
+
+    @Column(name = "estadoPedido")
+    @Enumerated(EnumType.STRING)
+    private EstadoPedido estado;
 
     //Set<File> annexedFiles;
 
@@ -45,6 +50,7 @@ public class Pedido implements AggregateRoot<Identificador> {
         this.servico = servico;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;
+        this.estado = EstadoPedido.SUBMETIDO;
     }
 
     @Override
@@ -56,6 +62,7 @@ public class Pedido implements AggregateRoot<Identificador> {
                 ", servico=" + servico +
                 ", urgenciaPedido=" + urgenciaPedido +
                 ", dataLimiteResolucao=" + dataLimiteResolucao +
+                ", estadoPedido=" + estado +
                 '}';
     }
 

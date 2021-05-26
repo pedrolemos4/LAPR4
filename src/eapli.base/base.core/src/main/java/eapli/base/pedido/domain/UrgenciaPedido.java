@@ -1,22 +1,15 @@
 package eapli.base.pedido.domain;
 
-import javax.persistence.Embeddable;
 
-@Embeddable
-public class UrgenciaPedido {
+public enum UrgenciaPedido {
 
-    private String urgencia;
+    EMERGENTE,
 
-    public UrgenciaPedido() {
+    MUITO_URGENTE,
 
-    }
+    URGENTE,
 
-    public UrgenciaPedido(String urgencia) {
-        this.urgencia = urgencia;
-    }
+    POUCO_URGENTE,
 
-    @Override
-    public String toString() {
-        return "UrgenciaPedido: " + urgencia;
-    }
+    NÃO_URGENTE
 }
