@@ -1,11 +1,8 @@
 package eapli.base.pedido.repositories;
 
 import eapli.base.atividades.domain.Atividade;
-<<<<<<< HEAD
 import eapli.base.atividades.domain.EstadoAtividade;
-=======
 import eapli.base.atividades.domain.EstadoFluxo;
->>>>>>> 85e3e9155ad9a988aa19d4e4b7cce52537610118
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;

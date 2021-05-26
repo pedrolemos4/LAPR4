@@ -162,14 +162,29 @@ public class EspecificarServicoUI extends AbstractUI {
             System.out.println("\nSelecione a Equipa:");
             selectorEquipa.show();
             final Equipa equipa = selectorEquipa.selectedElement();
-            Set<Equipa> listEquipas = new HashSet<>();
-            listEquipas.add(equipa);
-            Formulario form = null;
-            TipoAtividade tipo = TipoAtividade.APROVACAO;
-            AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE,*/ listEquipas,
-                    atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
-                    atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form, tipo);
-            listAtividades.add(atividadeManual);
+            resposta2=Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
+            if(resposta2.equalsIgnoreCase("sim") || resposta2.equalsIgnoreCase("S")){
+                final Iterable<Colaborador> listaColaboradores = this.theController.findColaboradoresDaEquipa(equipa.identity());
+                final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis",listaColaboradores,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
+                System.out.println("\nSelecione o Colaborador:");
+                selectorColaborador.show();
+                final Colaborador col = selectorColaborador.selectedElement();
+                Formulario form = null;
+                TipoAtividade tipo = TipoAtividade.APROVACAO;
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
+                        atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                listAtividades.add(atividadeManual);
+            } else {
+                Set<Equipa> listEquipas = new HashSet<>();
+                listEquipas.add(equipa);
+                Formulario form = null;
+                TipoAtividade tipo = TipoAtividade.APROVACAO;
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
+                        atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                listAtividades.add(atividadeManual);
+            }
         }
         fluxoAtividade = theController.createFluxo(listAtividades);
 

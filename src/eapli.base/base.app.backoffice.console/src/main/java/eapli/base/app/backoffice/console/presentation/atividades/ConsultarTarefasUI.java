@@ -36,7 +36,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                     System.out.println(a.toString() + "\n" + p.toString());
                     System.out.println();
                 }
-                listTarefas.clear();
+
             }
             System.out.println("Escolha uma das seguintes opções:\n" +
                     "1 - Filtrar Tarefas\n" +
