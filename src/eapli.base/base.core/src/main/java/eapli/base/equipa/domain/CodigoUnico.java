@@ -35,4 +35,8 @@ public class CodigoUnico implements ValueObject, Comparable<CodigoUnico> {
     public String toString() {
         return codigo;
     }
+
+    public static CodigoUnico valueOf(final String codigo) {
+        return new CodigoUnico(codigo);
+    }
 }
