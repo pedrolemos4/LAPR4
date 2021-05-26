@@ -18,18 +18,6 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     Iterable<Servico> findServicosDoCatalogo(Long identity);
 
-    List<Atividade> findTarefasServico(Long identity, MecanographicNumber identity2, String estado);
-
-    Long findFluxoServico(String identity);
-
-    String findPedidoServico(Identificador identity);
-
-    List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado);
-
-    List<Atividade> ordenarCritCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
-
-    List<Atividade> ordenarCritDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
-
     Iterable<Servico> findServicoByTituloDescricaoBreveDescricaoCompleta(String titulo, String descricaoBreve, String descricaoCompleta);
 
     Iterable<Servico> findServicoByKeywordsDescricaoBreveDescricaoCompleta(Set<String> keywords, String descricaoBreve, String descricaoCompleta);
