@@ -92,7 +92,7 @@ public class SolicitarServicoController {
     public boolean preencherFormulario(String idServico) {
         try{
             Formulario formulario = formularioRepository.getFormularioDoServico(idServico);
-            //final SelectWidget<Formulario> selectWidget = new SelectWidget<>()
+            System.out.println("Preencher Formulario aqui");
             //formularioRepository.save(formulario);
             return true;
         }
