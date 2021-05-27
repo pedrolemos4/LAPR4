@@ -11,5 +11,5 @@ public enum UrgenciaPedido {
 
     POUCO_URGENTE,
 
-    NÃO_URGENTE
+    NAO_URGENTE
 }

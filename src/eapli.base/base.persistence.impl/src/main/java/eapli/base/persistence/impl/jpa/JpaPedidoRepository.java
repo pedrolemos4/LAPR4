@@ -4,7 +4,6 @@ import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.pedido.domain.Identificador;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
@@ -13,7 +12,7 @@ import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
 
-public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,Identificador> implements PedidoRepository {
+public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String> implements PedidoRepository {
 
     public JpaPedidoRepository(){super("identificador");}
 
@@ -29,7 +28,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,Identi
         return q.getResultList();
     }
 
-    public Servico findPedidoServico(Identificador identity) {
+    public Servico findPedidoServico(String identity) {
         final TypedQuery<Servico> q = createQuery(
                 "SELECT p.servico FROM Pedido p WHERE p.id =:identity",
                 Servico.class);

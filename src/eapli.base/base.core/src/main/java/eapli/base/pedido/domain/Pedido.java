@@ -2,24 +2,35 @@ package eapli.base.pedido.domain;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.pedido.generators.IdentificadorGenerator;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-public class Pedido implements AggregateRoot<Identificador> {
+public class Pedido implements AggregateRoot<String> {
 
     @Id
-    @Column(name="id")
-    private Identificador Id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ano_seq")
+    @GenericGenerator(name = "ano_seq",
+            strategy = "eapli.base.pedido.generators.IdentificadorGenerator",parameters = {
+            @org.hibernate.annotations.Parameter(name = IdentificadorGenerator.INCREMENT_PARAM, value = "1"),
+            @org.hibernate.annotations.Parameter(name = IdentificadorGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")
+    })
+    @Column(name = "identificador")
+    private String Id;
 
     @ManyToOne
     @JoinColumn(name = "colaborador")
     private Colaborador colaborador;
 
     @Column(name = "dataSolicitacao")
+    @Temporal(TemporalType.DATE)
     private Date dataSolicitacao;
 
     @OneToOne
@@ -31,7 +42,8 @@ public class Pedido implements AggregateRoot<Identificador> {
     private UrgenciaPedido urgenciaPedido;
 
     @Column(name = "dataLimiteResolucao")
-    private Date dataLimiteResolucao;
+    @Temporal(TemporalType.DATE)
+    private Calendar dataLimiteResolucao;
 
     @Column(name = "estadoPedido")
     @Enumerated(EnumType.STRING)
@@ -43,10 +55,9 @@ public class Pedido implements AggregateRoot<Identificador> {
 
     }
 
-    public Pedido(Colaborador colaborador, Date dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Date dataLimiteResolucao) {
-        this.Id = new Identificador();
+    public Pedido(Colaborador colaborador, LocalDate dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
         this.colaborador = colaborador;
-        this.dataSolicitacao = dataSolicitacao;
+        this.dataSolicitacao = java.sql.Date.valueOf(dataSolicitacao);
         this.servico = servico;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;
@@ -73,7 +84,7 @@ public class Pedido implements AggregateRoot<Identificador> {
     }
 
     @Override
-    public Identificador identity() {
+    public String identity() {
         return this.Id;
     }
 

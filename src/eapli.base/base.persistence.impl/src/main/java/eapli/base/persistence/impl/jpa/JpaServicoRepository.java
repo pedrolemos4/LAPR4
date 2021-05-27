@@ -1,17 +1,10 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.FluxoAtividade;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.formulario.domain.Formulario;
-import eapli.base.pedido.domain.Identificador;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 
 import javax.persistence.TypedQuery;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Set;
 
 public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, CodigoUnico> implements ServicoRepository {
@@ -21,19 +14,10 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     }
 
     @Override
-    public Formulario getAssociatedFormulario(String codigoUnico) {
-        final TypedQuery<Formulario> q = createQuery(
-                "SELECT c FROM Servico s INNER JOIN s.Formulario c WHERE s.codigoUnico =: identity",
-                Formulario.class);
-        q.setParameter("identity", codigoUnico);
-        return q.getSingleResult();
-    }
-
-    @Override
     public Iterable<Servico> findServicosDoCatalogo(Long identity) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT ec FROM Catalogo e JOIN e.listServicos ec WHERE" +
-                        " e.identificador =:identity",
+                "SELECT s FROM Servico s INNER JOIN s.catalogo c WHERE" +
+                        " c.id =:identity",
                 Servico.class);
         q.setParameter("identity", identity);
         return q.getResultList();

@@ -4,7 +4,6 @@ import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
-import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Formulario;
@@ -18,7 +17,6 @@ import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +27,11 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @UseCaseController
 public class SolicitarServicoController {
@@ -44,51 +46,39 @@ public class SolicitarServicoController {
     private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
-    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
-    private static ArrayList<Catalogo> catalogosAutorizados = new ArrayList<>();
-
-    private SystemUser loggedUser = this.authz.session().get().authenticatedUser();
-
-    private Servico servico;
 
     public List<Catalogo> displayAvailableCatalogos(){
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
         try{
-            Colaborador loggedColaborador = repository.findEmailColaborador(loggedUser.email());
+            Colaborador loggedColaborador = repository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
             ArrayList<Equipa> associatedTeams = (ArrayList<Equipa>) repository.findAssociatedTeams(loggedColaborador.identity());
             for (Equipa e : associatedTeams) {
                 catalogosDisponiveis.addAll((Collection<? extends Catalogo>) catalogoRepository.findCatalogoEquipa(e.identity()));
             }
-            catalogosAutorizados = (ArrayList<Catalogo>) catalogosDisponiveis;
+            return (ArrayList<Catalogo>) catalogosDisponiveis;
         }catch (Exception e){
             LOGGER.error("Unexpected error");
        }
-        return catalogosDisponiveis;
+        return new ArrayList<>();
     }
 
     public Iterable<Servico> getServicosCatalogo(long idCatalogo){
         try {
-            Catalogo c = catalogoRepository.findById(idCatalogo);
-            if(catalogosAutorizados.contains(c)){
-                return servicoRepository.findServicosDoCatalogo(idCatalogo);
-            }
-            else{
-                LOGGER.error("No authorization to access this catalog");
-                return null;
-            }
+            return servicoRepository.findServicosDoCatalogo(idCatalogo);
         }catch (NoResultException e){
             LOGGER.error("Not found");
             return null;
         }
     }
 
-    public boolean efetuarPedido(UrgenciaPedido urgencia, Date dataLimiteRes){
+    public synchronized boolean efetuarPedido(String idservico, UrgenciaPedido urgencia, Calendar dataLimiteRes){
         try{
-            Colaborador colab = colaboradorRepository.findEmailColaborador(loggedUser.email());
-            Pedido pedido = new Pedido(colab,Calendar.getInstance().getTime(),servico,urgencia,dataLimiteRes);
+            Servico servicoSolicitado = servicoRepository.ofIdentity(new CodigoUnico(idservico)).get();
+            Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+            Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes);
             pedidoRepository.save(pedido);
             return true;
         }
@@ -101,19 +91,15 @@ public class SolicitarServicoController {
 
     public boolean preencherFormulario(String idServico) {
         try{
-            servico = servicoRepository.ofIdentity(new CodigoUnico(idServico)).get();
-            if (servico != null) {
-                Formulario formulario = servicoRepository.getAssociatedFormulario(idServico);
-                formularioRepository.save(formulario);
-                return true;
-            }
-            return false;
+            Formulario formulario = formularioRepository.getFormularioDoServico(idServico);
+            //final SelectWidget<Formulario> selectWidget = new SelectWidget<>()
+            //formularioRepository.save(formulario);
+            return true;
         }
         catch (Exception e){
             LOGGER.error("Something went wrong");
             return false;
         }
-
     }
 
     public void doConnection(Pedido pedido) throws IOException, InterruptedException {
