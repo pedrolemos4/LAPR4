@@ -1,6 +1,6 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.pedido.application.SolicitarServicoController;
+import eapli.base.atividades.application.AplicacoesController;
 import eapli.framework.csv.util.CsvLineMarshaler;
 import eapli.framework.util.Utility;
 import org.apache.logging.log4j.LogManager;
@@ -9,13 +9,13 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 
 @Utility
-public class ServicosRhMessageParser {
-    // obtem o estado do server
-    private static final Logger LOGGER = LogManager.getLogger(ServicosRhMessageParser.class);
+public class AplicacoesMessageParser {
+    // obtem o estado do server e estatisticas
+    private static final Logger LOGGER = LogManager.getLogger(AplicacoesMessageParser.class);
 
-    private static SolicitarServicoController controller;
+    private static AplicacoesController controller;
 
-    private ServicosRhMessageParser() {
+    private AplicacoesMessageParser() {
         // avoid instantiation
     }
 
@@ -25,21 +25,21 @@ public class ServicosRhMessageParser {
      * @param controller
      */
 
-    /* package */public static void injectController(final SolicitarServicoController controller) {
+    /* package */public static void injectController(final AplicacoesController controller) {
         synchronized (lock) {
-            ServicosRhMessageParser.controller = controller;
+            AplicacoesMessageParser.controller = controller;
         }
     }
 
     private static final Object lock = new Object();
 
-    private static SolicitarServicoController getController() {
+    private static AplicacoesController getController() {
         synchronized (lock) {
-            if (ServicosRhMessageParser.controller != null) {
-                return ServicosRhMessageParser.controller;
+            if (AplicacoesMessageParser.controller != null) {
+                return AplicacoesMessageParser.controller;
             }
         }
-        return new SolicitarServicoController();
+        return new AplicacoesController();
     }
 
     /**
@@ -48,9 +48,9 @@ public class ServicosRhMessageParser {
      * @param inputLine
      * @return
      */
-    public static ServicosRhRequest parse(final String inputLine) {
+    public static AplicacoesRequest parse(final String inputLine) {
         // as a fallback make sure we return unknown
-        ServicosRhRequest request = new UnknownRequest(inputLine);
+        AplicacoesRequest request = new UnknownRequest(inputLine);
 
         // parse to determine which type of request and if it is sintactally valid
         String[] tokens;
@@ -60,6 +60,8 @@ public class ServicosRhMessageParser {
                 //request = parseGetAvailableMeals(inputLine, tokens);
             } else if ("4".equals(tokens[1])) {
                 request = parseGetFluxo(inputLine, tokens);
+            } else if ("5".equals(tokens[1])) {
+                request = parseGetNumeroTarefasPendentes(inputLine, tokens);
             }
         } catch (final ParseException e) {
             LOGGER.info("Unable to parse request: {}", inputLine);
@@ -69,12 +71,44 @@ public class ServicosRhMessageParser {
         return request;
     }
 
-    private static ServicosRhRequest parseGetFluxo(final String inputLine, final String[] tokens) {
-        ServicosRhRequest request;
+    private static AplicacoesRequest parseGetNumeroTarefasPendentes(String inputLine, String[] tokens) {
+        AplicacoesRequest request;
         int numberOfData = Integer.parseInt(tokens[2]);
         if(numberOfData != 0) {
             String[] array = tokens[4].split(" ");
             if (tokens.length != 4) {
+                request = new ErrorInRequest(inputLine, "Wrong number of parameters");
+            } else if(isStringParam(array[0])){
+                request = new ErrorInRequest(inputLine, "servico id must not be inside quotes");
+            } else if(isStringParam(array[1])){
+                request = new ErrorInRequest(inputLine, "user id must be inside quotes");
+            } else {
+                request = new NumeroTarefasPendentesRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[1]),
+                        CsvLineMarshaler.unquote(tokens[2]));
+            }
+            return request;
+        } else{
+            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
+        }
+        /*if (tokens.length != 4) {
+            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
+        } else if (isStringParam(tokens[1])) {
+            request = new ErrorInRequest(inputLine, "servico id must not be inside quotes");
+        } else if (!isStringParam(tokens[2])) {
+            request = new ErrorInRequest(inputLine, "username must be inside quotes");
+        } else {
+            request = new FluxoRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[1]),
+                    CsvLineMarshaler.unquote(tokens[2]));
+        }*/
+        return request;
+    }
+
+    private static AplicacoesRequest parseGetFluxo(final String inputLine, final String[] tokens) {
+        AplicacoesRequest request;
+        int numberOfData = Integer.parseInt(tokens[2]);
+        if(numberOfData != 0) {
+            String[] array = tokens[3].split(" ");
+            if (tokens.length != 3) {
                 request = new ErrorInRequest(inputLine, "Wrong number of parameters");
             } else if(isStringParam(array[0])){
                 request = new ErrorInRequest(inputLine, "servico id must not be inside quotes");

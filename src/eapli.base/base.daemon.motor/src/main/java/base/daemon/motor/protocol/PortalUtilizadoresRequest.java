@@ -1,13 +1,13 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.DashBoardPortalController;
+import eapli.base.atividades.application.AplicacoesController;
 
 public abstract class PortalUtilizadoresRequest {
 
     protected final String request;
-    protected final DashBoardPortalController controller;
+    protected final AplicacoesController controller;
 
-    protected PortalUtilizadoresRequest(final DashBoardPortalController controller, final String inputRequest) {
+    protected PortalUtilizadoresRequest(final AplicacoesController controller, final String inputRequest) {
         this.request = inputRequest;
         this.controller = controller;
     }

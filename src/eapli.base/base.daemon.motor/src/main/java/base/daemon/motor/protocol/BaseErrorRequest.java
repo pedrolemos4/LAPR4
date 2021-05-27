@@ -2,7 +2,7 @@ package base.daemon.motor.protocol;
 
 import eapli.framework.csv.CsvRecord;
 
-public abstract class BaseErrorRequest extends ServicosRhRequest{
+public abstract class BaseErrorRequest extends AplicacoesRequest {
 
     private final String errorDescription;
 

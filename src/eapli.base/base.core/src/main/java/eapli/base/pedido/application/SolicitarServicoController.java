@@ -1,9 +1,7 @@
 package eapli.base.pedido.application;
 
-import eapli.base.atividades.domain.EstadoFluxo;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
@@ -156,10 +154,6 @@ public class SolicitarServicoController {
         sock.close();
     }
 
-    // será mesmo necessário levar o cloaborador associado??????
-    public EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId, MecanographicNumber user) {
-        return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
-    }
 }
 
 class TcpChatCliConn implements Runnable {

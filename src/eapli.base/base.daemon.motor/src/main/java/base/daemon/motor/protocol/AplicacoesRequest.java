@@ -1,13 +1,13 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.pedido.application.SolicitarServicoController;
+import eapli.base.atividades.application.AplicacoesController;
 
-public abstract class ServicosRhRequest {
+public abstract class AplicacoesRequest {
 
     protected final String request;
-    protected final SolicitarServicoController controller;
+    protected AplicacoesController controller;
 
-    protected ServicosRhRequest(final SolicitarServicoController controller, final String inputRequest) {
+    protected AplicacoesRequest(final AplicacoesController controller, final String inputRequest) {
         this.request = inputRequest;
         this.controller = controller;
     }
