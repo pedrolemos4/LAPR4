@@ -42,6 +42,13 @@ public class Atividade implements ValueObject{
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ", DataLimite: " + dataLimite.getTime() +
+                ", EstadoAtividade: " + estadoAtividade;
+    }
+
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
         AtividadeManual manual = (AtividadeManual) idAtividade;
         manual.adicionaColaborador(colab);

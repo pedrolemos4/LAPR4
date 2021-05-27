@@ -55,6 +55,11 @@ public class AtividadeManual extends Atividade{
         this.formulario=formulario;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
     public void setId(Long id) {
             this.id = id;
         }

@@ -3,9 +3,11 @@ package eapli.base.servico.application;
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.domain.DraftServico;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.equipa.repositories.EquipaRepository;
 import eapli.base.formulario.domain.Atributo;
@@ -35,6 +37,7 @@ public class EspecificarServicoController {
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
     private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
+    private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
                                    final String descricaoCompleta, Formulario formulario, Set<String> keywords,
@@ -106,6 +109,11 @@ public class EspecificarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
+    public Iterable<Colaborador> findColaboradoresDaEquipa(CodigoUnico identity){
+        final Iterable<Colaborador> lc = colaboradorRepository.findColaboradoresDaEquipa(identity);
+        return lc;
+    }
+
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(/*final EstadoAtividade e,*/ final Set<Equipa> equipa,
                                                               final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
@@ -119,7 +127,7 @@ public class EspecificarServicoController {
         return atividadeAprovacaoManualEquipa;
     }
 
-    public AtividadeManual novaAtividadeAprovacaoManualColaborador(final EstadoAtividade e, final Colaborador colaborador,
+    public AtividadeManual novaAtividadeAprovacaoManualColaborador(/*final EstadoAtividade e,*/ final Colaborador colaborador,
                                                                    final String decisao, final String comentario,
                                                                    final int ano, final int mes, final int dia,
                                                                    final Formulario formulario, final TipoAtividade tipoAtividade){
@@ -127,6 +135,7 @@ public class EspecificarServicoController {
         data.set(ano,mes,dia);
         final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);
+        final EstadoAtividade e  = EstadoAtividade.PENDENTE ;
         final AtividadeManual atividadeAprovacaoColaborador = new AtividadeManual(e,colaborador,des,com,formulario,data,tipoAtividade);
         return atividadeAprovacaoColaborador;
     }
