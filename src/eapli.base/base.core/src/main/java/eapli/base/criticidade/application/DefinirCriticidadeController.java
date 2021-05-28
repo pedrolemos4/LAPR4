@@ -1,8 +1,8 @@
 package eapli.base.criticidade.application;
 
 import eapli.base.contrato.domain.ContratoSLA;
-import eapli.base.criticidade.domain.*;
 import eapli.base.contrato.repositories.ContratoRepository;
+import eapli.base.criticidade.domain.*;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.Designacao;
 import eapli.base.infrastructure.persistence.PersistenceContext;
@@ -41,5 +41,13 @@ public class DefinirCriticidadeController {
         return contRepo.save(contrato);
     }
 
+    public boolean saveCriticidade(Criticidade c) {
+            criticidadeRepo.save(c);
+            return true;
+    }
 
+    public void registarCriticidade(Etiqueta etiqueta, Escala escala, Designacao designacao, Objetivo objetivo, Cor cor) {
+        Criticidade c = new Criticidade(etiqueta,escala,designacao,objetivo,cor);
+        criticidadeRepo.save(c);
+    }
 }

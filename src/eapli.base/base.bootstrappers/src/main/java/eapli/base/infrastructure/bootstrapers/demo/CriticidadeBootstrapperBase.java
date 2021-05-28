@@ -1,11 +1,11 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
-import eapli.base.criticidade.application.AssociarCriticidadeCatalogoController;
+import eapli.base.criticidade.application.DefinirCriticidadeController;
 import eapli.base.criticidade.domain.*;
-import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.equipa.domain.Designacao;
-import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.actions.Action;
+import eapli.framework.domain.repositories.ConcurrencyException;
+import eapli.framework.domain.repositories.IntegrityViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +14,7 @@ public class CriticidadeBootstrapperBase implements Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             CriticidadeBootstrapperBase.class);
 
-    private final AssociarCriticidadeCatalogoController controller = new AssociarCriticidadeCatalogoController();
-
-    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
+    private final DefinirCriticidadeController controller = new DefinirCriticidadeController();
 
     @Override
     public boolean execute() {
@@ -42,8 +40,11 @@ public class CriticidadeBootstrapperBase implements Action {
      */
     private void registarCriticidade(final Etiqueta etiqueta, final Escala escala, final Designacao designacao,
                                      final Objetivo objetivo, final Cor cor){
-        Criticidade c = new Criticidade(etiqueta,escala,designacao,objetivo,cor);
-        controller.saveCriticidade(c);
+        try {
+            controller.registarCriticidade(etiqueta, escala, designacao, objetivo, cor);
+        }catch (ConcurrencyException | IntegrityViolationException exception){
+            LOGGER.warn("Error saving");
+        }
     }
 
 }

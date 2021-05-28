@@ -84,4 +84,6 @@ public class Criticidade implements AggregateRoot<Long> {
                 + designacao + ", objetivo=" + objetivo + ", cor=" + cor;
     }
 
+
+
 }
