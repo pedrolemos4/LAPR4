@@ -8,11 +8,13 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
@@ -48,5 +50,11 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado);
 
-    Long getTarefasQueTerminamEmXHora(MecanographicNumber userId, EstadoAtividade estado, int hours);
+    Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours);
+
+    List<Atividade> getTarefasUrgenciaReduzida(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida);
+
+    List<Atividade> getTarefasUrgenciaUrgente(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaUrgente);
+
+    List<Atividade> getTarefasUrgenciaModerada(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaModerada);
 }

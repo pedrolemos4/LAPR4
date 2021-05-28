@@ -79,12 +79,10 @@ public class AplicacoesMessageParser {
             if (tokens.length != 3) {
                 request = new ErrorInRequest(inputLine, "Wrong number of parameters");
             } else if(isStringParam(array[0])){
-                request = new ErrorInRequest(inputLine, "hours must not be inside quotes");
-            } else if(isStringParam(array[1])){
                 request = new ErrorInRequest(inputLine, "user id must be inside quotes");
             } else {
-                request = new NumeroTarefasPendentesRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[1]),
-                        CsvLineMarshaler.unquote(tokens[2]));
+                request = new NumeroTarefasPendentesRequest(getController(), inputLine,
+                        CsvLineMarshaler.unquote(tokens[1]));
             }
             return request;
         } else{

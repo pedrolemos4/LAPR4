@@ -1,18 +1,21 @@
 package base.daemon.motor.protocol;
 
 import eapli.base.atividades.application.AplicacoesController;
+import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.pedido.domain.UrgenciaPedido;
+
+import java.util.List;
 
 public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
 
-    private final int hours;
+    //private final int hours;
     private final int userid;
 
-    public NumeroTarefasPendentesRequest(final AplicacoesController controller, final String request, final String hours,
+    public NumeroTarefasPendentesRequest(final AplicacoesController controller, final String request,
                                          final String user){
         super(controller, request);
-        this.hours = Integer.parseInt(hours);
         this.userid = Integer.parseInt(user);
     }
 
@@ -40,12 +43,20 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
             // nao tenho a certeza ----------------------REVER------------------------------
             final Long tarefasQueUltrapassamDataPedido = controller.getTarefasQueUltrapassamDataPedido(user, estado);
             //-------------------------------- REVER SITUAÇAO DAS DATAS -----------------------
-            final Long tarefasQueTerminamEmXHora = controller.getTarefasQueTerminamEmXHora(user, estado, hours);
+            final Long tarefasQueTerminamEmXHora = controller.getTarefasQueTerminamEm1Hora(user, estado, 1);
+            final UrgenciaPedido urgenciaReduzida = UrgenciaPedido.REDUZIDA;
+            final List<Atividade> tarefasUrgenciaReduzida = controller.getTarefasUrgenciaReduzida(user,estado, urgenciaReduzida);
+            final UrgenciaPedido urgenciaUrgente = UrgenciaPedido.URGENTE;
+            final List<Atividade> tarefasUrgenciaUrgente = controller.getTarefasUrgenciaUrgente(user,estado, urgenciaUrgente);
+            final UrgenciaPedido urgenciaModerada = UrgenciaPedido.MODERADA;
+            final List<Atividade> tarefasUrgenciaModerada = controller.getTarefasUrgenciaModerada(user,estado, urgenciaModerada);
 
-            // falta ordenar por urgencia e criticidade
+
+            // falta mostrar por criticidade
 
             // response
-            return buildResponse(quantidadeTarefasPendentes, tarefasQueUltrapassamDataPedido, tarefasQueTerminamEmXHora);
+            return buildResponse(quantidadeTarefasPendentes, tarefasQueUltrapassamDataPedido, tarefasQueTerminamEmXHora,
+                    tarefasUrgenciaReduzida,tarefasUrgenciaModerada,tarefasUrgenciaUrgente);
         } catch (final IllegalArgumentException e) {
             return buildBadRequest("Unknown user name");
         } catch (final Exception e) {
@@ -54,10 +65,12 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
         }
     }
 
-    private String buildResponse(final Long token, final Long tarefasQueUltrapassamDataPedido, final Long tarefasQueTerminamEmXHora) {
+    private String buildResponse(final Long token, final Long tarefasQueUltrapassamDataPedido, final Long tarefasQueTerminamEmXHora,
+                                 final List<Atividade> tarefasUrgenciaReduzida, final List<Atividade> tarefasUrgenciaModerada,
+                                 final List<Atividade> tarefasUrgenciaUrgente) {
         return "Quantidade de Tarefas Pendentes: \"" + token + "\"\n" +
                 "Quantidade de Tarefas Pendentes que ultrapassam a data de resolução estabelecida no pedido: \"" + tarefasQueUltrapassamDataPedido + "\"\n" +
-                "Quantidade de Tarefas Pendentes que terminam em \"" + hours + ": \"" + tarefasQueTerminamEmXHora + "\"\n";
+                "Quantidade de Tarefas Pendentes que terminam em 1 hora: \"" + tarefasQueTerminamEmXHora + "\"\n";
     }
 
 }
