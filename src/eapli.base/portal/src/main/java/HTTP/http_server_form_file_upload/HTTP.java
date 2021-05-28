@@ -1,7 +1,6 @@
-package HTTP.http
+package HTTP.http_server_form_file_upload;
 
 import java.io.*;
-import java.net.*; 
 
 class HTTP {    
 	static private final String HTTP_VERSION ="HTTP/1.0";

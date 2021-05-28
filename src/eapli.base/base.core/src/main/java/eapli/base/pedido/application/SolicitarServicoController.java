@@ -21,8 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
+import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -74,19 +76,25 @@ public class SolicitarServicoController {
         }
     }
 
-    public synchronized boolean efetuarPedido(String idservico, UrgenciaPedido urgencia, Calendar dataLimiteRes){
+    public synchronized Pedido efetuarPedido(String idservico, UrgenciaPedido urgencia, Calendar dataLimiteRes){
         try{
             Servico servicoSolicitado = servicoRepository.ofIdentity(new CodigoUnico(idservico)).get();
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
             Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes);
-            pedidoRepository.save(pedido);
-            return true;
+            return pedido;
         }
         catch (Exception e){
             LOGGER.error("Something went wrong");
-            return false;
+            return null;
         }
 
+    }
+
+    public void annexFile(Pedido pedido) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.getUI();
+        File file = fileChooser.getSelectedFile();
+        pedido.annexFile(file);
     }
 
     public boolean preencherFormulario(String idServico) {
@@ -140,6 +148,16 @@ public class SolicitarServicoController {
         sock.close();
     }
 
+    public synchronized boolean submeterPedido(Pedido pedido) {
+        try{
+            pedidoRepository.save(pedido);
+            return true;
+        }
+        catch (Exception e){
+            LOGGER.error("Error saving Pedido");
+            return false;
+        }
+    }
 }
 
 class TcpChatCliConn implements Runnable {

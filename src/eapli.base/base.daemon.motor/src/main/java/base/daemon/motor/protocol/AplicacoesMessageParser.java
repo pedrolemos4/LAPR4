@@ -75,11 +75,11 @@ public class AplicacoesMessageParser {
         AplicacoesRequest request;
         int numberOfData = Integer.parseInt(tokens[2]);
         if(numberOfData != 0) {
-            String[] array = tokens[4].split(" ");
-            if (tokens.length != 4) {
+            String[] array = tokens[3].split(" ");
+            if (tokens.length != 3) {
                 request = new ErrorInRequest(inputLine, "Wrong number of parameters");
             } else if(isStringParam(array[0])){
-                request = new ErrorInRequest(inputLine, "servico id must not be inside quotes");
+                request = new ErrorInRequest(inputLine, "hours must not be inside quotes");
             } else if(isStringParam(array[1])){
                 request = new ErrorInRequest(inputLine, "user id must be inside quotes");
             } else {
@@ -90,16 +90,6 @@ public class AplicacoesMessageParser {
         } else{
             request = new ErrorInRequest(inputLine, "Wrong number of parameters");
         }
-        /*if (tokens.length != 4) {
-            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
-        } else if (isStringParam(tokens[1])) {
-            request = new ErrorInRequest(inputLine, "servico id must not be inside quotes");
-        } else if (!isStringParam(tokens[2])) {
-            request = new ErrorInRequest(inputLine, "username must be inside quotes");
-        } else {
-            request = new FluxoRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[1]),
-                    CsvLineMarshaler.unquote(tokens[2]));
-        }*/
         return request;
     }
 
@@ -122,16 +112,6 @@ public class AplicacoesMessageParser {
         } else{
             request = new ErrorInRequest(inputLine, "Wrong number of parameters");
         }
-        /*if (tokens.length != 4) {
-            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
-        } else if (isStringParam(tokens[1])) {
-            request = new ErrorInRequest(inputLine, "servico id must not be inside quotes");
-        } else if (!isStringParam(tokens[2])) {
-            request = new ErrorInRequest(inputLine, "username must be inside quotes");
-        } else {
-            request = new FluxoRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[1]),
-                    CsvLineMarshaler.unquote(tokens[2]));
-        }*/
         return request;
     }
 

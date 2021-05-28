@@ -8,6 +8,7 @@ import eapli.framework.domain.model.AggregateRoot;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,6 +87,10 @@ public class Pedido implements AggregateRoot<String> {
 
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
         this.servico.adicionaColaborador(colab, idAtividade);
+    }
+
+    public void annexFile(File file){
+        //this.annexedFiles.add(file);
     }
 
     public Servico servico() { return this.servico;}

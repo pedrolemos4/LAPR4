@@ -43,4 +43,10 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     Pedido getPedidoByTarefa(int idAtividade);
 
     EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId);
+
+    Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado);
+
+    Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado);
+
+    Long getTarefasQueTerminamEmXHora(MecanographicNumber userId, EstadoAtividade estado, int hours);
 }

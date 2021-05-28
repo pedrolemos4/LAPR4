@@ -190,4 +190,42 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getSingleResult();
     }
 
+    @Override
+    public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT count(a) FROM Atividade a JOIN a.colab c " +
+                        " WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado",
+                Long.class);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT count(a) FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
+                        "AND p.dataLimiteResolucao > a.dataLimite",
+                Long.class);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Long getTarefasQueTerminamEmXHora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT count(a) FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
+                        "AND p.dataLimiteResolucao < a.dataLimite + :hours * INTERVAL '1 hour'",
+                Long.class);
+        q.setParameter("hours", hours);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
+        return q.getSingleResult();
+    }
+
 }

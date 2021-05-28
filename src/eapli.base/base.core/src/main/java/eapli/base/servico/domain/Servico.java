@@ -63,7 +63,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="catalogo")
     private Catalogo catalogo;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "servico")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
     private Pedido pedido;
 
     public Servico(ServicoBuilder builder) {
