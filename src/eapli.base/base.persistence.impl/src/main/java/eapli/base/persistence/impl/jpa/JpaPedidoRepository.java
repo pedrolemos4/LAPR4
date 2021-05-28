@@ -203,6 +203,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getSingleResult();
     }
 
+    // -----------------------------------------ACHO QUE NAO É ASSIM-----------------------------
     @Override
     public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
         final TypedQuery<Long> q = createQuery(
@@ -216,6 +217,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getSingleResult();
     }
 
+    // -----------------------------------------ACHO QUE NAO É ASSIM-----------------------------
     @Override
     public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
         final TypedQuery<Long> q = createQuery(
@@ -232,45 +234,50 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     }
 
     @Override
-    public List<Atividade> getTarefasUrgenciaReduzida(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida) {
+    public List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgencia) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
                         "JOIN fl.listaAtividade a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
-                        "AND p.urgenciaPedido =:urgenciaReduzida",
+                        "AND p.urgenciaPedido =:urgencia",
                 Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
-        q.setParameter("urgenciaReduzida", urgenciaReduzida);
+        q.setParameter("urgencia", urgencia);
+        return q.getResultList();
+    }
+
+
+    // -------------------------------------NAO TENHO A CERTEZA DA ESCALA-----------------------------
+    @Override
+    public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.colab c JOIN ser.catalogo cat JOIN cat.criticidade cri" +
+                        "JOIN cri.escala es" +
+                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
+                        "AND es.value =:i",
+                Atividade.class);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
+        q.setParameter("i", i);
         return q.getResultList();
     }
 
     @Override
-    public List<Atividade> getTarefasUrgenciaUrgente(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaUrgente) {
+    public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                        "JOIN fl.listaAtividade a JOIN a.colab c JOIN ser.catalogo cat JOIN cat.criticidade cri" +
+                        "JOIN cri.etiqueta et" +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
-                        "AND p.urgenciaPedido =:urgenciaUrgente",
+                        "AND et.value =:etiqueta",
                 Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
-        q.setParameter("urgenciaUrgente", urgenciaUrgente);
+        q.setParameter("etiqueta", etiqueta);
         return q.getResultList();
     }
 
-    @Override
-    public List<Atividade> getTarefasUrgenciaModerada(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaModerada) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c " +
-                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
-                        "AND p.urgenciaPedido =:urgenciaModerada",
-                Atividade.class);
-        q.setParameter("userId", userId);
-        q.setParameter("estado", estado);
-        q.setParameter("urgenciaModerada", urgenciaModerada);
-        return q.getResultList();
-    }
 
 }

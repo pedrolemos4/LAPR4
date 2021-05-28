@@ -38,15 +38,15 @@ public class AplicacoesController {
         return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
     }
 
-    public List<Atividade> getTarefasUrgenciaReduzida(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida) {
-        return this.pedidoRepository.getTarefasUrgenciaReduzida(userId, estado, urgenciaReduzida);
+    public List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida) {
+        return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
     }
 
-    public List<Atividade> getTarefasUrgenciaUrgente(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaUrgente) {
-        return this.pedidoRepository.getTarefasUrgenciaUrgente(userId, estado, urgenciaUrgente);
+    public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
+        return this.pedidoRepository.getTarefaEscala(userId, estado, i);
     }
 
-    public List<Atividade> getTarefasUrgenciaModerada(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaModerada) {
-        return this.pedidoRepository.getTarefasUrgenciaModerada(userId,estado,urgenciaModerada);
+    public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
+        return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
     }
 }

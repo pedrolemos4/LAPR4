@@ -52,9 +52,9 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours);
 
-    List<Atividade> getTarefasUrgenciaReduzida(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida);
+    List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida);
+    
+    List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i);
 
-    List<Atividade> getTarefasUrgenciaUrgente(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaUrgente);
-
-    List<Atividade> getTarefasUrgenciaModerada(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaModerada);
+    List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta);
 }
