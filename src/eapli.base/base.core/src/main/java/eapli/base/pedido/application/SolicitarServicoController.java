@@ -111,10 +111,9 @@ public class SolicitarServicoController {
     }
 
     public void doConnection(Pedido pedido) throws IOException, InterruptedException {
-        byte[] data = new byte[300];
-        String frase;
+        byte[] data = new byte[258];
         try {
-            serverIP = InetAddress.getByName("endereçoIp");
+            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
         } catch (UnknownHostException ex) {
             System.out.println("Invalid server: " + "endereçoIp");
             System.exit(1);
@@ -131,18 +130,15 @@ public class SolicitarServicoController {
         //Thread serverConn = new Thread(new TcpChatCliConn(sock));
         //serverConn.start();
 
-        //while(true) { // read messages from the console and send them to the server
-        frase = pedido.servico().identity().toString();
-        // if(frase.compareTo("exit")==0)
-        //{ sOut.write(0); break;}
-        data = frase.getBytes();
-        //  sOut.write((byte)frase.length());
-        //sOut.write(data,0,(byte)frase.length());
-        sOut.write((byte) 0);
-        sOut.write((byte) 3);
-        sOut.write((byte) frase.length());
-        sOut.write(data, 3, (byte) frase.length());
-        //}
+        data[0] = 0;
+        data[1] = 3;
+        byte[] idArray = pedido.servico().identity().toString().getBytes();
+        data[2] = (byte)idArray.length;
+        for(int i = 0; i<idArray.length;i++){
+            data[i+2] = idArray[i];
+        }
+
+        sOut.write(data);
 
         // serverConn.join();
         sock.close();
