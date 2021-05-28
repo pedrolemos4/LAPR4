@@ -5,23 +5,18 @@ import eapli.base.atividades.domain.EstadoFluxo;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
 
-public class FluxoRequest extends AplicacoesRequest {
+public class EstadoFluxoRequest extends AplicacoesRequest {
 
     private final String servicoId;
     private final int userid;
 
-    public FluxoRequest(final AplicacoesController controller, final String request, final String servicoId,
-                        final String user) {
+    public EstadoFluxoRequest(final AplicacoesController controller, final String request, final String servicoId,
+                              final String user) {
         super(controller, request);
         this.servicoId = servicoId;
         this.userid = Integer.parseInt(user);
     }
 
-    public FluxoRequest(final AplicacoesController controller, final String request, final String servicoId) {
-        super(controller, request);
-        this.servicoId = servicoId;
-        this.userid = 0;
-    }
 
     @Override
     public String execute() {
