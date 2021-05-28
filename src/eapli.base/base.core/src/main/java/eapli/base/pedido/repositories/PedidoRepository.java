@@ -26,6 +26,10 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado);
 
+    List<Atividade> ordenarDataCrescente(Long identity, MecanographicNumber identity2, String estado);
+
+    List<Atividade> ordenarDataDecrescente(Long identity, MecanographicNumber identity2, String estado);
+
     List<Atividade> ordenarCritCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
     List<Atividade> ordenarCritDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);

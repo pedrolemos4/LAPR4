@@ -60,14 +60,38 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
 
     public List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade fl WHERE" +
-                        " fl.id =:identity AND a.colab =:identity2 AND a.estadoAtividade =:estado AND" +
-                        " a.datalimite BETWEEN :dataI AND :dataF",
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado AND" +
+                        " la.datalimite BETWEEN :dataI AND :dataF",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
         q.setParameter("dataI", dataI);
         q.setParameter("dataF", dataF);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarDataCrescente(Long identity, MecanographicNumber identity2, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado" +
+                        " ORDER BY la.datalimite ASC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarDataDecrescente(Long identity, MecanographicNumber identity2, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado" +
+                        " ORDER BY la.datalimite DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
         q.setParameter("estado", estado);
         return q.getResultList();
     }

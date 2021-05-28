@@ -36,7 +36,6 @@ public class ConsultarTarefasUI extends AbstractUI {
                     System.out.println(a.toString() + "\n" + p.toString());
                     System.out.println();
                 }
-
             }
             System.out.println("Escolha uma das seguintes opções:\n" +
                     "1 - Filtrar Tarefas\n" +
@@ -55,6 +54,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                         switch (opc2) {
                             case 1: {
                                 listTarefas.clear();
+                                System.out.println("Qual a urgência do pedido que deseja verificar?");
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
@@ -84,7 +84,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.tarefasPendentes(fluxo, colab));
+                                    listTarefas.addAll(this.controller.filtrarData(fluxo, colab, data1, data2));
 
                                     for (Atividade a : listTarefas) {
                                         System.out.println(a.toString() + "\n" + p.toString());
@@ -95,6 +95,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                             }
                             case 3: {
                                 listTarefas.clear();
+                                System.out.println("Qual a criticidade do pedido que deseja verificar?");
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
@@ -164,7 +165,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.tarefasPendentes(fluxo, colab));
+                                    listTarefas.addAll(this.controller.ordenarDataCrescente(fluxo, colab));
 
                                     for (Atividade a : listTarefas) {
                                         System.out.println(a.toString() + "\n" + p.toString());
@@ -179,7 +180,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
-                                    listTarefas.addAll(this.controller.tarefasPendentes(fluxo, colab));
+                                    listTarefas.addAll(this.controller.ordenarDataDecrescente(fluxo, colab));
 
                                     for (Atividade a : listTarefas) {
                                         System.out.println(a.toString() + "\n" + p.toString());

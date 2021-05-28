@@ -172,8 +172,8 @@ public class EspecificarServicoUI extends AbstractUI {
                 Formulario form = null;
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
-                        atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
-                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                        atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
+                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form, tipo);
                 listAtividades.add(atividadeManual);
             } else {
                 Set<Equipa> listEquipas = new HashSet<>();
@@ -181,8 +181,8 @@ public class EspecificarServicoUI extends AbstractUI {
                 Formulario form = null;
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
-                        atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
-                        atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                        atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(), atividadeAprovacaoWidget.ano(),
+                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form, tipo);
                 listAtividades.add(atividadeManual);
             }
         }
