@@ -2,6 +2,7 @@ package eapli.base.app.backoffice.console.presentation.pedidos;
 
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.pedido.application.SolicitarServicoController;
+import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
@@ -57,8 +58,17 @@ public class SolicitarServicoUI extends AbstractUI {
         String data[] = sc.next().split("/");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]));
-        controller.efetuarPedido(idServico,Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase(Locale.ROOT)),calendar);
-        System.out.println("Pretende anexar ficheiros?__________________________________________________");
+        Pedido pedido = controller.efetuarPedido(idServico,Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase(Locale.ROOT)),calendar);
+        String option = "S";
+        while(option == "S") {
+            System.out.println("Pretende anexar ficheiros?(S/N)_____________________________________________");
+            option = sc.next();
+            if (option.toUpperCase().compareTo("S") == 0)
+                controller.annexFile(pedido);
+        }
+        if(controller.submeterPedido(pedido)){
+            System.out.println("SUCESSO");
+        }
     }
 
     @Override
