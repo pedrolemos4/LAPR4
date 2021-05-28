@@ -63,6 +63,13 @@ public class FluxoAtividade implements DomainEntity<Long> {
                 atividade.adicionaColaborador(colab, idAtividade);
             }
         }
+    }
 
+    public Set<Atividade> atividades() {
+        return this.listaAtividade;
+    }
+
+    public void alterarEstado(EstadoFluxo estadoFluxo){
+        this.estadoFluxo=estadoFluxo;
     }
 }

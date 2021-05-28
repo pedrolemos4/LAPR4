@@ -1,5 +1,6 @@
 package eapli.base.persistence.impl.jpa;
 
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
@@ -179,4 +180,19 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
+    @Override
+    public FluxoAtividade findFluxo(CodigoUnico cod) {
+        final TypedQuery<FluxoAtividade> q = createQuery(
+                "SELECT e.formulario FROM Servico e WHERE e.codigoUnico=:cod",FluxoAtividade.class);
+        q.setParameter("codigoUnico",cod);
+        return  q.getSingleResult();
+    }
+
+    @Override
+    public Servico findServico(CodigoUnico cod) {
+        final TypedQuery<Servico> q = createQuery(
+                "SELECT e FROM Servico e WHERE e.codigoUnico=:cod",Servico.class);
+        q.setParameter("codigoUnico",cod);
+        return q.getSingleResult();
+    }
 }
