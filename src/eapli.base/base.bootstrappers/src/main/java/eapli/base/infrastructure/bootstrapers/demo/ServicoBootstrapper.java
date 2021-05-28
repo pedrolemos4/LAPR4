@@ -1,8 +1,6 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.AtividadeManual;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.*;
@@ -47,18 +45,38 @@ public class ServicoBootstrapper implements Action {
         setCol.add(c1);
         list.add(new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol));
 
-
         Catalogo cat = new Catalogo(new Titulo("titulo1"), c1, new DescricaoCompletaCatalogo("descricaoCompleta"), new DescricaoBreve("descricaoBreve"), new Icone("icone"), list, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
+        /////////////////////////////
+        Set<Atividade> atividades1 = new HashSet<>();
+        Set<Atributo> listAtributosAux = new HashSet<>();
+        listAtributosAux.add(new Atributo("nomeVariavel1", "label1"));
+        listAtributosAux.add(new Atributo("nomeVariavel2", "label2"));
+        Formulario form1 = controller.createFormulario("titulo", listAtributosAux);
+        AtividadeManual a = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao","comentario", 1995,12,05,form1,TipoAtividade.REALIZACAO);
+        atividades1.add(a);
+
         register("cod123", "tituloServico", "descricaoServicoBreve", "descricaoServicoCompleta",
-                "tituloFormulario", listAtributos, keywords, cat);
+                "tituloFormulario", listAtributos, keywords, cat,new FluxoAtividade(atividades1));
 
         Set<Atributo> listAtributos1 = new HashSet<>();
         listAtributos1.add(new Atributo("nomeVariavel1", "label1"));
         Set<String> keywords1 = new HashSet<>();
         keywords1.add("key2");
 
+        /////////////////////////////
+        Calendar dataAux2 = Calendar.getInstance();
+        dataAux.set(1995,6,22);
+        Set<Atividade> atividades2 = new HashSet<>();
+        Set<Atributo> listAtributosAux1 = new HashSet<>();
+        listAtributosAux1.add(new Atributo("nomeVariavel1", "label1"));
+        listAtributosAux1.add(new Atributo("nomeVariavel2", "label2"));
+        listAtributosAux1.add(new Atributo("nomeVariavel3", "label3"));
+        listAtributosAux1.add(new Atributo("nomeVariavel4", "label4"));
+        Formulario form2 = controller.createFormulario("titulo", listAtributosAux1);
+        AtividadeManual a1 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao","comentario",1994,12,12,form2,TipoAtividade.REALIZACAO);
+        atividades2.add(a1);
         register("cod147", "tituloServico1", "descricaoServicoBreve1", "descricaoServicoCompleta1",
-                "tituloFormulario1", listAtributos1, keywords1, cat);
+                "tituloFormulario1", listAtributos1, keywords1, cat,new FluxoAtividade(atividades2));
 
         Set<Atributo> listAtributos2 = new HashSet<>();
         listAtributos2.add(new Atributo("nomeVariavel1", "label1"));
@@ -75,19 +93,28 @@ public class ServicoBootstrapper implements Action {
         list2.add(new Equipa(new CodigoUnico("e2"), new Acronimo("EQP2"), new Designacao("equipa2"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo2"), new Cor(60, 60, 80)), setCol1));
         Catalogo cat2 = new Catalogo(new Titulo("titulo2"), c2, new DescricaoCompletaCatalogo("descricaoCompleta2"), new DescricaoBreve("descricaoBreve2"), new Icone("icone2"), list2, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
 
+        /////////////////////////////
+        Calendar dataAux3 = Calendar.getInstance();
+        dataAux.set(1995,6,1);
+        Set<Atividade> atividades3 = new HashSet<>();
+        Set<Atributo> listAtributosAux2 = new HashSet<>();
+        listAtributosAux2.add(new Atributo("nomeVariavel3", "label3"));
+        Formulario form3 = controller.createFormulario("titulo", listAtributosAux2);
+        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao","comentario",1995,1,06,form3,TipoAtividade.REALIZACAO);
+        atividades3.add(a2);
         register("cod789", "tituloServico2", "descricaoServicoBreve2", "descricaoServicoCompleta2",
-                "tituloFormulario2", listAtributos2, keywords2, cat2);
+                "tituloFormulario2", listAtributos2, keywords2, cat2,new FluxoAtividade(atividades3));
 
         return true;
     }
 
     private void register(final String codigoUnico, final String titulo, final String descricaoBreve,
                           final String descricaoCompleta, final String tituloFormulario, Set<Atributo> listaAtributos,
-                          Set<String> keywords, Catalogo catalogo) {
+                          Set<String> keywords, Catalogo catalogo, FluxoAtividade fluxoAtividade) {
         try {
             Formulario form = controller.createFormulario(tituloFormulario,listaAtributos);
-            Set<Atividade> atividades = new HashSet<>();
-            FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades);
+            //Set<Atividade> atividades1 = new HashSet<>();
+            //FluxoAtividade fluxoAtividade = new FluxoAtividade(atividades1);
             controller.especificarServico(codigoUnico, titulo, descricaoBreve, descricaoCompleta,form,keywords,catalogo,fluxoAtividade);
             LOGGER.info(codigoUnico);
         } catch (final IntegrityViolationException | ConcurrencyException e) {

@@ -28,7 +28,8 @@ public class AtividadeManual extends Atividade{
     @Column(name = "COMENTARIO")
     private Comentario comentario;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="formulario",referencedColumnName = "id")
     private Formulario formulario;
 
     protected AtividadeManual(){

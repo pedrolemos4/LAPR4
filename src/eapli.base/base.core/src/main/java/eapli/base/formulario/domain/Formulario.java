@@ -1,5 +1,6 @@
 package eapli.base.formulario.domain;
 
+import eapli.base.atividades.domain.AtividadeManual;
 import eapli.base.catalogo.domain.Titulo;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -28,6 +29,9 @@ public class Formulario implements AggregateRoot<Long> {
 
     @OneToOne (mappedBy = "formulario")
     private Servico servico;
+
+    @OneToOne (mappedBy = "formulario")
+    private AtividadeManual atividadeManual;
 
     protected Formulario(){
         //ORM
