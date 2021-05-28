@@ -27,7 +27,7 @@ public class ServicosRHCli {
         }
 
         try {
-            sock = new Socket(serverIP, 9999);
+            sock = new Socket(serverIP, 32507);
         } catch(IOException ex) {
             System.out.println("Failed to connect.");
             System.exit(1);

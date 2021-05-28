@@ -5,6 +5,7 @@ import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolu
 import eapli.base.atividades.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -15,6 +16,11 @@ import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,13 +32,53 @@ public class EspecificarServicoUI extends AbstractUI {
 
     private static final int EDITAR_SERVICO = 21;
 
+
+    static InetAddress serverIP;
+    static Socket sock;
+
     @Override
     protected boolean doShow() {
-        especificarServico();
+        try {
+            especificarServico();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
-    private void especificarServico() {
+    private void especificarServico() throws IOException {
+        byte[] data = new byte[258];
+        try {
+            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server: " + "endereçoIp");
+            System.exit(1);
+        }
+
+        try {
+            sock = new Socket(serverIP, 32507);
+        } catch (IOException ex) {
+            System.out.println("Failed to connect.");
+            System.exit(1);
+        }
+        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
+        System.out.println("Connected to server");
+        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
+        //serverConn.start();
+
+        data[0] = 0;
+        data[1] = 3;
+        CodigoUnico cod = new CodigoUnico("cod123");
+        byte[] idArray = cod.toString().getBytes();//pedido.servico().identity().toString().getBytes();
+        data[2] = (byte)idArray.length;
+        for(int i = 0; i<idArray.length;i++){
+            data[i+2] = idArray[i];
+        }
+
+        sOut.write(data);
+
+        // serverConn.join();
+        sock.close();
         final CodigoUnicoDataWidget codigoUnicoData = new CodigoUnicoDataWidget();
         codigoUnicoData.show();
 
