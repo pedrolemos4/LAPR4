@@ -5,6 +5,7 @@ import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.atividades.application.ConsultarTarefasController;
 import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
@@ -55,6 +56,10 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 1: {
                                 listTarefas.clear();
                                 System.out.println("Qual a urgência do pedido que deseja verificar?");
+                                for (UrgenciaPedido u : UrgenciaPedido.values()) {
+                                    System.out.println(u);
+                                }
+                                String r = s.next();
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
@@ -96,6 +101,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 3: {
                                 listTarefas.clear();
                                 System.out.println("Qual a criticidade do pedido que deseja verificar?");
+                                String r2 = s.next();
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
