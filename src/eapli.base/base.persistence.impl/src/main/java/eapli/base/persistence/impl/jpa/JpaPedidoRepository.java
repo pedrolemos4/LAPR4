@@ -99,7 +99,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     public List<Atividade> ordenarCritCrescente(Long identity, String identity2,
                                                 MecanographicNumber identity3, String estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la INNER JOIN Servico s " +
                         "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
                         " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
                         " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
@@ -113,6 +113,38 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     }
 
     public List<Atividade> ordenarCritDecrescente(Long identity, String identity2,
+                                                  MecanographicNumber identity3, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
+                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
+                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
+                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
+                        "ORDER BY p.criticidade DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("identity3", identity3);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarUrgenciaCrescente(Long identity, String identity2,
+                                                  MecanographicNumber identity3, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
+                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
+                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
+                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
+                        "ORDER BY p.criticidade DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("identity3", identity3);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarUrgenciaDecrescente(Long identity, String identity2,
                                                   MecanographicNumber identity3, String estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +

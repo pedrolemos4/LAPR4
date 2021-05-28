@@ -1,3 +1,6 @@
+package HTTP.http_server_ajax_voting;
+
+import HTTP.http_server_chat.HTTPmessage;
 
 import java.io.*;
 import java.net.*;
