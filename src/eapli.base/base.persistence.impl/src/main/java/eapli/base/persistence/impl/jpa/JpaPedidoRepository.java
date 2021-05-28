@@ -60,14 +60,38 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
 
     public List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade fl WHERE" +
-                        " fl.id =:identity AND a.colab =:identity2 AND a.estadoAtividade =:estado AND" +
-                        " a.datalimite BETWEEN :dataI AND :dataF",
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado AND" +
+                        " la.datalimite BETWEEN :dataI AND :dataF",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
         q.setParameter("dataI", dataI);
         q.setParameter("dataF", dataF);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarDataCrescente(Long identity, MecanographicNumber identity2, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado" +
+                        " ORDER BY la.datalimite ASC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarDataDecrescente(Long identity, MecanographicNumber identity2, String estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
+                        " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado" +
+                        " ORDER BY la.datalimite DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("identity2", identity2);
         q.setParameter("estado", estado);
         return q.getResultList();
     }
@@ -131,6 +155,44 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
                         " WHERE ser.codigoUnico =:servicoId",
                 EstadoFluxo.class);
         q.setParameter("servicoId", servicoId);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT count(a) FROM Atividade a JOIN a.colab c " +
+                        " WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado",
+                Long.class);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT count(a) FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
+                        "AND p.dataLimiteResolucao > a.dataLimite",
+                Long.class);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Long getTarefasQueTerminamEmXHora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT count(a) FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
+                        "AND p.dataLimiteResolucao < a.dataLimite + :hours * INTERVAL '1 hour'",
+                Long.class);
+        q.setParameter("hours", hours);
+        q.setParameter("userId", userId);
+        q.setParameter("estado", estado);
         return q.getSingleResult();
     }
 

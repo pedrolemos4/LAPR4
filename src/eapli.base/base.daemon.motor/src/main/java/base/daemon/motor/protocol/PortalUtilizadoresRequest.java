@@ -4,6 +4,7 @@ import eapli.base.atividades.application.AplicacoesController;
 
 public abstract class PortalUtilizadoresRequest {
 
+    //----------------------------------------- LIXO --------------------------------------------
     protected final String request;
     protected final AplicacoesController controller;
 

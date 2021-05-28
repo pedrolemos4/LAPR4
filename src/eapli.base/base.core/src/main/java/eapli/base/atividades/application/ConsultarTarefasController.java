@@ -43,8 +43,8 @@ public class ConsultarTarefasController {
         return null; //repo.ordenarUrgenciaCrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> filtrarData(Long fluxo, Colaborador colab, Calendar dataI, Calendar dataF) {
-        return null; //repo.filtrarData(fluxo, colab.identity(), dataI, dataF, EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarData(FluxoAtividade fluxo, Colaborador colab, Calendar dataI, Calendar dataF) {
+        return repo.filtrarData(fluxo.identity(), colab.identity(), dataI, dataF, EstadoAtividade.PENDENTE.name());
     }
 
     public List<Atividade> filtrarCriticidade(Long fluxo, Colaborador colab) {
@@ -59,12 +59,12 @@ public class ConsultarTarefasController {
         return null; //repo.ordenarUrgenciaDecrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarDataCrescente(Long fluxo, Colaborador colab) {
-        return null; //repo.ordenarDataCrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarDataCrescente(FluxoAtividade fluxo, Colaborador colab) {
+        return repo.ordenarDataCrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarDataDecrescente(Long fluxo, Colaborador colab) {
-        return null; //repo.ordenarDataDecrescente(fluxo, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarDataDecrescente(FluxoAtividade fluxo, Colaborador colab) {
+        return repo.ordenarDataDecrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
     public List<Atividade> ordenarCritCrescente(Long fluxo, String servico, Colaborador colab) {
