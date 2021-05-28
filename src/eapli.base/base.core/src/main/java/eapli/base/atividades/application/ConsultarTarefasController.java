@@ -44,7 +44,7 @@ public class ConsultarTarefasController {
     }
 
     public List<Atividade> filtrarData(FluxoAtividade fluxo, Colaborador colab, Calendar dataI, Calendar dataF) {
-        return repo.filtrarData(fluxo.identity(), colab.identity(), dataI, dataF, EstadoAtividade.PENDENTE.name());
+        return repo.filtrarData(fluxo.identity(), colab, dataI, dataF, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> filtrarCriticidade(FluxoAtividade fluxo, Colaborador colab) {
@@ -60,11 +60,11 @@ public class ConsultarTarefasController {
     }
 
     public List<Atividade> ordenarDataCrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return repo.ordenarDataCrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+        return repo.ordenarDataCrescente(fluxo.identity(), colab, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> ordenarDataDecrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return repo.ordenarDataDecrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+        return repo.ordenarDataDecrescente(fluxo.identity(), colab, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> ordenarCritCrescente(FluxoAtividade fluxo, String servico, Colaborador colab) {

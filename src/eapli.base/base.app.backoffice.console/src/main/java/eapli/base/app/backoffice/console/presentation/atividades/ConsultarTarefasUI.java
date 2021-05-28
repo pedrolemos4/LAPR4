@@ -72,6 +72,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 2: {
                                 listTarefas.clear();
@@ -80,7 +81,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                 String dataI[] = s.next().split("/");
                                 final Calendar data1 = Calendar.getInstance();
                                 data1.set(Integer.parseInt(dataI[0]),Integer.parseInt(dataI[1]),Integer.parseInt(dataI[2]));
-                                System.out.println("Data fim: (yyyy/mm/dd)");
+                                System.out.println("Data fim: (yyyy/mm/dd) ");
                                 String dataF[] = s.next().split("/");
                                 final Calendar data2 = Calendar.getInstance();
                                 data2.set(Integer.parseInt(dataF[0]),Integer.parseInt(dataF[1]),Integer.parseInt(dataF[2]));
@@ -97,6 +98,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 3: {
                                 listTarefas.clear();
@@ -137,7 +139,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                         switch (opc3) {
                             case 1: {
                                 listTarefas.clear();
-                                System.out.println("Lista de tarefas pendentes filtrada:\n");
+                                System.out.println("Lista de tarefas pendentes ordenada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
@@ -149,10 +151,11 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 2: {
                                 listTarefas.clear();
-                                System.out.println("Lista de tarefas pendentes filtrada:\n");
+                                System.out.println("Lista de tarefas pendentes ordenada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
@@ -164,10 +167,11 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 3: {
                                 listTarefas.clear();
-                                System.out.println("Lista de tarefas pendentes filtrada:\n");
+                                System.out.println("Lista de tarefas pendentes ordenada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
@@ -179,10 +183,11 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 4: {
                                 listTarefas.clear();
-                                System.out.println("Lista de tarefas pendentes filtrada:\n");
+                                System.out.println("Lista de tarefas pendentes ordenada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
@@ -194,10 +199,11 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 5: {
                                 listTarefas.clear();
-                                System.out.println("Lista de tarefas pendentes filtrada:\n");
+                                System.out.println("Lista de tarefas pendentes ordenada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);
@@ -209,10 +215,11 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     }
                                     listTarefas.clear();
                                 }
+                                break;
                             }
                             case 6: {
                                 listTarefas.clear();
-                                System.out.println("Lista de tarefas pendentes filtrada:\n");
+                                System.out.println("Lista de tarefas pendentes ordenada:\n");
                                 for (Pedido p : listPedidos) {
                                     Servico servico = this.controller.getServico(p);
                                     FluxoAtividade fluxo = this.controller.getFluxo(servico);

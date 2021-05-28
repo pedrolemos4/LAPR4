@@ -70,7 +70,7 @@ public class Pedido implements AggregateRoot<String> {
         return "Pedido: " +
                 colaborador +
                 ", UrgenciaPedido: " + urgenciaPedido +
-                ", DataLimiteResolucao: " + dataLimiteResolucao +
+                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() +
                 '}';
     }
 

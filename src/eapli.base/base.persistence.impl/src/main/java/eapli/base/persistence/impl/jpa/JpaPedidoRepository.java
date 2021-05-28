@@ -58,11 +58,11 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    public List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado) {
+    public List<Atividade> filtrarData(Long identity, Colaborador identity2, Calendar dataI, Calendar dataF, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
                         " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado AND" +
-                        " la.datalimite BETWEEN :dataI AND :dataF",
+                        " la.dataLimite BETWEEN :dataI AND :dataF",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
@@ -72,11 +72,11 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    public List<Atividade> ordenarDataCrescente(Long identity, MecanographicNumber identity2, String estado) {
+    public List<Atividade> ordenarDataCrescente(Long identity, Colaborador identity2, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
                         " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado" +
-                        " ORDER BY la.datalimite ASC",
+                        " ORDER BY la.dataLimite ASC",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);
@@ -84,11 +84,11 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    public List<Atividade> ordenarDataDecrescente(Long identity, MecanographicNumber identity2, String estado) {
+    public List<Atividade> ordenarDataDecrescente(Long identity, Colaborador identity2, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la WHERE" +
                         " fl.id =:identity AND la.colab =:identity2 AND la.estadoAtividade =:estado" +
-                        " ORDER BY la.datalimite DESC",
+                        " ORDER BY la.dataLimite DESC",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("identity2", identity2);

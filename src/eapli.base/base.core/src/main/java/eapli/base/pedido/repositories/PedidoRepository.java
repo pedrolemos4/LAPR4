@@ -24,11 +24,11 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Servico findPedidoServico(String identity);
 
-    List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado);
+    List<Atividade> filtrarData(Long identity, Colaborador identity2, Calendar dataI, Calendar dataF, EstadoAtividade estado);
 
-    List<Atividade> ordenarDataCrescente(Long identity, MecanographicNumber identity2, String estado);
+    List<Atividade> ordenarDataCrescente(Long identity, Colaborador identity2, EstadoAtividade estado);
 
-    List<Atividade> ordenarDataDecrescente(Long identity, MecanographicNumber identity2, String estado);
+    List<Atividade> ordenarDataDecrescente(Long identity, Colaborador identity2, EstadoAtividade estado);
 
     List<Atividade> ordenarCritCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
