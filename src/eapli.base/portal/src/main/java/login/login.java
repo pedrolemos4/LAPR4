@@ -10,11 +10,9 @@ import eapli.base.usermanagement.domain.BasePasswordPolicy;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
+import http.server.HttpChatConsumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.net.InetAddress;
-import java.net.ServerSocket;
 
 
 public class login  extends BaseApplication {
@@ -39,7 +37,8 @@ public class login  extends BaseApplication {
             final var menu = new MainMenu();
             //Server Creation Here
             try {
-                ServerSocket socket = new ServerSocket(9090, 0, InetAddress.getByName(null));
+                //ServerSocket socket = new ServerSocket(9090, 0, InetAddress.getByName(null));
+                new HttpChatConsumer().execute("localhost","9090");
                 menu.mainLoop();
             }catch (Exception e){
                 LOGGER.error("Impossivel estabelecer ligação com o servidor");

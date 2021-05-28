@@ -1,5 +1,9 @@
-import java.io.*;
-import java.net.*;
+package http.server;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  *

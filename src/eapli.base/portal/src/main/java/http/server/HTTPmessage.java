@@ -1,3 +1,4 @@
+package http.server;
 
 import java.io.*;
 
@@ -58,7 +59,7 @@ public class HTTPmessage {
     private byte[] content;
     
     /**
-     * Creates a new HTTPmessage by receiving it from an DataInputStream
+     * Creates a new sercer.HTTPmessage by receiving it from an DataInputStream
      * @param in 
      * @throws IOException
      */

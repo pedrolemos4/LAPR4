@@ -1,31 +1,36 @@
-import java.io.*; 
-import java.net.*; 
+package http.server;
 
-class HttpChatConsumer {    
+import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class HttpChatConsumer {
 	private static InetAddress serverIP;
 	private static int serverPort;
 	public static boolean userExit;
 	
-	public static void main(String args[]) throws Exception {
+	public void execute(String address, String gate) throws Exception {
 		String nickName, textLine;
 
-		if(args.length!=2) {
+		if(address.isEmpty() || gate.isEmpty()) {
             		System.out.println("Server address and port number required at command line.");
             		System.out.println("Usage: java HttpChatConsumer {SERVER-ADDRESS} {SERVER-PORT-NUMBER}");
             		System.exit(1);
             	}
 
-		try { serverIP = InetAddress.getByName(args[0]); }
+		try { serverIP = InetAddress.getByName(address); }
 		catch(UnknownHostException ex) {
-   			System.out.println("Invalid SERVER-ADDRESS: " + args[0]);
+   			System.out.println("Invalid SERVER-ADDRESS: " + address);
     			System.exit(1); }
 
-		try { serverPort = Integer.parseInt(args[1]); }
+		try { serverPort = Integer.parseInt(gate); }
 		catch(NumberFormatException ex) {
-			System.out.println("Invalid SERVER-PORT-NUMBER: " + args[1]);
+			System.out.println("Invalid SERVER-PORT-NUMBER: " + gate);
 			System.exit(1);
 			}
-
+		System.out.println("Connected to " + serverIP);
+/*
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.print("Enter your nickname: ");
@@ -55,6 +60,8 @@ class HttpChatConsumer {
 		}
 		msgF.abort();
 		msgF.join();
+
+ */
 	} 
 
 	private static boolean postMessage(String msg) {
