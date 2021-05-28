@@ -4,7 +4,6 @@ import eapli.base.atividades.application.AplicacoesController;
 import eapli.base.atividades.domain.EstadoFluxo;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.pedido.application.SolicitarServicoController;
 
 public class FluxoRequest extends AplicacoesRequest {
 
@@ -32,7 +31,7 @@ public class FluxoRequest extends AplicacoesRequest {
         try {
             user = MecanographicNumber.valueOf(userid);
         } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Invalid user name");
+            return buildBadRequest("Invalid user id");
         }
 
         // execution
@@ -41,7 +40,7 @@ public class FluxoRequest extends AplicacoesRequest {
             // response
             return buildResponse(token);
         } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Unknown servico and/or user name");
+            return buildBadRequest("Unknown servico and/or user id");
         } catch (final Exception e) {
             // we should be careful about exposing the Exception to the outside!
             return buildServerError(e.getMessage());

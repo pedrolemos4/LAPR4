@@ -6,7 +6,9 @@ import org.apache.logging.log4j.Logger;
 
 @Utility
 public class PortalUtilizadoresMessageParser {
-    // estatisticas todas da dashboard, criar um controller para esta porcaria toda
+
+    //----------------------------------------- LIXO --------------------------------------------
+
     private static final Logger LOGGER = LogManager.getLogger(PortalUtilizadoresMessageParser.class);
 
     /*private static BookAMealForADayController controller;
