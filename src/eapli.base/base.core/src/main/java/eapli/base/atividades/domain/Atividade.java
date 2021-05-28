@@ -17,6 +17,7 @@ public class Atividade implements ValueObject{
     private long id;
 
     @Column(name="DATALIMITE")
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataLimite;
 
     @Column(name="ESTADOATIVIDADE")

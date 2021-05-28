@@ -9,7 +9,7 @@ skinparam shadowing false
 
 class FluxoAtividade
 class CatalogoRepository
-class FormularioRepository
+class Formulario
 class ServicoBootstrapper
 class EspecificarServicoController
 class ServicoRepository
@@ -17,14 +17,14 @@ class Servico
 
 ServicoBootstrapper -> FluxoAtividade
 ServicoBootstrapper -> CatalogoRepository
-ServicoBootstrapper -> FormularioRepository
+ServicoBootstrapper -> Formulario
 ServicoBootstrapper -> EspecificarServicoController
 
 EspecificarServicoController -> Servico
 EspecificarServicoController -> ServicoRepository
 
 CatalogoRepository : getCatalogo()
-FormularioRepository : getFormulario()
+Formulario : create()
 FluxoAtividade : create()
 EspecificarServicoController : especificarServico()
 Servico : create()

@@ -8,11 +8,13 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
@@ -24,15 +26,19 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Servico findPedidoServico(String identity);
 
-    List<Atividade> filtrarData(Long identity, MecanographicNumber identity2, Calendar dataI, Calendar dataF, String estado);
+    List<Atividade> filtrarData(Long identity, Colaborador identity2, Calendar dataI, Calendar dataF, EstadoAtividade estado);
 
-    List<Atividade> ordenarDataCrescente(Long identity, MecanographicNumber identity2, String estado);
+    List<Atividade> ordenarDataCrescente(Long identity, Colaborador identity2, EstadoAtividade estado);
 
-    List<Atividade> ordenarDataDecrescente(Long identity, MecanographicNumber identity2, String estado);
+    List<Atividade> ordenarDataDecrescente(Long identity, Colaborador identity2, EstadoAtividade estado);
 
     List<Atividade> ordenarCritCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
     List<Atividade> ordenarCritDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
+
+    List<Atividade> ordenarUrgenciaCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
+
+    List<Atividade> ordenarUrgenciaDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
     Atividade getTarefaById(int idAtividade);
 
@@ -44,5 +50,11 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado);
 
-    Long getTarefasQueTerminamEmXHora(MecanographicNumber userId, EstadoAtividade estado, int hours);
+    Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours);
+
+    List<Atividade> getTarefasUrgenciaReduzida(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida);
+
+    List<Atividade> getTarefasUrgenciaUrgente(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaUrgente);
+
+    List<Atividade> getTarefasUrgenciaModerada(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaModerada);
 }

@@ -11,7 +11,7 @@ participant ServicoBootstrapper as Bootstrapper
 
 participant FluxoAtividade as FluxoAtividade
 participant CatalogoRepository as CRepository 
-participant FormularioRepository as FRepository 
+participant Formulario as FRepository 
 participant EspecificarServicoController as Controller
 participant ServicoRepository as SRepository 
 participant Servico as Servico
@@ -22,7 +22,7 @@ Bootstrapper -> CRepository : catalogo=getCatalogo()
 activate CRepository
 deactivate CRepository
 
-Bootstrapper -> FRepository : formulario=getFormulario()
+Bootstrapper -> FRepository : formulario=create()
 activate FRepository
 deactivate FRepository
 
