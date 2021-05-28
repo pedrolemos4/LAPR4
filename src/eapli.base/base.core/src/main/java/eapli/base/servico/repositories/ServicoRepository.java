@@ -1,5 +1,6 @@
 package eapli.base.servico.repositories;
 
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
@@ -40,5 +41,9 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
     Iterable<Servico> findServicoByDescricaoBreveDescricaoCompleta(String descricaoBreve, String descricaoCompleta);
 
     Iterable<Servico> findServicoTodos(String titulo, Set<String> keywords, String descricaoBreve, String descricaoCompleta);
+
+    FluxoAtividade findFluxo(CodigoUnico cod);
+
+    Servico findServico(CodigoUnico cod);
 
 }

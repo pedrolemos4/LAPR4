@@ -54,4 +54,8 @@ public class Atividade implements ValueObject{
         AtividadeManual manual = (AtividadeManual) idAtividade;
         manual.adicionaColaborador(colab);
     }
+
+    public TipoAtividade tipoAtividade() {
+        return tipoAtividade;
+    }
 }

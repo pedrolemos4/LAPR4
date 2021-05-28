@@ -140,6 +140,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.fluxoAtividade.adicionaColaborador(colab, idAtividade);
     }
 
+    public void alterarEstadoFluxo(FluxoAtividade fluxoAtividade){
+        this.fluxoAtividade=fluxoAtividade;
+    }
+
     public static class ServicoBuilder {
 
         private final CodigoUnico codigoUnico;
