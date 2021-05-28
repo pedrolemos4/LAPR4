@@ -1,4 +1,3 @@
-package HTTP.http_server_ajax_voting;
 
 import java.io.*;
 

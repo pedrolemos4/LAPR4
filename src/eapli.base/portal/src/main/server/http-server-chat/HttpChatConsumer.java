@@ -1,29 +1,28 @@
-package HTTP.http_server_chat;
-
-import java.io.*;
+import java.io.*; 
 import java.net.*; 
 
-public class HttpChatConsumer {
+class HttpChatConsumer {    
 	private static InetAddress serverIP;
 	private static int serverPort;
 	public static boolean userExit;
 	
-	public static void execute(String serverAddress,String porta) throws Exception {
+	public static void main(String args[]) throws Exception {
 		String nickName, textLine;
 
-		if(serverAddress.isEmpty() || porta.isEmpty()) {
-            		System.out.println("Invalid serverAddress or porta");
+		if(args.length!=2) {
+            		System.out.println("Server address and port number required at command line.");
+            		System.out.println("Usage: java HttpChatConsumer {SERVER-ADDRESS} {SERVER-PORT-NUMBER}");
             		System.exit(1);
             	}
 
-		try { serverIP = InetAddress.getByName(serverAddress); }
+		try { serverIP = InetAddress.getByName(args[0]); }
 		catch(UnknownHostException ex) {
-   			System.out.println("Invalid SERVER-ADDRESS: " + serverAddress);
+   			System.out.println("Invalid SERVER-ADDRESS: " + args[0]);
     			System.exit(1); }
 
-		try { serverPort = Integer.parseInt(porta); }
+		try { serverPort = Integer.parseInt(args[1]); }
 		catch(NumberFormatException ex) {
-			System.out.println("Invalid SERVER-PORT-NUMBER: " + porta);
+			System.out.println("Invalid SERVER-PORT-NUMBER: " + args[1]);
 			System.exit(1);
 			}
 

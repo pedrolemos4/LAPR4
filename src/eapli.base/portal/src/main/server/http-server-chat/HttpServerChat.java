@@ -1,5 +1,3 @@
-package HTTP.http_server_chat;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;

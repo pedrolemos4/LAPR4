@@ -1,6 +1,5 @@
 package login;
 
-import HTTP.http_server_chat.HttpChatConsumer;
 import eapli.base.app.backoffice.console.presentation.MainMenu;
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
@@ -13,6 +12,9 @@ import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.net.InetAddress;
+import java.net.ServerSocket;
 
 
 public class login  extends BaseApplication {
@@ -37,7 +39,7 @@ public class login  extends BaseApplication {
             final var menu = new MainMenu();
             //Server Creation Here
             try {
-                HttpChatConsumer.execute("serverIP", "32507");
+                ServerSocket socket = new ServerSocket(9090, 0, InetAddress.getByName(null));
                 menu.mainLoop();
             }catch (Exception e){
                 LOGGER.error("Impossivel estabelecer ligação com o servidor");
