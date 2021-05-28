@@ -11,10 +11,16 @@ public class FluxoRequest extends AplicacoesRequest {
     private final int userid;
 
     public FluxoRequest(final AplicacoesController controller, final String request, final String servicoId,
-                        final String user){
+                        final String user) {
         super(controller, request);
         this.servicoId = servicoId;
         this.userid = Integer.parseInt(user);
+    }
+
+    public FluxoRequest(final AplicacoesController controller, final String request, final String servicoId) {
+        super(controller, request);
+        this.servicoId = servicoId;
+        this.userid = 0;
     }
 
     @Override

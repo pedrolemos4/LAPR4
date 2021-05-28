@@ -1,5 +1,9 @@
 package base.daemon.motor.presentation;
 
+import base.daemon.motor.protocol.AplicacoesMessageParser;
+import base.daemon.motor.protocol.AplicacoesRequest;
+import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.servico.repositories.ServicoRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +18,8 @@ public class MotorServer {
 
     private static HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
 
+    private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
+
     public static synchronized void addCli(Socket s) throws Exception {
         cliList.put(s, new DataOutputStream(s.getOutputStream()));
     }
@@ -22,6 +28,12 @@ public class MotorServer {
         cliList.get(s).write(0);
         cliList.remove(s);
         s.close();
+    }
+
+    public static synchronized void controlFLuxo(int nChars, byte[] data) throws Exception {
+        String idServico = new String(data, 3, nChars);
+        //criar Código Unico aqui?
+        //ir buscar serviço e depois o fluxo
     }
 
     private static ServerSocket sock;
@@ -56,23 +68,46 @@ public class MotorServer {
         @Override
         public void run() {
             int nChars;
-            byte[] data = new byte[300];
+            byte[] data = new byte[258];
 
-            try {
-                sIn = new DataInputStream(myS.getInputStream());
-                // while(true) {
-                nChars = sIn.read();
-                nChars = sIn.read();
-                nChars = sIn.read();
-                //if(nChars==0) break; // empty line means client wants to exit
-                sIn.read(data, 3, nChars);
-                //TcpChatSrv.sendToAll(nChars,data);
-                //}
-                // the client wants to exit
-                //TcpChatSrv.remCli(myS);
-            } catch (Exception ex) {
-                System.out.println("Error");
+            try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
+                 /*BufferedReader in = new BufferedReader(new InputStreamReader(myS.getInputStream()))*/
+                    DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
+
+                //String inputLine;
+                //while ((inputLine = in.readLine()) != null) {
+                sIn.read(data);
+                LOGGER.trace("Received message:----\n{}\n----", data);
+                String inputLine = new String (data,2,(int)data[3]);
+                int id = (int) data[1];
+                System.out.println(id);
+                System.out.println(inputLine);
+                final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine,id);
+                final String response = request.execute();
+                out.println(response);
+                LOGGER.trace("Sent message:----\n{}\n----", response);
+                if (request.isGoodbye()) {
+                  //  break;
+                    //  }
+                }
+            } catch (final IOException e) {
+                LOGGER.error(e);
+            } finally {
+                try {
+                    myS.close();
+                } catch (final IOException e) {
+                    LOGGER.error("While closing the client socket", e);
+                }
             }
+            //if(nChars==0) break; // empty line means client wants to exit
+            //TcpChatSrv.sendToAll(nChars,data);
+            //}
+            // the client wants to exit
+            //TcpChatSrv.remCli(myS);
+            /*} catch (
+                    Exception ex) {
+                System.out.println("Error");
+            }*/
         }
     }
         /*@Override

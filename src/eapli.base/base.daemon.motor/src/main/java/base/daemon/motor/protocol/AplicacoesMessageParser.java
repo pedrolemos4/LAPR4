@@ -48,16 +48,15 @@ public class AplicacoesMessageParser {
      * @param inputLine
      * @return
      */
-    public static AplicacoesRequest parse(final String inputLine) {
+    public static AplicacoesRequest parse(final String inputLine, final int id) {
         // as a fallback make sure we return unknown
         AplicacoesRequest request = new UnknownRequest(inputLine);
 
         // parse to determine which type of request and if it is sintactally valid
-        String[] tokens;
+        //String[] tokens;
         try {
-            tokens = CsvLineMarshaler.tokenize(inputLine).toArray(new String[0]);
-            if ("GET_AVAILABLE_MEALS".equals(tokens[0])) {
-                //request = parseGetAvailableMeals(inputLine, tokens);
+            if (3 == id) {//.equals(tokens[1])){
+                request = parseControlFluxo(inputLine);
             } else if ("4".equals(tokens[1])) {
                 request = parseGetFluxo(inputLine, tokens);
             } else if ("5".equals(tokens[1])) {
@@ -68,6 +67,21 @@ public class AplicacoesMessageParser {
             request = new ErrorInRequest(inputLine, "Unable to parse request");
         }
 
+        return request;
+    }
+
+    private static AplicacoesRequest parseControlFluxo(String inputLine) {
+        AplicacoesRequest request;
+        int numberOfData = Integer.parseInt(tokens[2]);
+        if (numberOfData != 0) {
+            if (tokens.length != 4) {
+                request = new ErrorInRequest(inputLine, "Wrong number of parameters");
+            } else {
+                request = new FluxoRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[3]));
+            }
+        } else {
+            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
+        }
         return request;
     }
 
