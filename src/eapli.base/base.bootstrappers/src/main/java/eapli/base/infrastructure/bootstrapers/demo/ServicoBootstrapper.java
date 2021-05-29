@@ -52,7 +52,9 @@ public class ServicoBootstrapper implements Action {
         listAtributosAux.add(new Atributo("nomeVariavel1", "label1"));
         listAtributosAux.add(new Atributo("nomeVariavel2", "label2"));
         Formulario form1 = controller.createFormulario("titulo", listAtributosAux);
-        AtividadeManual a = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao","comentario", 1995,12,05,form1,TipoAtividade.REALIZACAO);
+        AtividadeAutomatica a = controller.novaAtividadeAutomatica(1995,02,02);
+        AtividadeManual aa = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao","comentario", 1995,12,05,form1,TipoAtividade.REALIZACAO);
+        atividades1.add(aa);
         atividades1.add(a);
 
         register("cod123", "tituloServico", "descricaoServicoBreve", "descricaoServicoCompleta",
