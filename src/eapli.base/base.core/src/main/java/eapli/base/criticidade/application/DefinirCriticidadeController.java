@@ -27,7 +27,7 @@ public class DefinirCriticidadeController {
         Objetivo objetivo = new Objetivo(tempoMaximoAprov, tempoMedioAprov,tempoMaximoRes,tempoMedioRes);
         Etiqueta e = new Etiqueta(etiqueta);
         Escala esc = new Escala(escala);
-        Cor c = new Cor(cor.getRed(),cor.getGreen(),cor.getBlue()/*red, green, blue*/);
+        Cor c = new Cor(cor.getRed(),cor.getGreen(),cor.getBlue());
         Designacao desig = new Designacao(designacao);
 
         final Criticidade criticidade = new Criticidade(e, esc, desig, objetivo, c);

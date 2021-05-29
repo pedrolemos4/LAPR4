@@ -54,8 +54,6 @@ public class ConsultarTarefasController {
     }
 
     public List<Atividade> filtrarData(Colaborador colab, Calendar dataI, Calendar dataF) {
-        System.out.println(dataI.getTime());
-        System.out.println(dataF.getTime());
         return repo.filtrarData(colab, dataI, dataF, EstadoAtividade.PENDENTE);
     }
 
