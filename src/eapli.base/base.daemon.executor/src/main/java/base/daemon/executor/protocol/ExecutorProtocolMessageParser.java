@@ -20,20 +20,14 @@
  */
 package base.daemon.executor.protocol;
 
-import base.daemon.executor.application.ExecutorTarefaAutomaticaController;
-import base.daemon.executor.application.ExecutorTarefaAutomaticaControllerImp;
-import eapli.framework.csv.util.CsvLineMarshaler;
 import eapli.framework.util.Utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.text.ParseException;
 
 /**
  * The message parser for the Booking protocol.
  *
  * @author Paulo Gandra Sousa 01/06/2020
- *
  */
 @Utility
 public class ExecutorProtocolMessageParser {
@@ -41,33 +35,8 @@ public class ExecutorProtocolMessageParser {
     private static final Logger LOGGER = LogManager.getLogger(ExecutorProtocolMessageParser.class);
     private static final int TAREFA_AUTOMATICA = 10;
 
-    private static ExecutorTarefaAutomaticaController controller;
-
     private ExecutorProtocolMessageParser() {
         // avoid instantiation
-    }
-
-    /**
-     * To inject a different controller for testing purposes.
-     *
-     * @param controller
-     */
-
-     /*package*/ public static void injectController(final ExecutorTarefaAutomaticaController controller) {
-        synchronized (lock) {
-            ExecutorProtocolMessageParser.controller = controller;
-        }
-    }
-
-    private static final Object lock = new Object();
-
-    private static ExecutorTarefaAutomaticaController getController() {
-        synchronized (lock) {
-            if (ExecutorProtocolMessageParser.controller != null) {
-                return ExecutorProtocolMessageParser.controller;
-            }
-        }
-        return new ExecutorTarefaAutomaticaControllerImp();
     }
 
     /**
@@ -76,40 +45,31 @@ public class ExecutorProtocolMessageParser {
      * @param inputLine
      * @return
      */
-    public static ExecutorProtocolRequest parse(final String inputLine) {
-        // as a fallback make sure we return unknown
+    public static ExecutorProtocolRequest parse(final String inputLine, final int codigo) {
         ExecutorProtocolRequest request = new UnknownRequest(inputLine);
 
-        // parse to determine which type of request and if it is sintactally valid
-        String[] tokens;
-        try {
-            tokens = CsvLineMarshaler.tokenize(inputLine).toArray(new String[0]);
-            if (TAREFA_AUTOMATICA==(Integer.parseInt(tokens[1]))) { //verifica o codigo
-                request = parseBookAMeal(inputLine, tokens);
-            }
-        } catch (final ParseException e) {
-            LOGGER.info("Unable to parse request: {}", inputLine);
-            request = new ErrorInRequest(inputLine, "Unable to parse request");
+        if (TAREFA_AUTOMATICA == codigo) { //verifica o codigo
+            request = TarefaAutomatica(inputLine);
         }
+
 
         return request;
     }
 
-    private static ExecutorProtocolRequest parseBookAMeal(final String inputLine, final String[] tokens) {
-        ExecutorProtocolRequest request;
-        if (tokens.length != 4) {
+    private static ExecutorProtocolRequest TarefaAutomatica(final String inputLine) {
+        /*if (tokens.length != 4) {
             request = new ErrorInRequest(inputLine, "Wrong number of parameters");
         } else if (isStringParam(tokens[1])) {
             request = new ErrorInRequest(inputLine, "meal id must not be inside quotes");
         } else if (!isStringParam(tokens[2])) {
             request = new ErrorInRequest(inputLine, "user id must be inside quotes");
-        } else {
-            request = new ExecutorTarefaAutomatica(getController(), inputLine, CsvLineMarshaler.unquote(tokens[3]));
-        }
+        } else {*/
+        ExecutorProtocolRequest request = new ExecutorTarefaAutomatica(inputLine);
+        //}
         return request;
     }
 
-    private static boolean isStringParam(final String string) {
+    /*private static boolean isStringParam(final String string) {
         return string.length() >= 2 && string.charAt(0) == '"' && string.charAt(string.length() - 1) == '"';
-    }
+    }*/
 }

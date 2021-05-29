@@ -20,49 +20,32 @@
  */
 package base.daemon.executor.protocol;
 
-import base.daemon.executor.application.ExecutorTarefaAutomaticaController;
-import eapli.base.atividades.domain.Script;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
-/**
- *
- * @author Paulo Gandra Sousa 01/06/2020
- *
- */
+
 public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
 
-    private final String tarefaAutomaticaId;
-
-    public ExecutorTarefaAutomatica(final ExecutorTarefaAutomaticaController controller, final String request, final String tarefaAutomaticaId) {
-        super(controller, request);
-        this.tarefaAutomaticaId = tarefaAutomaticaId;
+    public ExecutorTarefaAutomatica(final String request) {
+        super(request);
     }
 
     @Override
     public String execute() {
-        // semantic validation
-        Long tarefaAutomaticaIdAux;
+       // execution
         try {
-            tarefaAutomaticaIdAux = Long.valueOf(tarefaAutomaticaId);
-        } catch (final NumberFormatException e) {
-            return buildBadRequest("Invalid tarefa automatica id");
-        }
-
-        // execution
-        try {
-            final Script script = controller.getScriptTarefaAutomatica(tarefaAutomaticaIdAux);//verificar se existe
-            //executar o script
-            // response
-            //return buildResponse(token);
-        } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Unknown meal and/or user mec. number");
+            executarScript(request);
         } catch (final Exception e) {
-            // we should be careful about exposing the Exception to the outside!
             return buildServerError(e.getMessage());
         }
         return null; //retirar
     }
 
-    /*private String buildResponse(final BookingToken token) {
-        return "BOOKED, \"" + token + "\"\n";
-    }*/
+    private void executarScript(final String input) throws FileNotFoundException {
+        Scanner ler = new Scanner(new File(input));
+        ler.nextLine();
+        System.out.println("A executar o script");
+    }
+
 }
