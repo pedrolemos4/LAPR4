@@ -41,11 +41,6 @@ public class DefinirCriticidadeController {
         return contRepo.save(contrato);
     }
 
-    public boolean saveCriticidade(Criticidade c) {
-            criticidadeRepo.save(c);
-            return true;
-    }
-
     public void registarCriticidade(Etiqueta etiqueta, Escala escala, Designacao designacao, Objetivo objetivo, Cor cor) {
         Criticidade c = new Criticidade(etiqueta,escala,designacao,objetivo,cor);
         criticidadeRepo.save(c);
