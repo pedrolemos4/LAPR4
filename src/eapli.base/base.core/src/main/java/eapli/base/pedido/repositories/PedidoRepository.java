@@ -36,6 +36,10 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Atividade> ordenarDataDecrescente(Colaborador identity, EstadoAtividade estado);
 
+    List<Atividade> ordenarEscalaCrescente(Colaborador identity, EstadoAtividade estado);
+
+    List<Atividade> ordenarEscalaDecrescente(Colaborador identity, EstadoAtividade estado);
+
     Atividade getTarefaById(int idAtividade);
 
     Pedido getPedidoByTarefa(int idAtividade);

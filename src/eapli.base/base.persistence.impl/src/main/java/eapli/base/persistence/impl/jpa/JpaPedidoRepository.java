@@ -47,6 +47,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     }
 
     public List<Atividade> filtrarData(Colaborador identity, Calendar dataI, Calendar dataF, EstadoAtividade estado) {
+        System.out.println(dataI.getTime());
+        System.out.println(dataF.getTime());
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a WHERE a.colab =: identity " +
@@ -111,6 +113,28 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
                 "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a WHERE a.colab =: identity " +
                         "AND a.estadoAtividade =:estado ORDER BY a.dataLimite DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarEscalaCrescente(Colaborador identity, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade a WHERE a.colab =:identity " +
+                        "AND a.estadoAtividade =:estado ORDER BY crit.escala ASC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> ordenarEscalaDecrescente(Colaborador identity, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade a WHERE a.colab =:identity " +
+                        "AND a.estadoAtividade =:estado ORDER BY crit.escala DESC",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);

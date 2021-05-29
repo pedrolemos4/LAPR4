@@ -19,7 +19,6 @@ public class ConsultarTarefasUI extends AbstractUI {
     protected boolean doShow() {
         Scanner s = new Scanner(System.in);
         final Colaborador colab = this.controller.getUser();
-        final Iterable<Pedido> listPedidos = this.controller.listPedidos();
         final List<Atividade> listTarefas = new ArrayList<>();
 
         int opc, opc2, opc3;
@@ -73,11 +72,11 @@ public class ConsultarTarefasUI extends AbstractUI {
                                 System.out.println("Data inicio: (yyyy/mm/dd)");
                                 String dataI[] = s.next().split("/");
                                 final Calendar data1 = Calendar.getInstance();
-                                data1.set(Integer.parseInt(dataI[0]),Integer.parseInt(dataI[1]),Integer.parseInt(dataI[2]), 0, 0,0);
+                                data1.set(Integer.parseInt(dataI[0]),Integer.parseInt(dataI[1])-1,Integer.parseInt(dataI[2]), 0, 0,0);
                                 System.out.println("Data fim: (yyyy/mm/dd)");
                                 String dataF[] = s.next().split("/");
                                 final Calendar data2 = Calendar.getInstance();
-                                data2.set(Integer.parseInt(dataF[0]),Integer.parseInt(dataF[1]),Integer.parseInt(dataF[2]),0,0,0);
+                                data2.set(Integer.parseInt(dataF[0]),Integer.parseInt(dataF[1])-1,Integer.parseInt(dataF[2]),0,0,0);
 
                                 System.out.println("Lista de tarefas pendentes filtrada: \n");
                                 listTarefas.clear();
@@ -106,6 +105,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                                     System.out.println(a.toString() + "\n" + p.toString());
                                     System.out.println();
                                 }
+                                break;
                             }
                             case 4: {
                                 listTarefas.clear();
@@ -201,11 +201,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 5: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 1));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 2));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 3));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 4));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 5));
+                                listTarefas.addAll(this.controller.ordenarEscalaCrescente(colab));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -217,11 +213,7 @@ public class ConsultarTarefasUI extends AbstractUI {
                             case 6: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 5));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 4));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 3));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 2));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 1));
+                                listTarefas.addAll(this.controller.ordenarEscalaDecrescente(colab));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
