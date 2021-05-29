@@ -10,6 +10,7 @@ import eapli.base.infrastructure.persistence.PersistenceContext;
 
 
 public final class MotorDaemon {
+
     private static final int PORT = 32507;
 
     private static final Logger LOGGER = LogManager.getLogger(MotorDaemon.class);
