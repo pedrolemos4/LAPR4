@@ -6,6 +6,7 @@ import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 
@@ -35,16 +36,25 @@ public class ConsultarTarefasController {
         return this.repo2.findEmailColaborador(email);
     }
 
-    public List<Atividade> tarefasPendentes(FluxoAtividade fluxo, Colaborador colab) {
-        return repo.findTarefasServico(fluxo.identity(), colab, EstadoAtividade.PENDENTE);
+    public List<Atividade> tarefasPendentes(Colaborador colab) {
+        return repo.findTarefasServico(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> filtrarUrgencia(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarUrgenciaCrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarUrgencia(Colaborador colab, String urgencia) {
+        if(urgencia.compareToIgnoreCase("URGENTE") == 0){
+            return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, UrgenciaPedido.URGENTE);
+        }
+        if(urgencia.compareToIgnoreCase("MODERADA") == 0){
+            return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, UrgenciaPedido.MODERADA);
+        }
+        if(urgencia.compareToIgnoreCase("REDUZIDA") == 0){
+            return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, UrgenciaPedido.REDUZIDA);
+        }
+        return null;
     }
 
-    public List<Atividade> filtrarData(FluxoAtividade fluxo, Colaborador colab, Calendar dataI, Calendar dataF) {
-        return repo.filtrarData(fluxo.identity(), colab, dataI, dataF, EstadoAtividade.PENDENTE);
+    public List<Atividade> filtrarData(Colaborador colab, Calendar dataI, Calendar dataF) {
+        return repo.filtrarData(colab, dataI, dataF, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> filtrarCriticidade(FluxoAtividade fluxo, Colaborador colab) {
@@ -59,12 +69,12 @@ public class ConsultarTarefasController {
         return null; //repo.ordenarUrgenciaDecrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
     }
 
-    public List<Atividade> ordenarDataCrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return repo.ordenarDataCrescente(fluxo.identity(), colab, EstadoAtividade.PENDENTE);
+    public List<Atividade> ordenarDataCrescente(Colaborador colab) {
+        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarDataDecrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return repo.ordenarDataDecrescente(fluxo.identity(), colab, EstadoAtividade.PENDENTE);
+    public List<Atividade> ordenarDataDecrescente(Colaborador colab) {
+        return repo.ordenarDataDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> ordenarCritCrescente(FluxoAtividade fluxo, String servico, Colaborador colab) {
@@ -88,4 +98,7 @@ public class ConsultarTarefasController {
         return ls;
     }
 
+    public Pedido getPedidoByAtividade(Atividade a) {
+        return repo.getPedidoByAtividade(a.identity());
+    }
 }
