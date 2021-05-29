@@ -47,7 +47,7 @@ public class EspecificarServicoUI extends AbstractUI {
     }
 
     private void especificarServico() throws IOException {
-        /*byte[] data = new byte[258];
+        byte[] data = new byte[258];
         try {
             serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
         } catch (UnknownHostException ex) {
@@ -78,7 +78,7 @@ public class EspecificarServicoUI extends AbstractUI {
         sOut.write(data);
 
         // serverConn.join();
-        sock.close();*/
+        sock.close();
         final CodigoUnicoDataWidget codigoUnicoData = new CodigoUnicoDataWidget();
         codigoUnicoData.show();
 

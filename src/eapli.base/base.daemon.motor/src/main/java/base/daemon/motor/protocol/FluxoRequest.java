@@ -17,8 +17,9 @@ public class FluxoRequest extends AplicacoesRequest{
     @Override
     public String execute() {
         try{
-            Servico servico = controller.findServico(request);
-            FluxoAtividade fluxo = controller.getFluxoAtividade(request);
+            String id = request.trim();
+            Servico servico = controller.findServico(id);
+            FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             for(Atividade atividade : fluxo.atividades()){
                 if(atividade instanceof AtividadeManual){
                     if(atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)){

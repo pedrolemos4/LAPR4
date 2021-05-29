@@ -185,16 +185,16 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     @Override
     public FluxoAtividade findFluxo(CodigoUnico cod) {
         final TypedQuery<FluxoAtividade> q = createQuery(
-                "SELECT e.formulario FROM Servico e WHERE e.codigoUnico=:cod",FluxoAtividade.class);
-        q.setParameter("codigoUnico",cod);
+                "SELECT e.fluxoAtividade FROM Servico e WHERE e.codigoUnico=:cod",FluxoAtividade.class);
+        q.setParameter("cod",cod);
         return  q.getSingleResult();
     }
 
     @Override
     public Servico findServico(CodigoUnico cod) {
         final TypedQuery<Servico> q = createQuery(
-                "SELECT e FROM Servico e WHERE e.codigoUnico=:cod",Servico.class);
-        q.setParameter("codigoUnico",cod);
+                "SELECT e FROM Servico e WHERE e.codigoUnico = :cod",Servico.class);
+        q.setParameter("cod",cod);
         return q.getSingleResult();
     }
 
