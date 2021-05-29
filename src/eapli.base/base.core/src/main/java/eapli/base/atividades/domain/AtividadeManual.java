@@ -12,10 +12,6 @@ import java.util.Set;
 @DiscriminatorColumn(name = "AtividadeManual")
 public class AtividadeManual extends Atividade{
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
     @OneToOne
     private Colaborador colab;
 
@@ -60,14 +56,6 @@ public class AtividadeManual extends Atividade{
     public String toString() {
         return super.toString();
     }
-
-    public void setId(Long id) {
-            this.id = id;
-        }
-
-    public Long getId() {
-            return id;
-        }
 
     public void adicionaColaborador(Colaborador colab) {
         this.colab = colab;

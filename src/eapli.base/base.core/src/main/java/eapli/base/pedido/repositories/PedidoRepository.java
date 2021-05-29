@@ -20,23 +20,25 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade);
 
-    List<Atividade> findTarefasServico(Long identity, Colaborador identity2, EstadoAtividade estado);
+    List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado);
 
     FluxoAtividade findFluxoServico(CodigoUnico identity);
 
     Servico findPedidoServico(String identity);
 
-    List<Atividade> filtrarData(Long identity, Colaborador identity2, Calendar dataI, Calendar dataF, EstadoAtividade estado);
+    List<Atividade> filtrarData(Colaborador identity, Calendar dataI, Calendar dataF, EstadoAtividade estado);
 
-    List<Atividade> ordenarDataCrescente(Long identity, Colaborador identity2, EstadoAtividade estado);
+    List<Atividade> filtrarUrgencia(Colaborador identity, EstadoAtividade estado, UrgenciaPedido urg);
 
-    List<Atividade> ordenarDataDecrescente(Long identity, Colaborador identity2, EstadoAtividade estado);
+    List<Atividade> ordenarDataCrescente(Colaborador identity, EstadoAtividade estado);
+
+    List<Atividade> ordenarDataDecrescente(Colaborador identity, EstadoAtividade estado);
 
     List<Atividade> ordenarCritCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
     List<Atividade> ordenarCritDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
-    List<Atividade> ordenarUrgenciaCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
+    //List<Atividade> ordenarUrgenciaCrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
     List<Atividade> ordenarUrgenciaDecrescente(Long identity, String identity2, MecanographicNumber identity3, String estado);
 
@@ -57,4 +59,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i);
 
     List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta);
+
+    Pedido getPedidoByAtividade(Long idAtiv);
 }
