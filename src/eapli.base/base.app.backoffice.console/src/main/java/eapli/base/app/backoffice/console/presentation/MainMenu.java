@@ -81,6 +81,7 @@ public class MainMenu extends AbstractUI {
     private static final int CONSULTAR_CATALOGO_SERVICO = 1;
     private static final int SOLICITAR_SERVICO = 2;
     private static final int CONSULTAR_TAREFAS = 3;
+    private static final int CONSULTAR_REIVINDICAR_TAREFAS = 4;
 
 
     private static final String SEPARATOR_LABEL = "--------------";
@@ -172,6 +173,9 @@ public class MainMenu extends AbstractUI {
             final Menu menuConsultarTarefas = buildConsultarTarefas();
             mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarTarefas);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
+            mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarReivindicarTarefas);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -228,6 +232,13 @@ public class MainMenu extends AbstractUI {
         return consultarTarefasMenu;
     }
 
+    private Menu buildConsultarReivindicarTarefas(){
+        final Menu consultarReivindicarTarefasMenu = new Menu("Consultar Tarefas");
+        consultarReivindicarTarefasMenu.addItem(CONSULTAR_REIVINDICAR_TAREFAS,"Consultar/ Reivindicar Tarefas",()->new ConsultarTarefasUI().show());
+        consultarReivindicarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
+        return consultarReivindicarTarefasMenu;
+    }
+
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
         tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Equipa",()->new RegistarTipoEquipaUI().show());
@@ -277,22 +288,7 @@ public class MainMenu extends AbstractUI {
         colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return colaboradorMenu;
     }
-/*
-    private Menu buildGSHMenu() {
-        final Menu gshMenu = new Menu("Menu Gestor de Serviços HelpDesk >");
-        gshMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
-        return gshMenu;
-    }
 
-    private Menu buildRRHMenu() {
-        final Menu rrhMenu = new Menu("Menu Responsável Recursos Humanos >");
-        rrhMenu.addSubMenu(ESPECIFICAR_COLABORADOR, rrhMenu);
-        rrhMenu.addSubMenu(CRIAR_NOVA_EQUIPA, rrhMenu);
-        rrhMenu.addSubMenu(ASSOCIAR_REMOVER_COLABORADOR, rrhMenu);
-        rrhMenu.addSubMenu(REGISTAR_TIPO_EQUIPA, rrhMenu);
-        rrhMenu.addItem(EXIT_OPTION, "Return", Actions.SUCCESS);
-        return rrhMenu;
-    }*/
 
     private Menu buildSolicitarServico() {
         final Menu solicitarServico = new Menu("Solicitar Servico");

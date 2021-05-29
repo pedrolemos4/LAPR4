@@ -44,8 +44,6 @@ public class AtividadeManual extends Atividade{
     public AtividadeManual(final EstadoAtividade estadoAtividade, final Set<Equipa> equipa, final Decisao decisao,
                            final Comentario comentario, final Formulario formulario, final Calendar data, final TipoAtividade tipoAtividade) {
         super(data,estadoAtividade,tipoAtividade);
-        System.out.println("COMO ESTÁ O ESTADO ?");
-        System.out.println(estadoAtividade.toString());
         this.equipa = equipa;
         this.decisao = decisao;
         this.comentario = comentario;

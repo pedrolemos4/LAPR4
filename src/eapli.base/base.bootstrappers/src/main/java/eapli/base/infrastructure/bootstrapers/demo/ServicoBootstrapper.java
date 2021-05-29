@@ -55,7 +55,6 @@ public class ServicoBootstrapper implements Action {
         Set<Atributo> listaAtributosFormulario6 = new HashSet<>();
         listaAtributosFormulario6.add(new Atributo("Endereco Postal", "Label endereco postal"));
 
-
         //Keywords
         Set<String> keywords = new HashSet<>();
         keywords.add("Paz");
@@ -67,7 +66,6 @@ public class ServicoBootstrapper implements Action {
         keywords2.add("Gado");
         keywords2.add("Ferreiro");
 
-
         //Datas
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984,10,25);
@@ -77,7 +75,6 @@ public class ServicoBootstrapper implements Action {
 
         Calendar dataAux3 = Calendar.getInstance();
         dataAux3.set(1996,11,11);
-
 
         //Colaboradores
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
@@ -111,17 +108,18 @@ public class ServicoBootstrapper implements Action {
         listEquipas3.add(equipa2);
 
         //Catalogos
-        Catalogo catalogo1 = new Catalogo(new Titulo("Catalogo Exemplo"), c1, new DescricaoCompletaCatalogo("Descricao completa do exemplo"), new DescricaoBreve("Descricao exemplo"), new Icone("icone1"), listEquipas1, new Criticidade(new Etiqueta("Etiqueta1"), new Escala(3), new Designacao("Name1"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
+        Catalogo catalogo1 = new Catalogo(new Titulo("Catalogo Exemplo"), c1, new DescricaoCompletaCatalogo("Descricao completa do exemplo"), new DescricaoBreve("Descricao exemplo"), new Icone("icone1"), listEquipas1, new Criticidade(new Etiqueta("MODERADA"), new Escala(3), new Designacao("Name1"), new Objetivo(13.2,11,13.2,11), new Cor(18,241,26)));
 
-        Catalogo catalogo2 = new Catalogo(new Titulo("Catalogo Teste"), c2, new DescricaoCompletaCatalogo("Descricao completa do teste"), new DescricaoBreve("Descricao teste"), new Icone("icone2"), listEquipas2, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
+        Catalogo catalogo2 = new Catalogo(new Titulo("Catalogo Teste"), c2, new DescricaoCompletaCatalogo("Descricao completa do teste"), new DescricaoBreve("Descricao teste"), new Icone("icone2"), listEquipas2, new Criticidade(new Etiqueta("MODERADA"), new Escala(3), new Designacao("Name2"), new Objetivo(18.2,15,11.2,11), new Cor(13,13,13)));
 
+        Catalogo catalogo3 = new Catalogo(new Titulo("Catalogo Teste2"), c3, new DescricaoCompletaCatalogo("Descricao completa do teste2"), new DescricaoBreve("Descricao teste2"), new Icone("icone3"), listEquipas3, new Criticidade(new Etiqueta("BAIXA"), new Escala(1), new Designacao("Name3"), new Objetivo(13.2,11,18.2,14), new Cor(255,255,36)));
 
         //Atividades
         Set<Atividade> atividades1 = new HashSet<>();
         AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica(0,0,0);
         Formulario form1 = controller.createFormulario("Formulario1", listaAtributosFormulario2);
-        AtividadeManual atividadeAutomatica2 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao1","comentario1", 0,0,0,form1,TipoAtividade.REALIZACAO);
-        atividades1.add(atividadeAutomatica2);
+        AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao1","comentario1", 0,0,0,form1,TipoAtividade.REALIZACAO);
+        atividades1.add(atividadeManual2);
         atividades1.add(atividadeAutomatica1);
 
         Set<Atividade> atividades2 = new HashSet<>();
@@ -131,18 +129,18 @@ public class ServicoBootstrapper implements Action {
 
         Set<Atividade> atividades3 = new HashSet<>();
         Formulario form3 = controller.createFormulario("Formulario3", listaAtributosFormulario6);
-        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao3","comentario3",0,0,0,form3,TipoAtividade.REALIZACAO);
+        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualColaborador(c3,"decisao3","comentario3",0,0,0,form3,TipoAtividade.REALIZACAO);
         atividades3.add(a2);
 
         Set<Atividade> atividades4 = new HashSet<>();
         Formulario form4 = controller.createFormulario("Formulario4", listaAtributosFormulario2);
         AtividadeManual a3 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas1,"decisao4","comentario4",0,0,0,form4,TipoAtividade.REALIZACAO);
-        atividades3.add(a3);
+        atividades4.add(a3);
 
         Set<Atividade> atividades5 = new HashSet<>();
         Formulario form5 = controller.createFormulario("Formulario5", listaAtributosFormulario6);
-        AtividadeManual a4 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas3,"decisao5","comentario5",0,0,0,form5,TipoAtividade.REALIZACAO);
-        atividades3.add(a4);
+        AtividadeManual a4 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas2,"decisao5","comentario5",0,0,0,form5,TipoAtividade.REALIZACAO);
+        atividades5.add(a4);
 
         //Register
         register("cod123", "tituloServico", "descricaoServicoBreve", "descricaoServicoCompleta",
@@ -155,7 +153,7 @@ public class ServicoBootstrapper implements Action {
                 "tituloFormulario2", listaAtributosFormulario5, keywords2, catalogo2,new FluxoAtividade(atividades3));
 
         register("cod987","tituloServico3","descricaoBreve3","descricaoServicoCompleta3","tituloFormulario3",
-                listaAtributosFormulario1,keywords1,catalogo1,new FluxoAtividade(atividades4));
+                listaAtributosFormulario1,keywords1,catalogo3,new FluxoAtividade(atividades4));
 
         register("cod007","tituloServico4","descricaoBreve4","descricaoServicoCompleta4","tituloFormulario4",
                 listaAtributosFormulario3,keywords,catalogo2,new FluxoAtividade(atividades5));

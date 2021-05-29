@@ -16,7 +16,7 @@ import eapli.framework.infrastructure.authz.domain.model.Role;
  * @author Paulo Gandra Sousa
  */
 public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Action {
-    
+
     private static final String EMAILGESTOR = "gestor@org.com";
 
     private static final String IDGESTOR = "02";
@@ -46,7 +46,7 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 
-        registerUser("orgGestorServico","Gestor2","Afonso","Sousa",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
+        registerUser("orgGestorServico","Gestor2","Rui","Nunes",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
         registerUser("orgColab1","Colab1","Afonso","Sousa","afonso@gmail.com",BaseRoles.COLABORADOR);
         registaColaborador(119876,"Afonso","Afonso Sousa","1992/07/05", 351,932705057, "Bairro Alto", "afonso@gmail.com");
