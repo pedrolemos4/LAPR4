@@ -54,6 +54,8 @@ public class ConsultarTarefasController {
     }
 
     public List<Atividade> filtrarData(Colaborador colab, Calendar dataI, Calendar dataF) {
+        System.out.println(dataI.getTime());
+        System.out.println(dataF.getTime());
         return repo.filtrarData(colab, dataI, dataF, EstadoAtividade.PENDENTE);
     }
 
@@ -73,9 +75,12 @@ public class ConsultarTarefasController {
         return repo.ordenarDataDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public Iterable<Pedido> listPedidos() {
-        final Iterable<Pedido> ls = repo.findAll();
-        return ls;
+    public List<Atividade> ordenarEscalaCrescente(Colaborador colab) {
+        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
+    }
+
+    public List<Atividade> ordenarEscalaDecrescente(Colaborador colab) {
+        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
     }
 
     public Pedido getPedidoByAtividade(Atividade a) {
