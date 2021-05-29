@@ -1,0 +1,23 @@
+@startuml
+autonumber
+actor "Gestor de Serviços de Help Desk" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende criar um novo catálogo de serviços
+activate ":Sistema"
+":Sistema" --> UNR : solicita ao utilizador os dados para a criação de um novo catálogo
+deactivate ":Sistema"
+
+
+UNR -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> UNR : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate UNR
+@enduml
