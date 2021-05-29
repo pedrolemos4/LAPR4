@@ -31,7 +31,7 @@ public class Pedido implements AggregateRoot<String> {
     private Colaborador colaborador;
 
     @Column(name = "dataSolicitacao")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataSolicitacao;
 
     @OneToOne
@@ -43,7 +43,7 @@ public class Pedido implements AggregateRoot<String> {
     private UrgenciaPedido urgenciaPedido;
 
     @Column(name = "dataLimiteResolucao")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataLimiteResolucao;
 
     @Column(name = "estadoPedido")

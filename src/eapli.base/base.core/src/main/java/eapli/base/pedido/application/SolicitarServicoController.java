@@ -1,5 +1,6 @@
 package eapli.base.pedido.application;
 
+import eapli.base.atividades.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
@@ -30,10 +31,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @UseCaseController
 public class SolicitarServicoController {
@@ -76,18 +74,27 @@ public class SolicitarServicoController {
         }
     }
 
-    public synchronized Pedido efetuarPedido(String idservico, UrgenciaPedido urgencia, Calendar dataLimiteRes){
+    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes){
         try{
-            Servico servicoSolicitado = servicoRepository.ofIdentity(new CodigoUnico(idservico)).get();
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
             Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes);
-            return pedido;
+            return this.pedidoRepository.save(pedido);
         }
         catch (Exception e){
             LOGGER.error("Something went wrong");
             return null;
         }
 
+    }
+
+    public boolean atualizarDataAtividade(Servico clone, Atividade atividade,Calendar dataLimiteRes){
+        try {
+            clone.atualizarDataAtividade(atividade,dataLimiteRes);
+            return true;
+        }catch (Exception e){
+            LOGGER.error("Unexpected Error");
+            return false;
+        }
     }
 
     public void annexFile(Pedido pedido) {
@@ -153,6 +160,21 @@ public class SolicitarServicoController {
             LOGGER.error("Error saving Pedido");
             return false;
         }
+    }
+
+    public List<Atividade> getListAtividadesServico(String idServico) {
+        try {
+            return this.servicoRepository.findListAtividades(idServico);
+        }catch (NoResultException e){
+            LOGGER.error("No result found");
+            return new ArrayList<>();
+        }
+    }
+
+    public Servico getServicoClone(String idServico) {
+        Servico servicoSolicitado = servicoRepository.ofIdentity(new CodigoUnico(idServico)).get();
+        Servico clone = servicoSolicitado;
+        return clone;
     }
 }
 

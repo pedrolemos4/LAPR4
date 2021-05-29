@@ -58,4 +58,8 @@ public class Atividade implements ValueObject{
     public TipoAtividade tipoAtividade() {
         return tipoAtividade;
     }
+
+    public void atualizarDataAtividade(Calendar dataLimiteRes) {
+        this.dataLimite = dataLimiteRes;
+    }
 }

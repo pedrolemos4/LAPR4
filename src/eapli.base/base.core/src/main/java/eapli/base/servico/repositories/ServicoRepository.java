@@ -1,11 +1,13 @@
 package eapli.base.servico.repositories;
 
+import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.domain.repositories.LockableDomainRepository;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico>, LockableDomainRepository<CodigoUnico, Servico> {
@@ -46,4 +48,5 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     Servico findServico(CodigoUnico cod);
 
+    List<Atividade> findListAtividades(String idServico);
 }

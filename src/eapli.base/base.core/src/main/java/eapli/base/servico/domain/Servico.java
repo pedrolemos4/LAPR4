@@ -12,6 +12,7 @@ import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -142,6 +143,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     public void alterarEstadoFluxo(FluxoAtividade fluxoAtividade){
         this.fluxoAtividade=fluxoAtividade;
+    }
+
+    public void atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
+        this.fluxoAtividade.atualizarDataAtividade(atividade,dataLimiteRes);
     }
 
     public static class ServicoBuilder {

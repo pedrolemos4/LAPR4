@@ -12,6 +12,8 @@ import eapli.base.Application;
 import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
 import eapli.framework.infrastructure.eventpubsub.impl.inprocess.InProcessPubSub;
 
+import java.io.IOException;
+
 /**
  *
  * @author Paulo Gandra Sousa
@@ -80,7 +82,7 @@ public abstract class BaseApplication {
         doSetupEventHandlers(dispatcher);
     }
 
-    protected abstract void doMain(final String[] args);
+    protected abstract void doMain(final String[] args) throws IOException;
 
     protected abstract String appTitle();
 

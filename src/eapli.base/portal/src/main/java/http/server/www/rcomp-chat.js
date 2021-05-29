@@ -1,13 +1,9 @@
-
 // global variables
 var nextMsg;
-var mArea,nicknameBox, messageBox, hints; // defined only after the document is loaded
+var mArea; // defined only after the document is loaded
 
 function loadAndStart() {
-    mArea=document.getElementById("messages");
-    nicknameBox=document.getElementById("nickname");
-    messageBox=document.getElementById("message");
-    hints=document.getElementById("hints");
+    mArea=document.getElementById("tarefas");
     nextMsg=0;
     setTimeout(getNextMessage, 1000);
     }
@@ -41,14 +37,14 @@ function getNextMessage() {
     };
         
         
-    request.open("GET", "/messages/" + nextMsg, true);
+    request.open("GET", "/tarefas/" + nextMsg, true);
     if(nextMsg===0) request.timeout = 1000;
     // Message 0 is a server's greeting, it should always exist
     // no timeout, for following messages, the server responds only when the requested
     // message number exists
     request.send();
 }
-
+/*
 function postMessage() {
     hints.innerHTML="";
     if(nicknameBox.value === "") {
@@ -65,6 +61,8 @@ function postMessage() {
     POSTrequest.timeout = 5000;
     POSTrequest.send("(" + nicknameBox.value + ") " + messageBox.value);
     }
+
+ */
 	
 
 

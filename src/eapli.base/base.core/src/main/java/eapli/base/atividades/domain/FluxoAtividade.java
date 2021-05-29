@@ -1,14 +1,10 @@
 package eapli.base.atividades.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.equipa.domain.Equipa;
-import eapli.base.servico.domain.Servico;
-import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntity;
-import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,4 +68,9 @@ public class FluxoAtividade implements DomainEntity<Long> {
     public void alterarEstado(EstadoFluxo estadoFluxo){
         this.estadoFluxo=estadoFluxo;
     }
+
+    public void atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
+        atividade.atualizarDataAtividade(dataLimiteRes);
+    }
+
 }

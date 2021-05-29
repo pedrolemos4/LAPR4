@@ -1,5 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.pedidos;
 
+import eapli.base.atividades.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.pedido.application.SolicitarServicoController;
 import eapli.base.pedido.domain.Pedido;
@@ -8,7 +9,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.framework.presentation.console.AbstractUI;
 
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.List;
 import java.util.Scanner;
 
 public class SolicitarServicoUI extends AbstractUI {
@@ -20,7 +21,7 @@ public class SolicitarServicoUI extends AbstractUI {
     @Override
     public boolean doShow(){
         showCatalogos();
-        System.out.println("Introduaza id catalogo desejado______________________________________________");
+        System.out.println("Introduza id catalogo desejado______________________________________________");
         long idCatalogo = sc.nextLong();
         showServicos(idCatalogo);
         System.out.println("Introduza codigo do servico_________________________________________________");
@@ -47,18 +48,31 @@ public class SolicitarServicoUI extends AbstractUI {
     }
 
     private void solicitarServico(String idServico){
-        controller.preencherFormulario(idServico);
+        this.controller.preencherFormulario(idServico);
         System.out.println("Urgencia____________________________________________________________________");
         for (UrgenciaPedido u : UrgenciaPedido.values()) {
             System.out.println(u);
         }
         System.out.println("Introduza Urgencia");
         String urgencia = sc.next();
-        System.out.println("Data Limite de Resolucao(yyyy/mm/dd)________________________________________");
-        String data[] = sc.next().split("/");
+        System.out.println("Data Limite de Resolucao(yyyy/mm/dd,hh:mm)________________________________________");
+        String string1[] = sc.next().split(",");
+        String data1[] = string1[0].split("/");
+        String horas1[] = string1[1].split(":");
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]));
-        Pedido pedido = controller.efetuarPedido(idServico,Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase(Locale.ROOT)),calendar);
+        calendar.set(Integer.parseInt(data1[0]),Integer.parseInt(data1[1]),Integer.parseInt(data1[2]),Integer.parseInt(horas1[0]),Integer.parseInt(horas1[1]));
+        Servico clone = this.controller.getServicoClone(idServico);
+        List<Atividade> atividades = this.controller.getListAtividadesServico(idServico);
+        for (Atividade atividade : atividades) {
+            System.out.println("Data Limite de Resolucao da Atividade(yyyy/mm/dd,hh:mm)___________________________________");
+            String string2[] = sc.next().split(",");
+            String data2[] = string2[0].split("/");
+            String horas2[] = string2[1].split(":");
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.set(Integer.parseInt(data2[0]),Integer.parseInt(data2[1]),Integer.parseInt(data2[2]),Integer.parseInt(horas2[0]),Integer.parseInt(horas2[1]));
+            this.controller.atualizarDataAtividade(clone,atividade,calendar);
+        }
+        Pedido pedido = controller.efetuarPedido(clone,Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase()),calendar);
         String option = "S";
         while(option == "S") {
             System.out.println("Pretende anexar ficheiros?(S/N)_____________________________________________");
@@ -66,10 +80,11 @@ public class SolicitarServicoUI extends AbstractUI {
             if (option.toUpperCase().compareTo("S") == 0)
                 controller.annexFile(pedido);
         }
-        if(controller.submeterPedido(pedido)){
+        //if(controller.submeterPedido(pedido)){
             System.out.println("SUCESSO");
-        }
+        //}
     }
+
 
     @Override
     public String headline() {
