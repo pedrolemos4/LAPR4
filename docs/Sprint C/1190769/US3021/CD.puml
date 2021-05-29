@@ -10,26 +10,28 @@ class ConsultarTarefasUI <<presentation>>
 class ConsultarTarefasController <<application>>
 class PersistenceContext <<persistence>>
 class RepositoryFactory <<factory>>
-class ServicoRepository <<repository>>
+class PedidoRepository <<repository>>
 class ColaboradorRepository <<repository>>
 
 
 ConsultarTarefasUI --> ConsultarTarefasController
 ConsultarTarefasUI : doShow()
-ConsultarTarefasUI : listServicos()
-ConsultarTarefasUI : tarefasPendentes(fluxo, colab)
-ConsultarTarefasUI : getFluxo()
 ConsultarTarefasUI : getUser()
+ConsultarTarefasUI : tarefasPendentes(colab)
+ConsultarTarefasUI : filtrarTarefasPendentes(colab)
+ConsultarTarefasUI : ordenarTarefasPendentes(colab)
 
-ConsultarTarefasController : tarefasPendentes(fluxo, colab)
-ConsultarTarefasController : getFluxo(servico)
+ConsultarTarefasController : getUser()
+ConsultarTarefasController : tarefasPendentes(colab)
+ConsultarTarefasController : filtrarTarefasPendentes(colab)
+ConsultarTarefasController : ordenarTarefasPendentes(colab)
 
-ConsultarTarefasController --> ServicoRepository
+ConsultarTarefasController --> PedidoRepository
 ConsultarTarefasController --> ColaboradorRepository
 ConsultarTarefasController --> PersistenceContext
 PersistenceContext --> RepositoryFactory
 
-RepositoryFactory --> ServicoRepository
+RepositoryFactory --> PedidoRepository
 RepositoryFactory --> ColaboradorRepository
 
 @enduml

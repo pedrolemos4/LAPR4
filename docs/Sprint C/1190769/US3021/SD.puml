@@ -10,18 +10,13 @@ participant ConsultarTarefasUI as UI <<presentation>>
 control ConsultarTarefasController as CTRL <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
-database ServicoRepository as SRepository <<repository>>
+database PedidoRepository as PRepository <<repository>>
 database ColaboradorRepository as CRepository <<repository>>
 
 activate UI
 
 UI -> UI : doShow()
-
-UI -> CTRL: listServicos()
-    activate CTRL
-      CTRL -> UI: listaServicos
-    deactivate CTRL
-
+ note over CTRL: Para efeitos de simplificação do diagrama, não foram representadas todas as classes repository,\n a classe persistence e a classe factory, tendo sido utilizado o procedimento dos casos de uso do sprint anterior
 UI -> CTRL: getUser()
     activate CTRL
     CTRL -> CRepository: getUser()
@@ -30,22 +25,36 @@ UI -> CTRL: getUser()
       CTRL -> UI: colab
     deactivate CTRL
     
-loop
-UI -> CTRL: getFluxo()
+UI -> CTRL: tarefasPendentes(colab)
     activate CTRL
-    CTRL -> SRepository: getFluxo(servico)
-      activate SRepository
-      deactivate SRepository
-      CTRL -> UI: fluxo
-    deactivate CTRL
-    
-UI -> CTRL: tarefasPendentes(fluxo, colab)
-    activate CTRL
-      CTRL -> SRepository: tarefasPendentes(fluxo, colab)
-      activate SRepository
-      deactivate SRepository
+      CTRL -> PRepository: tarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
       CTRL -> UI: listaTarefas
     deactivate CTRL
+loop
+opt
+note over CTRL: Aqui será feita a filtragem das tarefas por vários parâmetros.\n Como existe um método para cada parâmetro,\n para efeitos de simplificar está representado um método generalizado\n com um parâmetro comum em todos, o colaborador
+UI -> CTRL: filtrarTarefasPendentes(colab)
+    activate CTRL
+      CTRL -> PRepository: filtrarTarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
+      CTRL -> UI: listaTarefasFiltrada
+    deactivate CTRL
+end
+
+opt
+note over CTRL: Aqui será feita a ordenação das tarefas por vários parâmetros.\n Como existe um método para cada parâmetro,\n para efeitos de simplificar está representado um método generalizado\n com um parâmetro comum em todos, o colaborador
+UI -> CTRL: ordenarTarefasPendentes(colab)
+    activate CTRL
+      CTRL -> PRepository: ordenarTarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
+      CTRL -> UI: listaTarefasOrdenada
+    deactivate CTRL
+end
 end
 deactivate UI
 @enduml
+

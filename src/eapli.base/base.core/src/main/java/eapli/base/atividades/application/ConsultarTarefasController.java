@@ -2,13 +2,13 @@ package eapli.base.atividades.application;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.criticidade.domain.Escala;
+import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import eapli.base.servico.domain.Servico;
 
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.application.UseCaseController;
@@ -57,16 +57,12 @@ public class ConsultarTarefasController {
         return repo.filtrarData(colab, dataI, dataF, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> filtrarCriticidade(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarUrgenciaCrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarCriticidadeEscala(Colaborador colab, int escala) {
+        return repo.filtrarCriticidadeEscala(colab, EstadoAtividade.PENDENTE, Escala.valueOf(escala));
     }
 
-    public List<Atividade> ordenarUrgenciaCrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarUrgenciaCrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
-    }
-
-    public List<Atividade> ordenarUrgenciaDecrescente(FluxoAtividade fluxo, Colaborador colab) {
-        return null; //repo.ordenarUrgenciaDecrescente(fluxo.identity(), colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> filtrarCriticidadeEtiqueta(Colaborador colab, String etiqueta) {
+        return repo.filtrarCriticidadeEtiqueta(colab, EstadoAtividade.PENDENTE, Etiqueta.valueOf(etiqueta));
     }
 
     public List<Atividade> ordenarDataCrescente(Colaborador colab) {
@@ -77,25 +73,12 @@ public class ConsultarTarefasController {
         return repo.ordenarDataDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarCritCrescente(FluxoAtividade fluxo, String servico, Colaborador colab) {
-        return repo.ordenarCritCrescente(fluxo.identity(), servico, colab.identity(), EstadoAtividade.PENDENTE.name());
+    public List<Atividade> ordenarEscalaCrescente(Colaborador colab) {
+        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarCritDecrescente(FluxoAtividade fluxo, String servico, Colaborador colab) {
-        return repo.ordenarCritDecrescente(fluxo.identity(), servico, colab.identity(), EstadoAtividade.PENDENTE.name());
-    }
-
-    public Servico getServico(Pedido p) {
-        return repo.findPedidoServico(p.identity());
-    }
-
-    public FluxoAtividade getFluxo(Servico s) {
-        return repo.findFluxoServico(s.identity());
-    }
-
-    public Iterable<Pedido> listPedidos() {
-        final Iterable<Pedido> ls = repo.findAll();
-        return ls;
+    public List<Atividade> ordenarEscalaDecrescente(Colaborador colab) {
+        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
     }
 
     public Pedido getPedidoByAtividade(Atividade a) {

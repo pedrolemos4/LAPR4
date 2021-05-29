@@ -27,7 +27,7 @@ public class DefinirCriticidadeController {
         Objetivo objetivo = new Objetivo(tempoMaximoAprov, tempoMedioAprov,tempoMaximoRes,tempoMedioRes);
         Etiqueta e = new Etiqueta(etiqueta);
         Escala esc = new Escala(escala);
-        Cor c = new Cor(cor.getRed(),cor.getGreen(),cor.getBlue()/*red, green, blue*/);
+        Cor c = new Cor(cor.getRed(),cor.getGreen(),cor.getBlue());
         Designacao desig = new Designacao(designacao);
 
         final Criticidade criticidade = new Criticidade(e, esc, desig, objetivo, c);
@@ -39,11 +39,6 @@ public class DefinirCriticidadeController {
         Designacao design = new Designacao(designacao);
         final ContratoSLA contrato = new ContratoSLA(design, list);
         return contRepo.save(contrato);
-    }
-
-    public boolean saveCriticidade(Criticidade c) {
-            criticidadeRepo.save(c);
-            return true;
     }
 
     public void registarCriticidade(Etiqueta etiqueta, Escala escala, Designacao designacao, Objetivo objetivo, Cor cor) {

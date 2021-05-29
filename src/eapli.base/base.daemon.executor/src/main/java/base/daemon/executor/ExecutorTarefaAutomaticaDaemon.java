@@ -46,7 +46,7 @@ public final class ExecutorTarefaAutomaticaDaemon {
     private ExecutorTarefaAutomaticaDaemon() {
     }
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws Exception {
         LOGGER.info("Configuring the daemon");
 
         AuthzRegistry.configure(PersistenceContext.repositories().users(),
@@ -55,7 +55,7 @@ public final class ExecutorTarefaAutomaticaDaemon {
 
         LOGGER.info("Starting the server socket");
         final ExecutorServer server = new ExecutorServer();
-        server.start(EXECUTOR_PORT, true);
+        server.main(null);
 
         LOGGER.info("Exiting the daemon");
         System.exit(0);

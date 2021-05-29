@@ -3,26 +3,25 @@ package eapli.base.persistence.impl.jpa;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.criticidade.domain.Escala;
+import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import eapli.base.servico.domain.Servico;
 
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String> implements PedidoRepository {
 
     public JpaPedidoRepository(){super("identificador");}
 
     @Override
-    public Iterable<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade) {
+    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Atividade a JOIN a.equipa eq " +
                         "JOIN eq.listMembros lm WHERE" +
@@ -33,20 +32,98 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    public Servico findPedidoServico(String identity) {
-        final TypedQuery<Servico> q = createQuery(
-                "SELECT p.servico FROM Pedido p WHERE p.id =:identity",
-                Servico.class);
-        q.setParameter("identity", identity);
-        return q.getSingleResult();
+
+    @Override
+    public List<Atividade> filtrarUrgenciaPendentes(MecanographicNumber colab, EstadoAtividade estado, UrgenciaPedido urgencia, String atividade) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN p.urgenciaPedido ur JOIN ser.fluxoAtividade fl" +
+                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                        "WHERE a.TYPE =:atividade AND lm.numeroMecanografico=:colab " +
+                        "AND a.estadoAtividade =:estado AND p.urgenciaPedido =:urgencia",
+                Atividade.class);
+        q.setParameter("colab", colab);
+        q.setParameter("estado", estado);
+        q.setParameter("urgencia", urgencia);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
     }
 
-    public FluxoAtividade findFluxoServico(CodigoUnico identity) {
-        final TypedQuery<FluxoAtividade> q = createQuery(
-                "SELECT s.fluxoAtividade FROM Servico s WHERE s.codigoUnico =:identity",
-                FluxoAtividade.class);
+    @Override
+    public List<Atividade> filtrarDataPendentes(MecanographicNumber identity, Calendar data1, Calendar data2, String atividade, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
+                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                        "WHERE a.TYPE =:atividade AND lm.numeroMecanografico=:identity " +
+                        "AND a.estadoAtividade =:estado AND a.dataLimite > :data1 AND a.dataLimite < :data2",
+                Atividade.class);
         q.setParameter("identity", identity);
-        return q.getSingleResult();
+        q.setParameter("estado", estado);
+        q.setParameter("data1", data1);
+        q.setParameter("data2", data2);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Atividade> filtrarCriticidadeEscalaPendentes(MecanographicNumber identity, Escala escala, String atividade, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl" +
+                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                        "WHERE a.TYPE =:atividade AND lm.numeroMecanografico=:identity " +
+                        "AND a.estadoAtividade =:estado AND crit.escala=:escala",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("estado", estado);
+        q.setParameter("escala", escala);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Atividade> filtrarCriticidadeEtiquetaPendentes(MecanographicNumber identity, Etiqueta etiqueta, EstadoAtividade estado, String atividade) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl" +
+                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                        "WHERE a.TYPE =:atividade AND lm.numeroMecanografico=:identity " +
+                        "AND a.estadoAtividade =:estado AND crit.etiqueta =:etiqueta",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("estado", estado);
+        q.setParameter("etiqueta", etiqueta);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Atividade> ordenarDataCrescentePendentes(MecanographicNumber identity, String atividade, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser " +
+                        "JOIN ser.fluxoAtividade fl" +
+                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                        "WHERE a.TYPE =:atividade AND lm.numeroMecanografico=:identity " +
+                        "AND a.estadoAtividade =:estado ORDER BY a.dataLimite ASC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("estado", estado);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Atividade> ordenarDataDecrescentePendentes(MecanographicNumber identity, String atividade, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser " +
+                        "JOIN ser.fluxoAtividade fl" +
+                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                        "WHERE a.TYPE =:atividade AND lm.numeroMecanografico=:identity " +
+                        "AND a.estadoAtividade =:estado ORDER BY a.dataLimite DESC",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("estado", estado);
+        q.setParameter("atividade", atividade);
+        return q.getResultList();
     }
 
     public List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado) {
@@ -85,16 +162,26 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    public List<Atividade> filtrarCriticidade(FluxoAtividade identity, Pedido identity2, Colaborador identity3, EstadoAtividade estado, UrgenciaPedido urg) {
+    public List<Atividade> filtrarCriticidadeEscala(Colaborador identity, EstadoAtividade estado, Escala esc) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT la FROM FluxoAtividade fl JOIN Servico s JOIN Pedido p JOIN fl.listaAtividade la WHERE " +
-                        "s.fluxoAtividade =:identity AND s.pedido =:identity2 AND p.urgenciaPedido =:urgencia " +
-                        "AND fl.id =:identity AND la.colab =:identity3 AND la.estadoAtividade =:estado",
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade a WHERE a.colab =:identity " +
+                        "AND a.estadoAtividade =:estado AND crit.escala =:escala",
                 Atividade.class);
         q.setParameter("identity", identity);
-        q.setParameter("identity2", identity2);
-        q.setParameter("identity3", identity3);
-        q.setParameter("urgencia", urg);
+        q.setParameter("escala", esc);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    public List<Atividade> filtrarCriticidadeEtiqueta(Colaborador identity, EstadoAtividade estado, Etiqueta etiqueta) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade a WHERE a.colab =:identity " +
+                        "AND a.estadoAtividade =:estado AND crit.etiqueta =:etiqueta",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("etiqueta", etiqueta);
         q.setParameter("estado", estado);
         return q.getResultList();
     }
@@ -121,66 +208,24 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    public List<Atividade> ordenarCritCrescente(Long identity, String identity2,
-                                                MecanographicNumber identity3, String estado) {
+    public List<Atividade> ordenarEscalaCrescente(Colaborador identity, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT la FROM FluxoAtividade fl JOIN fl.listaAtividade la INNER JOIN Servico s " +
-                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
-                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
-                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
-                        "ORDER BY p.criticidade ASC",
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade a WHERE a.colab =:identity " +
+                        "AND a.estadoAtividade =:estado ORDER BY crit.escala ASC",
                 Atividade.class);
         q.setParameter("identity", identity);
-        q.setParameter("identity2", identity2);
-        q.setParameter("identity3", identity3);
         q.setParameter("estado", estado);
         return q.getResultList();
     }
 
-    public List<Atividade> ordenarCritDecrescente(Long identity, String identity2,
-                                                  MecanographicNumber identity3, String estado) {
+    public List<Atividade> ordenarEscalaDecrescente(Colaborador identity, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
-                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
-                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
-                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
-                        "ORDER BY p.criticidade DESC",
+                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
+                        "JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade a WHERE a.colab =:identity " +
+                        "AND a.estadoAtividade =:estado ORDER BY crit.escala DESC",
                 Atividade.class);
         q.setParameter("identity", identity);
-        q.setParameter("identity2", identity2);
-        q.setParameter("identity3", identity3);
-        q.setParameter("estado", estado);
-        return q.getResultList();
-    }
-
-    public List<Atividade> ordenarUrgenciaCrescente(Long identity, Colaborador identity2,
-                                                  MecanographicNumber identity3, EstadoAtividade estado) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
-                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
-                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
-                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
-                        "ORDER BY p.criticidade DESC",
-                Atividade.class);
-        q.setParameter("identity", identity);
-        q.setParameter("identity2", identity2);
-        q.setParameter("identity3", identity3);
-        q.setParameter("estado", estado);
-        return q.getResultList();
-    }
-
-    public List<Atividade> ordenarUrgenciaDecrescente(Long identity, String identity2,
-                                                  MecanographicNumber identity3, String estado) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Atividade a INNER JOIN FluxoAtividade_Atividade fla INNER JOIN Servico s " +
-                        "INNER JOIN Pedido p WHERE" + " fla.fluxoatividade_id =:identity AND" +
-                        " s.fluxoatividade_id =:identity AND" + " p.servicoSolicitado =:identity2 AND" +
-                        " a.colab_mecanographicnumber =:identity3 AND" + " a.estadoatividade like =:estado " +
-                        "ORDER BY p.criticidade DESC",
-                Atividade.class);
-        q.setParameter("identity", identity);
-        q.setParameter("identity2", identity2);
-        q.setParameter("identity3", identity3);
         q.setParameter("estado", estado);
         return q.getResultList();
     }

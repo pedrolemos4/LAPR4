@@ -32,12 +32,12 @@ public abstract class BaseErrorRequest extends ExecutorProtocolRequest {
     private final String errorDescription;
 
     protected BaseErrorRequest(final String request, final String errorDescription) {
-        super(null,request);
+        super(request);
         this.errorDescription = errorDescription;
     }
 
     protected BaseErrorRequest(final String request) {
-        super(null,request);
+        super(request);
         this.errorDescription = null;
     }
 

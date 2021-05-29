@@ -20,8 +20,6 @@
  */
 package base.daemon.executor.protocol;
 
-import base.daemon.executor.application.ExecutorTarefaAutomaticaController;
-
 /**
  *
  * @author Paulo Gandra Sousa 01/06/2020
@@ -30,11 +28,9 @@ import base.daemon.executor.application.ExecutorTarefaAutomaticaController;
 public abstract class ExecutorProtocolRequest {
 
     protected final String request;
-    protected final ExecutorTarefaAutomaticaController controller;
 
-    protected ExecutorProtocolRequest(final ExecutorTarefaAutomaticaController controller, final String inputRequest) {
+    protected ExecutorProtocolRequest(final String inputRequest) {
         this.request = inputRequest;
-        this.controller = controller;
     }
 
     /**

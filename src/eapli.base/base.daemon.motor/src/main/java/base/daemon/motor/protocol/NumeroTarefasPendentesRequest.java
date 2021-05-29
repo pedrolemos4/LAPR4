@@ -51,9 +51,9 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
             final List<Atividade> tarefasEscala4 = controller.getTarefaEscala(user, estado, 4);
             final List<Atividade> tarefasEscala5 = controller.getTarefaEscala(user, estado, 5);
 
-            final List<Atividade> tarefasEtiquetaBaixa = controller.getTarefaEtiqueta(user, estado, "Baixa");
-            final List<Atividade> tarefasEtiquetaMedia = controller.getTarefaEtiqueta(user, estado, "Media");
-            final List<Atividade> tarefasEtiquetaElevada = controller.getTarefaEtiqueta(user, estado, "Elevada");
+            final List<Atividade> tarefasEtiquetaBaixa = controller.getTarefaEtiqueta(user, estado, "BAIXA");
+            final List<Atividade> tarefasEtiquetaMedia = controller.getTarefaEtiqueta(user, estado, "MEDIA");
+            final List<Atividade> tarefasEtiquetaElevada = controller.getTarefaEtiqueta(user, estado, "ELEVADA");
 
 
             // response
