@@ -8,7 +8,7 @@ skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
 class FluxoAtividade
-class CatalogoRepository
+class Catalogo
 class Formulario
 class ServicoBootstrapper
 class EspecificarServicoController
@@ -16,14 +16,14 @@ class ServicoRepository
 class Servico
 
 ServicoBootstrapper -> FluxoAtividade
-ServicoBootstrapper -> CatalogoRepository
+ServicoBootstrapper -> Catalogo
 ServicoBootstrapper -> Formulario
 ServicoBootstrapper -> EspecificarServicoController
 
 EspecificarServicoController -> Servico
 EspecificarServicoController -> ServicoRepository
 
-CatalogoRepository : getCatalogo()
+Catalogo : create()
 Formulario : create()
 FluxoAtividade : create()
 EspecificarServicoController : especificarServico()
