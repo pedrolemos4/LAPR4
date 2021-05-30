@@ -28,6 +28,7 @@ import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServi
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
+import eapli.base.app.backoffice.console.presentation.criticidade.AtribuirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.pedidos.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
@@ -69,6 +70,7 @@ public class MainMenu extends AbstractUI {
     private static final int ESPECIFICAR_SERVICO = 2;
     private static final int COMPLETAR_SERVICO = 3;
     private static final int DEFINIR_NIVEIS_CRITICIDADE = 3;
+    private static final int ATRIBUIR_CRITICIDADE = 4;
 
     //responsável rrh
     private static final int CRIAR_NOVA_EQUIPA = 1;
@@ -141,6 +143,9 @@ public class MainMenu extends AbstractUI {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuCriticidade = buildCriticidadeMenu();
             mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE,menuCriticidade);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuAtribuirCriticidade = buildAtribuirCriticidadeMenu();
+            mainMenu.addSubMenu(ATRIBUIR_CRITICIDADE,menuAtribuirCriticidade);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         } else if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH)) {
             //final Menu rrhMenu = buildRRHMenu();
@@ -295,6 +300,13 @@ public class MainMenu extends AbstractUI {
         solicitarServico.addItem(1,"Solicitar Servico",()->new SolicitarServicoUI().show());
         solicitarServico.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return solicitarServico;
+    }
+
+    private Menu buildAtribuirCriticidadeMenu(){
+        final Menu atribuirCriticidade = new Menu("Atribuir Criticidade");
+        atribuirCriticidade.addItem(ATRIBUIR_CRITICIDADE,"Atribuir Criticidade",()->new AtribuirCriticidadeUI().show());
+        atribuirCriticidade.addItem(EXIT_OPTION,RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
+        return atribuirCriticidade;
     }
 
 }
