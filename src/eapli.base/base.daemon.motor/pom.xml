@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>base_daemon_motor</artifactId>
+    <!--<<groupId>com.example</groupId>-->
+    <artifactId>base.daemon.motor</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <name>base.daemon.motor</name>
 
