@@ -1,9 +1,6 @@
 package eapli.base.atividades.application;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividades.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
@@ -62,6 +59,10 @@ public class AplicacoesController {
     public Servico findServico(String idServico) {
         CodigoUnico cod = new CodigoUnico(idServico);
         return this.servicoRepository.findServico(cod);
+    }
+
+    public String findScriptServico(CodigoUnico cod){
+        return this.servicoRepository.findScriptServico(cod);
     }
 
     public void saveServico(Servico servico){

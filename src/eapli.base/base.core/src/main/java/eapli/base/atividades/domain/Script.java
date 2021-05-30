@@ -8,15 +8,22 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Script implements ValueObject {
 
-    @Column(name= "SCRIPT")
-    private String script;
+    @Column(name= "CAMINHOSCRIPT")
+    private String caminhoScript;
 
     public Script(String script) {
-        this.script = script;
+        this.caminhoScript = script;
     }
 
 
     protected Script() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Script{" +
+                "script='" + caminhoScript + '\'' +
+                '}';
     }
 }

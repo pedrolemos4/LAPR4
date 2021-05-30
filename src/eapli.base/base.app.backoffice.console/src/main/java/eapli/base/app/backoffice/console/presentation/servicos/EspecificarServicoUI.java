@@ -47,38 +47,7 @@ public class EspecificarServicoUI extends AbstractUI {
     }
 
     private void especificarServico() throws IOException {
-        /*byte[] data = new byte[258];
-        try {
-            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
-        } catch (UnknownHostException ex) {
-            System.out.println("Invalid server: " + "endereçoIp");
-            System.exit(1);
-        }
 
-        try {
-            sock = new Socket(serverIP, 32507);
-        } catch (IOException ex) {
-            System.out.println("Failed to connect.");
-            System.exit(1);
-        }
-        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
-        System.out.println("Connected to server");
-        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
-        //serverConn.start();
-
-        data[0] = 0;
-        data[1] = 3;
-        CodigoUnico cod = new CodigoUnico("cod123");
-        byte[] idArray = cod.toString().getBytes();//pedido.servico().identity().toString().getBytes();
-        data[2] = (byte)idArray.length;
-        for(int i = 0; i<idArray.length;i++){
-            data[i+2] = idArray[i];
-        }
-
-        sOut.write(data);
-
-        // serverConn.join();
-        sock.close();*/
         final CodigoUnicoDataWidget codigoUnicoData = new CodigoUnicoDataWidget();
         codigoUnicoData.show();
 
@@ -252,10 +221,45 @@ public class EspecificarServicoUI extends AbstractUI {
         } catch (final IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
+        motor(codigoUnicoData.codigoUnico());
     }
 
     @Override
     public String headline() {
         return "Especificar Serviço";
+    }
+
+    private void motor(final String codigo) throws IOException {
+        byte[] data = new byte[258];
+        try {
+            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server: " + "endereçoIp");
+            System.exit(1);
+        }
+
+        try {
+            sock = new Socket(serverIP, 32508);
+        } catch (IOException ex) {
+            System.out.println("Failed to connect.");
+            System.exit(1);
+        }
+        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
+        System.out.println("Connected to server");
+        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
+        //serverConn.start();
+        CodigoUnico cod = new CodigoUnico(codigo);
+        data[0] = 0;
+        data[1] = 3;
+        byte[] idArray = cod.toString().getBytes();//pedido.servico().identity().toString().getBytes();
+        data[2] = (byte)idArray.length;
+        for(int i = 0; i<idArray.length;i++){
+            data[i+2] = idArray[i];
+        }
+
+        sOut.write(data);
+
+        // serverConn.join();
+        sock.close();
     }
 }
