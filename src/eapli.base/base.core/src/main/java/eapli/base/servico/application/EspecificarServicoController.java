@@ -30,13 +30,10 @@ import java.util.Set;
 @UseCaseController
 public class EspecificarServicoController {
 
-    private final AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
-    private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
     private final EquipaRepository equipaRepo = PersistenceContext.repositories().equipas();
     private final DraftServicoRepository draftServicoRepository = PersistenceContext.repositories().drafts();
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
-    private final CriticidadeRepository criticidadeRepository = PersistenceContext.repositories().criticidade();
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
@@ -70,36 +67,18 @@ public class EspecificarServicoController {
         this.draftServicoRepository.save(draftServico);
     }
 
-    public void removeDraft(DraftServico draftServico){
-        this.draftServicoRepository.delete(draftServico);
-    }
-
     public Atributo createAtributo(String nomeVariavel, String label) {
         final Atributo atributo = new Atributo(nomeVariavel, label);
         return atributo;
     }
 
-    public Iterable<Servico> listServicos(){
-        final Iterable<Servico> ls = servicoRepository.findAll();
-        return ls;
-    }
-
-    public Iterable<DraftServico> listDrafts(){
-        final Iterable<DraftServico> ld = draftServicoRepository.findAll();
-        return ld;
-    }
 
     public Iterable<Catalogo> listCatalogos(){
         final Iterable<Catalogo> lc = catalogoRepository.findAll();
         return lc;
     }
 
-    public Iterable<Criticidade> listCriticidades(){
-        final Iterable<Criticidade> lc = criticidadeRepository.findAll();
-        return lc;
-    }
-
-    public FluxoAtividade createFluxo (Set<Atividade> atividades){//, AtividadeRealizacao atividadeRealizacao)
+    public FluxoAtividade createFluxo (Set<Atividade> atividades){
         Set<Atividade> listAtividades = new HashSet<>(atividades);
         FluxoAtividade fluxoAtividade = new FluxoAtividade(listAtividades);
         return fluxoAtividade;
@@ -114,7 +93,7 @@ public class EspecificarServicoController {
         return lc;
     }
 
-    public AtividadeManual novaAtividadeAprovacaoManualEquipa(/*final EstadoAtividade e,*/ final Set<Equipa> equipa,
+    public AtividadeManual novaAtividadeAprovacaoManualEquipa(final Set<Equipa> equipa,
                                                               final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
                                                               final Formulario formulario,TipoAtividade tipo){
@@ -132,7 +111,7 @@ public class EspecificarServicoController {
         return atividadeAprovacaoManualEquipa;
     }
 
-    public AtividadeManual novaAtividadeAprovacaoManualColaborador(/*final EstadoAtividade e,*/ final Colaborador colaborador,
+    public AtividadeManual novaAtividadeAprovacaoManualColaborador(final Colaborador colaborador,
                                                                    final String decisao, final String comentario,
                                                                    final int ano, final int mes, final int dia,
                                                                    final Formulario formulario, final TipoAtividade tipoAtividade){

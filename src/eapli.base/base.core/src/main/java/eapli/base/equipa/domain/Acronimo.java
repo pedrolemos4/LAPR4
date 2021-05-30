@@ -17,7 +17,7 @@ public class Acronimo implements ValueObject, Serializable, StringMixin {
     private final String value;
 
     public Acronimo(final String name) {
-        Preconditions.nonEmpty(name, "Description should neither be null nor empty");
+        Preconditions.nonEmpty(name, "Acronym should neither be null nor empty");
         Preconditions.ensure(name.length() <= 10,"O acrónimo não pode ter mais de 10 caratéres.");
         Preconditions.ensure(name.contains("0") || name.contains("1") || name.contains("2") || name.contains("3")
                 || name.contains("4") || name.contains("5") || name.contains("6") || name.contains("7")

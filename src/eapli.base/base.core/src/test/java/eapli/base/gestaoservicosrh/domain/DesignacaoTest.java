@@ -2,6 +2,7 @@ package eapli.base.gestaoservicosrh.domain;
 
 import eapli.base.equipa.domain.Designacao;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 public class DesignacaoTest extends TestCase {
 
@@ -33,4 +34,23 @@ public class DesignacaoTest extends TestCase {
         int exp = a1.hashCode();
         assertEquals(a1.hashCode(),exp);
     }
+
+    @Test
+    public void testDesignacaoMustNotBeNull(){
+        try{
+            Designacao d1 = new Designacao(" ");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDesignacaoMustBeLessThan30(){
+        try{
+            Designacao d1 = new Designacao("A designação não pode ter mais de 30");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

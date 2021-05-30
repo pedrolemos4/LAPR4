@@ -34,7 +34,7 @@ public class TipoEquipa implements AggregateRoot<CodigoUnico> {
     }
 
     public TipoEquipa(CodigoUnico codigoUnico,Designacao designacao,Cor cor){
-        Preconditions.nonNull(cor);
+        Preconditions.noneNull(cor);
         this.codigoUnico=codigoUnico;
         this.designacao=designacao;
         this.cor=cor;

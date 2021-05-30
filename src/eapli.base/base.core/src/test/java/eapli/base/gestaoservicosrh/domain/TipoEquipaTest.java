@@ -19,4 +19,12 @@ public class TipoEquipaTest extends TestCase {
         TipoEquipa tipo = new TipoEquipa(new CodigoUnico("cod"), new Designacao("desig"), new Cor(1,1,1));
         assertEquals(tipo.toString(), "TipoEquipa{, codigoUnico=cod, designacao=desig, cor=Cor: red=1, green=1, blue=1}");
     }
+
+    public void testCorMustNotBeNull(){
+        try{
+            TipoEquipa tipo = new TipoEquipa(new CodigoUnico("cod"), new Designacao("desig"), null);
+        } catch (IllegalArgumentException e ){
+            System.out.println(e.getMessage());
+        }
+    }
 }

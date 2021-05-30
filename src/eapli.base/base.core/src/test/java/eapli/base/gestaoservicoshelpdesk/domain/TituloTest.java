@@ -91,5 +91,23 @@ public class TituloTest {
         int result = instance.compareTo(o);
         assertEquals(expResult, result);
     }
-    
+
+    @Test
+    public void testTituloMustNotBeNull(){
+        try {
+            new Titulo(" ");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testTituloMustNotBeGreaterThan50(){
+        try{
+            new Titulo("50 caracteres será que tem 50 caracteres em quantos caracteres ja vou nao sei mas ok acho que ");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

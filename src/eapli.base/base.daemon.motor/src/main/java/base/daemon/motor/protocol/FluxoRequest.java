@@ -53,7 +53,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     //mandar para o executor
                     byte[] data = new byte[258];
                     try {
-                        serverIP = InetAddress.getLocalHost();
+                        serverIP = InetAddress.getByName("10.8.0.83");
                     } catch (UnknownHostException ex) {
                         System.out.println("Invalid server: " + "endereçoIp");
                         System.exit(1);

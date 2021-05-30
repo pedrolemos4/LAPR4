@@ -89,6 +89,7 @@ public class Catalogo implements AggregateRoot<Long> {
         this.colab = null;
         this.titulo = null;
         this.criticidade = null;
+        this.objetivo=null;
     }
 
     private void copyListEquipas(Iterable<Equipa> listEquipas) {

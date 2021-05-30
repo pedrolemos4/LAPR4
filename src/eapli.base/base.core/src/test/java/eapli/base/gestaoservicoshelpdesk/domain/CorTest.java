@@ -2,6 +2,7 @@ package eapli.base.gestaoservicoshelpdesk.domain;
 
 import eapli.base.criticidade.domain.Cor;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 public class CorTest extends TestCase {
 
@@ -25,5 +26,59 @@ public class CorTest extends TestCase {
     public void testHashCode() {
         Cor cor1 = new Cor(12,12,12);
         assertEquals(cor1.hashCode(),41707);
+    }
+
+    @Test
+    public void testRedMustBeGreaterThan0(){
+        try {
+            Cor cor1 = new Cor(-1, 12, 13);
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testRedMustBeLessThan255(){
+        try{
+            Cor cor1 = new Cor(256,12,13);
+        } catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGreenMustBeGreaterThan0(){
+        try{
+            Cor cor1 = new Cor(13,-1,13);
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGreenMustBeLessThan255(){
+        try{
+            Cor cor1 = new Cor(13,256,13);
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBlueMustBeGreaterThan0(){
+        try{
+            Cor cor1 = new Cor(13,12,-3);
+        } catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBlueMustBeLessThan255(){
+        try{
+            Cor cor1 = new Cor(13,12,260);
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

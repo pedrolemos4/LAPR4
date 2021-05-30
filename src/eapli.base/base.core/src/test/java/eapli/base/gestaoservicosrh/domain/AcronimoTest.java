@@ -2,6 +2,7 @@ package eapli.base.gestaoservicosrh.domain;
 
 import eapli.base.equipa.domain.Acronimo;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 public class AcronimoTest extends TestCase {
 
@@ -32,5 +33,32 @@ public class AcronimoTest extends TestCase {
         Acronimo a1 = new Acronimo("teste1");
         int exp = a1.hashCode();
         assertEquals(a1.hashCode(),exp);
+    }
+
+    @Test
+    public void testAcronymMustNotBeNull(){
+        try{
+            Acronimo a1 = new Acronimo(" ");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAcronymMustNotBeGreaterThan10(){
+        try {
+            Acronimo a1 = new Acronimo("acronimooooo");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAcronymMustBeAlphaNumeric(){
+        try{
+            Acronimo a1 = new Acronimo("acr");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

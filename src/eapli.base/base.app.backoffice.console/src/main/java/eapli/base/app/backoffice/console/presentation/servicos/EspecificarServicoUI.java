@@ -92,7 +92,7 @@ public class EspecificarServicoUI extends AbstractUI {
         //perguntar sobre os formulários e os atributos ao stor
 
         Set<Atributo> listaAtributos = new HashSet<>();
-        Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
+        /*Atributo atributo = theController.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
 
         while (flag) {
@@ -106,7 +106,7 @@ public class EspecificarServicoUI extends AbstractUI {
             } else {
                 flag = false;
             }
-        }
+        }*/
 
         final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
@@ -119,37 +119,37 @@ public class EspecificarServicoUI extends AbstractUI {
         flag = true;
         while (flag) {
             if (tipoResolucao.equalsIgnoreCase("manual")) {
-                    atividadeResolucaoWidget.doManual();
-                    final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
-                    final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
-                    System.out.println("\nSelecione a Equipa:");
-                    selectorEquipa.show();
-                    final Equipa equipa = selectorEquipa.selectedElement();
-                    resposta2=Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
-                    if(resposta2.equalsIgnoreCase("sim") || resposta2.equalsIgnoreCase("S")){
-                        final Iterable<Colaborador> listaColaboradores = this.theController.findColaboradoresDaEquipa(equipa.identity());
-                        final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis",listaColaboradores,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
-                        System.out.println("\nSelecione o Colaborador:");
-                        selectorColaborador.show();
-                        final Colaborador col = selectorColaborador.selectedElement();
-                        Formulario form = null;
-                        TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                        AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
-                                atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
-                                atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
-                        listAtividades.add(atividadeManual);
-                        flag = false;
-                    } else {
-                        Set<Equipa> listEquipas = new HashSet<>();
-                        listEquipas.add(equipa);
-                        Formulario form = null;
-                        TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                        AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
-                                atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
-                                atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
-                        listAtividades.add(atividadeManual);
-                        flag = false;
-                    }
+                atividadeResolucaoWidget.doManual();
+                final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
+                final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
+                System.out.println("\nSelecione a Equipa:");
+                selectorEquipa.show();
+                final Equipa equipa = selectorEquipa.selectedElement();
+                resposta2 = Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
+                if (resposta2.equalsIgnoreCase("sim") || resposta2.equalsIgnoreCase("S")) {
+                    final Iterable<Colaborador> listaColaboradores = this.theController.findColaboradoresDaEquipa(equipa.identity());
+                    final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis", listaColaboradores, visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
+                    System.out.println("\nSelecione o Colaborador:");
+                    selectorColaborador.show();
+                    final Colaborador col = selectorColaborador.selectedElement();
+                    Formulario form = null;
+                    TipoAtividade tipo = TipoAtividade.REALIZACAO;
+                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,
+                            atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                            atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                    listAtividades.add(atividadeManual);
+                    flag = false;
+                } else {
+                    Set<Equipa> listEquipas = new HashSet<>();
+                    listEquipas.add(equipa);
+                    Formulario form = null;
+                    TipoAtividade tipo = TipoAtividade.REALIZACAO;
+                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas,
+                            atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(), atividadeResolucaoWidget.ano(),
+                            atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                    listAtividades.add(atividadeManual);
+                    flag = false;
+                }
             } else if (tipoResolucao.equalsIgnoreCase("automatica") || tipoResolucao.equalsIgnoreCase("automática")) {
                 try {
                     atividadeResolucaoWidget.doAutomatica();
@@ -177,10 +177,10 @@ public class EspecificarServicoUI extends AbstractUI {
             System.out.println("\nSelecione a Equipa:");
             selectorEquipa.show();
             final Equipa equipa = selectorEquipa.selectedElement();
-            resposta2=Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
-            if(resposta2.equalsIgnoreCase("sim") || resposta2.equalsIgnoreCase("S")){
+            resposta2 = Console.readLine("Deseja atribuir a execução da tarefa a uma pessoa em específico?");
+            if (resposta2.equalsIgnoreCase("sim") || resposta2.equalsIgnoreCase("S")) {
                 final Iterable<Colaborador> listaColaboradores = this.theController.findColaboradoresDaEquipa(equipa.identity());
-                final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis",listaColaboradores,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
+                final SelectWidget<Colaborador> selectorColaborador = new SelectWidget<>("Colaboradores Disponíveis", listaColaboradores, visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
                 System.out.println("\nSelecione o Colaborador:");
                 selectorColaborador.show();
                 final Colaborador col = selectorColaborador.selectedElement();
@@ -232,14 +232,14 @@ public class EspecificarServicoUI extends AbstractUI {
     private void motor(final String codigo) throws IOException {
         byte[] data = new byte[258];
         try {
-            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
+            serverIP = InetAddress.getByName("10.8.0.83");//.getByName("endereçoIp");
         } catch (UnknownHostException ex) {
             System.out.println("Invalid server: " + "endereçoIp");
             System.exit(1);
         }
 
         try {
-            sock = new Socket(serverIP, 32508);
+            sock = new Socket(serverIP, 32507);
         } catch (IOException ex) {
             System.out.println("Failed to connect.");
             System.exit(1);
@@ -252,9 +252,9 @@ public class EspecificarServicoUI extends AbstractUI {
         data[0] = 0;
         data[1] = 3;
         byte[] idArray = cod.toString().getBytes();//pedido.servico().identity().toString().getBytes();
-        data[2] = (byte)idArray.length;
-        for(int i = 0; i<idArray.length;i++){
-            data[i+2] = idArray[i];
+        data[2] = (byte) idArray.length;
+        for (int i = 0; i < idArray.length; i++) {
+            data[i + 2] = idArray[i];
         }
 
         sOut.write(data);
