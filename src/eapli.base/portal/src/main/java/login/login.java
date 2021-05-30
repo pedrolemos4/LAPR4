@@ -1,6 +1,6 @@
 package login;
 
-import ajax_server.DemoConsumer;
+import ajax_server.Dashboard;
 import eapli.base.app.backoffice.console.presentation.MainMenu;
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
@@ -41,15 +41,13 @@ public class login  extends BaseApplication {
             // go to main menu
             final var menu = new MainMenu();
             //Server Creation Here
-            //try {
-                //ServerSocket socket = new ServerSocket(9090, 0, InetAddress.getByName(null));
-                //new HttpChatConsumer().execute("10.8.0.83","32507");
-            new DemoConsumer().execute(InetAddress.getLocalHost(),32507);
-                openDashboard();
+            try {
+            new Dashboard().execute("localhost",32507);
+                //openDashboard();
                 menu.mainLoop();
-            //}catch (Exception e){
-              //  LOGGER.error("Impossivel estabelecer ligação com o servidor");
-            //}
+            }catch (Exception e){
+                LOGGER.error("Impossivel estabelecer ligação com o servidor");
+            }
         }
     }
 
