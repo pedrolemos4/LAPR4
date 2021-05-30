@@ -20,19 +20,19 @@ public class DemoConsumer {
 	// THE NUMBER OF VOTES TO CAST ON THE FIRST CANDIDATE
 	static private final int VOTES_TO_CAST = 200;
 
-	public void execute(String address, int porta) throws Exception {
+	public void execute(InetAddress address, int porta) throws Exception {
 
-		if(address.isEmpty()) {
+		/*if(address.isEmpty()) {
             		System.out.println("INVALID IP-ADDRESS");
             		System.exit(1);
             		}
 
-		try { serverIP = InetAddress.getByName(address); }
+		try { serverIP = address; }
 		catch(UnknownHostException ex) {
 			System.out.println("Invalid SERVER-ADDRESS.");
 			System.exit(1);
-			}
-
+			}*/
+		serverIP = address;
 		try {serverPort = porta; }
 		catch(NumberFormatException ex) {
 			System.out.println("Invalid SERVER-PORT.");

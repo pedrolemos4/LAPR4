@@ -220,7 +220,7 @@ public class EspecificarServicoUI extends AbstractUI {
         } catch (final IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-        motor(codigoUnicoData.codigoUnico());
+      //  motor(codigoUnicoData.codigoUnico());
     }
 
     @Override
@@ -228,7 +228,7 @@ public class EspecificarServicoUI extends AbstractUI {
         return "Especificar Serviço";
     }
 
-    private void motor(final String codigo) throws IOException {
+    /*private void motor(final String codigo) throws IOException {
         byte[] data = new byte[258];
         try {
             serverIP = InetAddress.getByName("10.8.0.83");//.getByName("endereçoIp");
@@ -260,5 +260,5 @@ public class EspecificarServicoUI extends AbstractUI {
 
         // serverConn.join();
         sock.close();
-    }
+    }*/
 }

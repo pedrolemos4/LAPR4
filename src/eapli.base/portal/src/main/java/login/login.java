@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 
 
 public class login  extends BaseApplication {
@@ -43,7 +44,7 @@ public class login  extends BaseApplication {
             //try {
                 //ServerSocket socket = new ServerSocket(9090, 0, InetAddress.getByName(null));
                 //new HttpChatConsumer().execute("10.8.0.83","32507");
-            new DemoConsumer().execute("10.8.0.83",32507);
+            new DemoConsumer().execute(InetAddress.getLocalHost(),32507);
                 openDashboard();
                 menu.mainLoop();
             //}catch (Exception e){
@@ -53,7 +54,7 @@ public class login  extends BaseApplication {
     }
 
     private void openDashboard() throws IOException {
-        String url = "portal\\src\\main\\java\\http\\server\\www\\index.html";
+        String url = "portal\\src\\main\\java\\ajax_server\\www\\fluxo.html";
         File file = new File(url);
         Desktop.getDesktop().browse(file.toURI());
     }

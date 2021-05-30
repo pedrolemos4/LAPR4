@@ -85,7 +85,6 @@ public class SolicitarServicoController {
             LOGGER.error("Something went wrong");
             return null;
         }
-
     }
 
     public boolean atualizarDataAtividade(Servico clone, Atividade atividade,Calendar dataLimiteRes){

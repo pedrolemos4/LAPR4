@@ -12,6 +12,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 
+import java.io.IOException;
 import java.util.*;
 
 public class SolicitarServicoUI extends AbstractUI {
@@ -27,7 +28,13 @@ public class SolicitarServicoUI extends AbstractUI {
         showServicos(idCatalogo);
         System.out.println("Introduza codigo do servico_________________________________________________");
         String idServico = sc.next();
-        solicitarServico(idServico);
+        try {
+            solicitarServico(idServico);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return true;
         }
 
@@ -48,7 +55,7 @@ public class SolicitarServicoUI extends AbstractUI {
         }
     }
 
-    private void solicitarServico(String idServico){
+    private void solicitarServico(String idServico) throws IOException, InterruptedException {
         Formulario formulario = this.controller.findFormulario(idServico);
 
         final FormularioDataWidget formularioData = new FormularioDataWidget();
@@ -104,6 +111,7 @@ public class SolicitarServicoUI extends AbstractUI {
                 controller.annexFile(pedido);
         }
         //if(controller.submeterPedido(pedido)){
+        controller.doConnection(pedido);
             System.out.println("SUCESSO");
         //}
     }

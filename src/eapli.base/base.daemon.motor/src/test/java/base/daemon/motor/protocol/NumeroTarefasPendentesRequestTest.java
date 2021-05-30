@@ -59,7 +59,7 @@ public class NumeroTarefasPendentesRequestTest extends AplicacoesRequestTest{
         final AplicacoesRequest req = AplicacoesMessageParser
                 .parse("119080",5);
 
-        final String result = req.execute();
+        final byte[] result = req.execute();
         LOGGER.info("{} -> {}", 5, result);
 
         /*final String[] lines = result.split("\n");

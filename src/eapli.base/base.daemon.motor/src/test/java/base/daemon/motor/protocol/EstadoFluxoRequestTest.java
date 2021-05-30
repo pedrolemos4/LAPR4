@@ -52,14 +52,14 @@ public class EstadoFluxoRequestTest extends AplicacoesRequestTest{
         setMockControllerUnknowns();
     }
 
-    @Test
+   @Test
     public void ensureOkReturnsEstadoFluxo() throws ParseException {
         setMockControllerNoData();
 
         final AplicacoesRequest req = AplicacoesMessageParser
                 .parse("cod007",4);
 
-        final String result = req.execute();
+        final byte[] result = req.execute();
         LOGGER.info("{} -> {}", 4, result);
 
         /*final String[] lines = result.split("\n");
