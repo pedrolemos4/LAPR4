@@ -56,6 +56,8 @@ public class AplicacoesMessageParser {
             request = parseGetFluxo(inputLine);
         } else if (5 == id) {
             request = parseGetNumeroTarefasPendentes(inputLine);
+        }else{
+            request = new ErrorInRequest(inputLine, "Codigo errado");
         }
 
         return request;

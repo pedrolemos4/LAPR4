@@ -50,9 +50,9 @@ public class ExecutorProtocolMessageParser {
 
         if (TAREFA_AUTOMATICA == codigo) { //verifica o codigo
             request = TarefaAutomatica(inputLine);
+        }else {
+            request = new ErrorInRequest(inputLine, "Codigo errado");
         }
-
-
         return request;
     }
 
