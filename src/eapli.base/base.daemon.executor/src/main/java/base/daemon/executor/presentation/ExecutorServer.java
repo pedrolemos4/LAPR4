@@ -22,6 +22,8 @@ package base.daemon.executor.presentation;
 
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
+import eapli.base.atividades.domain.Script;
+import eapli.base.equipa.domain.CodigoUnico;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,6 +52,7 @@ public class ExecutorServer {
         while (true) {
             Socket s = sock.accept(); // wait for a new client connection request
             //    addCli(s);
+            System.out.println(s.toString());
             Thread cli = new ClientHandler(s);
             cli.start();
         }
@@ -70,21 +73,31 @@ public class ExecutorServer {
             byte[] data = new byte[258];
 
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                    /*BufferedReader in = new BufferedReader(new InputStreamReader(myS.getInputStream()))*/
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
+                DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
 
-                //String inputLine;
-                //while ((inputLine = in.readLine()) != null) {
                 sIn.read(data);
                 LOGGER.trace("Received message:----\n{}\n----", data);
                 String inputLine = new String(data, 2, (int) data[3]);
                 int id = (int) data[1];
-                System.out.println(id);
-                System.out.println(inputLine);
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
                 final String response = request.execute();
+
+                byte[] respostaByte = new byte[258];
+                respostaByte[0] = 0;
+                respostaByte[1] = 1;
+                byte[] respostaByteAux = request.toString().getBytes();
+                respostaByte[2] = (byte)respostaByteAux.length;
+
+                for(int i = 0; i<respostaByteAux.length;i++){
+                    respostaByte[i+2] = respostaByteAux[i];
+                }
+
+                sOut.write(respostaByte);
+
                 out.println(response);
                 LOGGER.trace("Sent message:----\n{}\n----", response);
+
                 if (request.isGoodbye()) {
                     //  break;
                     //  }

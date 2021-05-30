@@ -2,6 +2,7 @@ package eapli.base.persistence.impl.jpa;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividades.domain.Script;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
@@ -204,6 +205,13 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
                 "SELECT la FROM Servico e JOIN e.fluxoAtividade fl JOIN fl.listaAtividade la WHERE e.codigoUnico=:idServico",Atividade.class);
         q.setParameter("idServico",new CodigoUnico(idServico));
         return q.getResultList();
+    }
+
+    @Override
+    public String findScriptServico(CodigoUnico cod) {
+        final TypedQuery<String> q = createQuery("SELECT sas.caminhoScript FROM Servico s JOIN s.fluxoAtividade fa JOIN fa.listaAtividade la JOIN la.script sas WHERE s.codigoUnico =:codUnico",String.class);
+        q.setParameter("codUnico",cod);
+        return q.getSingleResult();
     }
 
 }

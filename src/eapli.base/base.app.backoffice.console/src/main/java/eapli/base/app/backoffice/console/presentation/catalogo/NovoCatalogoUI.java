@@ -64,21 +64,21 @@ public class NovoCatalogoUI extends AbstractUI {
             final IconeDataWidget iconeDataWidget = new IconeDataWidget();
             iconeDataWidget.show();
 
-            final Iterable<Criticidade> criticidades = this.controller.getCriticidades();
+           // final Iterable<Criticidade> criticidades = this.controller.getCriticidades();
 
-            final SelectWidget<Criticidade> selectorCrit = new SelectWidget<>("Lista Colaboradores:", criticidades,
+            /*final SelectWidget<Criticidade> selectorCrit = new SelectWidget<>("Lista Colaboradores:", criticidades,
                     new ListCriticidadePrint());
 
             System.out.println("Pretende criar o catalogo com uma criticidade?");
             s = Console.readLine("S/N");
             if (s.equalsIgnoreCase("S")) {
                 System.out.println("Selecione o nível de criticidade que irá ser atribuido a este catalogo");
-                selectorCrit.show();
+                selectorCrit.show();*/
 
-                this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador, selectorCrit.selectedElement());
-            } else {
                 this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador, null);
-            }
+           /* } else {
+                this.controller.novoCatalogo(tituloDataWidget.titulo(), descricaoBreveDataWidget.descricao(), iconeDataWidget.icone(), descricaoCompletaDataWidget.descricao(), listaEquipas, colaborador, null);
+            }*/
         } catch (Exception e) {
             System.out.println("Erro");
             System.out.println("");
