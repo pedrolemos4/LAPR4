@@ -10,9 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.File;
-import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 public class Pedido implements AggregateRoot<String> {
@@ -33,7 +31,7 @@ public class Pedido implements AggregateRoot<String> {
 
     @Column(name = "dataSolicitacao")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataSolicitacao;
+    private Calendar dataSolicitacao;
 
     @OneToOne
     @JoinColumn(name = "servico")
@@ -61,9 +59,9 @@ public class Pedido implements AggregateRoot<String> {
 
     }
 
-    public Pedido(Colaborador colaborador, LocalDate dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao, Formulario formulario) {
+    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao,Formulario formulario) {
         this.colaborador = colaborador;
-        this.dataSolicitacao = java.sql.Date.valueOf(dataSolicitacao);
+        this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;

@@ -156,10 +156,11 @@ public class EspecificarServicoController {
         data.set(ano,mes,dia);
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
+        final Script script = new Script("script.sh");
         if(ano==0 && mes==0 && dia==0) {
-            atividadeAutomatica = new AtividadeAutomatica(null,e,tipoAtividade);
+            atividadeAutomatica = new AtividadeAutomatica(null,e,tipoAtividade, script);
         }else{
-            atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade);
+            atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade, script);
         }
         return atividadeAutomatica;
     }

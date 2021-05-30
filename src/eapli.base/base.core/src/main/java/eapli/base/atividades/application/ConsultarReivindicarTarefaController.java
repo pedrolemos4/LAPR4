@@ -2,15 +2,18 @@ package eapli.base.atividades.application;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.EstadoAtividade;
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
+import eapli.base.equipa.domain.Equipa;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
+import eapli.base.servico.domain.Servico;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -38,15 +41,15 @@ public class ConsultarReivindicarTarefaController {
         return this.colabRepo.findEmailColaborador(email);
     }
 
-    public Atividade getTarefaById(int idAtividade) {
+    public Atividade getTarefaById(long idAtividade) {
         return this.pRepo.getTarefaById(idAtividade);
     }
 
-    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade) {
-        return this.pRepo.getListaTarefasPendentes(identity, atividade);
+    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
+        return this.pRepo.getListaTarefasPendentes(identity);
     }
 
-    public Pedido getPedidoByTarefa(int idAtividade) {
+    public Pedido getPedidoByTarefa(long idAtividade) {
         return this.pRepo.getPedidoByTarefa(idAtividade);
     }
 
@@ -58,37 +61,37 @@ public class ConsultarReivindicarTarefaController {
         return this.pRepo.getPedidoByAtividade(a.identity());
     }
 
-    public List<Atividade> filtrarUrgenciaPendentes(Colaborador colab, String urgencia, String atividade) {
+    public List<Atividade> filtrarUrgenciaPendentes(Colaborador colab, String urgencia) {
         if(urgencia.compareToIgnoreCase("URGENTE") == 0){
-            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.URGENTE, atividade);
+            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.URGENTE);
         }
         if(urgencia.compareToIgnoreCase("MODERADA") == 0){
-            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.MODERADA, atividade);
+            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.MODERADA);
         }
         if(urgencia.compareToIgnoreCase("REDUZIDA") == 0){
-            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.REDUZIDA, atividade);
+            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.REDUZIDA);
         }
         return null;
 
     }
 
-    public List<Atividade> filtrarDataPendentes(Colaborador colab, Calendar data1, Calendar data2, String atividade) {
-        return this.pRepo.filtrarDataPendentes(colab.identity(), data1, data2, atividade, EstadoAtividade.PENDENTE);
+    public List<Atividade> filtrarDataPendentes(Colaborador colab, Calendar data1, Calendar data2) {
+        return this.pRepo.filtrarDataPendentes(colab.identity(), data1, data2, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> filtrarCriticidadeEscalaPendentes(Colaborador colab, int escala, String atividade) {
-        return this.pRepo.filtrarCriticidadeEscalaPendentes(colab.identity(), Escala.valueOf(escala), atividade, EstadoAtividade.PENDENTE);
+    public List<Atividade> filtrarCriticidadeEscalaPendentes(Colaborador colab, int escala) {
+        return this.pRepo.filtrarCriticidadeEscalaPendentes(colab.identity(), Escala.valueOf(escala), EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> filtrarCriticidadeEtiquetaPendentes(Colaborador colab, String r2, String atividade) {
-        return this.pRepo.filtrarCriticidadeEtiquetaPendentes(colab.identity(), Etiqueta.valueOf(r2), EstadoAtividade.PENDENTE, atividade);
+    public List<Atividade> filtrarCriticidadeEtiquetaPendentes(Colaborador colab, String r2) {
+        return this.pRepo.filtrarCriticidadeEtiquetaPendentes(colab.identity(), Etiqueta.valueOf(r2), EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarDataCrescentePendentes(Colaborador colab, String atividade) {
-        return this.pRepo.ordenarDataCrescentePendentes(colab.identity(), atividade, EstadoAtividade.PENDENTE);
+    public List<Atividade> ordenarDataCrescentePendentes(Colaborador colab) {
+        return this.pRepo.ordenarDataCrescentePendentes(colab.identity(), EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarDataDecrescentePendentes(Colaborador colab, String atividade) {
-        return this.pRepo.ordenarDataDecrescentePendentes(colab.identity(), atividade, EstadoAtividade.PENDENTE);
+    public List<Atividade> ordenarDataDecrescentePendentes(Colaborador colab) {
+        return this.pRepo.ordenarDataDecrescentePendentes(colab.identity(), EstadoAtividade.PENDENTE);
     }
 }

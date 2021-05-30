@@ -10,21 +10,21 @@ skinparam shadowing false
 participant ServicoBootstrapper as Bootstrapper
 
 participant FluxoAtividade as FluxoAtividade
-participant CatalogoRepository as CRepository 
-participant Formulario as FRepository 
+participant Catalogo as Catalogo 
+participant Formulario as Formulario 
 participant EspecificarServicoController as Controller
-participant ServicoRepository as SRepository 
 participant Servico as Servico
+participant ServicoRepository as SRepository
 
 activate Bootstrapper
 
-Bootstrapper -> CRepository : catalogo=getCatalogo()
-activate CRepository
-deactivate CRepository
+Bootstrapper -> Catalogo : catalogo=create()
+activate Catalogo
+deactivate Catalogo
 
-Bootstrapper -> FRepository : formulario=create()
-activate FRepository
-deactivate FRepository
+Bootstrapper -> Formulario : formulario=create()
+activate Formulario
+deactivate Formulario
 
 Bootstrapper -> FluxoAtividade : fluxo=create()
 activate FluxoAtividade

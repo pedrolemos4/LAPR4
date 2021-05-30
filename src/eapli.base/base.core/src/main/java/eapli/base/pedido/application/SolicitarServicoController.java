@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.time.LocalDate;
 import java.util.*;
 
 @UseCaseController
@@ -79,7 +78,7 @@ public class SolicitarServicoController {
         try{
             formulario.copyAtributos(atributos);
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes,formulario);
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(),servicoSolicitado,urgencia,dataLimiteRes,formulario);
             return this.pedidoRepository.save(pedido);
         }
         catch (Exception e){

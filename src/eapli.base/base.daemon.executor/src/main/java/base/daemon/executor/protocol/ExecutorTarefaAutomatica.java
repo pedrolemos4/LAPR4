@@ -20,8 +20,11 @@
  */
 package base.daemon.executor.protocol;
 
+import eapli.base.atividades.domain.Script;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 
@@ -36,15 +39,19 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
        // execution
         try {
             executarScript(request);
+            //System.out.println("Executar o script");
         } catch (final Exception e) {
+            System.out.println("Erro");
             return buildServerError(e.getMessage());
         }
-        return null; //retirar
+
+        return "Sucesso";
     }
 
     private void executarScript(final String input) throws FileNotFoundException {
-        Scanner ler = new Scanner(new File(input));
-        ler.nextLine();
+        //Scanner ler = new Scanner(new File(input));
+        //ler.nextLine();
+        //executa o script
         System.out.println("A executar o script");
     }
 
