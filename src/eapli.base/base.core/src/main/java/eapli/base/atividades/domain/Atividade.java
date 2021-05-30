@@ -46,7 +46,7 @@ public class Atividade implements ValueObject{
     @Override
     public String toString() {
         return "ID: " + id +
-                ", DataLimite: " + dataLimite.getTime() +
+                ", DataLimite: " + dataLimite +
                 ", EstadoAtividade: " + estadoAtividade;
     }
 

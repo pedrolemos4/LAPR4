@@ -22,13 +22,14 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
         Scanner s = new Scanner(System.in);
         Colaborador colab = this.controller.getUser();
         final List<Atividade> listTarefas = new ArrayList<>();
-        String atividade = "AtividadeManual";
 
         int opc, opc2, opc3;
         do {
             listTarefas.clear();
             System.out.println("Lista de tarefas pendentes:\n");
-            listTarefas.addAll(this.controller.getListaTarefasPendentes(colab.identity(), atividade));
+            System.out.println("COLABORADOR:: " +colab.identity());
+
+            listTarefas.addAll(this.controller.getListaTarefasPendentes(colab.identity()));
 
             for (Atividade a : listTarefas) {
                 Pedido p = this.controller.getPedidoByAtividade(a);
@@ -60,7 +61,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                                 String r = Console.readLine("Insira a Urgencia:\n");
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 listTarefas.clear();
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, r, atividade));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, r));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -83,7 +84,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
 
                                 System.out.println("Lista de tarefas pendentes filtrada: \n");
                                 listTarefas.clear();
-                                listTarefas.addAll(this.controller.filtrarDataPendentes(colab, data1, data2, atividade));
+                                listTarefas.addAll(this.controller.filtrarDataPendentes(colab, data1, data2));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -100,7 +101,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                                 } while (escala > 5 || escala < 1);
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 listTarefas.clear();
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, escala, atividade));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, escala));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -118,7 +119,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                                 String r2 = s.next();
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 listTarefas.clear();
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, r2, atividade));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, r2));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -151,9 +152,9 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 1: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "REDUZIDA", atividade));
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "MODERADA", atividade));
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "URGENTE", atividade));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "REDUZIDA"));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "MODERADA"));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "URGENTE"));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -165,9 +166,9 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 2: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "URGENTE", atividade));
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "MODERADA", atividade));
-                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "REDUZIDA", atividade));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "URGENTE"));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "MODERADA"));
+                                listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "REDUZIDA"));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -179,7 +180,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 3: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.ordenarDataCrescentePendentes(colab, atividade));
+                                listTarefas.addAll(this.controller.ordenarDataCrescentePendentes(colab));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -191,7 +192,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 4: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.ordenarDataDecrescentePendentes(colab, atividade));
+                                listTarefas.addAll(this.controller.ordenarDataDecrescentePendentes(colab));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -203,11 +204,11 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 5: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 1, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 2, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 3, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 4, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 5, atividade));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 1));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 2));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 3));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 4));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 5));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -219,11 +220,11 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 6: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 5, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 4, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 3, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 2, atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 1, atividade));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 5));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 4));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 3));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 2));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 1));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -235,9 +236,9 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 7: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "BAIXA", atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "MEDIA", atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "ELEVADA", atividade));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "BAIXA"));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "MEDIA"));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "ELEVADA"));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -249,9 +250,9 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                             case 8: {
                                 listTarefas.clear();
                                 System.out.println("Lista de tarefas ordenada:\n");
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "ELEVADA", atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "MEDIA", atividade));
-                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "BAIXA", atividade));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "ELEVADA"));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "MEDIA"));
+                                listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "BAIXA"));
 
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
@@ -273,21 +274,13 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
             }
         } while (opc != 0);
 
-        // retornar lista cujas tarefas tenham sido atribuidas a equipas em que o user esteja para as poder reinvidicar
-        //Iterable<Atividade> list = this.controller.getListaTarefasPendentes(colab.identity(), atividade);
-
-        //mostra lista de tarefas
-        /*for(Atividade a : list){
-            System.out.println(a.toString());
-        }*/
-
         boolean flag = true;
 
         while (flag) {
-            String opcao = Console.readLine("Deseja reinvidicar uma destas tarefas? (sim|nao)");
+            String opcao = Console.readLine("Deseja reinvidicar alguma destas tarefas? (sim|nao)");
             if ("sim".equalsIgnoreCase(opcao) || opcao.equalsIgnoreCase("s")) {
                 // escolhe id da tarefa
-                int idAtividade = Console.readInteger("Insira o id da tarefa que pretende realizar");
+                long idAtividade = Console.readLong("Insira o id da tarefa que pretende realizar");
                 // atividade correspondente
                 Atividade manual = this.controller.getTarefaById(idAtividade);
                 // pedido correspondente
@@ -296,8 +289,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                 pedido.adicionaColaborador(colab, manual);
                 // guarda atualizacao
                 this.controller.saveAtualizacao(pedido);
-
-                //am.adicionaColaborador(colab, idAtividade);
+                System.out.println("Tarefa atualizada com sucesso!");
 
             } else {
                 flag = false;

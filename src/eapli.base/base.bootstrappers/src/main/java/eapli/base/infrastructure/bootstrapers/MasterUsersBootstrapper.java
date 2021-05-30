@@ -101,6 +101,6 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     private void registaColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
                                      final String dataNascimento, final int prefix, final int contacto, final String local, final String email){
 
-        registerColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, prefix, contacto, local,email);
+        registerColaborador(numeroMecanografico, nomeCurto, nomeCompleto, dataNascimento, prefix, contacto, local,email);
     }
 }

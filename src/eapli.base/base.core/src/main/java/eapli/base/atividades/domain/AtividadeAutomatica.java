@@ -8,9 +8,6 @@ import java.util.Calendar;
 @Entity
 @DiscriminatorColumn(name = "AtividadeAutomatica")
 public class AtividadeAutomatica extends Atividade {
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(name= "SCRIPT")
     private Script script;
@@ -23,5 +20,10 @@ public class AtividadeAutomatica extends Atividade {
 
     protected AtividadeAutomatica() {
 
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

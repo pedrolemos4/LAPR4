@@ -32,7 +32,7 @@ public class Pedido implements AggregateRoot<String> {
 
     @Column(name = "dataSolicitacao")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataSolicitacao;
+    private Calendar dataSolicitacao;
 
     @OneToOne
     @JoinColumn(name = "servico")
@@ -56,9 +56,9 @@ public class Pedido implements AggregateRoot<String> {
 
     }
 
-    public Pedido(Colaborador colaborador, LocalDate dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
+    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
         this.colaborador = colaborador;
-        this.dataSolicitacao = java.sql.Date.valueOf(dataSolicitacao);
+        this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;

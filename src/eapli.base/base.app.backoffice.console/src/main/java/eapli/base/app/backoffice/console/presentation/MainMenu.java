@@ -23,6 +23,7 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
+import eapli.base.app.backoffice.console.presentation.atividades.ConsultarReivindicarTarefaUI;
 import eapli.base.app.backoffice.console.presentation.atividades.ConsultarTarefasUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServicoUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
@@ -173,9 +174,9 @@ public class MainMenu extends AbstractUI {
             final Menu menuConsultarTarefas = buildConsultarTarefas();
             mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarTarefas);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
-            mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarReivindicarTarefas);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            /*final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
+            mainMenu.addSubMenu(CONSULTAR_REIVINDICAR_TAREFAS,menuConsultarReivindicarTarefas);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));*/
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -228,16 +229,17 @@ public class MainMenu extends AbstractUI {
     private Menu buildConsultarTarefas(){
         final Menu consultarTarefasMenu = new Menu("Consultar Tarefas");
         consultarTarefasMenu.addItem(CONSULTAR_TAREFAS,"Consultar Tarefas",()->new ConsultarTarefasUI().show());
+        consultarTarefasMenu.addItem(CONSULTAR_REIVINDICAR_TAREFAS,"Consultar/ Reivindicar Tarefas",()->new ConsultarReivindicarTarefaUI().show());
         consultarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
         return consultarTarefasMenu;
     }
 
-    private Menu buildConsultarReivindicarTarefas(){
-        final Menu consultarReivindicarTarefasMenu = new Menu("Consultar Tarefas");
+    /*private Menu buildConsultarReivindicarTarefas(){
+        final Menu consultarReivindicarTarefasMenu = new Menu("Consultar/ Reivindicar Tarefas");
         consultarReivindicarTarefasMenu.addItem(CONSULTAR_REIVINDICAR_TAREFAS,"Consultar/ Reivindicar Tarefas",()->new ConsultarTarefasUI().show());
         consultarReivindicarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
         return consultarReivindicarTarefasMenu;
-    }
+    }*/
 
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");

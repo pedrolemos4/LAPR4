@@ -77,7 +77,7 @@ public class SolicitarServicoController {
     public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes){
         try{
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes);
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(),servicoSolicitado,urgencia,dataLimiteRes);
             return this.pedidoRepository.save(pedido);
         }
         catch (Exception e){

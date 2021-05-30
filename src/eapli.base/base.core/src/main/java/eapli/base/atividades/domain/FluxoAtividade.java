@@ -73,4 +73,11 @@ public class FluxoAtividade implements DomainEntity<Long> {
         atividade.atualizarDataAtividade(dataLimiteRes);
     }
 
+    @Override
+    public String toString() {
+        return "FluxoAtividade{" +
+                "estadoFluxo=" + estadoFluxo +
+                ", listaAtividade=" + listaAtividade +
+                '}';
+    }
 }
