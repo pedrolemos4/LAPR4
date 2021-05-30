@@ -15,7 +15,13 @@ public class Comentario implements ValueObject {
         this.coment = coment;
     }
 
-    public Comentario() {
+    protected Comentario() {
+    }
 
+    @Override
+    public String toString() {
+        return "Comentario{" +
+                "coment='" + coment + '\'' +
+                '}';
     }
 }

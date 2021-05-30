@@ -15,6 +15,12 @@ public class Decisao implements ValueObject {
     }
 
     protected Decisao() {
+    }
 
+    @Override
+    public String toString() {
+        return "Decisao{" +
+                "des='" + des + '\'' +
+                '}';
     }
 }

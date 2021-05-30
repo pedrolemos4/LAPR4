@@ -1,5 +1,6 @@
 package eapli.base.atividades.domain;
 
+import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.domain.model.DomainEntity;
 
@@ -45,7 +46,14 @@ public class FluxoAtividade implements DomainEntity<Long> {
 
     @Override
     public boolean sameAs(Object other) {
-        return false;
+        if (!(other instanceof FluxoAtividade)) {
+            return false;
+        }
+        final FluxoAtividade that = (FluxoAtividade) other;
+        if (this == that) {
+            return true;
+        }
+        return this.listaAtividade.equals(that.listaAtividade) && this.estadoFluxo.equals(that.estadoFluxo);
     }
 
     @Override
