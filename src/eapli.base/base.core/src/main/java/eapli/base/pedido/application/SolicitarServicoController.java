@@ -7,6 +7,7 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
+import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
@@ -74,10 +75,11 @@ public class SolicitarServicoController {
         }
     }
 
-    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes){
+    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes, Formulario formulario, Set<Atributo> atributos){
         try{
+            formulario.copyAtributos(atributos);
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes);
+            Pedido pedido = new Pedido(colab, LocalDate.now(),servicoSolicitado,urgencia,dataLimiteRes,formulario);
             return this.pedidoRepository.save(pedido);
         }
         catch (Exception e){
@@ -104,17 +106,19 @@ public class SolicitarServicoController {
         pedido.annexFile(file);
     }
 
-    public boolean preencherFormulario(String idServico) {
+    public Formulario findFormulario(String idServico) {
         try{
-            Formulario formulario = formularioRepository.getFormularioDoServico(idServico);
-            System.out.println("Preencher Formulario aqui");
-            //formularioRepository.save(formulario);
-            return true;
+            return formularioRepository.getFormularioDoServico(idServico);
         }
         catch (Exception e){
             LOGGER.error("Something went wrong");
-            return false;
+            return null;
         }
+    }
+
+    public Atributo createAtributo(String nomeVariavel, String label) {
+        final Atributo atributo = new Atributo(nomeVariavel, label);
+        return atributo;
     }
 
     public void doConnection(Pedido pedido) throws IOException, InterruptedException {

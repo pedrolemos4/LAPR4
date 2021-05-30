@@ -2,6 +2,7 @@ package eapli.base.pedido.domain;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.generators.IdentificadorGenerator;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -50,19 +51,24 @@ public class Pedido implements AggregateRoot<String> {
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
 
+    @OneToOne
+    @JoinColumn(name = "formulario")
+    private Formulario formulario;
+
     //Set<File> annexedFiles;
 
     protected Pedido() {
 
     }
 
-    public Pedido(Colaborador colaborador, LocalDate dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
+    public Pedido(Colaborador colaborador, LocalDate dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao, Formulario formulario) {
         this.colaborador = colaborador;
         this.dataSolicitacao = java.sql.Date.valueOf(dataSolicitacao);
         this.servico = servico;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;
         this.estado = EstadoPedido.SUBMETIDO;
+        this.formulario = formulario;
     }
 
     @Override

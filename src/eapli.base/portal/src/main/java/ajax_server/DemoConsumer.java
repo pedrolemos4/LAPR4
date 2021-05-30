@@ -2,7 +2,6 @@ package ajax_server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -21,11 +20,10 @@ public class DemoConsumer {
 	// THE NUMBER OF VOTES TO CAST ON THE FIRST CANDIDATE
 	static private final int VOTES_TO_CAST = 200;
 
-	public void execute(String address, String porta) throws Exception {
+	public void execute(String address, int porta) throws Exception {
 
-		if(address.isEmpty() || porta.isEmpty()) {
-            		System.out.println("Server address and port number required at command line.");
-            		System.out.println("Usage: java DemoConsumer {SERVER-ADDRESS} {SERVER-PORT-NUMBER}");
+		if(address.isEmpty()) {
+            		System.out.println("INVALID IP-ADDRESS");
             		System.exit(1);
             		}
 
@@ -35,44 +33,49 @@ public class DemoConsumer {
 			System.exit(1);
 			}
 
-		try { serverPort = Integer.parseInt(porta); }
+		try {serverPort = porta; }
 		catch(NumberFormatException ex) {
 			System.out.println("Invalid SERVER-PORT.");
 			System.exit(1);
 			}
- 
+
 		HTTPmessage request = new HTTPmessage();
 		request.setRequestMethod("PUT");
 		request.setURI("/votes/1");
-            	System.out.println("Casting " + VOTES_TO_CAST + " votes on the first candidate ...");
+            	//System.out.println("Casting " + VOTES_TO_CAST + " votes on the first candidate ...");
 
 
-		for(int i=0; i<VOTES_TO_CAST; i++) {
-            		System.out.println("Connecting to http://" + address + ":" + serverPort + "/");
-			try { sock = new Socket(serverIP, serverPort); }
-			catch(IOException ex) {
-            			System.out.println("Failed to connect to provided SERVER-ADDRESS and SERVER-PORT.");
-            			System.out.println("Application aborted.");
-            			System.exit(1);
-            			}
 
-			try {
-				sOut = new DataOutputStream(sock.getOutputStream());
-				sIn = new DataInputStream(sock.getInputStream());
-				}
-			catch(IOException ex) {
-            			System.out.println("Error accessing socket's streams. Aborted.");
+
+		//for(int i=0; i<VOTES_TO_CAST; i++) {
+		System.out.println("Connecting to http://" + address + ":" + serverPort + "/");
+		//try {
+			sock = new Socket(serverIP, serverPort);
+			System.out.println("Connected to " + serverIP + ":" + serverPort);
+		//}
+		//catch(IOException ex) {
+		//	System.out.println("Failed to connect to provided SERVER-ADDRESS and SERVER-PORT.");
+		//	System.out.println("Application aborted.");
+		//	System.exit(1);
+		}
+/*
+		try {
+			sOut = new DataOutputStream(sock.getOutputStream());
+			sIn = new DataInputStream(sock.getInputStream());
+		}
+		catch(IOException ex) {
+			System.out.println("Error accessing socket's streams. Aborted.");
 				try { sock.close(); } catch(IOException ex2) { System.out.println("Error closing socket."); }
             			System.out.println("Application aborted.");
             			System.exit(1);
             			}
-			System.out.println("Casting a vote");
 			request.send(sOut);				// send HTTP request
 			HTTPmessage response = new HTTPmessage(sIn);	// receive HTTP response
-			System.out.println("HTTP server response status: " + response.getStatus());
+			//System.out.println("HTTP server response status: " + response.getStatus());
 			try { sock.close(); } catch(IOException ex2) { System.out.println("Error closing socket."); }
 			}
 
-        	} // MAIN METHOD
-    	} // CLASS
+ */
+} // MAIN METHOD
+    	//} // CLASS
     

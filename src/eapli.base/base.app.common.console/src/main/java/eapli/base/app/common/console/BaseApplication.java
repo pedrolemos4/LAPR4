@@ -82,7 +82,7 @@ public abstract class BaseApplication {
         doSetupEventHandlers(dispatcher);
     }
 
-    protected abstract void doMain(final String[] args) throws IOException;
+    protected abstract void doMain(final String[] args) throws Exception;
 
     protected abstract String appTitle();
 
