@@ -82,15 +82,13 @@ public class AplicacoesMessageParser {
 
     private static AplicacoesRequest parseGetNumeroTarefasPendentes(String inputLine) {
         AplicacoesRequest request;
-        String[] array = inputLine.split(" ");
-        request = new NumeroTarefasPendentesRequest(getController(), inputLine, array[0]);
+        request = new NumeroTarefasPendentesRequest(getController(), inputLine);
         return request;
     }
 
     private static AplicacoesRequest parseGetFluxo(final String inputLine) {
         AplicacoesRequest request;
-        String[] array = inputLine.split(" ");
-        request = new EstadoFluxoRequest(getController(), inputLine, array[0], array[1]);
+        request = new EstadoFluxoRequest(getController(), inputLine);
         return request;
     }
 

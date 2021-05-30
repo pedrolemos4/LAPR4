@@ -7,41 +7,27 @@ import eapli.base.equipa.domain.CodigoUnico;
 
 public class EstadoFluxoRequest extends AplicacoesRequest {
 
-    private final String servicoId;
-    private final int userid;
-
-    public EstadoFluxoRequest(final AplicacoesController controller, final String request, final String servicoId,
-                              final String user) {
+    public EstadoFluxoRequest(final AplicacoesController controller, final String request) {
         super(controller, request);
-        this.servicoId = servicoId;
-        this.userid = Integer.parseInt(user);
     }
-
 
     @Override
     public String execute() {
         // semantic validation
         CodigoUnico servico;
         try {
-            servico = CodigoUnico.valueOf(servicoId);
+            servico = CodigoUnico.valueOf(request.trim());
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id");
         }
 
-        MecanographicNumber user;
-        try {
-            user = MecanographicNumber.valueOf(userid);
-        } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Invalid user id");
-        }
-
         // execution
         try {
-            final EstadoFluxo token = controller.getEstadoFluxoDoServico(servico, user);
+            final EstadoFluxo token = controller.getEstadoFluxoDoServico(servico);
             // response
             return buildResponse(token);
         } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Unknown servico and/or user id");
+            return buildBadRequest("Unknown servico id");
         } catch (final Exception e) {
             // we should be careful about exposing the Exception to the outside!
             return buildServerError(e.getMessage());

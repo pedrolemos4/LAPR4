@@ -10,12 +10,8 @@ import java.util.List;
 
 public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
 
-    private final int userid;
-
-    public NumeroTarefasPendentesRequest(final AplicacoesController controller, final String request,
-                                         final String user){
+    public NumeroTarefasPendentesRequest(final AplicacoesController controller, final String request){
         super(controller, request);
-        this.userid = Integer.parseInt(user);
     }
 
     @Override
@@ -23,7 +19,7 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
         // semantic validation
         MecanographicNumber user;
         try {
-            user = MecanographicNumber.valueOf(userid);
+            user = MecanographicNumber.valueOf(Integer.parseInt(request.trim()));
         } catch (final IllegalArgumentException e) {
             return buildBadRequest("Invalid user name");
         }
@@ -33,9 +29,8 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
             final EstadoAtividade estado = EstadoAtividade.PENDENTE;
             final Long quantidadeTarefasPendentes = controller.getNTarefasPendentes(user, estado);
 
-            // nao tenho a certeza ----------------------REVER------------------------------
             final Long tarefasQueUltrapassamDataPedido = controller.getTarefasQueUltrapassamDataPedido(user, estado);
-            //-------------------------------- REVER SITUAÇAO DAS DATAS -----------------------
+
             final Long tarefasQueTerminamEmXHora = controller.getTarefasQueTerminamEm1Hora(user, estado, 1);
 
             final UrgenciaPedido urgenciaReduzida = UrgenciaPedido.REDUZIDA;

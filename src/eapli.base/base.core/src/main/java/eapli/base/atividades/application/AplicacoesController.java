@@ -22,8 +22,7 @@ public class AplicacoesController {
     private ColaboradorRepository colabRepo = PersistenceContext.repositories().colaborador();
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
 
-    // será mesmo necessário levar o cloaborador associado??????
-    public EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId, MecanographicNumber user) {
+    public EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId) {
         return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
     }
 

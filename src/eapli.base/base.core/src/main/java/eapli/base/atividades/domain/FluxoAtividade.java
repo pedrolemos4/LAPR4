@@ -1,6 +1,5 @@
 package eapli.base.atividades.domain;
 
-import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.framework.domain.model.DomainEntity;
 
