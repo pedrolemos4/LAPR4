@@ -1,11 +1,9 @@
 package eapli.base.servico.application;
 
-import eapli.base.atividades.domain.*;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
-import eapli.base.criticidade.domain.Criticidade;
-import eapli.base.criticidade.repositories.CriticidadeRepository;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
@@ -14,13 +12,10 @@ import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.draft.repositories.DraftServicoRepository;
-import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.application.UseCaseController;
-import eapli.framework.infrastructure.authz.application.AuthorizationService;
-import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -96,7 +91,7 @@ public class EspecificarServicoController {
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final Set<Equipa> equipa,
                                                               final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
-                                                              final Formulario formulario,TipoAtividade tipo){
+                                                              final Formulario formulario, TipoAtividade tipo){
         final AtividadeManual atividadeAprovacaoManualEquipa;
         final Calendar data = Calendar.getInstance();
         data.set(ano,mes,dia);

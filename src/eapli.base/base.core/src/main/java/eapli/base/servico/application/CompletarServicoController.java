@@ -1,6 +1,6 @@
 package eapli.base.servico.application;
 
-import eapli.base.atividades.domain.*;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.criticidade.domain.Criticidade;
 import eapli.base.criticidade.repositories.CriticidadeRepository;
@@ -80,7 +80,7 @@ public class CompletarServicoController {
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
                                                               final String decisao, final String comentario,
                                                               final int ano, final int mes, final int dia,
-                                                              final Formulario formulario,TipoAtividade tipo){
+                                                              final Formulario formulario, TipoAtividade tipo){
         final Calendar data = Calendar.getInstance();
         data.set(ano,mes,dia);
         final Decisao des = new Decisao(decisao);

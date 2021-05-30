@@ -1,9 +1,8 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.EstadoAtividade;
+import eapli.base.atividade.domain.EstadoFluxo;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
@@ -26,9 +25,9 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     @Override
     public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq " +
-                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico=:identity",
+                "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
+                        " JOIN f.listaAtividade at JOIN at.equipa eq " +
+                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity",
                 Atividade.class);
         q.setParameter("identity", identity);
         return q.getResultList();

@@ -1,6 +1,6 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
+import eapli.base.atividade.application.AplicacoesController;
 
 public abstract class AplicacoesRequest {
 
@@ -17,7 +17,7 @@ public abstract class AplicacoesRequest {
      *
      * @return the response to send back to the client
      */
-    public abstract String execute();
+    public abstract byte[] execute();
 
     /**
      * Indicates the object is a goodbye message, that is, a message that will close the

@@ -1,6 +1,6 @@
 package eapli.base.formulario.domain;
 
-import eapli.base.atividades.domain.AtividadeManual;
+import eapli.base.atividade.domain.AtividadeManual;
 import eapli.base.catalogo.domain.Titulo;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.servico.domain.Servico;

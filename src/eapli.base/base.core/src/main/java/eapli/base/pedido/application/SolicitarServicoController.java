@@ -1,6 +1,6 @@
 package eapli.base.pedido.application;
 
-import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;

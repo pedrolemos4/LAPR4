@@ -20,12 +20,8 @@
  */
 package base.daemon.executor.protocol;
 
-import eapli.base.atividades.domain.Script;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 
 public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {

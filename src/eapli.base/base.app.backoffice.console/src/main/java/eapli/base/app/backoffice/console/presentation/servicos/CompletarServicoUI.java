@@ -2,8 +2,7 @@ package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
-import eapli.base.atividades.domain.*;
-import eapli.base.criticidade.domain.Criticidade;
+import eapli.base.atividade.domain.*;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Formulario;

@@ -1,7 +1,7 @@
 package eapli.base.servico.domain;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;

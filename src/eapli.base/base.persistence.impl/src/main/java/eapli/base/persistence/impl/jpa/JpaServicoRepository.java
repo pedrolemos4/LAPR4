@@ -1,8 +1,7 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.FluxoAtividade;
-import eapli.base.atividades.domain.Script;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;

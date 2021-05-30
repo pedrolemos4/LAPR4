@@ -5,7 +5,6 @@
  */
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -15,8 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.text.ParseException;
-
-import static org.junit.Assert.*;
 
 
 public class NumeroTarefasPendentesRequestTest extends AplicacoesRequestTest{

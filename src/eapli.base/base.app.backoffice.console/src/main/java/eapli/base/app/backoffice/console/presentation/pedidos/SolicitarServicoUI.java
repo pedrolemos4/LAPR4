@@ -1,7 +1,7 @@
 package eapli.base.app.backoffice.console.presentation.pedidos;
 
 import eapli.base.app.backoffice.console.presentation.servicos.FormularioDataWidget;
-import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;

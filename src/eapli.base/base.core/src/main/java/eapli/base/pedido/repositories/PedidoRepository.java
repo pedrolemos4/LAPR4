@@ -1,9 +1,9 @@
 package eapli.base.pedido.repositories;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.EstadoAtividade;
+import eapli.base.atividade.domain.EstadoFluxo;
+import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;

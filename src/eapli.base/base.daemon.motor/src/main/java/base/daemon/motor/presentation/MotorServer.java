@@ -83,8 +83,8 @@ public class MotorServer {
                 System.out.println(id);
                 System.out.println(inputLine);
                 final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine,id);
-                final String response = request.execute();
-                out.println(response);
+                final byte[] response = request.execute();
+                out.println(response.toString());
                 LOGGER.trace("Sent message:----\n{}\n----", response);
                 if (request.isGoodbye()) {
                   //  break;
