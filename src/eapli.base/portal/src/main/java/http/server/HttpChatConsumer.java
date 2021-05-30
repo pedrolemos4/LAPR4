@@ -29,7 +29,16 @@ public class HttpChatConsumer {
 			System.out.println("Invalid SERVER-PORT-NUMBER: " + gate);
 			System.exit(1);
 			}
-		System.out.println("Connected to " + serverIP);
+		try {
+			Socket sock = new Socket(serverIP, serverPort);
+			System.out.println("Connected to " + serverIP + ":" + serverPort);
+		}
+		catch(IOException ex) {
+				System.out.println("Failed to connect to provided SERVER-ADDRESS and SERVER-PORT.");
+				System.out.println("Application aborted.");
+				System.exit(1);
+			}
+
 /*
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 

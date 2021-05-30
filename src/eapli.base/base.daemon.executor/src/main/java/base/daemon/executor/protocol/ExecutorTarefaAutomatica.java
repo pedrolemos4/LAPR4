@@ -38,19 +38,19 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     public String execute() {
        // execution
         try {
-            //executarScript(request);
-            System.out.println("Executar o script");
+            executarScript(request);
+            //System.out.println("Executar o script");
         } catch (final Exception e) {
             System.out.println("Erro");
             return buildServerError(e.getMessage());
         }
-        String resposta = "Sucesso";
-        return resposta;
+
+        return "Sucesso";
     }
 
     private void executarScript(final String input) throws FileNotFoundException {
-        Scanner ler = new Scanner(new File(input));
-        ler.nextLine();
+        //Scanner ler = new Scanner(new File(input));
+        //ler.nextLine();
         //executa o script
         System.out.println("A executar o script");
     }

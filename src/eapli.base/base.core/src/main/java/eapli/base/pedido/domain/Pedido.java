@@ -2,6 +2,7 @@ package eapli.base.pedido.domain;
 
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.generators.IdentificadorGenerator;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -9,9 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.File;
-import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 public class Pedido implements AggregateRoot<String> {
@@ -32,7 +31,7 @@ public class Pedido implements AggregateRoot<String> {
 
     @Column(name = "dataSolicitacao")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataSolicitacao;
+    private Calendar dataSolicitacao;
 
     @OneToOne
     @JoinColumn(name = "servico")
@@ -50,19 +49,24 @@ public class Pedido implements AggregateRoot<String> {
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
 
+    @OneToOne
+    @JoinColumn(name = "formulario")
+    private Formulario formulario;
+
     //Set<File> annexedFiles;
 
     protected Pedido() {
 
     }
 
-    public Pedido(Colaborador colaborador, LocalDate dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao) {
+    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao,Formulario formulario) {
         this.colaborador = colaborador;
-        this.dataSolicitacao = java.sql.Date.valueOf(dataSolicitacao);
+        this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
         this.urgenciaPedido = urgenciaPedido;
         this.dataLimiteResolucao = dataLimiteResolucao;
         this.estado = EstadoPedido.SUBMETIDO;
+        this.formulario = formulario;
     }
 
     @Override

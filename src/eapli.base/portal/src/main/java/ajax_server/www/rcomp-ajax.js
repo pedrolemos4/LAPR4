@@ -5,7 +5,7 @@
 
 function refreshVotes() {
 	var request = new XMLHttpRequest();
-        var vBoard=document.getElementById("votes");
+        var vBoard=document.getElementById("tarefas");
         
         request.onload = function() {
             vBoard.innerHTML = this.responseText;

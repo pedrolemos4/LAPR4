@@ -3,13 +3,16 @@ package eapli.base.pedido.repositories;
 import eapli.base.atividades.domain.Atividade;
 import eapli.base.atividades.domain.EstadoAtividade;
 import eapli.base.atividades.domain.EstadoFluxo;
+import eapli.base.atividades.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
+import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Calendar;
@@ -17,7 +20,7 @@ import java.util.List;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
-    List<Atividade> getListaTarefasPendentes(MecanographicNumber identity, String atividade);
+    List<Atividade> getListaTarefasPendentes(MecanographicNumber identity);
 
     List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado);
 
@@ -33,9 +36,9 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Atividade> ordenarDataDecrescente(Colaborador identity, EstadoAtividade estado);
 
-    Atividade getTarefaById(int idAtividade);
+    Atividade getTarefaById(long idAtividade);
 
-    Pedido getPedidoByTarefa(int idAtividade);
+    Pedido getPedidoByTarefa(long idAtividade);
 
     EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId);
 
@@ -53,15 +56,19 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Pedido getPedidoByAtividade(Long idAtiv);
 
-    List<Atividade> filtrarUrgenciaPendentes(MecanographicNumber colab, EstadoAtividade pendente, UrgenciaPedido urgencia, String atividade);
+    List<Atividade> ordenarEscalaCrescente(Colaborador identity, EstadoAtividade estado);
 
-    List<Atividade> filtrarDataPendentes(MecanographicNumber identity, Calendar data1, Calendar data2, String atividade, EstadoAtividade pendente);
+    List<Atividade> ordenarEscalaDecrescente(Colaborador identity, EstadoAtividade estado);
 
-    List<Atividade> filtrarCriticidadeEscalaPendentes(MecanographicNumber identity, Escala valueOf, String atividade, EstadoAtividade pendente);
+    List<Atividade> filtrarUrgenciaPendentes(MecanographicNumber colab, EstadoAtividade pendente, UrgenciaPedido urgencia);
 
-    List<Atividade> filtrarCriticidadeEtiquetaPendentes(MecanographicNumber identity, Etiqueta valueOf, EstadoAtividade pendente, String atividade);
+    List<Atividade> filtrarDataPendentes(MecanographicNumber identity, Calendar data1, Calendar data2, EstadoAtividade pendente);
 
-    List<Atividade> ordenarDataCrescentePendentes(MecanographicNumber identity, String atividade, EstadoAtividade pendente);
+    List<Atividade> filtrarCriticidadeEscalaPendentes(MecanographicNumber identity, Escala valueOf, EstadoAtividade pendente);
 
-    List<Atividade> ordenarDataDecrescentePendentes(MecanographicNumber identity, String atividade, EstadoAtividade pendente);
+    List<Atividade> filtrarCriticidadeEtiquetaPendentes(MecanographicNumber identity, Etiqueta valueOf, EstadoAtividade pendente);
+
+    List<Atividade> ordenarDataCrescentePendentes(MecanographicNumber identity, EstadoAtividade pendente);
+
+    List<Atividade> ordenarDataDecrescentePendentes(MecanographicNumber identity, EstadoAtividade pendente);
 }

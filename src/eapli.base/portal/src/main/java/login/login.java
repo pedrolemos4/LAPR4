@@ -34,21 +34,21 @@ public class login  extends BaseApplication {
     }
 
     @Override
-    protected void doMain(String[] args) throws IOException {
+    protected void doMain(String[] args) throws Exception {
         // login and go to main menu
         if (new LoginUI().show()) {
             // go to main menu
             final var menu = new MainMenu();
             //Server Creation Here
-            try {
+            //try {
                 //ServerSocket socket = new ServerSocket(9090, 0, InetAddress.getByName(null));
                 //new HttpChatConsumer().execute("10.8.0.83","32507");
-                new DemoConsumer().execute("10.8.0.83","32507");
+            new DemoConsumer().execute("10.8.0.83",32507);
                 openDashboard();
                 menu.mainLoop();
-            }catch (Exception e){
-                LOGGER.error("Impossivel estabelecer ligação com o servidor");
-            }
+            //}catch (Exception e){
+              //  LOGGER.error("Impossivel estabelecer ligação com o servidor");
+            //}
         }
     }
 

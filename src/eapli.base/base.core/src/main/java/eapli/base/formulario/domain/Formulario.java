@@ -2,6 +2,7 @@ package eapli.base.formulario.domain;
 
 import eapli.base.atividades.domain.AtividadeManual;
 import eapli.base.catalogo.domain.Titulo;
+import eapli.base.pedido.domain.Pedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.validations.Preconditions;
@@ -31,6 +32,9 @@ public class Formulario implements AggregateRoot<Long> {
     private Servico servico;
 
     @OneToOne (mappedBy = "formulario")
+    private Pedido pedido;
+
+    @OneToOne (mappedBy = "formulario")
     private AtividadeManual atividadeManual;
 
     protected Formulario(){
@@ -55,7 +59,7 @@ public class Formulario implements AggregateRoot<Long> {
         copyAtributos(listaAtributos);
     }
 
-    private void copyAtributos(final Set<Atributo> atributos) {
+    public void copyAtributos(final Set<Atributo> atributos) {
         for (final Atributo atributo : atributos) {
             addAtributo(atributo);
         }

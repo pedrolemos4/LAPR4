@@ -74,11 +74,11 @@ public class ConsultarTarefasController {
     }
 
     public List<Atividade> ordenarEscalaCrescente(Colaborador colab) {
-        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
+        return repo.ordenarEscalaCrescente(colab, EstadoAtividade.PENDENTE);
     }
 
     public List<Atividade> ordenarEscalaDecrescente(Colaborador colab) {
-        return repo.ordenarDataCrescente(colab, EstadoAtividade.PENDENTE);
+        return repo.ordenarEscalaDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
     public Pedido getPedidoByAtividade(Atividade a) {

@@ -95,7 +95,8 @@ public class CompletarServicoController {
         data.set(ano,mes,dia);
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
-        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade);
+        final Script script = new Script("script.sh");
+        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade, script);
         return atividadeAutomatica;
     }
 
