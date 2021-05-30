@@ -42,7 +42,7 @@ public class login  extends BaseApplication {
             final var menu = new MainMenu();
             //Server Creation Here
             try {
-            new Dashboard().execute("localhost",32507);
+            new Dashboard().execute(InetAddress.getLocalHost(),32507);
                 //openDashboard();
                 menu.mainLoop();
             }catch (Exception e){

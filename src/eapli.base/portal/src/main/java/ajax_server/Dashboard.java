@@ -16,7 +16,8 @@ import java.net.UnknownHostException;
  * @author asc@isep.ipp.pt
  */
 public class Dashboard {
-	static private ServerSocket sock;
+	//static private ServerSocket sock;
+	static private Socket sock;
 	static private InetAddress serverIP;
 	static private int serverPort;
 	static private DataOutputStream sOut;
@@ -26,9 +27,10 @@ public class Dashboard {
 
 	static final AuthorizationService authz = AuthzRegistry.authorizationService();
 
-	public void execute(String address, int porta) {
+	public void execute(InetAddress address, int porta) throws IOException {
 		Socket cliSock;
 
+		/*
 		if (address.isEmpty()) {
 			System.out.println("INVALID IP-ADDRESS");
 			System.exit(1);
@@ -39,24 +41,29 @@ public class Dashboard {
 		} catch (UnknownHostException ex) {
 			System.out.println("Invalid SERVER-ADDRESS.");
 			System.exit(1);
-		}
+		}*/
 
-		try {
-			serverPort = porta;
-		} catch (NumberFormatException ex) {
+		serverIP = address;
+		try {serverPort = porta; }
+		catch(NumberFormatException ex) {
 			System.out.println("Invalid SERVER-PORT.");
 			System.exit(1);
 		}
 
+		HTTPmessage request = new HTTPmessage();
+		request.setRequestMethod("PUT");
+		request.setURI("/votes/1");
+		//System.out.println("Casting " + VOTES_TO_CAST + " votes on the first candidate ...");
+
+
+
+
+		//for(int i=0; i<VOTES_TO_CAST; i++) {
 		System.out.println("Connecting to http://" + address + ":" + serverPort + "/");
-		try {
-			sock = new ServerSocket(serverPort);
-		} catch (IOException ex) {
-			System.out.println("Failed to connect to provided SERVER-PORT.");
-			System.out.println("Application aborted.");
-			System.exit(1);
-		}
-		try {
+		//try {
+		sock = new Socket(serverIP, serverPort);
+		System.out.println("Connected to " + serverIP + ":" + serverPort);
+		/*try {
 			while (flag) {
 				cliSock = sock.accept();
 				DashboardRequest req = new DashboardRequest(cliSock, BASE_FOLDER);
@@ -67,7 +74,7 @@ public class Dashboard {
 		} catch (IOException exception) {
 			System.out.println("Connectivity error");
 			System.exit(1);
-		}
+		}*/
 	}
 	private static String tasks;
 	private static int accessesCounter;
