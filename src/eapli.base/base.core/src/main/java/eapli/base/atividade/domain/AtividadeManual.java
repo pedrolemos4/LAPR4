@@ -52,7 +52,13 @@ public class AtividadeManual extends Atividade{
 
     @Override
     public String toString() {
-        return super.toString();
+        return "AtividadeManual{" +
+                "colab=" + colab +
+                ", equipa=" + equipa +
+                ", decisao=" + decisao +
+                ", comentario=" + comentario +
+                ", formulario=" + formulario +
+                '}';
     }
 
     public void adicionaColaborador(Colaborador colab) {

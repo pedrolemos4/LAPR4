@@ -8,9 +8,11 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
+import eapli.base.servico.domain.Servico;
 
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
@@ -23,9 +25,9 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     @Override
     public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq " +
-                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico=:identity",
+                "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
+                        " JOIN f.listaAtividade at JOIN at.equipa eq " +
+                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity",
                 Atividade.class);
         q.setParameter("identity", identity);
         return q.getResultList();

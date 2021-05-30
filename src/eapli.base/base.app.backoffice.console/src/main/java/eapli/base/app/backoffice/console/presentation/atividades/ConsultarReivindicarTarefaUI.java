@@ -7,6 +7,7 @@ import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
+import eapli.framework.presentation.console.SelectWidget;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -276,6 +277,12 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
         while (flag) {
             String opcao = Console.readLine("Deseja reinvidicar alguma destas tarefas? (sim|nao)");
             if ("sim".equalsIgnoreCase(opcao) || opcao.equalsIgnoreCase("s")) {
+
+                final SelectWidget<Atividade> selector = new SelectWidget<>("Atividade: ",
+                        this.controller.getListaTarefasPendentes(colab.identity()),
+                        visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+                selector.show();
+
                 // escolhe id da tarefa
                 long idAtividade = Console.readLong("Insira o id da tarefa que pretende realizar");
                 // atividade correspondente
