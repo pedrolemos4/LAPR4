@@ -1,0 +1,19 @@
+@startuml
+'scale 350 width
+skinparam monochrome true
+
+[*] --> MotorDaemon : encontra um pedido
+
+MotorDaemon --> MotorServer : create
+MotorServer --> ServerSocket : port valida
+MotorServer --> [*] : porta nao valida
+MotorServer --> ClientHandler : aceita um novo cliente
+ClientHandler --> AplicacoesMessageParser : parse da mensagem
+AplicacoesMessageParser --> FluxoRequest : codigo equivalente a tarefa automatica
+AplicacoesMessageParser --> [*] : codigo diferente
+FluxoRequest --> ClientHandler : se script for encontrado e executado
+FluxoRequest -> [*] : se script nao for encontrado ou executado
+ClientHandler -> TcpChatCliConn : envia mensagem que acabou a execucao
+TcpChatCliConn --> [*]
+
+@enduml
