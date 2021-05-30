@@ -1,9 +1,9 @@
 package ajax_server;
 
 import base.daemon.motor.protocol.AplicacoesRequest;
-import eapli.base.atividades.application.AplicacoesController;
-import eapli.base.atividades.application.ConsultarTarefasController;
-import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividade.application.AplicacoesController;
+import eapli.base.atividade.application.ConsultarTarefasController;
+import eapli.base.atividade.domain.Atividade;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +18,7 @@ public class HTTPDasboardRequest extends AplicacoesRequest {
     }
 
     @Override
-    public String execute() {
+    public byte[] execute() {
         List<Atividade> requestList = controller.tarefasPendentes(controller.getUser());
         int num = requestList.size();
         int overDLine = 0;
@@ -31,7 +31,7 @@ public class HTTPDasboardRequest extends AplicacoesRequest {
                 .append(high).append("-").append(med).append("-").append(low).append("-").append(crit1).append("-")
                 .append(crit2).append("-").append(crit3).append("-").append(crit4).append("-").append(crit5);
 
-        return data.toString();
+        return buildResponse(data.toString());
     }
 
     private byte[] buildResponse(String data) {

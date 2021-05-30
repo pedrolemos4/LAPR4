@@ -36,7 +36,7 @@ public class DashboardRequest extends Thread {
 							Dashboard.getDashboardDataInHTML(), "text/html");
 					response.setResponseStatus("200 Ok");
 				} else {
-					String fullname = "..\\lei20_21_s4_2di_01\\base.app.user.console\\src\\main\\java\\eapli\\base\\app\\user\\console\\www\\";
+					String fullname = "..eapli.base\\portal\\src\\main\\java\\ajax_server\\www";
 					if (request.getURI().equals("/")) fullname = fullname + "index.html";
 					else fullname = fullname + request.getURI();
 					if (response.setContentFromFile(fullname)) {
