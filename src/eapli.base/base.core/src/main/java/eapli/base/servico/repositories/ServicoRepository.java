@@ -1,8 +1,7 @@
 package eapli.base.servico.repositories;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.FluxoAtividade;
-import eapli.base.atividades.domain.Script;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;

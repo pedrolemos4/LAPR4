@@ -1,7 +1,6 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
-import eapli.framework.csv.util.CsvLineMarshaler;
+import eapli.base.atividade.application.AplicacoesController;
 import eapli.framework.util.Utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

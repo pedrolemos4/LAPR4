@@ -4,8 +4,6 @@ import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.framework.domain.repositories.DomainRepository;
 
-import java.util.List;
-
 public interface CatalogoRepository extends DomainRepository<Long, Catalogo> {
 
     Iterable<Catalogo> findByTitulo(String titulo);

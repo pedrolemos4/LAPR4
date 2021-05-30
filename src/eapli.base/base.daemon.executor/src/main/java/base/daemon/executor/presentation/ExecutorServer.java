@@ -22,13 +22,10 @@ package base.daemon.executor.presentation;
 
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
-import eapli.base.atividades.domain.Script;
-import eapli.base.equipa.domain.CodigoUnico;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 

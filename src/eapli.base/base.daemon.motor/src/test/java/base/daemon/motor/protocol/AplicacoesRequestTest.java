@@ -5,11 +5,11 @@
  */
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividade.application.AplicacoesController;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.EstadoAtividade;
+import eapli.base.atividade.domain.EstadoFluxo;
+import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.UrgenciaPedido;

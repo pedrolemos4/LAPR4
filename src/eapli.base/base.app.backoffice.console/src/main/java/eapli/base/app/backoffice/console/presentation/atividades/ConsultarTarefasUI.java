@@ -1,8 +1,8 @@
 package eapli.base.app.backoffice.console.presentation.atividades;
 
-import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividade.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.atividades.application.ConsultarTarefasController;
+import eapli.base.atividade.application.ConsultarTarefasController;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.framework.presentation.console.AbstractUI;

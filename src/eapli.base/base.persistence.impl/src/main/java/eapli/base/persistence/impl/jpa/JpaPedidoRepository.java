@@ -1,19 +1,16 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.EstadoAtividade;
-import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.EstadoAtividade;
+import eapli.base.atividade.domain.EstadoFluxo;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import eapli.base.servico.domain.Servico;
 
 import javax.persistence.TypedQuery;
 import java.util.Calendar;

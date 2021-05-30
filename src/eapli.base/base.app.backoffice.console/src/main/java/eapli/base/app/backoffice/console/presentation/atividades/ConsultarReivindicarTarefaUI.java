@@ -1,7 +1,7 @@
 package eapli.base.app.backoffice.console.presentation.atividades;
 
-import eapli.base.atividades.application.ConsultarReivindicarTarefaController;
-import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividade.application.ConsultarReivindicarTarefaController;
+import eapli.base.atividade.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -60,7 +60,6 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                                 System.out.println("Lista de tarefas pendentes filtrada:\n");
                                 listTarefas.clear();
                                 listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, r));
-
                                 for (Atividade a : listTarefas) {
                                     Pedido p = controller.getPedidoByAtividade(a);
                                     System.out.println(a.toString() + "\n" + p.toString());

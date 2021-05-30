@@ -1,8 +1,7 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
-import eapli.base.atividades.domain.EstadoFluxo;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.atividade.application.AplicacoesController;
+import eapli.base.atividade.domain.EstadoFluxo;
 import eapli.base.equipa.domain.CodigoUnico;
 
 public class EstadoFluxoRequest extends AplicacoesRequest {

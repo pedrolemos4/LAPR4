@@ -1,8 +1,8 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
-import eapli.base.atividades.domain.Atividade;
-import eapli.base.atividades.domain.EstadoAtividade;
+import eapli.base.atividade.application.AplicacoesController;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.pedido.domain.UrgenciaPedido;
 

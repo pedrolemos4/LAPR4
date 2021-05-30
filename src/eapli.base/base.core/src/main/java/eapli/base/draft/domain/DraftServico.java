@@ -1,6 +1,6 @@
 package eapli.base.draft.domain;
 
-import eapli.base.atividades.domain.FluxoAtividade;
+import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.formulario.domain.Atributo;
 import eapli.framework.domain.model.AggregateRoot;

@@ -1,6 +1,6 @@
 package eapli.base.pedido.domain;
 
-import eapli.base.atividades.domain.Atividade;
+import eapli.base.atividade.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.generators.IdentificadorGenerator;

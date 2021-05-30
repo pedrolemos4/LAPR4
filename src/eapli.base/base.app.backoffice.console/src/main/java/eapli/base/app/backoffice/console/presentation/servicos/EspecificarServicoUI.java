@@ -2,7 +2,7 @@ package eapli.base.app.backoffice.console.presentation.servicos;
 
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
 import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
-import eapli.base.atividades.domain.*;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
@@ -15,7 +15,6 @@ import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;

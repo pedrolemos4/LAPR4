@@ -1,7 +1,7 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
-import eapli.base.atividades.domain.*;
+import eapli.base.atividade.application.AplicacoesController;
+import eapli.base.atividade.domain.*;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 

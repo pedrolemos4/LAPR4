@@ -1,6 +1,6 @@
 package eapli.base.infrastructure.bootstrapers.demo;
 
-import eapli.base.atividades.domain.*;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.*;
@@ -118,7 +118,7 @@ public class ServicoBootstrapper implements Action {
         Set<Atividade> atividades1 = new HashSet<>();
         AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica(0,0,0);
         Formulario form1 = controller.createFormulario("Formulario1", listaAtributosFormulario2);
-        AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao1","comentario1", 0,0,0,form1,TipoAtividade.REALIZACAO);
+        AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1,"decisao1","comentario1", 0,0,0,form1, TipoAtividade.REALIZACAO);
         atividades1.add(atividadeManual2);
         atividades1.add(atividadeAutomatica1);
 

@@ -1,6 +1,6 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.atividades.application.AplicacoesController;
+import eapli.base.atividade.application.AplicacoesController;
 
 public abstract class AplicacoesRequest {
 
