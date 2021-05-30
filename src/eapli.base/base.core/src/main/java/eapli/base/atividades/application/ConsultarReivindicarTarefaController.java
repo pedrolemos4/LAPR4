@@ -94,4 +94,8 @@ public class ConsultarReivindicarTarefaController {
     public List<Atividade> ordenarDataDecrescentePendentes(Colaborador colab) {
         return this.pRepo.ordenarDataDecrescentePendentes(colab.identity(), EstadoAtividade.PENDENTE);
     }
+
+    public void adicionaColaborador(Pedido pedido, Colaborador colab, Atividade manual) {
+        pedido.adicionaColaborador(colab, manual);
+    }
 }

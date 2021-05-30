@@ -27,8 +27,6 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
         do {
             listTarefas.clear();
             System.out.println("Lista de tarefas pendentes:\n");
-            System.out.println("COLABORADOR:: " +colab.identity());
-
             listTarefas.addAll(this.controller.getListaTarefasPendentes(colab.identity()));
 
             for (Atividade a : listTarefas) {
@@ -286,7 +284,8 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                 // pedido correspondente
                 Pedido pedido = this.controller.getPedidoByTarefa(idAtividade);
                 // atualiza
-                pedido.adicionaColaborador(colab, manual);
+                this.controller.adicionaColaborador(pedido, colab, manual);
+
                 // guarda atualizacao
                 this.controller.saveAtualizacao(pedido);
                 System.out.println("Tarefa atualizada com sucesso!");
