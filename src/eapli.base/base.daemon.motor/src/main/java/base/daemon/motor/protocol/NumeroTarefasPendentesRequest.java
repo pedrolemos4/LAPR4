@@ -15,13 +15,13 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
     }
 
     @Override
-    public String execute() {
+    public byte[] execute() {
         // semantic validation
         MecanographicNumber user;
         try {
             user = MecanographicNumber.valueOf(Integer.parseInt(request.trim()));
         } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Invalid user name");
+            return buildBadRequest("Invalid user name").getBytes();
         }
 
         // execution
@@ -55,12 +55,12 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
             return buildResponse(quantidadeTarefasPendentes, tarefasQueUltrapassamDataPedido, tarefasQueTerminamEmXHora,
                     tarefasUrgenciaReduzida, tarefasUrgenciaModerada, tarefasUrgenciaUrgente, tarefasEscala1,
                     tarefasEscala2, tarefasEscala3, tarefasEscala4, tarefasEscala5, tarefasEtiquetaBaixa,
-                    tarefasEtiquetaMedia, tarefasEtiquetaElevada);
+                    tarefasEtiquetaMedia, tarefasEtiquetaElevada).getBytes();
         } catch (final IllegalArgumentException e) {
-            return buildBadRequest("Unknown user name");
+            return buildBadRequest("Unknown user name").getBytes();
         } catch (final Exception e) {
             // we should be careful about exposing the Exception to the outside!
-            return buildServerError(e.getMessage());
+            return buildServerError(e.getMessage()).getBytes();
         }
     }
 

@@ -31,9 +31,11 @@ public class HttpEstadoFluxoRequest extends Thread {
 
             if (request.getMethod().equals("GET")) {
                 if (request.getURI().equals("/votes")) {
+                    response.setContentFromString(
+                            HttpServerDashboardFluxo.getDashboardDataInHTML(), "text/html");
                     response.setResponseStatus("200 Ok");
                 } else {
-                    String fullname = "..\\lei20_21_s4_2di_04\\base.app.user.console\\src\\main\\java\\eapli\\base\\app\\user\\console\\www\\";
+                    String fullname = "..\\lei20_21_s4_2di_04\\src\\eapli.base\\portal\\src\\main\\java\\ajax_server\\www\\";
                     if (request.getURI().equals("/")) fullname = fullname + "fluxo.html";
                     else fullname = fullname + request.getURI();
                     if (response.setContentFromFile(fullname)) {

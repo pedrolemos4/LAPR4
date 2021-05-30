@@ -28,7 +28,7 @@ public class FluxoRequest extends AplicacoesRequest {
     }
 
     @Override
-    public String execute() {
+    public byte[] execute() {
         try {
             String id = request.trim();
             Servico servico = controller.findServico(id);
@@ -91,7 +91,7 @@ public class FluxoRequest extends AplicacoesRequest {
                 }
             }
         } catch (final NumberFormatException e) {
-            return buildBadRequest("Invalid servico id");
+            return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

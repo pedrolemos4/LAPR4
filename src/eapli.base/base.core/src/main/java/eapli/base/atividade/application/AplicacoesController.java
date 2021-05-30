@@ -70,4 +70,8 @@ public class AplicacoesController {
     public void saveServico(Servico servico){
         this.servicoRepository.save(servico);
     }
+
+    public Iterable<Servico> getServicos() {
+        return this.servicoRepository.findAll();
+    }
 }

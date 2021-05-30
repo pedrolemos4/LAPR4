@@ -17,9 +17,9 @@ public abstract class BaseErrorRequest extends AplicacoesRequest {
     }
 
     @Override
-    public String execute() {
+    public byte[] execute() {
         // nothing to do, just build the response
-        return buildResponse();
+        return buildResponse().getBytes();
     }
 
     protected String buildResponse() {
