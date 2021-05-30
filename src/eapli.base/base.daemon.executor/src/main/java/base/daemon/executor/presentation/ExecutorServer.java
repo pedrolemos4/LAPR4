@@ -52,7 +52,7 @@ public class ExecutorServer {
         while (true) {
             Socket s = sock.accept(); // wait for a new client connection request
             //    addCli(s);
-            System.out.println(s.toString());
+            //System.out.println(s.toString());
             Thread cli = new ClientHandler(s);
             cli.start();
         }
