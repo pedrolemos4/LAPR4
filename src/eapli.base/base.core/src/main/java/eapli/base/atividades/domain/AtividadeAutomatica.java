@@ -12,10 +12,10 @@ public class AtividadeAutomatica extends Atividade {
     @Column(name= "SCRIPT")
     private Script script;
 
-    public AtividadeAutomatica(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade) {
+    public AtividadeAutomatica(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade, Script script) {
         super(dataLimite, estadoAtividade, tipoAtividade);
+        this.script = script;
         Preconditions.ensure(tipoAtividade == TipoAtividade.REALIZACAO, "Atividade é de realização.");
-
     }
 
     protected AtividadeAutomatica() {
@@ -24,6 +24,6 @@ public class AtividadeAutomatica extends Atividade {
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString() + ", " + script;
     }
 }
