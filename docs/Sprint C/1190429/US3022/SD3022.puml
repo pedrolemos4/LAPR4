@@ -1,5 +1,3 @@
-title SD - Consultar tarefas pendentes que um utilizador pode reivindicar
-
 @startuml
 'http://plantuml.com/skinparam.html
 skinparam handwritten true
@@ -8,41 +6,76 @@ skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-actor Utilizador as Actor
 participant ConsultarReivindicarTarefaUI as UI <<presentation>>
-control ConsultarReivindicarTarefaController as Controller <<application>>
-database ServicoRepository as SRepository <<repository>>
-participant "Servico" as Servico <<domain>>
+control ConsultarReivindicarTarefaController as CTRL <<application>>
+database PedidoRepository as PRepository <<repository>>
+database ColaboradorRepository as CRepository <<repository>>
+participant Pedido as P <<domain>>
 
-
-activate Actor
-Actor -> UI: pretende consultar tarefas pendentes que pode reivindicar
 activate UI
-UI -> Controller: getListaTarefasPendentes()
-    activate Controller
-    Controller -> SRepository: getListaTarefasPendentes()
-        activate SRepository
-        deactivate SRepository
-    deactivate Controller
-UI --> Actor: mostra lista de tarefas pendentes e solicita a escolha de uma
-deactivate UI
 
-Actor -> UI: insere os dados solicitados
-activate UI
-UI -> Controller:  adicionaColaborador()
-    activate Controller
-    Controller -> SRepository: ser = getServicoByTarefa(tarefa)
-        activate SRepository
-        deactivate SRepository
-    Controller -> Servico: adicionaColaborador()
-        activate Servico
-        deactivate Servico
-    Controller -> SRepository: save(ser)
-        activate SRepository
-        deactivate SRepository
-    deactivate Controller
-UI --> Actor: informa sucesso da operação
-deactivate UI
-deactivate Actor
+UI -> UI : doShow()
+ note over CTRL: Para efeitos de simplificação do diagrama, não foram representadas todas as classes repository,\n a classe persistence e a classe factory, tendo sido utilizado o procedimento dos casos de uso do sprint anterior
+UI -> CTRL: getUser()
+    activate CTRL
+    CTRL -> CRepository: getUser()
+      activate CRepository
+      deactivate CRepository
+      CTRL -> UI: colab
+    deactivate CTRL
+    
+UI -> CTRL: getListaTarefasPendentes(colab)
+    activate CTRL
+      CTRL -> PRepository: getListaTarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
+      CTRL -> UI: listaTarefas
+    deactivate CTRL
+loop
+opt filtragem
+note over CTRL: Aqui será feita a filtragem das tarefas por vários parâmetros.\n Como existe um método para cada parâmetro,\n para efeitos de simplificar está representado um método generalizado\n com um parâmetro comum em todos, o colaborador
+UI -> CTRL: filtrarTarefasPendentes(colab)
+    activate CTRL
+      CTRL -> PRepository: filtrarTarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
+      CTRL -> UI: listaTarefasFiltrada
+    deactivate CTRL
+end
 
+opt ordenar
+note over CTRL: Aqui será feita a ordenação das tarefas por vários parâmetros.\n Como existe um método para cada parâmetro,\n para efeitos de simplificar está representado um método generalizado\n com um parâmetro comum em todos, o colaborador
+UI -> CTRL: ordenarTarefasPendentes(colab)
+    activate CTRL
+      CTRL -> PRepository: ordenarTarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
+      CTRL -> UI: listaTarefasOrdenada
+    deactivate CTRL
+end
+end
+
+opt reivindicar
+note over CTRL: Aqui será onde o utilizador pode reivindicar uma tarefa
+UI -> CTRL: getTarefaById(idAtividade)
+    activate CTRL
+      CTRL -> PRepository: manual = getTarefaById(idAtividade)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+UI -> CTRL: getPedidoByTarefa(idAtividade)
+    activate CTRL
+      CTRL -> PRepository: pedido = getPedidoByTarefa(idAtividade)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+UI -> CTRL: adicionaColaborador(pedido, colab, manual)
+    activate CTRL
+      CTRL -> P: adicionaColaborador(colab, manual)
+      activate P
+      deactivate P
+    deactivate CTRL
+end
+deactivate UI
 @enduml
+

@@ -8,18 +8,33 @@ skinparam shadowing false
 
 class ConsultarReivindicarTarefaUI <<presentation>>
 class ConsultarReivindicarTarefaController <<application>>
-class "ServicoRepository" as ServicoRepository <<repository>>
-class "Servico" as Servico <<domain>>
+class PedidoRepository <<repository>>
+class ColaboradorRepository <<repository>>
+class Pedido <<domain>>
 
 ConsultarReivindicarTarefaUI --> ConsultarReivindicarTarefaController
-ConsultarReivindicarTarefaController --> ServicoRepository
-ConsultarReivindicarTarefaController --> Servico
+ConsultarReivindicarTarefaUI : doShow()
 
-ConsultarReivindicarTarefaController : getListaTarefasPendentes()
-ConsultarReivindicarTarefaController : adicionaColaborador()
-ServicoRepository : getListaTarefasPendentes()
-ServicoRepository : ser = getServicoByTarefa(tarefa)
-ServicoRepository : save(ser)
-Servico : adicionaColaborador()
+ConsultarReivindicarTarefaController : getUser()
+ConsultarReivindicarTarefaController : tarefasPendentes(colab)
+ConsultarReivindicarTarefaController : filtrarTarefasPendentes(colab)
+ConsultarReivindicarTarefaController : ordenarTarefasPendentes(colab)
+ConsultarReivindicarTarefaController : getTarefaById(idAtividade)
+ConsultarReivindicarTarefaController : getPedidoByTarefa(idAtividade)
+ConsultarReivindicarTarefaController : adicionaColaborador(pedido, colab, manual)
+
+Pedido : adicionaColaborador(colab, manual)
+
+ConsultarReivindicarTarefaController --> PedidoRepository
+ConsultarReivindicarTarefaController --> ColaboradorRepository
+ConsultarReivindicarTarefaController --> Pedido
+
+ColaboradorRepository : getUser()
+
+PedidoRepository : getListaTarefasPendentes(colab)
+PedidoRepository : filtrarTarefasPendentes(colab)
+PedidoRepository : ordenarTarefasPendentes(colab)
+PedidoRepository : getTarefaById(idAtividade)
+PedidoRepository : getPedidoByTarefa(idAtividade)
 
 @enduml
