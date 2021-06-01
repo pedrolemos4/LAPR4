@@ -43,7 +43,7 @@ public class login  extends BaseApplication {
             //Server Creation Here
             try {
             new Dashboard().execute(InetAddress.getLocalHost(),32507);
-                //openDashboard();
+                openDashboard();
                 menu.mainLoop();
             }catch (Exception e){
                 LOGGER.error("Impossivel estabelecer ligação com o servidor");
