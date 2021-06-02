@@ -9,8 +9,11 @@ import java.io.File;
 public class Ficheiro implements ValueObject {
 
     @Lob
-    @Column(name="annexedFiles")
     @Basic(fetch = FetchType.LAZY)
     File annexedFiles;
+
+    public Ficheiro() {
+
+    }
 
 }

@@ -11,7 +11,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.File;
 import java.util.Calendar;
-import java.util.Set;
 
 @Entity
 public class Pedido implements AggregateRoot<String> {
@@ -54,11 +53,10 @@ public class Pedido implements AggregateRoot<String> {
     @JoinColumn(name = "formulario")
     private Formulario formulario;
 
-    @Column(name = "annexedFiles")
-    Set<Ficheiro> annexedFiles;
+    //private Set<Ficheiro> annexedFiles = new HashSet<>();
 
     protected Pedido() {
-
+        //for ORM
     }
 
     public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao,Formulario formulario) {
