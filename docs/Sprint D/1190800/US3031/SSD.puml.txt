@@ -1,0 +1,12 @@
+@startuml
+
+hide footbox
+
+actor User
+participant System as SYS
+
+User -> SYS : Initiates the "View Task History" option
+SYS -> User : Displays the user's task history
+
+
+@enduml
