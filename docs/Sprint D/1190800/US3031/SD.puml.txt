@@ -1,0 +1,22 @@
+@startuml
+
+hide footbox
+
+actor User
+participant UI as UI
+participant Controller as CTR
+participant AuthorizationService as AUTHZ
+participant PedidoRepository as PREP
+Database PedidoDatabase as PDB
+
+
+
+User -> UI : Initiates the "View Task History" option
+UI -> CTR : List<Pedido> history = getTaskHistory()
+CTR -> AUTHZ : user = AUTHZ.session().get.authenticatedUser()
+CTR -> PREP : List<Pedido> history = findAll(user.id)
+PREP -> PDB : findAll(user.id)
+UI -> User : Displays the user's task history
+
+
+@enduml
