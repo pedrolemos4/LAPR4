@@ -30,6 +30,7 @@ import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.AtribuirCriticidadeUI;
+import eapli.base.app.backoffice.console.presentation.pedidos.AtribuirGrauSatisfacaoUI;
 import eapli.base.app.backoffice.console.presentation.pedidos.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
@@ -85,6 +86,7 @@ public class MainMenu extends AbstractUI {
     private static final int SOLICITAR_SERVICO = 2;
     private static final int CONSULTAR_TAREFAS = 3;
     private static final int CONSULTAR_REIVINDICAR_TAREFAS = 4;
+    private static final int ATRIBUIR_GRAU_SATISFACAO = 5;
 
 
     private static final String SEPARATOR_LABEL = "--------------";
@@ -179,6 +181,9 @@ public class MainMenu extends AbstractUI {
             final Menu menuConsultarTarefas = buildConsultarTarefas();
             mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarTarefas);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu menuAtribuirGrau = buildAtribuirGrau();
+            mainMenu.addSubMenu(ATRIBUIR_GRAU_SATISFACAO,menuAtribuirGrau);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             /*final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
             mainMenu.addSubMenu(CONSULTAR_REIVINDICAR_TAREFAS,menuConsultarReivindicarTarefas);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));*/
@@ -237,6 +242,13 @@ public class MainMenu extends AbstractUI {
         consultarTarefasMenu.addItem(CONSULTAR_REIVINDICAR_TAREFAS,"Consultar/ Reivindicar Tarefas",()->new ConsultarReivindicarTarefaUI().show());
         consultarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
         return consultarTarefasMenu;
+    }
+
+    private Menu buildAtribuirGrau(){
+        final Menu atribuirGrauMenu = new Menu("Atribuir Grau de Satisfação");
+        atribuirGrauMenu.addItem(ATRIBUIR_GRAU_SATISFACAO,"Atribuir Grau de Satisfação",()->new AtribuirGrauSatisfacaoUI().show());
+        atribuirGrauMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
+        return atribuirGrauMenu;
     }
 
     /*private Menu buildConsultarReivindicarTarefas(){

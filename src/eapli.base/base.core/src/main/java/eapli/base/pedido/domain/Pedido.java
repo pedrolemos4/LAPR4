@@ -42,6 +42,9 @@ public class Pedido implements AggregateRoot<String> {
     @Enumerated(EnumType.STRING)
     private UrgenciaPedido urgenciaPedido;
 
+    @Column(name = "grauSatisfacao")
+    private GrauSatisfacao grau;
+
     @Column(name = "dataLimiteResolucao")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataLimiteResolucao;

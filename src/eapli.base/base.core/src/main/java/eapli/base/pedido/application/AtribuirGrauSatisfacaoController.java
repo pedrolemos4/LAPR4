@@ -3,6 +3,7 @@ package eapli.base.pedido.application;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.GrauSatisfacao;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
@@ -31,10 +32,10 @@ public class AtribuirGrauSatisfacaoController {
     }
 
     public List<Pedido> pedidosPendentes(Colaborador colab) {
-        return null; //repo.pedidosPendentes(colab);
+        return repo.getPedidosPendentes(colab, EstadoPedido.CONCLUIDO);
     }
 
-    public boolean atribuirGrau(Pedido p) {
-        return true; //repo.pedidosPendentes(colab);
+    public boolean atribuirGrau(Pedido p, GrauSatisfacao g) {
+        return repo.atualizarGrau(p.identity(), g);
     }
 }
