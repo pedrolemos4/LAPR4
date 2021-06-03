@@ -70,6 +70,7 @@ public class Pedido implements AggregateRoot<String> {
         this.dataLimiteResolucao = dataLimiteResolucao;
         this.estado = EstadoPedido.SUBMETIDO;
         this.formulario = formulario;
+        this.grau = null;
     }
 
     @Override
@@ -94,6 +95,10 @@ public class Pedido implements AggregateRoot<String> {
 
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
         this.servico.adicionaColaborador(colab, idAtividade);
+    }
+
+    public void atualizarGrau(GrauSatisfacao g) {
+        this.grau = g;
     }
 
     public void annexFile(File file){

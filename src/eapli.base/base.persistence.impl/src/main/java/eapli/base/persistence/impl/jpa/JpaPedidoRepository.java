@@ -8,13 +8,10 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.EstadoPedido;
-import eapli.base.pedido.domain.GrauSatisfacao;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import eapli.base.servico.domain.Servico;
 
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
@@ -360,18 +357,9 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public List<Pedido> getPedidosPendentes(Colaborador colab, EstadoPedido estado) {
         final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p WHERE p.colaborador =:colab AND " +
-                        "p.estado =: estado", Pedido.class);
+                        "p.estado =:estado AND p.grau IS NULL", Pedido.class);
         q.setParameter("colab", colab);
         q.setParameter("estado", estado);
         return q.getResultList();
-    }
-
-    public boolean atualizarGrau(String identity, GrauSatisfacao grau) {
-        final TypedQuery<Pedido> q = createQuery(
-                "UPDATE Pedido p SET p.grau =:grau " +
-                        "WHERE p.Id =: identity", Pedido.class);
-        q.setParameter("grau", grau);
-        q.setParameter("identity", identity);
-        return true;
     }
 }

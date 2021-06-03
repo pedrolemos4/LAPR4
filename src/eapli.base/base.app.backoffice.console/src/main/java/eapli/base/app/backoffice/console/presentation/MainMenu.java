@@ -86,7 +86,7 @@ public class MainMenu extends AbstractUI {
     private static final int SOLICITAR_SERVICO = 2;
     private static final int CONSULTAR_TAREFAS = 3;
     private static final int CONSULTAR_REIVINDICAR_TAREFAS = 4;
-    private static final int ATRIBUIR_GRAU_SATISFACAO = 5;
+    private static final int ATRIBUIR_GRAU_SATISFACAO = 4;
 
 
     private static final String SEPARATOR_LABEL = "--------------";
