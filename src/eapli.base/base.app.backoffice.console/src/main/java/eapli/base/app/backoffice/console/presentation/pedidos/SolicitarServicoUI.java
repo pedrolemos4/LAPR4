@@ -109,8 +109,9 @@ public class SolicitarServicoUI extends AbstractUI {
         while(option == "S") {
             System.out.println("Pretende anexar ficheiros?(S/N)_____________________________________________");
             option = sc.next();
-            if (option.toUpperCase().compareTo("S") == 0)
+            if (option.toUpperCase().compareTo("S") == 0){
                 controller.annexFile(pedido);
+            }
         }
         //if(controller.submeterPedido(pedido)){
         controller.doConnection(pedido);

@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
 import javax.swing.*;
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.*;
 
 @UseCaseController
@@ -98,8 +100,9 @@ public class SolicitarServicoController {
     }
 
     public void annexFile(Pedido pedido) {
+        Button button = new Button();
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.getUI();
+        fileChooser.showOpenDialog(button);
         File file = fileChooser.getSelectedFile();
         pedido.annexFile(file);
     }

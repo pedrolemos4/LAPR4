@@ -59,7 +59,8 @@ public class Pedido implements AggregateRoot<String> {
     private Formulario formulario;
 
     @Lob
-    private List<Ficheiro> annexedFiles = new ArrayList<>();
+    @Basic(fetch = FetchType.LAZY)
+    private List<File> annexedFiles = new ArrayList<>();
 
     protected Pedido() {
         //for ORM
@@ -105,7 +106,7 @@ public class Pedido implements AggregateRoot<String> {
     }
 
     public void annexFile(File file){
-        //this.annexedFiles.add(file);
+        this.annexedFiles.add(file);
     }
 
     public Servico servico() { return this.servico;}
