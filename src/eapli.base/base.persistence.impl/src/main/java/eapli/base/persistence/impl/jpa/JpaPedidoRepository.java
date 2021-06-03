@@ -362,4 +362,12 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         q.setParameter("estado", estado);
         return q.getResultList();
     }
+
+    @Override
+    public List<Pedido> getTaskHistory(Colaborador colab) {
+        final TypedQuery<Pedido> q = createQuery(
+                "SELECT p FROM Pedido p WHERE p.colaborador =:colab", Pedido.class);
+        q.setParameter("colab", colab);
+        return q.getResultList();
+    }
 }

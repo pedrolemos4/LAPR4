@@ -26,7 +26,7 @@ public class ConsultarHistoricoPedidosController {
         try{
             SystemUser user = authz.session().get().authenticatedUser();
             Colaborador colaborador = colaboradorRepo.findEmailColaborador(user.email());
-            return repository.getTaskHistoru(colaborador);
+            return repository.getTaskHistory(colaborador);
         }catch (NoResultException e){
             LOGGER.warn("No task history found");
             return new ArrayList<>();
