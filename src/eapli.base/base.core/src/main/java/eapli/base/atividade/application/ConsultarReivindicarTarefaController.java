@@ -61,17 +61,7 @@ public class ConsultarReivindicarTarefaController {
     }
 
     public List<Atividade> filtrarUrgenciaPendentes(Colaborador colab, String urgencia) {
-        if(urgencia.compareToIgnoreCase("URGENTE") == 0){
-            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.URGENTE);
-        }
-        if(urgencia.compareToIgnoreCase("MODERADA") == 0){
-            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.MODERADA);
-        }
-        if(urgencia.compareToIgnoreCase("REDUZIDA") == 0){
-            return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.REDUZIDA);
-        }
-        return null;
-
+        return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.valueOf(urgencia));
     }
 
     public List<Atividade> filtrarDataPendentes(Colaborador colab, Calendar data1, Calendar data2) {
