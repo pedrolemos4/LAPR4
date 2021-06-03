@@ -282,13 +282,14 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                         this.controller.getListaTarefasPendentes(colab.identity()),
                         visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
                 selector.show();
-
+                //Atividade atividade = selector.selectedElement();
+                //long id = atividade.identity();
                 // escolhe id da tarefa
-                long idAtividade = Console.readLong("Insira o id da tarefa que pretende realizar");
+                //long idAtividade = Console.readLong("Insira o id da tarefa que pretende realizar");
                 // atividade correspondente
-                Atividade manual = this.controller.getTarefaById(idAtividade);
+                Atividade manual = this.controller.getTarefaById(selector.selectedElement().identity());
                 // pedido correspondente
-                Pedido pedido = this.controller.getPedidoByTarefa(idAtividade);
+                Pedido pedido = this.controller.getPedidoByTarefa(selector.selectedElement().identity());
                 // atualiza
                 this.controller.adicionaColaborador(pedido, colab, manual);
 

@@ -138,4 +138,8 @@ public class EspecificarServicoController {
         }
         return atividadeAutomatica;
     }
+
+    public Catalogo saveCatalogo(Catalogo catalogo){
+        return this.catalogoRepository.save(catalogo);
+    }
 }

@@ -9,7 +9,6 @@ import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.EstadoPedido;
-import eapli.base.pedido.domain.GrauSatisfacao;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.framework.domain.repositories.DomainRepository;
@@ -72,8 +71,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atividade> ordenarDataDecrescentePendentes(MecanographicNumber identity, EstadoAtividade pendente);
 
     List<Pedido> getPedidosPendentes(Colaborador colab, EstadoPedido estado);
-
-    boolean atualizarGrau(String identity, GrauSatisfacao grau);
 
     List<Pedido> getTaskHistoru(Colaborador colaborador);
 }

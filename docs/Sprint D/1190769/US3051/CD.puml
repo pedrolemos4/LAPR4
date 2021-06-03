@@ -12,22 +12,27 @@ class PersistenceContext <<persistence>>
 class RepositoryFactory <<factory>>
 class PedidoRepository <<repository>>
 class ColaboradorRepository <<repository>>
+class Pedido <<entity>>
 
 
 AtribuirGrauSatisfacaoUI --> AtribuirGrauSatisfacaoController
 AtribuirGrauSatisfacaoUI : doShow()
-AtribuirGrauSatisfacaoUI : getUser()
-AtribuirGrauSatisfacaoUI : pedidosPendentes(colab)
-AtribuirGrauSatisfacaoUI : atribuirGrau(pedido)
 
 AtribuirGrauSatisfacaoController : getUser()
 AtribuirGrauSatisfacaoController : pedidosPendentes(colab)
-AtribuirGrauSatisfacaoController : atribuirGrau(pedido)
+AtribuirGrauSatisfacaoController : atribuirGrau(pedido, grau)
 
 AtribuirGrauSatisfacaoController --> PedidoRepository
 AtribuirGrauSatisfacaoController --> ColaboradorRepository
 AtribuirGrauSatisfacaoController --> PersistenceContext
 PersistenceContext --> RepositoryFactory
+
+ColaboradorRepository : getUser()
+
+PedidoRepository --> Pedido
+PedidoRepository : pedidosPendentes(colab)
+
+Pedido : atribuirGrau(pedido, grau)
 
 RepositoryFactory --> PedidoRepository
 RepositoryFactory --> ColaboradorRepository

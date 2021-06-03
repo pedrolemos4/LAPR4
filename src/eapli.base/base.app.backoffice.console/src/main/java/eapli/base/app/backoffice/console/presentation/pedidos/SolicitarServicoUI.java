@@ -61,6 +61,8 @@ public class SolicitarServicoUI extends AbstractUI {
         final FormularioDataWidget formularioData = new FormularioDataWidget();
         formularioData.atributo();
 
+        System.out.println(formularioData.nomeVariavel());
+        System.out.println(formularioData.label());
         Set<Atributo> listaAtributos = new HashSet<>();
         Atributo atributo = controller.createAtributo(formularioData.nomeVariavel(), formularioData.label());
         listaAtributos.add(atributo);
@@ -90,7 +92,7 @@ public class SolicitarServicoUI extends AbstractUI {
         String data1[] = string1[0].split("/");
         String horas1[] = string1[1].split(":");
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Integer.parseInt(data1[0]),Integer.parseInt(data1[1]),Integer.parseInt(data1[2]),Integer.parseInt(horas1[0]),Integer.parseInt(horas1[1]));
+        calendar.set(Integer.parseInt(data1[0]),Integer.parseInt(data1[1])-1,Integer.parseInt(data1[2]),Integer.parseInt(horas1[0]),Integer.parseInt(horas1[1]));
         Servico clone = this.controller.getServicoClone(idServico);
         List<Atividade> atividades = this.controller.getListAtividadesServico(idServico);
         for (Atividade atividade : atividades) {
@@ -99,8 +101,8 @@ public class SolicitarServicoUI extends AbstractUI {
             String data2[] = string2[0].split("/");
             String horas2[] = string2[1].split(":");
             Calendar calendar1 = Calendar.getInstance();
-            calendar1.set(Integer.parseInt(data2[0]),Integer.parseInt(data2[1]),Integer.parseInt(data2[2]),Integer.parseInt(horas2[0]),Integer.parseInt(horas2[1]));
-            this.controller.atualizarDataAtividade(clone,atividade,calendar);
+            calendar1.set(Integer.parseInt(data2[0]),Integer.parseInt(data2[1])-1,Integer.parseInt(data2[2]),Integer.parseInt(horas2[0]),Integer.parseInt(horas2[1]));
+            this.controller.atualizarDataAtividade(clone,atividade,calendar1);
         }
         Pedido pedido = controller.efetuarPedido(clone,Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase()),calendar,formulario,listaAtributos);
         String option = "S";
