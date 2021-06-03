@@ -3,18 +3,15 @@ package eapli.base.pedido.repositories;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.atividade.domain.EstadoFluxo;
-import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.GrauSatisfacao;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
-import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Calendar;
@@ -77,4 +74,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Pedido> getPedidosPendentes(Colaborador colab, EstadoPedido estado);
 
     boolean atualizarGrau(String identity, GrauSatisfacao grau);
+
+    List<Pedido> getTaskHistoru(Colaborador colaborador);
 }

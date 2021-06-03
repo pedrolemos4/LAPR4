@@ -10,7 +10,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 public class Pedido implements AggregateRoot<String> {
@@ -56,7 +58,8 @@ public class Pedido implements AggregateRoot<String> {
     @JoinColumn(name = "formulario")
     private Formulario formulario;
 
-    //private Set<Ficheiro> annexedFiles = new HashSet<>();
+    @Lob
+    private List<Ficheiro> annexedFiles = new ArrayList<>();
 
     protected Pedido() {
         //for ORM

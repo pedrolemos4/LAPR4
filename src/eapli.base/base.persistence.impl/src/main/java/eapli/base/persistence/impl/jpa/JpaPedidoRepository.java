@@ -8,13 +8,11 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.GrauSatisfacao;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import eapli.base.servico.domain.Servico;
 
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
@@ -369,5 +367,13 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         q.setParameter("grau", grau);
         q.setParameter("identity", identity);
         return true;
+    }
+
+    @Override
+    public List<Pedido> getTaskHistoru(Colaborador colab) {
+        final TypedQuery<Pedido> q = createQuery(
+                "SELECT p FROM Pedido p WHERE p.colaborador =:colab", Pedido.class);
+        q.setParameter("colab", colab);
+        return q.getResultList();
     }
 }
