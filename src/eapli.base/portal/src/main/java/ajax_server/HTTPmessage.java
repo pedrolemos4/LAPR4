@@ -31,14 +31,16 @@ public class HTTPmessage {
     static private String readHeaderLine(DataInputStream in) throws IOException {
         String ret="";
         int val;
-        do {
-            val=in.read();
-            if(val==-1) throw new IOException();
-            if(val!=CR) ret=ret+(char)val;
+        if (in != null) {
+            do {
+                val = in.read();
+                if (val == -1) throw new IOException();
+                if (val != CR) ret = ret + (char) val;
             }
-        while(val!=CR);
-        val=in.read(); // read LF
-        if(val==-1) throw new IOException();
+            while (val != CR);
+            val = in.read(); // read LF
+            if (val == -1) throw new IOException();
+        }
         return ret;
         }
     

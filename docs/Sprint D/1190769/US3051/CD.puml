@@ -1,0 +1,35 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class AtribuirGrauSatisfacaoUI <<presentation>>
+class AtribuirGrauSatisfacaoController <<application>>
+class PersistenceContext <<persistence>>
+class RepositoryFactory <<factory>>
+class PedidoRepository <<repository>>
+class ColaboradorRepository <<repository>>
+
+
+AtribuirGrauSatisfacaoUI --> AtribuirGrauSatisfacaoController
+AtribuirGrauSatisfacaoUI : doShow()
+AtribuirGrauSatisfacaoUI : getUser()
+AtribuirGrauSatisfacaoUI : pedidosPendentes(colab)
+AtribuirGrauSatisfacaoUI : atribuirGrau(pedido)
+
+AtribuirGrauSatisfacaoController : getUser()
+AtribuirGrauSatisfacaoController : pedidosPendentes(colab)
+AtribuirGrauSatisfacaoController : atribuirGrau(pedido)
+
+AtribuirGrauSatisfacaoController --> PedidoRepository
+AtribuirGrauSatisfacaoController --> ColaboradorRepository
+AtribuirGrauSatisfacaoController --> PersistenceContext
+PersistenceContext --> RepositoryFactory
+
+RepositoryFactory --> PedidoRepository
+RepositoryFactory --> ColaboradorRepository
+
+@enduml

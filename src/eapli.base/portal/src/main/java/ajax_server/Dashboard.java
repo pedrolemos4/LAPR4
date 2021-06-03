@@ -7,16 +7,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  *
  * @author asc@isep.ipp.pt
  */
 public class Dashboard {
-	//static private ServerSocket sock;
+
 	static private Socket sock;
 	static private InetAddress serverIP;
 	static private int serverPort;
@@ -28,54 +26,35 @@ public class Dashboard {
 	static final AuthorizationService authz = AuthzRegistry.authorizationService();
 
 	public void execute(InetAddress address, int porta) throws IOException {
-		Socket cliSock;
-
-		/*
-		if (address.isEmpty()) {
-			System.out.println("INVALID IP-ADDRESS");
-			System.exit(1);
-		}
-
-		try {
-			serverIP = InetAddress.getByName(address);
-		} catch (UnknownHostException ex) {
-			System.out.println("Invalid SERVER-ADDRESS.");
-			System.exit(1);
-		}*/
 
 		serverIP = address;
-		try {serverPort = porta; }
+
+		try {
+			serverPort = porta;
+		}
 		catch(NumberFormatException ex) {
 			System.out.println("Invalid SERVER-PORT.");
 			System.exit(1);
 		}
 
-		HTTPmessage request = new HTTPmessage();
-		request.setRequestMethod("PUT");
-		request.setURI("/votes/1");
-		//System.out.println("Casting " + VOTES_TO_CAST + " votes on the first candidate ...");
-
-
-
-
-		//for(int i=0; i<VOTES_TO_CAST; i++) {
 		System.out.println("Connecting to http://" + address + ":" + serverPort + "/");
-		//try {
+
 		sock = new Socket(serverIP, serverPort);
+
 		System.out.println("Connected to " + serverIP + ":" + serverPort);
-		/*try {
-			while (flag) {
-				cliSock = sock.accept();
-				DashboardRequest req = new DashboardRequest(cliSock, BASE_FOLDER);
-				//sendTestConnection();
-				req.start();
-				incAccessesCounter();
-			}
-		} catch (IOException exception) {
-			System.out.println("Connectivity error");
-			System.exit(1);
-		}*/
+
+		while (flag) {
+			System.out.println(".");
+			DashboardRequest req = new DashboardRequest(sock, BASE_FOLDER);
+			System.out.println("..");
+			//sendTestConnection();
+			System.out.println("...");
+			req.start();
+			System.out.println("....");
+			incAccessesCounter();
+		}
 	}
+
 	private static String tasks;
 	private static int accessesCounter;
 

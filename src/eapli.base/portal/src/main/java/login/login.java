@@ -41,18 +41,15 @@ public class login  extends BaseApplication {
             // go to main menu
             final var menu = new MainMenu();
             //Server Creation Here
-            try {
             new Dashboard().execute(InetAddress.getLocalHost(),32507);
-                //openDashboard();
-                menu.mainLoop();
-            }catch (Exception e){
-                LOGGER.error("Impossivel estabelecer ligação com o servidor");
-            }
+            openDashboard();
+            menu.mainLoop();
+
         }
     }
 
     private void openDashboard() throws IOException {
-        String url = "portal\\src\\main\\java\\ajax_server\\www\\fluxo.html";
+        String url = "portal\\src\\main\\java\\ajax_server\\www\\index.html";
         File file = new File(url);
         Desktop.getDesktop().browse(file.toURI());
     }

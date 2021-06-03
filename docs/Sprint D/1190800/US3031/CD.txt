@@ -1,0 +1,28 @@
+@startuml
+
+class UI {
+  void display()
+}
+
+class Controller {
+  List<Pedido> getTaskHistory()
+}
+
+class AuthorizationService {
+  
+}
+
+class PedidoRepository {
+  List<Pedido> findAll()
+}
+
+class JPAPedidoRepository {
+  List<Pedido> findAll()
+}
+
+UI .-> Controller
+
+Controller --> AuthorizationService
+Controller-->PedidoRepository
+PedidoRepository --> JPAPedidoRepository : connects with>
+@enduml
