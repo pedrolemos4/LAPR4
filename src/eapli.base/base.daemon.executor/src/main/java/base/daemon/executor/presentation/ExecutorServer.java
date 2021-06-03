@@ -40,7 +40,7 @@ public class ExecutorServer {
         int i;
 
         try {
-            sock = new ServerSocket(32507);
+            sock = new ServerSocket(32508);
         } catch (IOException ex) {
             System.out.println("Local port number not available.");
             System.exit(1);

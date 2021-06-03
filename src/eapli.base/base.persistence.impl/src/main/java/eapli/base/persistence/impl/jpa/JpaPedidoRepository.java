@@ -18,17 +18,21 @@ import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
 
-public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String> implements PedidoRepository {
+public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, String> implements PedidoRepository {
 
-    public JpaPedidoRepository(){super("identificador");}
+    public JpaPedidoRepository() {
+        super("identificador");
+    }
 
     @Override
     public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
                         " JOIN f.listaAtividade at JOIN at.equipa eq " +
-                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity",
+                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity",/* +
+                        " AND at.colab =: null ",*/
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("identity", identity);
         return q.getResultList();
     }

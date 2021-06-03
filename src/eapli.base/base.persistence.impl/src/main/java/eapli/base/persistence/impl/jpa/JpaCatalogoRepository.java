@@ -84,7 +84,7 @@ public class JpaCatalogoRepository extends BasepaRepositoryBase<Catalogo, Long, 
     @Override
     public Iterable<Catalogo> findCatalogoEquipa(CodigoUnico identity) {
         final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM Catalogo e INNER JOIN e.listEquipas eq WHERE eq.id =: identity",
+                "SELECT e FROM Catalogo e INNER JOIN e.listEquipas eq WHERE eq.codigo =: identity",
                 Catalogo.class);
         q.setParameter("identity", identity);
         return q.getResultList();
