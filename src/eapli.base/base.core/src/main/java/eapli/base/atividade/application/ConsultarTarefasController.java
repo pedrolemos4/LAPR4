@@ -40,17 +40,8 @@ public class ConsultarTarefasController {
         return repo.findTarefasServico(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> filtrarUrgencia(Colaborador colab, String urgencia) {
-        if(urgencia.compareToIgnoreCase("URGENTE") == 0){
-            return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, UrgenciaPedido.URGENTE);
-        }
-        if(urgencia.compareToIgnoreCase("MODERADA") == 0){
-            return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, UrgenciaPedido.MODERADA);
-        }
-        if(urgencia.compareToIgnoreCase("REDUZIDA") == 0){
-            return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, UrgenciaPedido.REDUZIDA);
-        }
-        return null;
+    public List<Atividade> filtrarUrgencia(Colaborador colab, UrgenciaPedido urgencia) {
+        return repo.filtrarUrgencia(colab, EstadoAtividade.PENDENTE, urgencia);
     }
 
     public List<Atividade> filtrarData(Colaborador colab, Calendar dataI, Calendar dataF) {
