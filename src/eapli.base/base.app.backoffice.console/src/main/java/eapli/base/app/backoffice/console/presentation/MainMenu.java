@@ -193,10 +193,24 @@ public class MainMenu extends AbstractUI {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
-        mainMenu.addItem(LOGOUT_OPTION, LOGOUT_LABEL, ()-> new LoginUI().show());
-        mainMenu.addItem(EXIT_OPTION, "Exit", new ExitWithMessageAction("Bye, Bye"));
+        mainMenu.addItem(LOGOUT_OPTION, LOGOUT_LABEL, ()-> voltarAoLogin());
+        mainMenu.addItem(EXIT_OPTION, "Exit", ()->sairDaAplicacao());
 
         return mainMenu;
+    }
+
+    private boolean voltarAoLogin(){
+        if(new LoginUI().show()){
+            final var menu = new MainMenu();
+            menu.mainLoop();
+        }
+        return false;
+    }
+
+    private boolean sairDaAplicacao(){
+        System.out.println("Bye, Bye");
+        System.exit(1);
+        return false;
     }
 
     private Menu buildAssociarRemoverColaborador() {
