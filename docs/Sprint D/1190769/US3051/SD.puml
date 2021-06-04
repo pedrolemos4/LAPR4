@@ -10,6 +10,7 @@ participant AtribuirGrauSatisfacaoUI as UI <<presentation>>
 control AtribuirGrauSatisfacaoController as CTRL <<application>>
 participant PersistenceContext as Persistence <<persistence>>
 participant RepositoryFactory as Factory <<factory>>
+entity Pedido as Ped <<entity>>
 database PedidoRepository as PRepository <<repository>>
 database ColaboradorRepository as CRepository <<repository>>
 
@@ -33,11 +34,11 @@ UI -> CTRL: pedidosPendentes(colab)
       CTRL -> UI: listaPedidos
     deactivate CTRL
 loop
-UI -> CTRL: atribuirGrau(pedido)
+UI -> CTRL: atribuirGrau(pedido. grau)
     activate CTRL
-      CTRL -> PRepository: atribuirGrau(pedido)
-      activate PRepository
-      deactivate PRepository
+      CTRL -> Ped: atribuirGrau(pedido, grau)
+      activate Ped
+      deactivate Ped
     deactivate CTRL
 end
 deactivate UI

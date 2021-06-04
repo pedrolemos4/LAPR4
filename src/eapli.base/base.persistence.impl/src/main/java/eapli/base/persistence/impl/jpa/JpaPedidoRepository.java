@@ -8,19 +8,16 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.EstadoPedido;
-import eapli.base.pedido.domain.GrauSatisfacao;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import eapli.base.servico.domain.Servico;
 
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
 
-public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, String> implements PedidoRepository {
+public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String> implements PedidoRepository {
 
     public JpaPedidoRepository() {
         super("identificador");
@@ -31,8 +28,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
                         " JOIN f.listaAtividade at JOIN at.equipa eq " +
-                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity",/* +
-                        " AND at.colab =: null ",*/
+                        "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity" +
+                        " AND at.colab =: null ",
                 Atividade.class);
         q.setParameter("null", null);
         q.setParameter("identity", identity);
@@ -46,8 +43,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                 "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:colab " +
-                        "AND a.estadoAtividade =:estado AND p.urgenciaPedido =:urgencia",
+                        "AND a.estadoAtividade =:estado AND p.urgenciaPedido =:urgencia" +
+                        " AND a.colab =: null",
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("colab", colab);
         q.setParameter("estado", estado);
         q.setParameter("urgencia", urgencia);
@@ -60,8 +59,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                 "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
-                        "AND a.estadoAtividade =:estado AND a.dataLimite > :data1 AND a.dataLimite < :data2",
+                        "AND a.estadoAtividade =:estado AND a.dataLimite > :data1 AND a.dataLimite < :data2" +
+                        " AND a.colab =: null",
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);
         q.setParameter("data1", data1);
@@ -76,8 +77,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                         "JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
-                        "AND a.estadoAtividade =:estado AND crit.escala=:escala",
+                        "AND a.estadoAtividade =:estado AND crit.escala=:escala" +
+                        " AND a.colab =: null",
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);
         q.setParameter("escala", escala);
@@ -91,8 +94,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                         "JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
-                        "AND a.estadoAtividade =:estado AND crit.etiqueta =:etiqueta",
+                        "AND a.estadoAtividade =:estado AND crit.etiqueta =:etiqueta" +
+                        " AND a.colab =: null",
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);
         q.setParameter("etiqueta", etiqueta);
@@ -106,8 +111,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                         "JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
-                        "AND a.estadoAtividade =:estado ORDER BY a.dataLimite ASC",
+                        "AND a.estadoAtividade =:estado ORDER BY a.dataLimite ASC" +
+                        " AND a.colab =: null",
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);
         return q.getResultList();
@@ -120,8 +127,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                         "JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
-                        "AND a.estadoAtividade =:estado ORDER BY a.dataLimite DESC",
+                        "AND a.estadoAtividade =:estado ORDER BY a.dataLimite DESC" +
+                        " AND a.colab =: null",
                 Atividade.class);
+        q.setParameter("null", null);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);
         return q.getResultList();
@@ -360,18 +369,17 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public List<Pedido> getPedidosPendentes(Colaborador colab, EstadoPedido estado) {
         final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p WHERE p.colaborador =:colab AND " +
-                        "p.estado =: estado", Pedido.class);
+                        "p.estado =:estado AND p.grau IS NULL", Pedido.class);
         q.setParameter("colab", colab);
         q.setParameter("estado", estado);
         return q.getResultList();
     }
 
-    public boolean atualizarGrau(String identity, GrauSatisfacao grau) {
+    @Override
+    public List<Pedido> getTaskHistory(Colaborador colab) {
         final TypedQuery<Pedido> q = createQuery(
-                "UPDATE Pedido p SET p.grau =:grau " +
-                        "WHERE p.Id =: identity", Pedido.class);
-        q.setParameter("grau", grau);
-        q.setParameter("identity", identity);
-        return true;
+                "SELECT p FROM Pedido p WHERE p.colaborador =:colab", Pedido.class);
+        q.setParameter("colab", colab);
+        return q.getResultList();
     }
 }

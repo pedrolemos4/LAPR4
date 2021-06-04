@@ -31,6 +31,7 @@ import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarCol
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.AtribuirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.pedidos.AtribuirGrauSatisfacaoUI;
+import eapli.base.app.backoffice.console.presentation.pedidos.ShowTaskHistoryUI;
 import eapli.base.app.backoffice.console.presentation.pedidos.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
@@ -87,7 +88,7 @@ public class MainMenu extends AbstractUI {
     private static final int CONSULTAR_TAREFAS = 3;
     private static final int CONSULTAR_REIVINDICAR_TAREFAS = 4;
     private static final int ATRIBUIR_GRAU_SATISFACAO = 5;
-
+    private static final int CONSULTAR_HISTORICO_PEDIDOS = 6;
 
     private static final String SEPARATOR_LABEL = "--------------";
 
@@ -187,6 +188,9 @@ public class MainMenu extends AbstractUI {
             /*final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
             mainMenu.addSubMenu(CONSULTAR_REIVINDICAR_TAREFAS,menuConsultarReivindicarTarefas);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));*/
+            final Menu menuConsultarHistoricoPedidos = buildConsultarHistoricoPedidos();
+            mainMenu.addSubMenu(CONSULTAR_HISTORICO_PEDIDOS,menuConsultarHistoricoPedidos);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
@@ -197,6 +201,13 @@ public class MainMenu extends AbstractUI {
         mainMenu.addItem(EXIT_OPTION, "Exit", ()->sairDaAplicacao());
 
         return mainMenu;
+    }
+
+    private Menu buildConsultarHistoricoPedidos() {
+        final Menu consultarHistoricoPedidos = new Menu("Consultar Historico de Pedidos");
+        consultarHistoricoPedidos.addItem(1,"Consultar Historico de Pedidos",()->new ShowTaskHistoryUI().show());
+        consultarHistoricoPedidos.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
+        return consultarHistoricoPedidos;
     }
 
     private boolean voltarAoLogin(){

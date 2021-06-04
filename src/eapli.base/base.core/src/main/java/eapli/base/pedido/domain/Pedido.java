@@ -10,7 +10,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 public class Pedido implements AggregateRoot<String> {
@@ -56,7 +58,8 @@ public class Pedido implements AggregateRoot<String> {
     @JoinColumn(name = "formulario")
     private Formulario formulario;
 
-    //private Set<Ficheiro> annexedFiles = new HashSet<>();
+    @Lob
+    private List<Ficheiro> annexedFiles = new ArrayList<>();
 
     protected Pedido() {
         //for ORM
@@ -70,6 +73,7 @@ public class Pedido implements AggregateRoot<String> {
         this.dataLimiteResolucao = dataLimiteResolucao;
         this.estado = EstadoPedido.SUBMETIDO;
         this.formulario = formulario;
+        this.grau = null;
     }
 
     @Override
@@ -77,8 +81,7 @@ public class Pedido implements AggregateRoot<String> {
         return "Pedido: " +
                 colaborador +
                 ", UrgenciaPedido: " + urgenciaPedido +
-                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() +
-                '}';
+                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() + "Grau Satisfação: " + grau;
     }
 
     @Override
@@ -94,6 +97,10 @@ public class Pedido implements AggregateRoot<String> {
 
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
         this.servico.adicionaColaborador(colab, idAtividade);
+    }
+
+    public void atribuirGrau(GrauSatisfacao g) {
+        this.grau = g;
     }
 
     public void annexFile(File file){

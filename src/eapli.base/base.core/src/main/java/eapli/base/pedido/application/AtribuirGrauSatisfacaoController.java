@@ -35,7 +35,8 @@ public class AtribuirGrauSatisfacaoController {
         return repo.getPedidosPendentes(colab, EstadoPedido.CONCLUIDO);
     }
 
-    public boolean atribuirGrau(Pedido p, GrauSatisfacao g) {
-        return repo.atualizarGrau(p.identity(), g);
+    public Pedido atribuirGrau(Pedido p, GrauSatisfacao g) {
+        p.atribuirGrau(g);
+        return repo.save(p);
     }
 }
