@@ -120,7 +120,8 @@ public class OrdenarPendenteUI {
     private void printTarefas(List<Atividade> listTarefas){
         for (Atividade a : listTarefas) {
             Pedido p = controller.getPedidoByAtividade(a);
-            System.out.println(a.toString() + "\n" + p.toString() + "\n");
+            System.out.println(a.toString() + "\n" + p.toString());
+            System.out.println();
         }
     }
 }

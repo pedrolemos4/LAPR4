@@ -74,7 +74,7 @@ public class LoginUI extends AbstractUI {
             }
             attempt++;
         }
-        System.out.println("Sorry, we are unable to authenticate you. Please contact your system administrator.");
+        System.out.println("Sorry, we are unable to authenticate you. Please contact your system admnistrator.");
         return false;
     }
 

@@ -28,7 +28,8 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
 
             for (Atividade a : listTarefas) {
                 Pedido p = this.controller.getPedidoByAtividade(a);
-                System.out.println(a.toString() + "\n" + p.toString() + "\n");
+                System.out.println(a.toString() + "\n" + p.toString());
+                System.out.println();
             }
             System.out.println("Consultar tarefas:\n" +
                     "1 - Filtrar Tarefas\n" +
@@ -65,9 +66,9 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
                 // atividade correspondente
                 Atividade manual = selector.selectedElement();
 
+                //Atividade manual = this.controller.getTarefaById(selector.selectedElement().identity());
                 // pedido correspondente
                 Pedido pedido = this.controller.getPedidoByTarefa(selector.selectedElement().identity());
-
                 // atualiza
                 this.controller.adicionaColaborador(pedido, colab, manual);
 

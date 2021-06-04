@@ -7,7 +7,8 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
-import eapli.base.formulario.domain.*;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
@@ -117,8 +118,7 @@ public class SolicitarServicoController {
     }
 
     public Atributo createAtributo(String nomeVariavel, String label) {
-        final Atributo atributo = new Atributo(Variavel.valueOf(nomeVariavel), Label.valueOf(label),
-                true, TipoDados.BOOLEAN);
+        final Atributo atributo = new Atributo(nomeVariavel, label);
         return atributo;
     }
 

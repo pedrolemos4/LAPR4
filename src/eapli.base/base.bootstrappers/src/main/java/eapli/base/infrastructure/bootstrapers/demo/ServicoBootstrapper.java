@@ -9,7 +9,8 @@ import eapli.base.equipa.domain.Acronimo;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Designacao;
 import eapli.base.equipa.domain.Equipa;
-import eapli.base.formulario.domain.*;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
 import eapli.base.servico.application.EspecificarServicoController;
 import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
@@ -33,26 +34,26 @@ public class ServicoBootstrapper implements Action {
     public boolean execute() {
         //Lista Atributos
         Set<Atributo> listaAtributosFormulario1 = new HashSet<>();
-        listaAtributosFormulario1.add(new Atributo(Variavel.valueOf("Nome"), Label.valueOf("Label do nome"), false, TipoDados.STRING));
+        listaAtributosFormulario1.add(new Atributo("Nome", "Label do nome"));
 
         Set<Atributo> listaAtributosFormulario2 = new HashSet<>();
-        listaAtributosFormulario2.add(new Atributo(Variavel.valueOf("Nome Completo"), Label.valueOf("Label do Nome Completo"), false, TipoDados.STRING));
-        listaAtributosFormulario2.add(new Atributo(Variavel.valueOf("Idade"), Label.valueOf("Label da idade"), false, TipoDados.INTEGER));
+        listaAtributosFormulario2.add(new Atributo("Nome Completo", "Label do nome completo"));
+        listaAtributosFormulario2.add(new Atributo("Idade", "Label da idade"));
 
         Set<Atributo> listaAtributosFormulario3 = new HashSet<>();
-        listaAtributosFormulario3.add(new Atributo(Variavel.valueOf("Morada"), Label.valueOf("Label da morada"), false, TipoDados.STRING));
+        listaAtributosFormulario3.add(new Atributo("Morada", "Label da morada"));
 
         Set<Atributo> listaAtributosFormulario4 = new HashSet<>();
-        listaAtributosFormulario4.add(new Atributo(Variavel.valueOf("Nome Completo"), Label.valueOf("Label do Nome Completo"), false, TipoDados.STRING));
-        listaAtributosFormulario4.add(new Atributo(Variavel.valueOf("Idade"), Label.valueOf("Label da idade"), false, TipoDados.INTEGER));
-        listaAtributosFormulario4.add(new Atributo(Variavel.valueOf("Morada"), Label.valueOf("Label da morada"), false, TipoDados.STRING));
-        listaAtributosFormulario4.add(new Atributo(Variavel.valueOf("Telefone"), Label.valueOf("Label do telefone"), false, TipoDados.INTEGER));
+        listaAtributosFormulario4.add(new Atributo("Nome Completo", "Label do nome completo"));
+        listaAtributosFormulario4.add(new Atributo("Idade", "Label da idade"));
+        listaAtributosFormulario4.add(new Atributo("Morada", "Label da morada"));
+        listaAtributosFormulario4.add(new Atributo("Telefone", "Label do telefone"));
 
         Set<Atributo> listaAtributosFormulario5 = new HashSet<>();
-        listaAtributosFormulario5.add(new Atributo(Variavel.valueOf("Telemovel"), Label.valueOf("Label do telemovel"), false, TipoDados.INTEGER));
+        listaAtributosFormulario5.add(new Atributo("Telemovel", "Label do telemovel"));
 
         Set<Atributo> listaAtributosFormulario6 = new HashSet<>();
-        listaAtributosFormulario6.add(new Atributo(Variavel.valueOf("Endereço Postal"), Label.valueOf("Label do endereço postal"), false, TipoDados.STRING));
+        listaAtributosFormulario6.add(new Atributo("Endereco Postal", "Label endereco postal"));
 
         //Keywords
         Set<String> keywords = new HashSet<>();
