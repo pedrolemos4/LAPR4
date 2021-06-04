@@ -82,8 +82,7 @@ public class Pedido implements AggregateRoot<String> {
         return "Pedido: " +
                 colaborador +
                 ", UrgenciaPedido: " + urgenciaPedido +
-                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() +
-                '}';
+                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() + "Grau Satisfação: " + grau;
     }
 
     @Override
@@ -101,7 +100,7 @@ public class Pedido implements AggregateRoot<String> {
         this.servico.adicionaColaborador(colab, idAtividade);
     }
 
-    public void atualizarGrau(GrauSatisfacao g) {
+    public void atribuirGrau(GrauSatisfacao g) {
         this.grau = g;
     }
 

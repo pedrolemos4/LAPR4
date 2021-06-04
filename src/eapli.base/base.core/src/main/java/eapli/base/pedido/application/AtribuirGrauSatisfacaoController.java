@@ -36,7 +36,7 @@ public class AtribuirGrauSatisfacaoController {
     }
 
     public Pedido atribuirGrau(Pedido p, GrauSatisfacao g) {
-        p.atualizarGrau(g);
+        p.atribuirGrau(g);
         return repo.save(p);
     }
 }
