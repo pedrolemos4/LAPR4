@@ -68,7 +68,7 @@ public class EstadoFluxoRequestTest extends AplicacoesRequestTest{
         final String[] tokens = CsvLineMarshaler.tokenize(lines[0]).toArray(new String[0]);
         assertEquals(2, tokens.length);
         assertEquals('\n', result.charAt(result.length() - 1));*/
-   // }
+    //}
 
 
     @Override

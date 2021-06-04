@@ -28,8 +28,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
 
             for (Atividade a : listTarefas) {
                 Pedido p = this.controller.getPedidoByAtividade(a);
-                System.out.println(a.toString() + "\n" + p.toString());
-                System.out.println();
+                System.out.println(a.toString() + "\n" + p.toString() + "\n");
             }
             System.out.println("Consultar tarefas:\n" +
                     "1 - Filtrar Tarefas\n" +

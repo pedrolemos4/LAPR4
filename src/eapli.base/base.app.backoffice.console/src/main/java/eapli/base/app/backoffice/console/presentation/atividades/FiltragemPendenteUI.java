@@ -35,7 +35,7 @@ public class FiltragemPendenteUI {
                     for (UrgenciaPedido u : UrgenciaPedido.values()) {
                         System.out.println(u);
                     }
-                    String r = Console.readLine("Insira a Urgencia:\n");
+                    String r = Console.readLine("\nInsira a Urgencia:");
                     System.out.println("Lista de tarefas pendentes filtrada:\n");
                     listTarefas.clear();
                     listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, r));
@@ -98,8 +98,7 @@ public class FiltragemPendenteUI {
     private void printTarefas(List<Atividade> listTarefas){
         for (Atividade a : listTarefas) {
             Pedido p = controller.getPedidoByAtividade(a);
-            System.out.println(a.toString() + "\n" + p.toString());
-            System.out.println();
+            System.out.println(a.toString() + "\n" + p.toString() + "\n");
         }
     }
 
