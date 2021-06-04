@@ -8,8 +8,7 @@ import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.equipa.repositories.EquipaRepository;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.*;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.draft.repositories.DraftServicoRepository;
 import eapli.base.servico.domain.Servico;
@@ -63,7 +62,8 @@ public class EspecificarServicoController {
     }
 
     public Atributo createAtributo(String nomeVariavel, String label) {
-        final Atributo atributo = new Atributo(nomeVariavel, label);
+        final Atributo atributo = new Atributo(Variavel.valueOf(nomeVariavel), Label.valueOf(label),
+                true, TipoDados.BOOLEAN);
         return atributo;
     }
 
