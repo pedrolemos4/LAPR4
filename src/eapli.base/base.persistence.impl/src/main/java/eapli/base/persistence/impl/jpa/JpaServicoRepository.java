@@ -208,7 +208,10 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
 
     @Override
     public String findScriptServico(CodigoUnico cod) {
-        final TypedQuery<String> q = createQuery("SELECT sas.caminhoScript FROM Servico s JOIN s.fluxoAtividade fa JOIN fa.listaAtividade la JOIN la.script sas WHERE s.codigoUnico =:codUnico",String.class);
+        final TypedQuery<String> q = createQuery("SELECT sas.caminhoScript FROM Servico s " +
+                "JOIN s.fluxoAtividade fa JOIN fa.listaAtividade la JOIN la.script sas " +
+                "WHERE s.codigoUnico =:codUnico AND " +
+                "la.colab Is NuLl",String.class);
         q.setParameter("codUnico",cod);
         return q.getSingleResult();
     }

@@ -35,17 +35,9 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @Column(name="Titulo",unique = true)
     private final Titulo titulo;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 //    @JoinColumn(name = "fluxo",referencedColumnName = "Id")//referencedColumnName = "Codigo_Unico")
     private FluxoAtividade fluxoAtividade;
-
-   /* @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "ser_fluxo",
-            joinColumns =
-                    { @JoinColumn(name = "servico_id", referencedColumnName = "Codigo_Unico") },
-            inverseJoinColumns =
-                    { @JoinColumn(name = "fluxo_id", referencedColumnName = "Id") })
-    private FluxoAtividade fluxoAtividade;*/
 
     @Column(name="Estado_Servico")
     @Enumerated(EnumType.STRING)
@@ -54,7 +46,7 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @ElementCollection
     private Set<String> keywords;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="formulario",referencedColumnName = "id")
     private Formulario formulario;
 

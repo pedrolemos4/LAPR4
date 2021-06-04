@@ -127,18 +127,18 @@ public class SolicitarServicoController {
         try {
             serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
         } catch (UnknownHostException ex) {
-            System.out.println("Invalid server: " + "endereçoIp");
+            LOGGER.error("Invalid server: " + serverIP);
             System.exit(1);
         }
 
         try {
             sock = new Socket(serverIP, 32507);
         } catch (IOException ex) {
-            System.out.println("Failed to connect.");
+            LOGGER.error("Failed to connect");
             System.exit(1);
         }
         DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
-        System.out.println("Connected to server");
+        LOGGER.warn("Connected to server");
         //Thread serverConn = new Thread(new TcpChatCliConn(sock));
         //serverConn.start();
 

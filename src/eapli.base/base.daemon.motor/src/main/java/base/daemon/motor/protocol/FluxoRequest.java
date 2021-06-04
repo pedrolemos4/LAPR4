@@ -38,12 +38,12 @@ public class FluxoRequest extends AplicacoesRequest {
                     if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                         fluxo.alterarEstado(EstadoFluxo.EM_APROVACAO);
                         servico.alterarEstadoFluxo(fluxo);
-                        controller.saveServico(servico);
+                     //   controller.saveServico(servico);
                         //fazer atividade aprovação
                     } else {
                         fluxo.alterarEstado(EstadoFluxo.EM_RESOLUCAO);
                         servico.alterarEstadoFluxo(fluxo);
-                        controller.saveServico(servico);
+                       // controller.saveServico(servico);
                         //fazer atividade resolução
                     }
                 } else {
@@ -60,7 +60,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     try {
-                        sock = new Socket(serverIP, 32507);
+                        sock = new Socket(serverIP, 32510);
                     } catch (IOException ex) {
                         System.out.println("Failed to connect.");
                         System.exit(1);
@@ -72,8 +72,8 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     data[0] = 0;
                     data[1] = 10;
-                    CodigoUnico cod = new CodigoUnico(id);
-                    String caminhoScript = controller.findScriptServico(cod);
+                    //CodigoUnico cod = new CodigoUnico(id);
+                    String caminhoScript = controller.findScriptServico(servico.identity());
                     byte[] idArray = caminhoScript.getBytes();
                     data[2] = (byte) idArray.length;
                     for (int i = 0; i < idArray.length; i++) {
@@ -87,9 +87,10 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     fluxo.alterarEstado(EstadoFluxo.COMPLETO);
                     servico.alterarEstadoFluxo(fluxo);
-                    controller.saveServico(servico);
+                  //  controller.saveServico(servico);
                 }
             }
+            controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e) {
