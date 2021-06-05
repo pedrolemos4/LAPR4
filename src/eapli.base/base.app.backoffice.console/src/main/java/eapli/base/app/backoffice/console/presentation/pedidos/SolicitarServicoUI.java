@@ -56,7 +56,7 @@ public class SolicitarServicoUI extends AbstractUI {
     }
 
     private void solicitarServico(String idServico) throws IOException, InterruptedException {
-        Formulario formulario = this.controller.findFormulario(idServico);
+        Formulario formulario = new Formulario(this.controller.findFormulario(idServico));
 
         final FormularioDataWidget formularioData = new FormularioDataWidget();
         formularioData.atributo();

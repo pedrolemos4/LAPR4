@@ -3,6 +3,8 @@ package base.daemon.motor.protocol;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.pedido.domain.EstadoPedido;
+import eapli.base.pedido.domain.Pedido;
 import eapli.base.servico.domain.Servico;
 
 import java.io.DataInputStream;
@@ -31,25 +33,19 @@ public class FluxoRequest extends AplicacoesRequest {
     public byte[] execute() {
         try {
             String id = request.trim();
+            System.out.println("Id: " + id);
             Servico servico = controller.findServico(id);
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             for (Atividade atividade : fluxo.atividades()) {
                 if (atividade instanceof AtividadeManual) {
                     if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                        fluxo.alterarEstado(EstadoFluxo.EM_APROVACAO);
-                        servico.alterarEstadoFluxo(fluxo);
-                     //   controller.saveServico(servico);
-                        //fazer atividade aprovação
+                        controller.updatePedido(id,EstadoPedido.EM_APROVACAO);
                     } else {
-                        fluxo.alterarEstado(EstadoFluxo.EM_RESOLUCAO);
-                        servico.alterarEstadoFluxo(fluxo);
-                       // controller.saveServico(servico);
+                        controller.updatePedido(id,EstadoPedido.EM_RESOLUCAO);
                         //fazer atividade resolução
                     }
                 } else {
-                    fluxo.alterarEstado(EstadoFluxo.EM_RESOLUCAO);
-                    servico.alterarEstadoFluxo(fluxo);
-                    controller.saveServico(servico);
+                    controller.updatePedido(id,EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
                     byte[] data = new byte[258];
                     try {
@@ -81,16 +77,13 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     sOut.write(data);
-
                     serverConn.join();
                     sock.close();
 
-                    fluxo.alterarEstado(EstadoFluxo.COMPLETO);
-                    servico.alterarEstadoFluxo(fluxo);
-                  //  controller.saveServico(servico);
+                    controller.updatePedido(id,EstadoPedido.CONCLUIDO);
                 }
             }
-            controller.saveServico(servico);
+           // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e) {

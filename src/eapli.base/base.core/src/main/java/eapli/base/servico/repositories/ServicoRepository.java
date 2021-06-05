@@ -44,9 +44,9 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     Iterable<Servico> findServicoTodos(String titulo, Set<String> keywords, String descricaoBreve, String descricaoCompleta);
 
-    FluxoAtividade findFluxo(CodigoUnico cod);
+    FluxoAtividade findFluxo(String cod);
 
-    Servico findServico(CodigoUnico cod);
+    Servico findServico(String cod);
 
     List<Atividade> findListAtividades(String idServico);
 

@@ -59,6 +59,12 @@ public class Formulario implements AggregateRoot<Long> {
         copyAtributos(listaAtributos);
     }
 
+    public Formulario(Formulario formulario){
+        this.titulo=formulario.titulo;
+        Preconditions.nonNull(formulario.atributos);
+        copyAtributos(formulario.atributos);
+    }
+
     public void copyAtributos(final Set<Atributo> atributos) {
         for (final Atributo atributo : atributos) {
             addAtributo(atributo);
@@ -66,7 +72,7 @@ public class Formulario implements AggregateRoot<Long> {
     }
 
     public boolean addAtributo(final Atributo atributo) {
-        return atributos.add(atributo);
+        return this.atributos.add(atributo);
     }
 
     @Override

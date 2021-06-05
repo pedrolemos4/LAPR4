@@ -14,6 +14,7 @@ import eapli.framework.domain.model.AggregateRoot;
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -56,8 +57,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
     @JoinColumn(name="catalogo")
     private Catalogo catalogo;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Pedido pedido;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos;
 
     public Servico(ServicoBuilder builder) {
         this.codigoUnico = builder.codigoUnico;

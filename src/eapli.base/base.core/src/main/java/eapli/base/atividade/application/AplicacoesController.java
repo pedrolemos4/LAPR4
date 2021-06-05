@@ -8,6 +8,8 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.domain.EstadoPedido;
+import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
@@ -54,21 +56,21 @@ public class AplicacoesController {
     }
 
     public FluxoAtividade getFluxoAtividade(String idServico) {
-        CodigoUnico cod = new CodigoUnico(idServico);
-        return this.servicoRepository.findFluxo(cod);
+        return this.servicoRepository.findFluxo(idServico);
     }
 
     public Servico findServico(String idServico) {
-        CodigoUnico cod = new CodigoUnico(idServico);
-        return this.servicoRepository.findServico(cod);
+        return this.servicoRepository.findServico(idServico);
     }
 
     public String findScriptServico(CodigoUnico cod){
         return this.servicoRepository.findScriptServico(cod);
     }
 
-    public void saveServico(Servico servico){
-        this.servicoRepository.save(servico);
+    public void updatePedido(String idPedido, EstadoPedido estadoPedido){
+        Pedido pedido = this.pedidoRepository.findPedido(idPedido);
+        pedido.alterarEstadoPedido(estadoPedido);
+        this.pedidoRepository.save(pedido);
     }
 
     public Iterable<Servico> getServicos() {

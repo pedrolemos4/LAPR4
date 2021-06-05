@@ -12,7 +12,11 @@ import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
@@ -375,4 +379,13 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         q.setParameter("colab", colab);
         return q.getResultList();
     }
+
+    @Override
+    public Pedido findPedido(String idPedido) {
+        final TypedQuery<Pedido> q = createQuery(
+                "SELECT p FROM Pedido p WHERE p.Id = :idPedido",Pedido.class);
+        q.setParameter("idPedido",idPedido);
+        return q.getSingleResult();
+    }
+
 }

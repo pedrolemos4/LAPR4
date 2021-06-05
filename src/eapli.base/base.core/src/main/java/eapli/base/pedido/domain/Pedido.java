@@ -35,7 +35,7 @@ public class Pedido implements AggregateRoot<String> {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataSolicitacao;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "servico")
     private Servico servico;
 
@@ -54,7 +54,7 @@ public class Pedido implements AggregateRoot<String> {
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "formulario")
     private Formulario formulario;
 
@@ -103,6 +103,10 @@ public class Pedido implements AggregateRoot<String> {
 
     public void atribuirGrau(GrauSatisfacao g) {
         this.grau = g;
+    }
+
+    public void alterarEstadoPedido(EstadoPedido estadoPedido){
+        this.estado=estadoPedido;
     }
 
     public void annexFile(File file){

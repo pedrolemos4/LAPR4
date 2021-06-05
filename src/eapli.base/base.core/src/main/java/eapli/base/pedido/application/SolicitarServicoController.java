@@ -139,12 +139,13 @@ public class SolicitarServicoController {
         }
         DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
         LOGGER.warn("Connected to server");
-        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
-        //serverConn.start();
+        Thread serverConn = new Thread(new TcpChatCliConn(sock));
+        serverConn.start();
 
         data[0] = 0;
         data[1] = 3;
-        byte[] idArray = pedido.servico().identity().toString().getBytes();
+        //byte[] idArray = pedido.servico().identity().toString().getBytes();
+        byte[] idArray = pedido.identity().toString().getBytes();
         data[2] = (byte)idArray.length;
         for(int i = 0; i<idArray.length;i++){
             data[i+2] = idArray[i];
@@ -152,7 +153,7 @@ public class SolicitarServicoController {
 
         sOut.write(data);
 
-        // serverConn.join();
+        serverConn.join();
         sock.close();
     }
 
@@ -198,13 +199,13 @@ class TcpChatCliConn implements Runnable {
 
         try {
             sIn = new DataInputStream(s.getInputStream());
-            while (true) {
+            /*while (true) {
                 nChars = sIn.read();
                 if (nChars == 0) break;
                 sIn.read(data, 0, nChars);
                 frase = new String(data, 0, nChars);
                 System.out.println(frase);
-            }
+            }*/
         } catch (IOException ex) {
             System.out.println("Client disconnected.");
         }
