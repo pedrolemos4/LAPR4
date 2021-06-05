@@ -1,0 +1,19 @@
+@startuml
+'scale 350 width
+skinparam monochrome true
+
+[*] --> ExecutorTarefaAutomaticaDaemon : encontra tarefa automatica
+
+ExecutorTarefaAutomaticaDaemon --> ExecutorServer : create
+ExecutorServer --> ServerSocket : port valida
+ExecutorServer --> [*] : porta nao valida
+ExecutorServer --> ClientHandler : aceita um novo cliente
+ClientHandler --> ExecutorProtocolMessageParser : parse da mensagem
+ExecutorProtocolMessageParser --> ExecutorTarefaAutomatica : codigo equivalente a tarefa automatica
+ExecutorProtocolMessageParser --> [*] : codigo diferente
+ExecutorTarefaAutomatica --> ClientHandler : se script for encontrado e executado
+ExecutorTarefaAutomatica -> [*] : se script nao for encontrado ou executado
+ClientHandler -> TcpChatCliConn : envia mensagem que acabou a execucao
+TcpChatCliConn --> [*]
+
+@enduml
