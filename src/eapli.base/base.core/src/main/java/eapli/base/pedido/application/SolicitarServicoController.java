@@ -19,16 +19,19 @@ import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import eapli.framework.infrastructure.authz.application.UserSession;
+import eapli.framework.infrastructure.authz.domain.model.Name;
+import eapli.framework.infrastructure.authz.domain.model.SystemUser;
+import eapli.framework.infrastructure.authz.domain.model.Username;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import javax.persistence.NoResultException;
 import javax.swing.*;
 import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -39,7 +42,10 @@ import java.util.*;
 public class SolicitarServicoController {
 
     static InetAddress serverIP;
-    static Socket sock;
+    //static Socket sock;
+    static SSLSocket sockSSL;
+    static final int SERVER_PORT = 35210;
+    static final String KEYSTORE_PASS = "forgotten";
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ColaboradorRepository repository = PersistenceContext.repositories().colaborador();
@@ -52,48 +58,47 @@ public class SolicitarServicoController {
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
 
-    public List<Catalogo> displayAvailableCatalogos(){
+    public List<Catalogo> displayAvailableCatalogos() {
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
-        try{
+        try {
             Colaborador loggedColaborador = repository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
             ArrayList<Equipa> associatedTeams = (ArrayList<Equipa>) repository.findAssociatedTeams(loggedColaborador.identity());
             for (Equipa e : associatedTeams) {
                 catalogosDisponiveis.addAll((Collection<? extends Catalogo>) catalogoRepository.findCatalogoEquipa(e.identity()));
             }
             return (ArrayList<Catalogo>) catalogosDisponiveis;
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("Unexpected error");
-       }
+        }
         return new ArrayList<>();
     }
 
-    public Iterable<Servico> getServicosCatalogo(long idCatalogo){
+    public Iterable<Servico> getServicosCatalogo(long idCatalogo) {
         try {
             return servicoRepository.findServicosDoCatalogo(idCatalogo);
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             LOGGER.error("Not found");
             return null;
         }
     }
 
-    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes, Formulario formulario, Set<Atributo> atributos){
-        try{
+    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes, Formulario formulario, Set<Atributo> atributos) {
+        try {
             formulario.copyAtributos(atributos);
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, Calendar.getInstance(),servicoSolicitado,urgencia,dataLimiteRes,formulario);
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
             return this.pedidoRepository.save(pedido);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
     }
 
-    public boolean atualizarDataAtividade(Servico clone, Atividade atividade,Calendar dataLimiteRes){
+    public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
         try {
-            clone.atualizarDataAtividade(atividade,dataLimiteRes);
+            clone.atualizarDataAtividade(atividade, dataLimiteRes);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("Unexpected Error");
             return false;
         }
@@ -108,10 +113,9 @@ public class SolicitarServicoController {
     }
 
     public Formulario findFormulario(String idServico) {
-        try{
+        try {
             return formularioRepository.getFormularioDoServico(idServico);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
@@ -123,8 +127,78 @@ public class SolicitarServicoController {
     }
 
     public void doConnection(Pedido pedido) throws IOException, InterruptedException {
-        byte[] data = new byte[258];
+        UserSession session = authz.session().orElseThrow();
+        SystemUser systemUser = session.authenticatedUser();
+        final String userName = systemUser.name().firstName() + " " + systemUser.name().lastName();
+        String args [] = new String[1]; //ARGS[0] = IP ADDRESS
+        //if (args.length != 2) {
+            System.out.println("Server IPv4/IPv6 address/DNS name is required as first argument");
+            System.out.println("Client name is required as second argument (a matching keystore must exist)");
+            System.exit(1);
+        //}
+
+        // Trust these certificates provided by servers
+        System.setProperty("javax.net.ssl.trustStore", userName + ".jks");
+        System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
+
+        // Use this certificate and private key for client certificate when requested by the server
+        System.setProperty("javax.net.ssl.keyStore", userName + ".jks");
+        System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
+
+        SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+
         try {
+            serverIP = InetAddress.getByName(args[0]);
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server specified: " + args[0]);
+            System.exit(1);
+        }
+
+
+        try {
+            sockSSL = (SSLSocket) sf.createSocket(serverIP, SERVER_PORT);
+        } catch (IOException ex) {
+            System.out.println("Failed to connect to: " + args[0] + ":" + SERVER_PORT);
+            System.out.println("Application aborted.");
+            System.exit(1);
+        }
+
+        System.out.println("Connected to: " + args[0] + ":" + SERVER_PORT);
+
+
+        sockSSL.startHandshake();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        DataOutputStream sOut = new DataOutputStream(sockSSL.getOutputStream());
+        DataInputStream sIn = new DataInputStream(sockSSL.getInputStream());
+
+        /*
+        String frase;
+        long f,i,n,num;
+        do {
+            do {
+                num=-1;
+                while(num<0) {
+                    System.out.print("Enter a positive integer to SUM (zero to terminate): ");
+                    frase = in.readLine();
+                    try { num=Integer.parseInt(frase); }
+                    catch(NumberFormatException ex) {num=-1;}
+                    if(num<0) System.out.println("Invalid number");
+                }
+                n=num; for(i=0;i<4;i++) {sOut.write((byte)(n%256)); n=n/256; }
+            }
+            while(num!=0);
+            num=0; f=1;
+            for(i=0;i<4;i++) {num=num+f*sIn.read(); f=f*256;}
+            System.out.println("SUM RESULT = " + num);
+        }
+        while(num!=0);
+        sock.close();
+        */
+
+        ///////////////////////////////
+        byte[] data = new byte[258];
+        /*try {
             serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
         } catch (UnknownHostException ex) {
             LOGGER.error("Invalid server: " + serverIP);
@@ -137,7 +211,7 @@ public class SolicitarServicoController {
             LOGGER.error("Failed to connect");
             System.exit(1);
         }
-        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
+        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());*/
         LOGGER.warn("Connected to server");
         //Thread serverConn = new Thread(new TcpChatCliConn(sock));
         //serverConn.start();
@@ -145,23 +219,22 @@ public class SolicitarServicoController {
         data[0] = 0;
         data[1] = 3;
         byte[] idArray = pedido.servico().identity().toString().getBytes();
-        data[2] = (byte)idArray.length;
-        for(int i = 0; i<idArray.length;i++){
-            data[i+2] = idArray[i];
+        data[2] = (byte) idArray.length;
+        for (int i = 0; i < idArray.length; i++) {
+            data[i + 2] = idArray[i];
         }
 
         sOut.write(data);
 
         // serverConn.join();
-        sock.close();
+        sockSSL.close();
     }
 
     public synchronized boolean submeterPedido(Pedido pedido) {
-        try{
+        try {
             pedidoRepository.save(pedido);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("Error saving Pedido");
             return false;
         }
@@ -170,7 +243,7 @@ public class SolicitarServicoController {
     public List<Atividade> getListAtividadesServico(String idServico) {
         try {
             return this.servicoRepository.findListAtividades(idServico);
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             LOGGER.error("No result found");
             return new ArrayList<>();
         }
