@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 public class FluxoRequest extends AplicacoesRequest {
     //private final String servicoId;
-
+    private static final int PORT = 35208;
     static InetAddress serverIP;
     static Socket sock;
 
@@ -56,7 +56,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     try {
-                        sock = new Socket(serverIP, 32510);
+                        sock = new Socket(serverIP, PORT);
                     } catch (IOException ex) {
                         System.out.println("Failed to connect.");
                         System.exit(1);

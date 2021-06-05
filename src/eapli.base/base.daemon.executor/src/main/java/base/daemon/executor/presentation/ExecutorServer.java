@@ -25,29 +25,58 @@ import base.daemon.executor.protocol.ExecutorProtocolRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 import java.io.*;
-import java.net.ServerSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 
 
 public class ExecutorServer {
 
+    private static final int PORT = 35208;
+    static final String TRUSTED_STORE="server_E.jks";
+    static final String KEYSTORE_PASS="forgotten";
+
+
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
 
-    private static ServerSocket sock;
+    //private static ServerSocket sock;
 
     public static void main(String args[]) throws Exception {
         int i;
+        SSLServerSocket sockSSL = null;
+
+        // Trust these certificates provided by authorized clients
+        System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
+        System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+
+        // Use this certificate and private key as server certificate
+        System.setProperty("javax.net.ssl.keyStore",TRUSTED_STORE);
+        System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
+
+        SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+
+        /*try {
+            serverIP = InetAddress.getByName(args[0]);
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server specified: " + args[0]);
+            System.exit(1);
+        }*/
 
         try {
-            sock = new ServerSocket(32510);
+            sockSSL = (SSLServerSocket) sf.createServerSocket(PORT);
+            sockSSL.setNeedClientAuth(true);
         } catch (IOException ex) {
-            System.out.println("Local port number not available.");
+            System.out.println("Server failed to open local port " + PORT);
             System.exit(1);
         }
 
+        System.out.println("Connected to server: " + args[0] + ":" + PORT);
+
+
         while (true) {
-            Socket s = sock.accept(); // wait for a new client connection request
+            Socket s = sockSSL.accept(); // wait for a new client connection request
             //    addCli(s);
             //System.out.println(s.toString());
             Thread cli = new ClientHandler(s);
@@ -67,6 +96,12 @@ public class ExecutorServer {
         @Override
         public void run() {
             int nChars;
+            InetAddress clientIP;
+
+            clientIP = myS.getInetAddress();
+            System.out.println("New client connection from " + clientIP.getHostAddress() +
+                    ", port number " + myS.getPort());
+
             byte[] data = new byte[258];
 
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
@@ -103,6 +138,8 @@ public class ExecutorServer {
                 LOGGER.error(e);
             } finally {
                 try {
+                    System.out.println("Client " + clientIP.getHostAddress() + ", port number: " + myS.getPort() +
+                            " disconnected");
                     myS.close();
                 } catch (final IOException e) {
                     LOGGER.error("While closing the client socket", e);
