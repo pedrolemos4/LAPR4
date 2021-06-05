@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class MotorServer {
+    private static final int PORT = 35210;
+
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
     private static HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
@@ -42,7 +44,7 @@ public class MotorServer {
         int i;
 
         try {
-            sock = new ServerSocket(32507);
+            sock = new ServerSocket(PORT);
         } catch (IOException ex) {
             System.out.println("Local port number not available.");
             System.exit(1);

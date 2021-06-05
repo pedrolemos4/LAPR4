@@ -31,6 +31,7 @@ import java.net.Socket;
 
 
 public class ExecutorServer {
+    private static final int PORT = 35208;
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
 
@@ -40,7 +41,7 @@ public class ExecutorServer {
         int i;
 
         try {
-            sock = new ServerSocket(32510);
+            sock = new ServerSocket(PORT);
         } catch (IOException ex) {
             System.out.println("Local port number not available.");
             System.exit(1);
