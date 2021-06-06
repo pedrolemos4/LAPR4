@@ -3,11 +3,16 @@ package ajax_server;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static ajax_server.HttpServerDashboardFluxo.*;
 
 /**
  *
@@ -37,22 +42,29 @@ public class Dashboard {
 			System.exit(1);
 		}
 
-		System.out.println("Connecting to http://" + address + ":" + serverPort + "/");
+		System.out.println("Connecting to http://" + address.getHostAddress() + ":" + serverPort + "/");
 
 		sock = new Socket(serverIP, serverPort);
 
 		System.out.println("Connected to " + serverIP + ":" + serverPort);
 
+		try {
+			openDashboard();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
 		while (flag) {
-			System.out.println(".");
-			DashboardRequest req = new DashboardRequest(sock, BASE_FOLDER);
-			System.out.println("..");
+			HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
 			//sendTestConnection();
-			System.out.println("...");
 			req.start();
-			System.out.println("....");
 			incAccessesCounter();
 		}
+	}
+
+	private void openDashboard() throws URISyntaxException, IOException {
+		URI uri = new URI("http://localhost:32507");
+		Desktop.getDesktop().browse(uri); //open url for dashboard
 	}
 
 	private static String tasks;
@@ -61,21 +73,18 @@ public class Dashboard {
 	private static synchronized void incAccessesCounter() {
 		accessesCounter++;
 	}
-/*
-	public static synchronized void sendTestConnection() throws IOException, ParseException {
-		CommunicationProtocolClient newClient = new CommunicationProtocolClient();
-		SystemUser systemUser = authz.session().get().authenticatedUser();
+
+	public static synchronized void sendTestConnection() throws IOException {
 		String username = authz.session().get().authenticatedUser().username().toString();
-		//  if (!(username == null || username.isEmpty())) {
-		if (newClient.establishConnection()) {
-			if (newClient.sendMessage(9, username)) {
-				byte[] response = newClient.receiveMessage();
-				tasks = new String(response, 3, response[2]);
-				if ((newClient.sendMessage(1, "103"))) {
-					response = newClient.receiveMessage();
-					if (response[1] != 2 || !newClient.closeConnection()) {
-						System.out.println("Error closing the connection!");
-					}
+		if (doConnection()) {
+			if (sendMessage(4, username)) {
+				byte[] response = receiveMessage();
+				String resp = new String(response, 3, response[3]);
+				if ((sendMessage(1, "103"))) {
+					response = receiveMessage();
+                    /*if (response[1] != 2 || !closeConnection()) {
+                        System.out.println("Error closing the connection!");
+                    }*/
 				} else {
 					System.out.println("Error trying to send the end connection code!");
 				}
@@ -87,8 +96,6 @@ public class Dashboard {
 		}
 		//}
 	}
-
- */
 
 	public static synchronized String getDashboardDataInHTML() {
 		String[] dashboard = tasks.split("-");

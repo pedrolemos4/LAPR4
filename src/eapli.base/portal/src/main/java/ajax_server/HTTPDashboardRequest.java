@@ -9,14 +9,15 @@ import java.net.Socket;
  *
  * @author ANDRE MOREIRA (asc@isep.ipp.pt)
  */
-public class DashboardRequest extends Thread {
+public class HTTPDashboardRequest extends Thread {
+
 	String baseFolder;
 	Socket sock;
 	DataInputStream inS;
 	DataOutputStream outS;
 
 
-	public DashboardRequest(Socket s, String f) {
+	public HTTPDashboardRequest(Socket s, String f) {
 		baseFolder=f; sock=s;
 		}
 
@@ -28,6 +29,7 @@ public class DashboardRequest extends Thread {
 			System.out.println("Thread error on data streams creation");
 		}
 		try {
+			System.out.println("WTF");
 			HTTPmessage request = new HTTPmessage(inS);
 			HTTPmessage response = new HTTPmessage();
 			if (request.getMethod().equals("GET")) {

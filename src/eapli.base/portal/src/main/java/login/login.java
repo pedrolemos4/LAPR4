@@ -14,9 +14,6 @@ import eapli.framework.infrastructure.eventpubsub.EventDispatcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
 
 
@@ -41,17 +38,9 @@ public class login  extends BaseApplication {
             // go to main menu
             final var menu = new MainMenu();
             //Server Creation Here
-            new Dashboard().execute(InetAddress.getLocalHost(),32507);
-            openDashboard();
+            new Dashboard().execute(InetAddress.getLocalHost(),35210);
             menu.mainLoop();
-
         }
-    }
-
-    private void openDashboard() throws IOException {
-        String url = "portal\\src\\main\\java\\ajax_server\\www\\index.html";
-        File file = new File(url);
-        Desktop.getDesktop().browse(file.toURI());
     }
 
     @Override

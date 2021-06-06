@@ -9,11 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class HTTPDasboardRequest extends AplicacoesRequest {
+public class DasboardRequest extends AplicacoesRequest {
 
     private ConsultarTarefasController controller = new ConsultarTarefasController();
 
-    protected HTTPDasboardRequest(AplicacoesController controller, String inputRequest) {
+    protected DasboardRequest(AplicacoesController controller, String inputRequest) {
         super(controller, inputRequest);
     }
 

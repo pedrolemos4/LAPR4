@@ -33,7 +33,7 @@ public class HttpServerAjaxVoting {
             }
 	while(true) { 
             cliSock=sock.accept();
-            DashboardRequest req=new DashboardRequest(cliSock, BASE_FOLDER);
+            HTTPDashboardRequest req=new HTTPDashboardRequest(cliSock, BASE_FOLDER);
             req.start();
             incAccessesCounter();
             }
