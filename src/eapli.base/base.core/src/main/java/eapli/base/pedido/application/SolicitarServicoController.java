@@ -130,11 +130,15 @@ public class SolicitarServicoController {
         UserSession session = authz.session().orElseThrow();
         SystemUser systemUser = session.authenticatedUser();
         final String userName = systemUser.name().firstName() + " " + systemUser.name().lastName();
-        String args [] = new String[1]; //ARGS[0] = IP ADDRESS
+
+
+        String args[] = new String[1]; //ARGS[0] = IP ADDRESS
+
+
         //if (args.length != 2) {
-            System.out.println("Server IPv4/IPv6 address/DNS name is required as first argument");
-            System.out.println("Client name is required as second argument (a matching keystore must exist)");
-            System.exit(1);
+        System.out.println("Server IPv4/IPv6 address/DNS name is required as first argument");
+        System.out.println("Client name is required as second argument (a matching keystore must exist)");
+        System.exit(1);
         //}
 
         // Trust these certificates provided by servers
