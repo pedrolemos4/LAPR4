@@ -1,18 +1,18 @@
 package ajax_server;
 
+import javax.net.ssl.SSLSocket;
 import java.io.*;
-import java.net.Socket;
 
 /**
  * @author ANDRE MOREIRA (asc@isep.ipp.pt)
  */
 public class HttpEstadoFluxoRequest extends Thread {
     String baseFolder;
-    Socket sock;
+    SSLSocket sock;
     DataInputStream inS;
     DataOutputStream outS;
 
-    public HttpEstadoFluxoRequest(Socket s, String f) {
+    public HttpEstadoFluxoRequest(SSLSocket s, String f) {
         baseFolder = f;
         sock = s;
     }

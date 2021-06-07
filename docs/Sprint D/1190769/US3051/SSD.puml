@@ -1,22 +1,22 @@
 @startuml
 autonumber
-actor "Colaborador" as USR
+actor "Utilizador" as USR
 
 activate USR
-USR -> ":Colaborador" : pretende transmitir o seu grau de satisfação
-activate ":Colaborador"
-":Colaborador" --> USR : devolve a lista de pedidos do colaborador
-deactivate ":Colaborador"
+USR -> ":System" : pretende transmitir o seu grau de satisfação
+activate ":System"
+":System" --> USR : devolve a lista de pedidos do colaborador
+deactivate ":System"
 
-USR -> ":Colaborador" : seleciona o pedido a atribuir o grau
-activate ":Colaborador"
-":Colaborador" --> USR : solicita o valor do grau
-deactivate ":Colaborador"
+USR -> ":System" : seleciona o pedido a atribuir o grau
+activate ":System"
+":System" --> USR : solicita o valor do grau
+deactivate ":System"
 
-USR -> ":Colaborador" : insere o grau de satisfação
-activate ":Colaborador"
-":Colaborador" --> USR : operação bem sucedida
-deactivate ":Colaborador"
+USR -> ":System" : insere o grau de satisfação
+activate ":System"
+":System" --> USR : operação bem sucedida
+deactivate ":System"
 
 deactivate USR
 @enduml

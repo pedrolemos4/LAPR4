@@ -1,0 +1,12 @@
+@startuml
+autonumber
+actor "Gestor de Projeto" as USR
+
+activate USR
+USR -> ":System" : pretende garantir que as comunicações estão protegidas
+activate ":System"
+":System" --> USR : proteção garantida com a aplicação de SSL/TLS
+deactivate ":System"
+
+deactivate USR
+@enduml

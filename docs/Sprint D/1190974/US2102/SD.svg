@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="421px" preserveAspectRatio="none" style="width:900px;height:421px;background:#FFFFFF;" version="1.1" viewBox="0 0 900 421" width="900px" zoomAndPan="magnify"><defs><filter height="300%" id="fmbgtplw5l4la" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><ellipse cx="350" cy="16" fill="#000000" filter="url(#fmbgtplw5l4la)" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><g id="SolicitarServicoUI"><rect fill="#F8F8F8" filter="url(#fmbgtplw5l4la)" height="50" rx="12.5" ry="12.5" style="stroke:#383838;stroke-width:1.5;" width="145" x="277.5" y="103"/><line style="stroke:#383838;stroke-width:1.5;" x1="277.5" x2="422.5" y1="129.2969" y2="129.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="287.5" y="120.9951">SolicitarServicoUI</text></g><g id="SolicitarServicoController"><rect fill="#F8F8F8" filter="url(#fmbgtplw5l4la)" height="50" rx="12.5" ry="12.5" style="stroke:#383838;stroke-width:1.5;" width="205" x="247.5" y="230"/><line style="stroke:#383838;stroke-width:1.5;" x1="247.5" x2="452.5" y1="256.2969" y2="256.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="185" x="257.5" y="247.9951">SolicitarServicoController</text></g><g id="InetAddress"><rect fill="#F8F8F8" filter="url(#fmbgtplw5l4la)" height="50" rx="12.5" ry="12.5" style="stroke:#383838;stroke-width:1.5;" width="106" x="7" y="357"/><line style="stroke:#383838;stroke-width:1.5;" x1="7" x2="113" y1="383.2969" y2="383.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="86" x="17" y="374.9951">InetAddress</text></g><ellipse cx="350" cy="382" filter="url(#fmbgtplw5l4la)" rx="10" ry="10" style="stroke:#000000;stroke-width:1.0;fill:none;"/><ellipse cx="350.5" cy="382.5" fill="#000000" rx="6" ry="6" style="stroke:none;stroke-width:1.0;"/><g id="SSLSocket"><rect fill="#F8F8F8" filter="url(#fmbgtplw5l4la)" height="50" rx="12.5" ry="12.5" style="stroke:#383838;stroke-width:1.5;" width="97" x="735.5" y="357"/><line style="stroke:#383838;stroke-width:1.5;" x1="735.5" x2="832.5" y1="383.2969" y2="383.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="745.5" y="374.9951">SSLSocket</text></g><!--MD5=[0ababb5f1de9471298c9898c280a2b2f]
+link *start to SolicitarServicoUI--><path d="M350,26.002 C350,41.458 350,73.685 350,97.6 " fill="none" id="*start-to-SolicitarServicoUI" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="350,102.873,354,93.873,350,97.873,346,93.873,350,102.873" style="stroke:#383838;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="177" x="351" y="69.0669">encontra tarefa automatica</text><!--MD5=[531d22cb401960a7c8e7db4a5012de7f]
+link SolicitarServicoUI to SolicitarServicoController--><path d="M350,153.101 C350,173.593 350,203.076 350,224.884 " fill="none" id="SolicitarServicoUI-to-SolicitarServicoController" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="350,229.973,354,220.973,350,224.973,346,220.973,350,229.973" style="stroke:#383838;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="41" x="351" y="196.0669">create</text><!--MD5=[8dbf175a82b84a2da5b71d2302ace368]
+link SolicitarServicoController to InetAddress--><path d="M247.281,266.04 C182.759,274.331 107.304,288.314 83,310 C71.2037,320.5257 65.4273,337.1469 62.6121,351.6619 " fill="none" id="SolicitarServicoController-to-InetAddress" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="61.7032,356.8991,67.1833,348.7157,62.5582,351.9727,59.3011,347.3477,61.7032,356.8991" style="stroke:#383838;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="102" x="84" y="323.0669">endereco valido</text><!--MD5=[d3a4b0669e95a7dc501861e352137553]
+link SolicitarServicoController to *end--><path d="M247.356,274.451 C229.136,282.412 212.374,293.78 201,310 C166.212,359.6104 290.553,375.706 334.877,379.8053 " fill="none" id="SolicitarServicoController-to-*end" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="340.106,380.2671,331.4929,375.4906,335.1254,379.8271,330.7889,383.4596,340.106,380.2671" style="stroke:#383838;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="104" x="202" y="323.0669">porta nao valida</text><!--MD5=[d3a4b0669e95a7dc501861e352137553]
+link SolicitarServicoController to *end--><path d="M348.37,280.181 C347.817,289.496 347.271,300.239 347,310 C346.456,329.5973 347.743,352.2219 348.798,366.5647 " fill="none" id="SolicitarServicoController-to-*end-1" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="349.201,371.8122,352.5002,362.5324,348.8182,366.8269,344.5237,363.1449,349.201,371.8122" style="stroke:#383838;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="351" x="348" y="323.0669">se a porta nao for valida ou endereco nao reconhecido</text><!--MD5=[d3a4b0669e95a7dc501861e352137553]
+link SolicitarServicoController to *end--><path d="M452.725,257.337 C545.457,260.982 672.098,272.863 704,310 C750.177,363.7549 438.623,377.9408 365.24,380.5207 " fill="none" id="SolicitarServicoController-to-*end-2" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="360,380.6992,369.1318,384.3883,364.9971,380.5278,368.8576,376.393,360,380.6992" style="stroke:#383838;stroke-width:1.0;"/><!--MD5=[f5ff4c9a2abfc3c6a82a80c3b1e6383c]
+link SolicitarServicoController to SSLSocket--><path d="M452.703,261.42 C549.778,268.143 687.177,282.284 733,310 C749.358,319.8944 761.967,337.2426 770.554,352.3133 " fill="none" id="SolicitarServicoController-to-SSLSocket" style="stroke:#383838;stroke-width:1.0;"/><polygon fill="#383838" points="773.09,356.9065,772.2419,347.0942,770.6734,352.5293,765.2383,350.9608,773.09,356.9065" style="stroke:#383838;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="138" x="754" y="323.0669">cria uma nova socket</text><!--MD5=[85fe8ad57a92740f398befc88e9ee52a]
+@startuml
+'scale 350 width
+skinparam monochrome true
+
+[*] - -> SolicitarServicoUI : encontra tarefa automatica
+
+SolicitarServicoUI - -> SolicitarServicoController : create
+SolicitarServicoController - -> InetAddress : endereco valido
+SolicitarServicoController - -> [*] : porta nao valida
+SolicitarServicoController - -> SSLSocket : cria uma nova socket
+SolicitarServicoController - -> [*] : se a porta nao for valida ou endereco nao reconhecido
+SolicitarServicoController - -> [*]
+@enduml
+
+@startuml
+skinparam monochrome true
+
+[*] - -> SolicitarServicoUI : encontra tarefa automatica
+
+SolicitarServicoUI - -> SolicitarServicoController : create
+SolicitarServicoController - -> InetAddress : endereco valido
+SolicitarServicoController - -> [*] : porta nao valida
+SolicitarServicoController - -> SSLSocket : cria uma nova socket
+SolicitarServicoController - -> [*] : se a porta nao for valida ou endereco nao reconhecido
+SolicitarServicoController - -> [*]
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 12:40:07 UTC 2021)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

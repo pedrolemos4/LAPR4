@@ -35,8 +35,8 @@ import java.net.Socket;
 public class ExecutorServer {
 
     private static final int PORT = 35208;
-    static final String TRUSTED_STORE="server_E.jks";
-    static final String KEYSTORE_PASS="forgotten";
+    static final String TRUSTED_STORE = "server_E.jks";
+    static final String KEYSTORE_PASS = "forgotten";
 
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
@@ -49,11 +49,11 @@ public class ExecutorServer {
 
         // Trust these certificates provided by authorized clients
         System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
-        System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+        System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
         // Use this certificate and private key as server certificate
-        System.setProperty("javax.net.ssl.keyStore",TRUSTED_STORE);
-        System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
+        System.setProperty("javax.net.ssl.keyStore", TRUSTED_STORE);
+        System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
         SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
@@ -107,32 +107,33 @@ public class ExecutorServer {
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
+                while (sIn.readBoolean()) {
+                    sIn.read(data);
+                    LOGGER.trace("Received message:----\n{}\n----", data);
+                    String inputLine = new String(data, 2, (int) data[3]);
+                    int id = (int) data[1];
+                    final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
+                    final String response = request.execute();
 
-                sIn.read(data);
-                LOGGER.trace("Received message:----\n{}\n----", data);
-                String inputLine = new String(data, 2, (int) data[3]);
-                int id = (int) data[1];
-                final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
-                final String response = request.execute();
+                    byte[] respostaByte = new byte[258];
+                    respostaByte[0] = 0;
+                    respostaByte[1] = 1;
+                    byte[] respostaByteAux = request.toString().getBytes();
+                    respostaByte[2] = (byte) respostaByteAux.length;
 
-                byte[] respostaByte = new byte[258];
-                respostaByte[0] = 0;
-                respostaByte[1] = 1;
-                byte[] respostaByteAux = request.toString().getBytes();
-                respostaByte[2] = (byte)respostaByteAux.length;
+                    for (int i = 0; i < respostaByteAux.length; i++) {
+                        respostaByte[i + 2] = respostaByteAux[i];
+                    }
 
-                for(int i = 0; i<respostaByteAux.length;i++){
-                    respostaByte[i+2] = respostaByteAux[i];
-                }
+                    sOut.write(respostaByte);
 
-                sOut.write(respostaByte);
+                    out.println(response);
+                    LOGGER.trace("Sent message:----\n{}\n----", response);
 
-                out.println(response);
-                LOGGER.trace("Sent message:----\n{}\n----", response);
-
-                if (request.isGoodbye()) {
-                    //  break;
-                    //  }
+                    if (request.isGoodbye()) {
+                        //  break;
+                        //  }
+                    }
                 }
             } catch (final IOException e) {
                 LOGGER.error(e);

@@ -39,13 +39,13 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : fluxo.atividades()) {
                 if (atividade instanceof AtividadeManual) {
                     if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                        controller.updatePedido(id,EstadoPedido.EM_APROVACAO);
+                        controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
                     } else {
-                        controller.updatePedido(id,EstadoPedido.EM_RESOLUCAO);
+                        controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                         //fazer atividade resolução
                     }
                 } else {
-                    controller.updatePedido(id,EstadoPedido.EM_RESOLUCAO);
+                    controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
                     byte[] data = new byte[258];
                     try {
@@ -66,13 +66,29 @@ public class FluxoRequest extends AplicacoesRequest {
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
-                    data[0] = 0;
-                    data[1] = 10;
                     //CodigoUnico cod = new CodigoUnico(id);
                     String caminhoScript = controller.findScriptServico(servico.identity());
                     byte[] idArray = caminhoScript.getBytes();
-                    data[2] = (byte) idArray.length;
-                    for (int i = 0; i < idArray.length; i++) {
+                    int size = idArray.length;
+                    data[2] = (byte) size;
+                    data[0] = 0;
+                    data[1] = 10;
+
+                    int amount_of_times = size % 255;
+
+                    while (amount_of_times > 1) {
+                        byte[] info = new byte[255];
+                        info[0] = 0;
+                        info[1] = 10;
+                        for (int k = 0; k < 255; k++) {
+                            info[k + 2] = idArray[k];
+                        }
+                        sOut.write(info);
+                        size -= 255;
+                        amount_of_times--;
+                    }
+
+                    for (int i = 0; i < size; i++) {
                         data[i + 2] = idArray[i];
                     }
 
@@ -80,10 +96,10 @@ public class FluxoRequest extends AplicacoesRequest {
                     serverConn.join();
                     sock.close();
 
-                    controller.updatePedido(id,EstadoPedido.CONCLUIDO);
+                    controller.updatePedido(id, EstadoPedido.CONCLUIDO);
                 }
             }
-           // controller.saveServico(servico);
+            // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e) {
@@ -93,32 +109,33 @@ public class FluxoRequest extends AplicacoesRequest {
     }
 
 }
-    class TcpChatCliConn implements Runnable {
+
+class TcpChatCliConn implements Runnable {
 
 
-        private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
+    private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
-        private Socket s;
-        private DataInputStream sIn;
+    private Socket s;
+    private DataInputStream sIn;
 
-        public TcpChatCliConn(Socket tcp_s) {
-            s = tcp_s;
-        }
+    public TcpChatCliConn(Socket tcp_s) {
+        s = tcp_s;
+    }
 
-        public void run() {
-            byte[] data = new byte[300];
+    public void run() {
+        byte[] data = new byte[300];
 
-            try {
-                sIn = new DataInputStream(s.getInputStream());
-                sIn.read(data);
-                LOGGER.trace("Received message:----\n{}\n----", data);
-                String inputLine = new String(data, 2, (int) data[3]);
-                int id = (int) data[1];
-                System.out.println("Input line: "+inputLine+" Id: "+id);
-            } catch (IOException ex) {
-                System.out.println("Client disconnected.");
-            }
+        try {
+            sIn = new DataInputStream(s.getInputStream());
+            sIn.read(data);
+            LOGGER.trace("Received message:----\n{}\n----", data);
+            String inputLine = new String(data, 2, (int) data[3]);
+            int id = (int) data[1];
+            System.out.println("Input line: " + inputLine + " Id: " + id);
+        } catch (IOException ex) {
+            System.out.println("Client disconnected.");
         }
     }
+}
 
 

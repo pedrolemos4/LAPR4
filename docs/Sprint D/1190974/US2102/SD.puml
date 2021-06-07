@@ -1,0 +1,16 @@
+@startuml
+'scale 350 width
+skinparam monochrome true
+
+[*] --> SolicitarServicoUI : encontra tarefa automatica
+
+SolicitarServicoUI --> SolicitarServicoController : create
+SolicitarServicoController --> InetAddress : endereco valido
+SolicitarServicoController --> [*] : porta nao valida
+SolicitarServicoController --> SSLSocket : cria uma nova socket
+SolicitarServicoController --> [*] : se a porta nao for valida ou endereco nao reconhecido
+SolicitarServicoController --> [*]
+
+
+
+@enduml

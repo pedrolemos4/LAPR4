@@ -1,0 +1,17 @@
+@startuml
+autonumber
+actor "System" as USR
+
+activate USR
+USR -> ":System" : pretende executar o script anteriormente validado
+activate ":System"
+":System" --> USR : cria um ficheiro .sh com os dados do script
+deactivate ":System"
+
+USR -> ":System" : executa o código no ficheiro .sh
+activate ":System"
+":System" --> USR : operação bem sucedida
+deactivate ":System"
+
+deactivate USR
+@enduml
