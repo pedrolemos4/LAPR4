@@ -30,6 +30,8 @@ import javax.net.ssl.SSLServerSocketFactory;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ExecutorServer {
@@ -95,7 +97,7 @@ public class ExecutorServer {
 
         @Override
         public void run() {
-            int nChars;
+            int i = 0;
             InetAddress clientIP;
 
             clientIP = myS.getInetAddress();
@@ -107,35 +109,48 @@ public class ExecutorServer {
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
+
+                List<byte[]> listBytes = new ArrayList<>();
                 while (sIn.readBoolean()) {
-                    sIn.read(data);
-                    LOGGER.trace("Received message:----\n{}\n----", data);
-                    String inputLine = new String(data, 2, (int) data[3]);
-                    int id = (int) data[1];
-                    final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
-                    final String response = request.execute();
-
-                    byte[] respostaByte = new byte[258];
-                    respostaByte[0] = 0;
-                    respostaByte[1] = 1;
-                    byte[] respostaByteAux = request.toString().getBytes();
-                    respostaByte[2] = (byte) respostaByteAux.length;
-
-                    for (int i = 0; i < respostaByteAux.length; i++) {
-                        respostaByte[i + 2] = respostaByteAux[i];
-                    }
-
-                    sOut.write(respostaByte);
-
-                    out.println(response);
-                    LOGGER.trace("Sent message:----\n{}\n----", response);
-
-                    if (request.isGoodbye()) {
-                        //  break;
-                        //  }
-                    }
+                    sIn.read(data, i, 258);
+                    listBytes.add(data);
+                    i++;
                 }
-            } catch (final IOException e) {
+
+                String inputLine = new String(listBytes.get(0), 2, (int)listBytes.get(0)[3]);
+                if(listBytes.size()>1) {
+                    for (byte[] b : listBytes) {
+                        LOGGER.trace("Received message:----\n{}\n----", b);
+                        inputLine = inputLine.concat(new String(b, 2, (int) b[3]));
+                    }
+                }else{
+                    LOGGER.trace("Received message:----\n{}\n----", listBytes.get(0));
+                }
+
+                int id = /*(int)*/ listBytes.get(listBytes.size())[1];
+                final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
+                final String response = request.execute();
+
+                byte[] respostaByte = new byte[258];
+                respostaByte[0] = 0;
+                respostaByte[1] = 1;
+                byte[] respostaByteAux = request.toString().getBytes();
+                respostaByte[2] = (byte) respostaByteAux.length;
+
+                for (i = 0; i < respostaByteAux.length; i++) {
+                    respostaByte[i + 2] = respostaByteAux[i];
+                }
+
+                sOut.write(respostaByte);
+
+                out.println(response);
+                LOGGER.trace("Sent message:----\n{}\n----", response);
+
+                if (request.isGoodbye()) {
+                    //  break;
+                    //  }
+                }
+            } catch (IOException e) {
                 LOGGER.error(e);
             } finally {
                 try {

@@ -1,5 +1,6 @@
 package base.daemon.motor.protocol;
 
+import eapli.base.AppSettings;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
 import eapli.base.pedido.domain.EstadoPedido;
@@ -17,10 +18,11 @@ import org.apache.logging.log4j.Logger;
 
 public class FluxoRequest extends AplicacoesRequest {
     //private final String servicoId;
-    private static final int PORT = 35208;
+    private static final int CODIGO_MOTOR = 10;
     static InetAddress serverIP;
     static Socket sock;
 
+    private final AppSettings appSettings = new AppSettings();
 
     public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
         super(controller, request);
@@ -54,7 +56,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     try {
-                        sock = new Socket(serverIP, PORT);
+                        sock = new Socket(serverIP, this.appSettings.getPortMotor());
                     } catch (IOException ex) {
                         System.out.println("Failed to connect.");
                         System.exit(1);
@@ -80,14 +82,14 @@ public class FluxoRequest extends AplicacoesRequest {
                     int size = idArray.length;
                     data[2] = (byte) size;
                     data[0] = 0;
-                    data[1] = 10;
+                    data[1] = CODIGO_MOTOR;
 
                     int amount_of_times = size % 255;
 
                     while (amount_of_times > 1) {
                         byte[] info = new byte[258];
                         info[0] = 0;
-                        info[1] = 10;
+                        info[1] = (byte) 255;
                         for (int k = 0; k < 255; k++) {
                             info[k + 2] = idArray[k];
                         }
@@ -148,7 +150,7 @@ class TcpChatCliConn implements Runnable {
 
 
     public void run() {
-        byte[] data = new byte[300]; /// TIAGO FEIO
+        byte[] data = new byte[258]; /// TIAGO FEIO
 
         try {
             /*//String caminhoScript = controller.findScriptServico(servico.identity());
