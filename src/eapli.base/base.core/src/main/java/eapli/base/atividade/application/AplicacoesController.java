@@ -76,4 +76,12 @@ public class AplicacoesController {
     public Iterable<Servico> getServicos() {
         return this.servicoRepository.findAll();
     }
+
+    public List<Atividade> getAtividadesAuto() {
+        return this.pedidoRepository.getAtividadesAuto(EstadoPedido.valueOf("PENDENTE"));
+    }
+
+    public String findScriptAtividade(Long identity) {
+        return this.pedidoRepository.findScriptAtividade(identity);
+    }
 }

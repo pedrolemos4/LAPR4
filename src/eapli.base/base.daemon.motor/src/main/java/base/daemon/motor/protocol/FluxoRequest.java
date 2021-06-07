@@ -2,9 +2,7 @@ package base.daemon.motor.protocol;
 
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
-import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.EstadoPedido;
-import eapli.base.pedido.domain.Pedido;
 import eapli.base.servico.domain.Servico;
 
 import java.io.DataInputStream;
@@ -62,6 +60,16 @@ public class FluxoRequest extends AplicacoesRequest {
                         System.exit(1);
                     }
                     DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
+
+                    /*ArrayList<Thread> threads = new ArrayList<>();
+                    List<Atividade> atividades = controller.getAtividadesAuto();
+                    for (Atividade at : atividades){
+                        System.out.println("Connected to server");
+                        Thread serverConn = new Thread(new TcpChatCliConn(at, sOut));
+                        threads.add(serverConn);
+                        serverConn.start();
+                    }*/
+
                     System.out.println("Connected to server");
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
@@ -77,7 +85,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     int amount_of_times = size % 255;
 
                     while (amount_of_times > 1) {
-                        byte[] info = new byte[255];
+                        byte[] info = new byte[258];
                         info[0] = 0;
                         info[1] = 10;
                         for (int k = 0; k < 255; k++) {
@@ -95,6 +103,15 @@ public class FluxoRequest extends AplicacoesRequest {
                     sOut.write(data);
                     serverConn.join();
                     sock.close();
+
+                    /*for (Thread thread : threads) {
+                        try {
+                            //sOut.write(data); ????????????
+                            thread.join();
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }*/
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
                 }
@@ -116,22 +133,58 @@ class TcpChatCliConn implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
     private Socket s;
+    //private Atividade a;
     private DataInputStream sIn;
+    //private DataOutputStream sout;
 
     public TcpChatCliConn(Socket tcp_s) {
         s = tcp_s;
     }
 
+    /*public TcpChatCliConn(Atividade atividade, DataOutputStream out) {
+        a = atividade;
+        sout = out;
+    }*/
+
+
     public void run() {
-        byte[] data = new byte[300];
+        byte[] data = new byte[300]; /// TIAGO FEIO
 
         try {
+            /*//String caminhoScript = controller.findScriptServico(servico.identity());
+            String caminhoScript = controller.findScriptAtividade(a.identity());
+            byte[] idArray = caminhoScript.getBytes();
+            int size = idArray.length;
+            data[2] = (byte) size;
+            data[0] = 0;
+            data[1] = 10;
+
+            int amount_of_times = size % 255;
+
+            while (amount_of_times > 1) {
+                byte[] info = new byte[255];
+                info[0] = 0;
+                info[1] = 10;
+                for (int k = 0; k < 255; k++) {
+                    info[k + 2] = idArray[k];
+                }
+                sout.write(info);
+                size -= 255;
+                amount_of_times--;
+            }
+
+            for (int i = 0; i < size; i++) {
+                data[i + 2] = idArray[i];
+            }
+*/
             sIn = new DataInputStream(s.getInputStream());
             sIn.read(data);
             LOGGER.trace("Received message:----\n{}\n----", data);
+            //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, "Received message:----\n{}\n----", data);
             String inputLine = new String(data, 2, (int) data[3]);
             int id = (int) data[1];
             System.out.println("Input line: " + inputLine + " Id: " + id);
+            //sout.write(data); // TALVEZ AQUI
         } catch (IOException ex) {
             System.out.println("Client disconnected.");
         }

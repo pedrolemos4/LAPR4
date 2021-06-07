@@ -75,4 +75,8 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Pedido> getTaskHistory(Colaborador colaborador);
 
     Pedido findPedido(String idPedido);
+
+    List<Atividade> getAtividadesAuto(EstadoPedido estado);
+
+    String findScriptAtividade(Long identity);
 }
