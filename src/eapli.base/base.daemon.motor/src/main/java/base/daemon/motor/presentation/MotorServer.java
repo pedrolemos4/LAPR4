@@ -7,6 +7,8 @@ import eapli.base.servico.repositories.ServicoRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -14,7 +16,9 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class MotorServer {
-    private static final int PORT = 35210;
+    private static final int PORT = 31507;
+    static final String TRUSTED_STORE = "server_J.jks";
+    static final String KEYSTORE_PASS = "forgotten";
 
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
@@ -38,14 +42,26 @@ public class MotorServer {
         //ir buscar serviço e depois o fluxo
     }
 
-    private static ServerSocket sock;
 
     public static void main(String args[]) throws Exception {
         int i;
+        SSLServerSocket sock = null;
+        Socket cliSock;
+
+        // Trust these certificates provided by authorized clients
+        System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
+        System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+
+        // Use this certificate and private key as server certificate
+        System.setProperty("javax.net.ssl.keyStore",TRUSTED_STORE);
+        System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
+
+        SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
         try {
-            sock = new ServerSocket(PORT);
-        } catch (IOException ex) {
+            sock = (SSLServerSocket) sslF.createServerSocket (PORT);
+            sock.setNeedClientAuth(true);        }
+        catch (IOException ex) {
             System.out.println("Local port number not available.");
             System.exit(1);
         }
@@ -73,23 +89,23 @@ public class MotorServer {
             byte[] data = new byte[258];
 
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                 /*BufferedReader in = new BufferedReader(new InputStreamReader(myS.getInputStream()))*/
-                    DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
+                    /*BufferedReader in = new BufferedReader(new InputStreamReader(myS.getInputStream()))*/
+                 DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
 
                 //String inputLine;
                 //while ((inputLine = in.readLine()) != null) {
                 sIn.read(data);
                 LOGGER.trace("Received message:----\n{}\n----", data);
-                String inputLine = new String (data,2,(int)data[3]);
+                String inputLine = new String(data, 2, (int) data[3]);
                 int id = (int) data[1];
                 System.out.println(id);
                 System.out.println(inputLine);
-                final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine,id);
+                final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine, id);
                 final byte[] response = request.execute();
-               // out.println(response.toString());
+                // out.println(response.toString());
                 LOGGER.trace("Sent message:----\n{}\n----", response);
                 if (request.isGoodbye()) {
-                  //  break;
+                    //  break;
                     //  }
                 }
             } catch (final IOException e) {
