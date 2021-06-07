@@ -12,11 +12,6 @@ import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
@@ -385,6 +380,28 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p WHERE p.Id = :idPedido",Pedido.class);
         q.setParameter("idPedido",idPedido);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public List<Atividade> getAtividadesAuto(EstadoPedido estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.script sas" +
+                        "WHERE a.colab IS NULL AND sas.caminhoScript IS NOT NULL AND a.estadoAtividade =:estado",
+                Atividade.class);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    @Override
+    public String findScriptAtividade(Long identity) {
+        final TypedQuery<String> q = createQuery(
+                "SELECT sas.caminhoScript FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.script sas" +
+                        "WHERE a.id :=identity",
+                String.class);
+        q.setParameter("identity", identity);
         return q.getSingleResult();
     }
 

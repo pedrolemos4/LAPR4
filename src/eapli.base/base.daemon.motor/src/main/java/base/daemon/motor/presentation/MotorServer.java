@@ -2,6 +2,7 @@ package base.daemon.motor.presentation;
 
 import base.daemon.motor.protocol.AplicacoesMessageParser;
 import base.daemon.motor.protocol.AplicacoesRequest;
+import eapli.base.AppSettings;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.servico.repositories.ServicoRepository;
 import org.apache.logging.log4j.LogManager;
@@ -16,13 +17,14 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class MotorServer {
-    private static final int PORT = 31507;
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
 
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
-    private static HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
+    private static final AppSettings appSettings = new AppSettings();
+
+    private static final HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
 
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
 
@@ -50,18 +52,18 @@ public class MotorServer {
 
         // Trust these certificates provided by authorized clients
         System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
-        System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+        System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
         // Use this certificate and private key as server certificate
-        System.setProperty("javax.net.ssl.keyStore",TRUSTED_STORE);
-        System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
+        System.setProperty("javax.net.ssl.keyStore", TRUSTED_STORE);
+        System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
         SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
         try {
-            sock = (SSLServerSocket) sslF.createServerSocket (PORT);
-            sock.setNeedClientAuth(true);        }
-        catch (IOException ex) {
+            sock = (SSLServerSocket) sslF.createServerSocket(appSettings.getPortMotor());
+            sock.setNeedClientAuth(true);
+        } catch (IOException ex) {
             System.out.println("Local port number not available.");
             System.exit(1);
         }

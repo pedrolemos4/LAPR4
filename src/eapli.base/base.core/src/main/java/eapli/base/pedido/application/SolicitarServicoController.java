@@ -1,5 +1,6 @@
 package eapli.base.pedido.application;
 
+import eapli.base.AppSettings;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
@@ -44,7 +45,6 @@ public class SolicitarServicoController {
     static InetAddress serverIP;
     //static Socket sock;
     static SSLSocket sockSSL;
-    static final int SERVER_PORT = 35210;
     static final String KEYSTORE_PASS = "forgotten";
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
@@ -55,6 +55,7 @@ public class SolicitarServicoController {
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
 
+    private final AppSettings appSettings = new AppSettings();
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
 
@@ -132,9 +133,6 @@ public class SolicitarServicoController {
         final String userName = systemUser.name().firstName() + " " + systemUser.name().lastName();
 
 
-        String args[] = new String[1]; //ARGS[0] = IP ADDRESS
-
-
         //if (args.length != 2) {
         System.out.println("Server IPv4/IPv6 address/DNS name is required as first argument");
         System.out.println("Client name is required as second argument (a matching keystore must exist)");
@@ -151,23 +149,25 @@ public class SolicitarServicoController {
 
         SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
+        final String ipMotor = this.appSettings.getIpMotor();
+
         try {
-            serverIP = InetAddress.getByName(args[0]);
+            serverIP = InetAddress.getByName(ipMotor);
         } catch (UnknownHostException ex) {
-            System.out.println("Invalid server specified: " + args[0]);
+            System.out.println("Invalid server specified: " + ipMotor);
             System.exit(1);
         }
 
 
         try {
-            sockSSL = (SSLSocket) sf.createSocket(serverIP, SERVER_PORT);
+            sockSSL = (SSLSocket) sf.createSocket(serverIP, this.appSettings.getPortMotor());
         } catch (IOException ex) {
-            System.out.println("Failed to connect to: " + args[0] + ":" + SERVER_PORT);
+            System.out.println("Failed to connect to: " + ipMotor + ":" + this.appSettings.getPortMotor());
             System.out.println("Application aborted.");
             System.exit(1);
         }
 
-        System.out.println("Connected to: " + args[0] + ":" + SERVER_PORT);
+        System.out.println("Connected to: " + ipMotor + ":" + this.appSettings.getPortMotor());
 
 
         sockSSL.startHandshake();

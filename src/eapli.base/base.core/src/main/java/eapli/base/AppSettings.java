@@ -18,6 +18,10 @@ import org.slf4j.LoggerFactory;
 public class AppSettings {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppSettings.class);
 
+    private static final String MOTOR_IP = "ip.motor.ssh2";
+    private static final String MOTOR_PORT = "port.motor";
+    private static final String EXECUTOR_IP = "ip.executor.ssh3";
+    private static final String EXECUTOR_PORT = "port.executor";
     private static final String PROPERTIES_RESOURCE = "application.properties";
     private static final String REPOSITORY_FACTORY_KEY = "persistence.repositoryFactory";
     private static final String UI_MENU_LAYOUT_KEY = "ui.menu.layout";
@@ -54,6 +58,8 @@ public class AppSettings {
         this.applicationProperties.setProperty(PERSISTENCE_UNIT_KEY, "eapli"
                 + ".base");
         this.applicationProperties.setProperty(HIGH_CALORIES_DISH_LIMIT, "300");
+        this.applicationProperties.setProperty(EXECUTOR_IP,"10.8.0.82");
+        this.applicationProperties.setProperty(MOTOR_IP,"10.8.0.81");
     }
 
     public Boolean isMenuLayoutHorizontal() {
@@ -83,5 +89,21 @@ public class AppSettings {
 
     public String getProperty(String prop) {
         return this.applicationProperties.getProperty(prop);
+    }
+
+    public String getIpExecutor(){
+        return this.applicationProperties.getProperty(EXECUTOR_IP);
+    }
+
+    public String getIpMotor(){
+        return this.applicationProperties.getProperty(MOTOR_IP);
+    }
+
+    public int getPortMotor(){
+        return Integer.parseInt(this.applicationProperties.getProperty(MOTOR_PORT));
+    }
+
+    public int getPortExecutor(){
+        return Integer.parseInt(this.applicationProperties.getProperty(EXECUTOR_PORT));
     }
 }

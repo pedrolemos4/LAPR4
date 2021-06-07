@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
-public class FiltragemPendenteUI {
+public class FiltragemPendenteDataWidget {
 
     Scanner s = new Scanner(System.in);
 
