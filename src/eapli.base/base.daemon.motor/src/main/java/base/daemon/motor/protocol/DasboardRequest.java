@@ -1,6 +1,5 @@
-package ajax_server;
+package base.daemon.motor.protocol;
 
-import base.daemon.motor.protocol.AplicacoesRequest;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.application.ConsultarTarefasController;
 import eapli.base.atividade.domain.Atividade;
@@ -35,7 +34,7 @@ public class DasboardRequest extends AplicacoesRequest {
     }
 
     private byte[] buildResponse(String data) {
-        byte[] message = new byte[258];
+        byte[] message = new byte[255];
         message[1] = 9;
 
         byte[] convertedData = data.getBytes();

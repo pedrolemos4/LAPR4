@@ -1,9 +1,9 @@
 package ajax_server;
 
+import javax.net.ssl.SSLSocket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 /**
  *
@@ -12,12 +12,12 @@ import java.net.Socket;
 public class HTTPDashboardRequest extends Thread {
 
 	String baseFolder;
-	Socket sock;
+	SSLSocket sock;
 	DataInputStream inS;
 	DataOutputStream outS;
 
 
-	public HTTPDashboardRequest(Socket s, String f) {
+	public HTTPDashboardRequest(SSLSocket s, String f) {
 		baseFolder=f; sock=s;
 		}
 

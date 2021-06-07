@@ -3,12 +3,14 @@ package ajax_server;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -20,7 +22,8 @@ import static ajax_server.HttpServerDashboardFluxo.*;
  */
 public class Dashboard {
 
-	static private Socket sock;
+	//static private Socket sock;
+	static private SSLServerSocket sock;
 	static private InetAddress serverIP;
 	static private int serverPort;
 	static private DataOutputStream sOut;
@@ -30,7 +33,9 @@ public class Dashboard {
 
 	static final AuthorizationService authz = AuthzRegistry.authorizationService();
 
-	public void execute(InetAddress address, int porta) throws IOException {
+	public void execute(InetAddress address, int porta) throws Exception {
+
+		SSLSocket cliSock;
 
 		serverIP = address;
 
@@ -44,18 +49,23 @@ public class Dashboard {
 
 		System.out.println("Connecting to http://" + address.getHostAddress() + ":" + serverPort + "/");
 
-		sock = new Socket(serverIP, serverPort);
-
-		System.out.println("Connected to " + serverIP + ":" + serverPort);
-
-		try {
-			openDashboard();
-		} catch (URISyntaxException e) {
+		try{
+			SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+			sock = (SSLServerSocket) sslF.createServerSocket(serverPort);
+			//sock = new Socket(serverIP, serverPort);
+			System.out.println("Connected to " + serverIP.getHostAddress() + ":" + serverPort);
+			try {
+				openDashboard();
+			} catch (URISyntaxException | IOException e) {
+				e.printStackTrace();
+			}
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		while (flag) {
-			HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
+			cliSock= (SSLSocket) sock.accept();
+			HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
 			//sendTestConnection();
 			req.start();
 			incAccessesCounter();
@@ -63,7 +73,7 @@ public class Dashboard {
 	}
 
 	private void openDashboard() throws URISyntaxException, IOException {
-		URI uri = new URI("http://localhost:32507");
+		URI uri = new URI("http://localhost:35210");
 		Desktop.getDesktop().browse(uri); //open url for dashboard
 	}
 
