@@ -3,18 +3,16 @@ package base.daemon.motor.presentation;
 import base.daemon.motor.protocol.AplicacoesMessageParser;
 import base.daemon.motor.protocol.AplicacoesRequest;
 import eapli.base.AppSettings;
-import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.servico.repositories.ServicoRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MotorServer {
     static final String TRUSTED_STORE = "server_J.jks";
@@ -25,8 +23,6 @@ public class MotorServer {
     private static final AppSettings appSettings = new AppSettings();
 
     private static final HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
-
-    private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
 
     public static synchronized void addCli(Socket s) throws Exception {
         cliList.put(s, new DataOutputStream(s.getOutputStream()));
@@ -87,23 +83,49 @@ public class MotorServer {
 
         @Override
         public void run() {
-            int nChars;
+            int i = 0;
             byte[] data = new byte[258];
 
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
                     /*BufferedReader in = new BufferedReader(new InputStreamReader(myS.getInputStream()))*/
+                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
 
-                //String inputLine;
-                //while ((inputLine = in.readLine()) != null) {
-                sIn.read(data);
-                LOGGER.trace("Received message:----\n{}\n----", data);
-                String inputLine = new String(data, 2, (int) data[3]);
-                int id = (int) data[1];
-                System.out.println(id);
-                System.out.println(inputLine);
+                List<byte[]> listBytes = new ArrayList<>();
+                while (sIn.readBoolean()) {
+                    sIn.read(data, i, 258);
+                    listBytes.add(data);
+                    i++;
+                }
+
+                String inputLine = new String(listBytes.get(0), 2, (int)listBytes.get(0)[3]);
+                if(listBytes.size()>1) {
+                    for (byte[] b : listBytes) {
+                        LOGGER.trace("Received message:----\n{}\n----", b);
+                        inputLine = inputLine.concat(new String(b, 2, (int) b[3]));
+                    }
+                }else{
+                    LOGGER.trace("Received message:----\n{}\n----", listBytes.get(0));
+                }
+
+                int id = /*(int)*/ listBytes.get(listBytes.size())[1];
                 final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine, id);
                 final byte[] response = request.execute();
+
+                byte[] respostaByte = new byte[258];
+                respostaByte[0] = 0;
+                respostaByte[1] = 1;
+                byte[] respostaByteAux = request.toString().getBytes();
+                respostaByte[2] = (byte) respostaByteAux.length;
+
+                for (i = 0; i < respostaByteAux.length; i++) {
+                    respostaByte[i + 2] = respostaByteAux[i];
+                }
+
+                sOut.write(respostaByte);
+
+                out.println(response);
+
                 // out.println(response.toString());
                 LOGGER.trace("Sent message:----\n{}\n----", response);
                 if (request.isGoodbye()) {
