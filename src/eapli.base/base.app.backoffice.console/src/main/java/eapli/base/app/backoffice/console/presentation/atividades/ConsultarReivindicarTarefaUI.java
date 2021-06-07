@@ -37,12 +37,12 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
             opc = Console.readInteger("Insira o numero da opção escolhida");
             switch (opc) {
                 case 1: {
-                    FiltragemPendenteUI filtra = new FiltragemPendenteUI();
+                    FiltragemPendenteDataWidget filtra = new FiltragemPendenteDataWidget();
                     filtra.filtraTarefasPendentes(listTarefas, colab);
                     break;
                 }
                 case 2: {
-                    OrdenarPendenteUI ordena = new OrdenarPendenteUI();
+                    OrdenarPendenteDataWidget ordena = new OrdenarPendenteDataWidget();
                     ordena.ordenaTarefasPendentes(listTarefas,colab);
                 }
                 case 0:
