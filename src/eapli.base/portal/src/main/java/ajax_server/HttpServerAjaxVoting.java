@@ -1,5 +1,6 @@
 package ajax_server;
 
+import javax.net.ssl.SSLSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -31,9 +32,9 @@ public class HttpServerAjaxVoting {
             System.out.println("Server failed to open local port " + args[0]);
             System.exit(1);
             }
-	while(true) { 
+	while(true) {
             cliSock=sock.accept();
-            HTTPDashboardRequest req=new HTTPDashboardRequest(cliSock, BASE_FOLDER);
+            HTTPDashboardRequest req=new HTTPDashboardRequest((SSLSocket) cliSock, BASE_FOLDER);
             req.start();
             incAccessesCounter();
             }

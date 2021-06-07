@@ -38,7 +38,7 @@ public class login  extends BaseApplication {
             // go to main menu
             final var menu = new MainMenu();
             //Server Creation Here
-            new Dashboard().execute(InetAddress.getLocalHost(),35210);
+            new Dashboard().execute(InetAddress.getLocalHost(),32507);
             menu.mainLoop();
         }
     }
