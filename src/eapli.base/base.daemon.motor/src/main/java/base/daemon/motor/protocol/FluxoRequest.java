@@ -48,8 +48,11 @@ public class FluxoRequest extends AplicacoesRequest {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
                     byte[] data = new byte[258];
+
+                    final String ipExecutor = this.appSettings.getIpExecutor();
+
                     try {
-                        serverIP = InetAddress.getLocalHost();
+                        serverIP = InetAddress.getByName(ipExecutor);
                     } catch (UnknownHostException ex) {
                         System.out.println("Invalid server: " + "endereçoIp");
                         System.exit(1);
