@@ -1,0 +1,80 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+participant RealizarTarefaUI as UI <<presentation>>
+control RealizarTarefaController as CTRL <<application>>
+database PedidoRepository as PRepository <<repository>>
+database ColaboradorRepository as CRepository <<repository>>
+participant Pedido as P <<domain>>
+participant ValidaForm as Valida <<domain>>
+
+activate UI
+
+UI -> UI : doShow()
+ note over CTRL: Para efeitos de simplificação do diagrama, não foram representadas todas as classes repository,\n a classe persistence e a classe factory, tendo sido utilizado o procedimento dos casos de uso do sprint B
+UI -> CTRL: getUser()
+    activate CTRL
+    CTRL -> CRepository: getUser()
+      activate CRepository
+      deactivate CRepository
+    deactivate CTRL
+    
+UI -> CTRL: getTarefasPendentes(colab)
+    activate CTRL
+      CTRL -> PRepository: getTarefasPendentes(colab)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+
+UI -> CTRL: getPedidoByAtividade(atividade)
+    activate CTRL
+    CTRL -> PRepository: pedido = getPedidoByAtividade(atividade)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+
+opt caso atividade tenha formulario
+UI -> CTRL: getFormularioDaAtividade(atividade)
+    activate CTRL
+    CTRL -> PRepository: formulario = getFormularioDaAtividade(atividade)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+
+UI -> CTRL: completaFormulario(formulario)
+    activate CTRL
+    CTRL -> P: completaFormulario(formulario)
+      activate P
+      deactivate P
+    deactivate CTRL
+
+UI -> CTRL: validaFormulario(formulario)
+    activate CTRL
+    CTRL -> Valida: validaFormulario(formulario)
+      activate Valida
+      deactivate Valida
+    deactivate CTRL
+end
+
+UI -> CTRL: completaDecisaoComentario(atividade)
+    activate CTRL
+    CTRL -> P: completaDecisaoComentario(atividade)
+      activate P
+      deactivate P
+    deactivate CTRL
+
+UI -> CTRL: savePedido(pedido)
+    activate CTRL
+    CTRL -> PRepository: savePedido(pedido)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+
+deactivate UI
+@enduml
+

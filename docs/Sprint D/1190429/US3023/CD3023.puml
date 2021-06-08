@@ -1,0 +1,45 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class RealizarTarefaUI <<presentation>>
+class RealizarTarefaController <<application>>
+class PedidoRepository <<repository>>
+class ColaboradorRepository <<repository>>
+class Pedido <<domain>>
+class ValidaForm <<domain>>
+
+RealizarTarefaUI --> RealizarTarefaController
+RealizarTarefaUI : doShow()
+
+RealizarTarefaController : getUser()
+RealizarTarefaController : getTarefasPendentes(colab)
+RealizarTarefaController : getPedidoByAtividade(atividade)
+RealizarTarefaController : getFormularioDaAtividade(atividade)
+RealizarTarefaController : completaFormulario(formulario)
+RealizarTarefaController : validaFormulario(formulario)
+RealizarTarefaController : completaDecisaoComentario(atividade)
+RealizarTarefaController : savePedido(pedido)
+
+Pedido : completaFormulario(formulario)
+Pedido : completaDecisaoComentario(atividade)
+
+ValidaForm : validaFormulario(formulario)
+
+RealizarTarefaController --> PedidoRepository
+RealizarTarefaController --> ColaboradorRepository
+RealizarTarefaController --> Pedido
+RealizarTarefaController --> ValidaForm
+
+ColaboradorRepository : getUser()
+
+PedidoRepository : getTarefasPendentes(colab)
+PedidoRepository : getPedidoByAtividade(atividade)
+PedidoRepository : getFormularioDaAtividade(atividade)
+PedidoRepository : savePedido(pedido)
+
+@enduml
