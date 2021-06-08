@@ -15,6 +15,8 @@ import eapli.base.equipa.domain.Designacao;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.general.domain.model.EmailAddress;
 import junit.framework.TestCase;
@@ -56,8 +58,8 @@ public class AtividadeManualTest extends TestCase {
         listEquipas1.add(equipa1);
 
         Set<Atributo> listaAtributosFormulario2 = new HashSet<>();
-        listaAtributosFormulario2.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario2.add(new Atributo("Idade", "Label da idade"));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), null));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), null));
 
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
@@ -91,8 +93,8 @@ public class AtividadeManualTest extends TestCase {
         listEquipas1.add(equipa1);
 
         Set<Atributo> listaAtributosFormulario2 = new HashSet<>();
-        listaAtributosFormulario2.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario2.add(new Atributo("Idade", "Label da idade"));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), null));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), null));
 
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
@@ -122,8 +124,8 @@ public class AtividadeManualTest extends TestCase {
         listEquipas1.add(equipa1);
 
         Set<Atributo> listaAtributosFormulario2 = new HashSet<>();
-        listaAtributosFormulario2.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario2.add(new Atributo("Idade", "Label da idade"));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), null));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), null));
 
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
@@ -152,8 +154,8 @@ public class AtividadeManualTest extends TestCase {
         listEquipas1.add(equipa1);
 
         Set<Atributo> listaAtributosFormulario2 = new HashSet<>();
-        listaAtributosFormulario2.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario2.add(new Atributo("Idade", "Label da idade"));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), null));
+        listaAtributosFormulario2.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), null));
 
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);

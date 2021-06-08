@@ -11,6 +11,8 @@ import eapli.base.equipa.domain.Designacao;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.servico.application.EspecificarServicoController;
 import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
@@ -34,27 +36,10 @@ public class ServicoBootstrapper implements Action {
     public boolean execute() {
         //Lista Atributos
         Set<Atributo> listaAtributosFormulario1 = new HashSet<>();
-        listaAtributosFormulario1.add(new Atributo("Nome", "Label do nome"));
-
         Set<Atributo> listaAtributosFormulario2 = new HashSet<>();
-        listaAtributosFormulario2.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario2.add(new Atributo("Idade", "Label da idade"));
-
         Set<Atributo> listaAtributosFormulario3 = new HashSet<>();
-        listaAtributosFormulario3.add(new Atributo("Morada", "Label da morada"));
-
         Set<Atributo> listaAtributosFormulario4 = new HashSet<>();
-        listaAtributosFormulario4.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario4.add(new Atributo("Idade", "Label da idade"));
-        listaAtributosFormulario4.add(new Atributo("Morada", "Label da morada"));
-        listaAtributosFormulario4.add(new Atributo("Telefone", "Label do telefone"));
-
         Set<Atributo> listaAtributosFormulario5 = new HashSet<>();
-        listaAtributosFormulario5.add(new Atributo("Telemovel", "Label do telemovel"));
-
-        Set<Atributo> listaAtributosFormulario6 = new HashSet<>();
-        listaAtributosFormulario6.add(new Atributo("Endereco Postal", "Label endereco postal"));
-
         //Keywords
         Set<String> keywords = new HashSet<>();
         keywords.add("Paz");
@@ -129,7 +114,7 @@ public class ServicoBootstrapper implements Action {
         atividades2.add(a1);
 
         Set<Atividade> atividades3 = new HashSet<>();
-        Formulario form3 = controller.createFormulario("Formulario3", listaAtributosFormulario6);
+        Formulario form3 = controller.createFormulario("Formulario3", listaAtributosFormulario5);
         AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas1,"decisao3","comentario3",0,0,0,form3,TipoAtividade.REALIZACAO);
         atividades3.add(a2);
 
@@ -139,7 +124,7 @@ public class ServicoBootstrapper implements Action {
         atividades4.add(a3);
 
         Set<Atividade> atividades5 = new HashSet<>();
-        Formulario form5 = controller.createFormulario("Formulario5", listaAtributosFormulario6);
+        Formulario form5 = controller.createFormulario("Formulario5", listaAtributosFormulario1);
         AtividadeManual a4 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas2,"decisao5","comentario5",0,0,0,form5,TipoAtividade.REALIZACAO);
         atividades5.add(a4);
 

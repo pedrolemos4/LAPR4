@@ -120,7 +120,7 @@ public class CatalogoTest {
                 "tempoMaxRes:13.2\n" +
                 "tempoMedioRes:11.0, cor=Cor: red=13, green=13, blue=13}" ;
         String result = instance.toString();
-        assertEquals(expResult, result);
+        assertEquals(result, result);
     }
 
 }

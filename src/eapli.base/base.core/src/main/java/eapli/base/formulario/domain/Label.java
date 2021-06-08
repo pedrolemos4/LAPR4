@@ -13,7 +13,7 @@ public class Label implements ValueObject {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "Variavel")
+    @Column(name = "Label")
     private String label;
 
     public Label(final String name) {

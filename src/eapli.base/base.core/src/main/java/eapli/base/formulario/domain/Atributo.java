@@ -1,34 +1,45 @@
 package eapli.base.formulario.domain;
 
+import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.ValueObject;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 public class Atributo implements ValueObject {
 
-    @Column(name="Nome_Variavel")
-    private String nomeVariavel;
+    @Id
+    @GeneratedValue
+    @Column(name="id_Atributo")
+    private long id;
+
+    @Column(name="Variavel")
+    private Variavel nomeVariavel;
 
     @Column(name="Label")
-    private String label;
+    private Label label;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "formulario")
+    private Formulario formulario;
 
     protected Atributo() {
         this.nomeVariavel=null;
         this.label = null;
+        this.formulario = null;
     }
 
     private enum TipoDados{
         INTEGER ,STRING,BOOLEAN,DATA
     }
 
-    public Atributo(String nomeVariavel, String label){
+    public Atributo(Variavel nomeVariavel, Label label, Formulario formulario){
         this.nomeVariavel=nomeVariavel;
         this.label=label;
+        this.formulario = formulario;
     }
 
-    public String nomeVariavel(){
+    public Variavel nomeVariavel(){
         return this.nomeVariavel;
     }
 

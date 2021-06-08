@@ -10,6 +10,8 @@ import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.*;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
 import eapli.framework.general.domain.model.EmailAddress;
 import junit.framework.TestCase;
 import org.junit.*;
@@ -35,8 +37,8 @@ public class FluxoAtividadeTest extends TestCase {
         instance2 = new FluxoAtividade(setAtividades2);
 
         Set<Atributo> listaAtributosFormulario1 = new HashSet<>();
-        listaAtributosFormulario1.add(new Atributo("Nome Completo", "Label do nome completo"));
-        listaAtributosFormulario1.add(new Atributo("Idade", "Label da idade"));
+        listaAtributosFormulario1.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), null));
+        listaAtributosFormulario1.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), null));
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario1);
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984, 10, 25);

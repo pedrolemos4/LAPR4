@@ -50,7 +50,7 @@ public class EspecificarServicoController {
     public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos){
         final Formulario formulario = new Formulario(titulo, listaAtributos);
         //System.out.println(formulario.toString());
-      //  this.formularioRepository.save(formulario);
+        //this.formularioRepository.save(formulario);
         return formulario;
     }
 
@@ -61,12 +61,6 @@ public class EspecificarServicoController {
                 tituloFormulario, listaAtributos, keywords,catalogo, fluxo);
         this.draftServicoRepository.save(draftServico);
     }
-
-    public Atributo createAtributo(String nomeVariavel, String label) {
-        final Atributo atributo = new Atributo(nomeVariavel, label);
-        return atributo;
-    }
-
 
     public Iterable<Catalogo> listCatalogos(){
         final Iterable<Catalogo> lc = catalogoRepository.findAll();

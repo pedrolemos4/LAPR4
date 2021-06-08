@@ -17,6 +17,7 @@
     <class>eapli.base.criticidade.domain.Criticidade</class>
     <class>eapli.base.atividade.domain.FluxoAtividade</class>
     <class>eapli.base.atividade.domain.Atividade</class>
+    <class>eapli.base.formulario.domain.Atributo</class>
     <class>eapli.base.atividade.domain.AtividadeManual</class>
     <class>eapli.base.atividade.domain.AtividadeAutomatica</class>
     <class>eapli.base.servico.domain.Servico</class>

@@ -25,7 +25,7 @@ public class Formulario implements AggregateRoot<Long> {
     @Column(name="Titulo")
     private final Titulo titulo;
 
-    @ElementCollection
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formulario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Atributo> atributos = new HashSet<>();
 
     @OneToOne (mappedBy = "formulario")

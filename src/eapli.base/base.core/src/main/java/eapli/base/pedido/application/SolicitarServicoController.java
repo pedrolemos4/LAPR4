@@ -10,6 +10,8 @@ import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
@@ -122,8 +124,8 @@ public class SolicitarServicoController {
         }
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label) {
-        final Atributo atributo = new Atributo(nomeVariavel, label);
+    public Atributo createAtributo(String nomeVariavel, String label, Formulario formulario) {
+        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), formulario);
         return atributo;
     }
 
