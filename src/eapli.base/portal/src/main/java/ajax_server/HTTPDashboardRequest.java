@@ -1,5 +1,11 @@
 package ajax_server;
 
+import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.framework.infrastructure.authz.application.AuthorizationService;
+import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+
 import javax.net.ssl.SSLSocket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,12 +22,15 @@ public class HTTPDashboardRequest extends Thread {
 	DataInputStream inS;
 	DataOutputStream outS;
 
+	static final AuthorizationService authz = AuthzRegistry.authorizationService();
+	ColaboradorRepository repo = PersistenceContext.repositories().colaborador();
 
 	public HTTPDashboardRequest(SSLSocket s, String f) {
 		baseFolder=f; sock=s;
 		}
 
 	public void run() {
+		/*
 		try {
 			outS = new DataOutputStream(sock.getOutputStream());
 			inS = new DataInputStream(sock.getInputStream());
@@ -59,6 +68,32 @@ public class HTTPDashboardRequest extends Thread {
 			sock.close();
 		} catch (IOException ex) {
 			System.out.println("CLOSE IOException");
+		}
+
+		 */
+
+		Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
+
+		byte[] data = new byte[258];
+		data[0] = 0;
+		data[1] = 5;
+		byte[] idArray = colab.identity().toString().getBytes();
+		data[2] = (byte) idArray.length;
+		for (int i = 0; i < idArray.length; i++) {
+			data[i + 2] = idArray[i];
+		}
+
+		try {
+			outS.write(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// serverConn.join();
+		try {
+			sock.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

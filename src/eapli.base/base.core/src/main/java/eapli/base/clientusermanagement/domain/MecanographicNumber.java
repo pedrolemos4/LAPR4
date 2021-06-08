@@ -5,12 +5,10 @@
  */
 package eapli.base.clientusermanagement.domain;
 
+import eapli.framework.domain.model.ValueObject;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
-import eapli.framework.domain.model.ValueObject;
-import eapli.framework.strings.util.StringPredicates;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 
 /**
  *
@@ -62,7 +60,7 @@ public class MecanographicNumber implements ValueObject, Comparable<Mecanographi
 
     @Override
     public String toString() {
-        return String.format("Number: %d",this.number);
+        return String.format("%d",this.number);
     }
 
     @Override

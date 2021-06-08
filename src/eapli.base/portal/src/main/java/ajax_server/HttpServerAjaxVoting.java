@@ -39,8 +39,7 @@ public class HttpServerAjaxVoting {
             incAccessesCounter();
             }
         } 
-	
-    
+
     // DATA ACCESSED BY THREADS - LOCKING REQUIRED
     
     private static final int candidatesNumber = 4;
@@ -68,7 +67,4 @@ public class HttpServerAjaxVoting {
         cN--;
         if(cN >= 0 && cN < candidatesNumber) candidateVotes[cN]++;
     }
-    
-    
-    
 }
