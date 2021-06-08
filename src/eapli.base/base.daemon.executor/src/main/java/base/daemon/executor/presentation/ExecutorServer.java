@@ -22,6 +22,7 @@ package base.daemon.executor.presentation;
 
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
+import eapli.base.Application;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +37,6 @@ import java.util.List;
 
 public class ExecutorServer {
 
-    private static final int PORT = 35208;
     static final String TRUSTED_STORE = "server_E.jks";
     static final String KEYSTORE_PASS = "forgotten";
 
@@ -59,22 +59,15 @@ public class ExecutorServer {
 
         SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
-        /*try {
-            serverIP = InetAddress.getByName(args[0]);
-        } catch (UnknownHostException ex) {
-            System.out.println("Invalid server specified: " + args[0]);
-            System.exit(1);
-        }*/
-
         try {
-            sockSSL = (SSLServerSocket) sf.createServerSocket(PORT);
+            sockSSL = (SSLServerSocket) sf.createServerSocket(Application.settings().getPortExecutor());
             sockSSL.setNeedClientAuth(true);
         } catch (IOException ex) {
-            System.out.println("Server failed to open local port " + PORT);
+            System.out.println("Server failed to open local port " + Application.settings().getPortExecutor());
             System.exit(1);
         }
 
-        System.out.println("Connected to server: " + args[0] + ":" + PORT);
+        System.out.println("Connected to server: " + Application.settings().getIpExecutor() + ":" + Application.settings().getPortExecutor());
 
 
         while (true) {
