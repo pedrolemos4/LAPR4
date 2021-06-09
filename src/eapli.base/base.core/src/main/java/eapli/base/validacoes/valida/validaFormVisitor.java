@@ -74,13 +74,6 @@ public interface validaFormVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValidoData(validaFormParser.ValidoDataContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code validoBoolean}
-	 * labeled alternative in {@link validaFormParser#nome}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitValidoBoolean(validaFormParser.ValidoBooleanContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code vazio2}
 	 * labeled alternative in {@link validaFormParser#nome}.
 	 * @param ctx the parse tree

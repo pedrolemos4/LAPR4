@@ -116,18 +116,6 @@ public interface validaFormListener extends ParseTreeListener {
 	 */
 	void exitValidoData(validaFormParser.ValidoDataContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code validoBoolean}
-	 * labeled alternative in {@link validaFormParser#nome}.
-	 * @param ctx the parse tree
-	 */
-	void enterValidoBoolean(validaFormParser.ValidoBooleanContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code validoBoolean}
-	 * labeled alternative in {@link validaFormParser#nome}.
-	 * @param ctx the parse tree
-	 */
-	void exitValidoBoolean(validaFormParser.ValidoBooleanContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code vazio2}
 	 * labeled alternative in {@link validaFormParser#nome}.
 	 * @param ctx the parse tree

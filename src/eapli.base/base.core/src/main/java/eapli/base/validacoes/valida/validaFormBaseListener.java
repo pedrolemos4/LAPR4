@@ -124,18 +124,6 @@ public class validaFormBaseListener implements validaFormListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValidoBoolean(validaFormParser.ValidoBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitValidoBoolean(validaFormParser.ValidoBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterVazio2(validaFormParser.Vazio2Context ctx) { }
 	/**
 	 * {@inheritDoc}
