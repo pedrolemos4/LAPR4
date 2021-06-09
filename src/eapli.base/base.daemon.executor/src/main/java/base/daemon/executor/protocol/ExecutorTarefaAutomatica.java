@@ -21,7 +21,9 @@
 package base.daemon.executor.protocol;
 
 
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.channels.FileChannel;
+import java.util.Scanner;
 
 
 public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
@@ -44,11 +46,35 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         return "Sucesso";
     }
 
-    private void executarScript(final String input) throws FileNotFoundException {
+    private void guardarScript(final String input, final String output) throws IOException {
+        File sourceFile = new File(input);
+        File destFile = new File(output);
+        if (!destFile.exists()) {
+            destFile.createNewFile();
+        }
+        FileChannel source = new FileInputStream(input).getChannel();
+        FileChannel destination = new FileOutputStream(output).getChannel();
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size());
+            sourceFile.delete();
+        }
+        if (source != null) {
+            source.close();
+        }
+        if (destination != null) {
+            destination.close();
+        }
+        System.out.println("Script guardado para posterior execução");
+    }
+
+    private void executarScript(final String input) throws IOException {
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script
-        System.out.println("A executar o script");
+        System.out.println(input);
+        String[] cmd = { "sh", "script.sh", "./pathOfTheFile" };
+        Runtime.getRuntime().exec(cmd);
+        System.out.println("A executar o script...");
     }
 
 }
