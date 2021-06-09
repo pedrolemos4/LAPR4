@@ -60,8 +60,6 @@ public class AppSettings {
         this.applicationProperties.setProperty(HIGH_CALORIES_DISH_LIMIT, "300");
         this.applicationProperties.setProperty(EXECUTOR_IP,"10.8.0.82");
         this.applicationProperties.setProperty(MOTOR_IP,"10.8.0.81");
-        this.applicationProperties.setProperty(MOTOR_PORT,"22222");
-        this.applicationProperties.setProperty(EXECUTOR_PORT,"33333");
     }
 
     public Boolean isMenuLayoutHorizontal() {
