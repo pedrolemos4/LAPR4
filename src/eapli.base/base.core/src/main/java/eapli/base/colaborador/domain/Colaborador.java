@@ -46,8 +46,8 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Pedido> pediddosEfetuados;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<FuncaoColaborador> funcoes;
+    //@OneToMany(fetch = FetchType.LAZY)
+   // private Set<FuncaoColaborador> funcoes;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Calendar dataNasc, Contacto contacto,
                         LocalResidencia localResidencia, EmailAddress endereco){//}, Funcao funcao) {
