@@ -19,6 +19,7 @@ import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
+import eapli.base.validacoes.validaFormulario.ValidaForm;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -86,13 +87,25 @@ public class SolicitarServicoController {
     public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes, Formulario formulario, Set<Atributo> atributos) {
         try {
             formulario.copyAtributos(atributos);
-            Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
-            return this.pedidoRepository.save(pedido);
+
+            File file = new File("testForm.txt");
+            FileWriter fw = new FileWriter(file);
+            fw.write(formulario.toString());
+            ValidaForm vf = new ValidaForm();
+            boolean checkForm = vf.validaForm(file);
+
+            if (checkForm == true) {
+                Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
+                return this.pedidoRepository.save(pedido);
+            } else {
+                System.out.println("Formulário inválido. Pedido não será efetuado.");
+            }
         } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
+        return null;
     }
 
     public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
