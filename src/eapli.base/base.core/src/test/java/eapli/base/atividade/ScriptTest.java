@@ -26,7 +26,7 @@ public class ScriptTest extends TestCase {
     public void testToString() {
         System.out.println("toString");
         Script instance = new Script("script.sh");
-        String expResult = "Script{script='script.sh'}";
+        String expResult = "script.sh";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
