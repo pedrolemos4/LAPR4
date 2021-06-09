@@ -72,11 +72,14 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Pedido> getPedidosPendentes(Colaborador colab, EstadoPedido estado);
 
-    List<Pedido> getTaskHistory(Colaborador colaborador);
+    List<Pedido> getPedidosEmCurso(Colaborador colab);
 
     Pedido findPedido(String idPedido);
 
     List<Atividade> getAtividadesAuto(EstadoPedido estado);
 
     String findScriptAtividade(Long identity);
+
+    List<Pedido> getPedidosPendentesOrdered(Colaborador colab,EstadoPedido estadoPedido);
+
 }

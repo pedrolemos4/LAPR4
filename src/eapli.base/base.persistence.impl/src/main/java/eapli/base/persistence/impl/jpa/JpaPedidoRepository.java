@@ -367,11 +367,21 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         return q.getResultList();
     }
 
-    @Override
-    public List<Pedido> getTaskHistory(Colaborador colab) {
+    public List<Pedido> getPedidosPendentesOrdered(Colaborador colab, EstadoPedido estado) {
         final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p WHERE p.colaborador =:colab", Pedido.class);
+                "SELECT p FROM Pedido p WHERE p.colaborador =:colab AND " +
+                        "p.estado =:estado AND p.grau IS NULL ORDER BY p.dataSolicitacao DESC", Pedido.class);
         q.setParameter("colab", colab);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+    @Override
+    public List<Pedido> getPedidosEmCurso(Colaborador colab) {
+        final TypedQuery<Pedido> q = createQuery(
+                "SELECT p FROM Pedido p WHERE p.colaborador =:colab AND " +
+                        "p.estado != :concluido AND p.grau IS NULL ORDER BY p.dataSolicitacao DESC", Pedido.class);
+        q.setParameter("colab", colab);
+        q.setParameter("concluido", EstadoPedido.CONCLUIDO);
         return q.getResultList();
     }
 
