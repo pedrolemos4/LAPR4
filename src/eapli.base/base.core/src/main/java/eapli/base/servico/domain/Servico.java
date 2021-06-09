@@ -1,6 +1,8 @@
 package eapli.base.servico.domain;
 
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.Comentario;
+import eapli.base.atividade.domain.Decisao;
 import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
@@ -140,6 +142,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     public void atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
         this.fluxoAtividade.atualizarDataAtividade(atividade,dataLimiteRes);
+    }
+
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
+        this.fluxoAtividade.completaDecisaoComentario(valueOf,aprovado,at);
     }
 
     public static class ServicoBuilder {

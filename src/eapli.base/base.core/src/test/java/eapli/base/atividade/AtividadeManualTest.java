@@ -64,10 +64,10 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, new Decisao("decisao1"), new Comentario("comentario"), form1, dataS, TipoAtividade.REALIZACAO);
+        AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS, TipoAtividade.REALIZACAO);
 
         String expResult = "AtividadeManual{colab=null, equipa=[Equipa\n" +
-                "Codigo: e1 Acronimo: EQP1 Designacao: desig1 Tipo: TipoEquipa{, codigoUnico=t1, designacao=tipo1, cor=Cor: red=10, green=20, blue=30}], decisao=Decisao{des='decisao1'}, comentario=Comentario{coment='comentario'}, formulario=Formulario{pk=null, version=null, titulo=Formulario1, atributos=2}}";
+                "Codigo: e1 Acronimo: EQP1 Designacao: desig1 Tipo: TipoEquipa{, codigoUnico=t1, designacao=tipo1, cor=Cor: red=10, green=20, blue=30}], decisao=APROVADO, comentario=Comentario{coment='comentario'}, formulario=Formulario{pk=null, version=null, titulo=Formulario1, atributos=2}}";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
@@ -99,7 +99,7 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, new Decisao("decisao1"), new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO);
+        AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO);
 
         instance.adicionaColaborador(colab);
     }
@@ -130,7 +130,7 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, new Decisao("decisao1"), new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO);
+        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO);
         assertTrue(true);
     }
 
@@ -160,7 +160,7 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, new Decisao("decisao1"), new Comentario("comentario"), form1, dataS,TipoAtividade.APROVACAO);
+        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.APROVACAO);
         assertTrue(true);
     }
     

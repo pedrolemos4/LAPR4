@@ -2,14 +2,17 @@ package eapli.base.app.backoffice.console.presentation.atividades;
 
 import eapli.base.atividade.application.RealizarTarefaController;
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.Decisao;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.domain.Pedido;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -18,12 +21,9 @@ public class RealizarTarefaUI extends AbstractUI {
 
     private RealizarTarefaController controller = new RealizarTarefaController();
 
-
     @Override
     protected boolean doShow() {
         Colaborador colab = this.controller.getUser();
-
-        List<Atividade> atividades = this.controller.getListaTarefasPendentes(colab);
 
         final SelectWidget<Atividade> selector = new SelectWidget<>("Selecione uma das seguintes atividades para a realizar: ",
                 this.controller.getListaTarefasPendentes(colab),
@@ -43,25 +43,36 @@ public class RealizarTarefaUI extends AbstractUI {
                 Console.readLine("Label: " + this.controller.getLabelDoAtributo(atributo));
                 String variavel = Console.readLine("Introduza o nome da variável correspondente: ");
                 // completa formulario preenchendo a variavel do atributo
-                //atributo.completaFormulario(Variavel.valueOf(variavel));
                 this.controller.completaFormulario(pedido, variavel, atributo);
-                //pedido.completaFormulario(Variavel.valueOf(variavel), atributo);
+
+                // de forma a que formulario(instancia) seja atualizada também
+                this.controller.completaForm(form, Variavel.valueOf(variavel), atributo);
+                form.completaFormulario(Variavel.valueOf(variavel), atributo);
             }
 
             /// problema pois estás a atualizar pelo pedido e nao pelo form
 
-            /*try {
-                FileWriter myWriter = new FileWriter("filename.txt");
+            try {
+                File file = new File("filename.txt");
+                FileWriter myWriter = new FileWriter(file);
                 myWriter.write(form.toString());
-                this.controller.validaFormulario(myWriter);
+
+                // conseguir que retorne se formulario é valido ou nao
+                this.controller.validaFormulario(file);
                 myWriter.close();
                 System.out.println("Successfully wrote to the file.");
             } catch (IOException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
-            }*/
-
+            }
         }
+
+        String comentario = Console.readLine("Introduza um comentario:");
+
+        // todas as decisões são aprovadas
+        this.controller.completaDecisaoComentario(comentario, Decisao.APROVADO, pedido, at);
+
+        this.controller.savePedido(pedido);
 
         return false;
     }

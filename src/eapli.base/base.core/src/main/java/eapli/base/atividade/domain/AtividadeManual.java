@@ -19,6 +19,7 @@ public class AtividadeManual extends Atividade{
     private Set<Equipa> equipa;
 
     @Column(name = "DECISAO")
+    @Enumerated(EnumType.STRING)
     private Decisao decisao;
 
     @Column(name = "COMENTARIO")
@@ -63,5 +64,10 @@ public class AtividadeManual extends Atividade{
 
     public void adicionaColaborador(Colaborador colab) {
         this.colab = colab;
+    }
+
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado) {
+        this.comentario = valueOf;
+        this.decisao = aprovado;
     }
 }
