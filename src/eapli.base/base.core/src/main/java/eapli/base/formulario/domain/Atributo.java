@@ -1,6 +1,5 @@
 package eapli.base.formulario.domain;
 
-import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
@@ -29,8 +28,16 @@ public class Atributo implements ValueObject {
         this.formulario = null;
     }
 
+    public void completaFormulario(Variavel valueOf) {
+        this.nomeVariavel = valueOf;
+    }
+
     private enum TipoDados{
         INTEGER ,STRING,BOOLEAN,DATA
+    }
+
+    public Long identity() {
+        return id;
     }
 
     public Atributo(Variavel nomeVariavel, Label label, Formulario formulario){
