@@ -8,6 +8,9 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -375,6 +378,40 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
         q.setParameter("estado", estado);
         return q.getResultList();
     }
+
+    @Override
+    public Formulario getFormularioDaAtividade(Long identity) {
+        final TypedQuery<Formulario> q = createQuery(
+                "SELECT form FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.formulario form" +
+                        " WHERE a.id =:identity",
+                Formulario.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public List<Atributo> getAtributosDoFormulario(Long identity) {
+        final TypedQuery<Atributo> q = createQuery(
+                "SELECT atr FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.formulario form JOIN form.atributos atr" +
+                        " WHERE form.pk =:identity",
+                Atributo.class);
+        q.setParameter("identity", identity);
+        return q.getResultList();
+    }
+
+    @Override
+    public Label getLabelDoAtributo(Long identity) {
+        final TypedQuery<Label> q = createQuery(
+                "SELECT lab FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
+                        "JOIN fl.listaAtividade a JOIN a.formulario form JOIN form.atributos atr JOIN atr.label lab" +
+                        " WHERE atr.id =:identity",
+                Label.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
     @Override
     public List<Pedido> getPedidosEmCurso(Colaborador colab) {
         final TypedQuery<Pedido> q = createQuery(

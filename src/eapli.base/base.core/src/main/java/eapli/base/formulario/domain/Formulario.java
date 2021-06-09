@@ -84,4 +84,12 @@ public class Formulario implements AggregateRoot<Long> {
     public Long identity() {
         return pk;
     }
+
+    public void completaFormulario(Variavel variavel, Atributo atributo) {
+        for(Atributo a : this.atributos){
+            if (a.equals(atributo)) {
+                a.completaFormulario(variavel);
+            }
+        }
+    }
 }

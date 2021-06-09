@@ -8,6 +8,9 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -82,4 +85,9 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Pedido> getPedidosPendentesOrdered(Colaborador colab,EstadoPedido estadoPedido);
 
+    Formulario getFormularioDaAtividade(Long identity);
+
+    List<Atributo> getAtributosDoFormulario(Long identity);
+
+    Label getLabelDoAtributo(Long identity);
 }

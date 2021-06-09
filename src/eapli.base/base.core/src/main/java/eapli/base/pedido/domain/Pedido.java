@@ -2,7 +2,9 @@ package eapli.base.pedido.domain;
 
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.generators.IdentificadorGenerator;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -112,4 +114,8 @@ public class Pedido implements AggregateRoot<String> {
     }
 
     public Servico servico() { return this.servico;}
+
+    public void completaFormulario(Variavel variavel, Atributo atributo) {
+        this.formulario.completaFormulario(variavel, atributo);
+    }
 }
