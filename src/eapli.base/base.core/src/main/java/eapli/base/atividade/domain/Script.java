@@ -22,8 +22,6 @@ public class Script implements ValueObject {
 
     @Override
     public String toString() {
-        return "Script{" +
-                "script='" + caminhoScript + '\'' +
-                '}';
+        return caminhoScript;
     }
 }

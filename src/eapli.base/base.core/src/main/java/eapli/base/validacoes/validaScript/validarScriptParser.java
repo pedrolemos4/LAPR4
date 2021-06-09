@@ -1,16 +1,16 @@
-// Generated from C:/Users/josec/Desktop/LPROG IMPORTANTE/src/validarAtividade\validarAtividade.g4 by ANTLR 4.9.1
-package eapli.base.validacoes.validarAtividade;
-
-import org.antlr.v4.runtime.*;
+// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaScript\validarScript.g4 by ANTLR 4.9.1
+package eapli.base.validacoes.validaScript;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class validarAtividadeParser extends Parser {
+public class validarScriptParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -75,7 +75,7 @@ public class validarAtividadeParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "validarAtividade.g4"; }
+	public String getGrammarFileName() { return "validarScript.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -86,7 +86,7 @@ public class validarAtividadeParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public validarAtividadeParser(TokenStream input) {
+	public validarScriptParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -106,15 +106,15 @@ public class validarAtividadeParser extends Parser {
 		public VazioContext(RegraContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterVazio(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterVazio(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitVazio(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitVazio(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitVazio(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitVazio(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -125,15 +125,15 @@ public class validarAtividadeParser extends Parser {
 		public AtvManualContext(RegraContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterAtvManual(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterAtvManual(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitAtvManual(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitAtvManual(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitAtvManual(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitAtvManual(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -144,15 +144,15 @@ public class validarAtividadeParser extends Parser {
 		public AtvAutoContext(RegraContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterAtvAuto(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterAtvAuto(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitAtvAuto(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitAtvAuto(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitAtvAuto(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitAtvAuto(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -211,54 +211,54 @@ public class validarAtividadeParser extends Parser {
 		}
 	}
 	public static class ValidoContext extends Atv_manuContext {
-		public TerminalNode DATA() { return getToken(validarAtividadeParser.DATA, 0); }
-		public List<TerminalNode> PV() { return getTokens(validarAtividadeParser.PV); }
+		public TerminalNode DATA() { return getToken(validarScriptParser.DATA, 0); }
+		public List<TerminalNode> PV() { return getTokens(validarScriptParser.PV); }
 		public TerminalNode PV(int i) {
-			return getToken(validarAtividadeParser.PV, i);
+			return getToken(validarScriptParser.PV, i);
 		}
-		public TerminalNode ESTADO() { return getToken(validarAtividadeParser.ESTADO, 0); }
-		public TerminalNode TIPO() { return getToken(validarAtividadeParser.TIPO, 0); }
-		public TerminalNode DECISAO() { return getToken(validarAtividadeParser.DECISAO, 0); }
-		public TerminalNode COMENTARIO() { return getToken(validarAtividadeParser.COMENTARIO, 0); }
-		public TerminalNode FORM() { return getToken(validarAtividadeParser.FORM, 0); }
-		public TerminalNode COLAB() { return getToken(validarAtividadeParser.COLAB, 0); }
-		public TerminalNode EQUIPA() { return getToken(validarAtividadeParser.EQUIPA, 0); }
+		public TerminalNode ESTADO() { return getToken(validarScriptParser.ESTADO, 0); }
+		public TerminalNode TIPO() { return getToken(validarScriptParser.TIPO, 0); }
+		public TerminalNode DECISAO() { return getToken(validarScriptParser.DECISAO, 0); }
+		public TerminalNode COMENTARIO() { return getToken(validarScriptParser.COMENTARIO, 0); }
+		public TerminalNode FORM() { return getToken(validarScriptParser.FORM, 0); }
+		public TerminalNode COLAB() { return getToken(validarScriptParser.COLAB, 0); }
+		public TerminalNode EQUIPA() { return getToken(validarScriptParser.EQUIPA, 0); }
 		public ValidoContext(Atv_manuContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterValido(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterValido(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitValido(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitValido(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitValido(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitValido(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class InvalidoContext extends Atv_manuContext {
-		public TerminalNode DATA() { return getToken(validarAtividadeParser.DATA, 0); }
-		public TerminalNode ESTADO() { return getToken(validarAtividadeParser.ESTADO, 0); }
-		public TerminalNode TIPO() { return getToken(validarAtividadeParser.TIPO, 0); }
-		public TerminalNode COLAB() { return getToken(validarAtividadeParser.COLAB, 0); }
-		public TerminalNode EQUIPA() { return getToken(validarAtividadeParser.EQUIPA, 0); }
-		public TerminalNode DECISAO() { return getToken(validarAtividadeParser.DECISAO, 0); }
-		public TerminalNode COMENTARIO() { return getToken(validarAtividadeParser.COMENTARIO, 0); }
-		public TerminalNode FORM() { return getToken(validarAtividadeParser.FORM, 0); }
+		public TerminalNode DATA() { return getToken(validarScriptParser.DATA, 0); }
+		public TerminalNode ESTADO() { return getToken(validarScriptParser.ESTADO, 0); }
+		public TerminalNode TIPO() { return getToken(validarScriptParser.TIPO, 0); }
+		public TerminalNode COLAB() { return getToken(validarScriptParser.COLAB, 0); }
+		public TerminalNode EQUIPA() { return getToken(validarScriptParser.EQUIPA, 0); }
+		public TerminalNode DECISAO() { return getToken(validarScriptParser.DECISAO, 0); }
+		public TerminalNode COMENTARIO() { return getToken(validarScriptParser.COMENTARIO, 0); }
+		public TerminalNode FORM() { return getToken(validarScriptParser.FORM, 0); }
 		public InvalidoContext(Atv_manuContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterInvalido(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterInvalido(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitInvalido(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitInvalido(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitInvalido(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitInvalido(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -266,15 +266,15 @@ public class validarAtividadeParser extends Parser {
 		public Vazio2Context(Atv_manuContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterVazio2(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterVazio2(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitVazio2(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitVazio2(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitVazio2(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitVazio2(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -422,21 +422,21 @@ public class validarAtividadeParser extends Parser {
 		}
 	}
 	public static class Invalido2Context extends Atv_autoContext {
-		public TerminalNode DATA() { return getToken(validarAtividadeParser.DATA, 0); }
-		public TerminalNode ESTADO() { return getToken(validarAtividadeParser.ESTADO, 0); }
-		public TerminalNode TIPO() { return getToken(validarAtividadeParser.TIPO, 0); }
+		public TerminalNode DATA() { return getToken(validarScriptParser.DATA, 0); }
+		public TerminalNode ESTADO() { return getToken(validarScriptParser.ESTADO, 0); }
+		public TerminalNode TIPO() { return getToken(validarScriptParser.TIPO, 0); }
 		public Invalido2Context(Atv_autoContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterInvalido2(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterInvalido2(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitInvalido2(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitInvalido2(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitInvalido2(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitInvalido2(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -444,38 +444,38 @@ public class validarAtividadeParser extends Parser {
 		public Vazio3Context(Atv_autoContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterVazio3(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterVazio3(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitVazio3(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitVazio3(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitVazio3(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitVazio3(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class Valido2Context extends Atv_autoContext {
-		public TerminalNode DATA() { return getToken(validarAtividadeParser.DATA, 0); }
-		public List<TerminalNode> PV() { return getTokens(validarAtividadeParser.PV); }
+		public TerminalNode DATA() { return getToken(validarScriptParser.DATA, 0); }
+		public List<TerminalNode> PV() { return getTokens(validarScriptParser.PV); }
 		public TerminalNode PV(int i) {
-			return getToken(validarAtividadeParser.PV, i);
+			return getToken(validarScriptParser.PV, i);
 		}
-		public TerminalNode ESTADO() { return getToken(validarAtividadeParser.ESTADO, 0); }
-		public TerminalNode TIPO() { return getToken(validarAtividadeParser.TIPO, 0); }
+		public TerminalNode ESTADO() { return getToken(validarScriptParser.ESTADO, 0); }
+		public TerminalNode TIPO() { return getToken(validarScriptParser.TIPO, 0); }
 		public Valido2Context(Atv_autoContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).enterValido2(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).enterValido2(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof validarAtividadeListener ) ((validarAtividadeListener)listener).exitValido2(this);
+			if ( listener instanceof validarScriptListener ) ((validarScriptListener)listener).exitValido2(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof validarAtividadeVisitor ) return ((validarAtividadeVisitor<? extends T>)visitor).visitValido2(this);
+			if ( visitor instanceof validarScriptVisitor ) return ((validarScriptVisitor<? extends T>)visitor).visitValido2(this);
 			else return visitor.visitChildren(this);
 		}
 	}

@@ -21,9 +21,10 @@
 package base.daemon.executor.protocol;
 
 
+import eapli.base.validacoes.validaScript.ValidaScript;
+
 import java.io.*;
 import java.nio.channels.FileChannel;
-import java.util.Scanner;
 
 
 public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
@@ -34,15 +35,19 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
 
     @Override
     public String execute() {
-       // execution
-        try {
-            executarScript(request);
-            //System.out.println("Executar o script");
-        } catch (final Exception e) {
-            System.out.println("Erro");
-            return buildServerError(e.getMessage());
+        File fileScript = new File(request);
+        ValidaScript vs = new ValidaScript();
+        boolean checkScript = vs.validaScript(fileScript);
+        if (checkScript) {
+            try {
+                executarScript(fileScript);
+            } catch (final Exception e) {
+                System.out.println("Erro");
+                return buildServerError(e.getMessage());
+            }
+        } else {
+            System.out.println("Script inválido. Não será executado.");
         }
-
         return "Sucesso";
     }
 
@@ -67,12 +72,11 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         System.out.println("Script guardado para posterior execução");
     }
 
-    private void executarScript(final String input) throws IOException {
+    private void executarScript(final File script) throws IOException {
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script
-        System.out.println(input);
-        String[] cmd = { "sh", "script.sh", "./pathOfTheFile" };
+        String[] cmd = { "sh", script.getName(), script.getPath() };
         Runtime.getRuntime().exec(cmd);
         System.out.println("A executar o script...");
     }

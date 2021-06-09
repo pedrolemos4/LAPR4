@@ -1,4 +1,4 @@
-grammar validarAtividade;
+grammar validarScript;
 
 regra: atv_manu #atvManual
 | atv_auto #atvAuto
