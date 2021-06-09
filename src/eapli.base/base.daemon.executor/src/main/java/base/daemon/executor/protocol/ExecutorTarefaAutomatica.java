@@ -37,17 +37,17 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     public String execute() {
         File fileScript = new File(request);
         ValidaScript vs = new ValidaScript();
-        boolean checkScript = vs.validaScript(fileScript);
-        if (checkScript) {
+       // boolean checkScript = vs.validaScript(fileScript);
+       // if (checkScript) {
             try {
                 executarScript(fileScript);
             } catch (final Exception e) {
                 System.out.println("Erro");
                 return buildServerError(e.getMessage());
             }
-        } else {
-            System.out.println("Script inválido. Não será executado.");
-        }
+        //} else {
+         //   System.out.println("Script inválido. Não será executado.");
+       // }
         return "Sucesso";
     }
 
