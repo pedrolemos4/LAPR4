@@ -48,6 +48,8 @@ public class SolicitarServicoController {
     static SSLSocket sockSSL;
     static final String KEYSTORE_PASS = "forgotten";
 
+    private static final String IPMOTOR = "10.8.0.82";
+
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     private final ColaboradorRepository repository = PersistenceContext.repositories().colaborador();
     private final CatalogoRepository catalogoRepository = PersistenceContext.repositories().catalogo();
@@ -56,7 +58,6 @@ public class SolicitarServicoController {
     private final ColaboradorRepository colaboradorRepository = PersistenceContext.repositories().colaborador();
     private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
 
-    private final AppSettings appSettings = new AppSettings();
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
 
@@ -141,46 +142,39 @@ public class SolicitarServicoController {
     }
 
     public void doConnection(Pedido pedido) throws IOException, InterruptedException {
-        UserSession session = authz.session().orElseThrow();
-        SystemUser systemUser = session.authenticatedUser();
-        final String userName = systemUser.name().firstName() + " " + systemUser.name().lastName();
-
-
-        //if (args.length != 2) {
+        /*if (args.length != 2) {
         System.out.println("Server IPv4/IPv6 address/DNS name is required as first argument");
         System.out.println("Client name is required as second argument (a matching keystore must exist)");
         System.exit(1);
-        //}
+        }*/
 
         // Trust these certificates provided by servers
-        System.setProperty("javax.net.ssl.trustStore", userName + ".jks");
+        System.setProperty("javax.net.ssl.trustStore", "make_certs.jks");
         System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
         // Use this certificate and private key for client certificate when requested by the server
-        System.setProperty("javax.net.ssl.keyStore", userName + ".jks");
+        System.setProperty("javax.net.ssl.keyStore", "make_certs.jks");
         System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
         SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
-        final String ipMotor = this.appSettings.getIpMotor();
-
         try {
-            serverIP = InetAddress.getByName(ipMotor);
+            serverIP = InetAddress.getByName(IPMOTOR);
         } catch (UnknownHostException ex) {
-            System.out.println("Invalid server specified: " + ipMotor);
+            System.out.println("Invalid server specified: " + IPMOTOR);
             System.exit(1);
         }
 
 
         try {
-            sockSSL = (SSLSocket) sf.createSocket(serverIP, this.appSettings.getPortMotor());
+            sockSSL = (SSLSocket) sf.createSocket(serverIP, 32145);
         } catch (IOException ex) {
-            System.out.println("Failed to connect to: " + ipMotor + ":" + this.appSettings.getPortMotor());
+            System.out.println("Failed to connect to: " + IPMOTOR + ":" + 32145);
             System.out.println("Application aborted.");
             System.exit(1);
         }
 
-        System.out.println("Connected to: " + ipMotor + ":" + this.appSettings.getPortMotor());
+        System.out.println("Connected to: " + IPMOTOR + ":" + 32145);
 
 
         sockSSL.startHandshake();
