@@ -29,10 +29,12 @@ public class CatalogoBootstrapper implements Action {
     @Override
     public boolean execute() {
         // PRIMEIRO CATALOGO
+        Set<FuncaoColaborador> funcao = new HashSet<>();
+        funcao.add(BaseRolesColaborador.DIRETOR);
         Calendar dataAux = Calendar.getInstance();
         dataAux.set(1993,4,3);
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves"), dataAux
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),funcao);
         Set<Equipa> list = new HashSet<>();
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
@@ -41,7 +43,7 @@ public class CatalogoBootstrapper implements Action {
 
         // SEGUNDO CATALOGO
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), dataAux
-                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"));
+                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"),funcao);
         Set<Colaborador> setCol1 = new HashSet<>();
         setCol1.add(c2);
         Set<Equipa> list2 = new HashSet<>();

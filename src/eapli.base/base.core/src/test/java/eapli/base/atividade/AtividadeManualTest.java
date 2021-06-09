@@ -46,7 +46,7 @@ public class AtividadeManualTest extends TestCase {
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984,10,25);
         Colaborador colab = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),new HashSet<>());
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
 
@@ -81,7 +81,7 @@ public class AtividadeManualTest extends TestCase {
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984,10,25);
         Colaborador colab = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),new HashSet<>());
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
 
@@ -112,7 +112,7 @@ public class AtividadeManualTest extends TestCase {
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984,10,25);
         Colaborador colab = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),new HashSet<>());
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
 
@@ -142,7 +142,7 @@ public class AtividadeManualTest extends TestCase {
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984,10,25);
         Colaborador colab = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),new HashSet<>());
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
 

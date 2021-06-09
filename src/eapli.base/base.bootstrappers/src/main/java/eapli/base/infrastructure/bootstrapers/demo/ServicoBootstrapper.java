@@ -11,8 +11,6 @@ import eapli.base.equipa.domain.Designacao;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
-import eapli.base.formulario.domain.Variavel;
 import eapli.base.servico.application.EspecificarServicoController;
 import eapli.base.tipoequipa.domain.TipoEquipa;
 import eapli.framework.actions.Action;
@@ -62,14 +60,17 @@ public class ServicoBootstrapper implements Action {
         dataAux3.set(1996,11,11);
 
         //Colaboradores
+        Set<FuncaoColaborador> funcao = new HashSet<>();
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
-                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"));
+                , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),funcao);
 
+        Set<FuncaoColaborador> funcao2 = new HashSet<>();
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), dataAux2
-                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"));
+                , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"),funcao2);
 
+        Set<FuncaoColaborador> funcao3 = new HashSet<>();
         Colaborador c3 = new Colaborador(new MecanographicNumber(160108), new ShortName("Pedro"), new FullName("Pedro Santos"), dataAux3
-                , new Contacto(351,962574102), new LocalResidencia("Lisboa"), EmailAddress.valueOf("pedroS@gmail.com"));
+                , new Contacto(351,962574102), new LocalResidencia("Lisboa"), EmailAddress.valueOf("pedroS@gmail.com"),funcao3);
 
         //Listas Colaboradores
         Set<Colaborador> setCol = new HashSet<>();

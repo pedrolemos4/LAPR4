@@ -18,7 +18,7 @@ public class PedidoTest extends TestCase {
         Calendar dataAux = Calendar.getInstance();
         dataAux.set(1993,4,3);
         Pedido pedido = new Pedido(new Colaborador(new MecanographicNumber(0),new ShortName("Pedro"),new FullName("Pedrao"),dataAux ,
-                new Contacto(123456789),new LocalResidencia("n sei"), EmailAddress.valueOf("pedro@qq.com"))
+                new Contacto(123456789),new LocalResidencia("n sei"), EmailAddress.valueOf("pedro@qq.com"),new HashSet<>())
         , Calendar.getInstance() ,new Servico.ServicoBuilder("1523","t1").build(),UrgenciaPedido.URGENTE,dataAux, new Formulario("t1",new HashSet<>()));
 
         assertEquals(pedido.toString(),pedido.toString());
@@ -29,7 +29,7 @@ public class PedidoTest extends TestCase {
         Calendar dataAux = Calendar.getInstance();
         dataAux.set(1993,4,3);
         Pedido pedido = new Pedido(new Colaborador(new MecanographicNumber(0),new ShortName("Pedro"),new FullName("Pedrao"),dataAux ,
-                new Contacto(123456789),new LocalResidencia("n sei"), EmailAddress.valueOf("pedro@qq.com"))
+                new Contacto(123456789),new LocalResidencia("n sei"), EmailAddress.valueOf("pedro@qq.com"),new HashSet<>())
                 , Calendar.getInstance() ,new Servico.ServicoBuilder("1523","t1").build(),UrgenciaPedido.URGENTE,dataAux, new Formulario("t1",new HashSet<>()));
         pedido.atribuirGrau(new GrauSatisfacao(2));
 

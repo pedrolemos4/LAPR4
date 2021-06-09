@@ -33,7 +33,7 @@ public class CatalogoTest {
     public CatalogoTest() {
         final Calendar data = Calendar.getInstance();
         data.set(1000,02,03);
-        instance = new Catalogo(new Titulo("ti"),new Colaborador(new MecanographicNumber(123654),new ShortName("short"),new FullName("full name"), data,new Contacto(963258741),new LocalResidencia("Local Residencia"),EmailAddress.valueOf("email@gmail.com")),new DescricaoCompletaCatalogo("Desc Completa"),new DescricaoBreve("Desc Breve"), new Icone("Icone"), iterable, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
+        instance = new Catalogo(new Titulo("ti"),new Colaborador(new MecanographicNumber(123654),new ShortName("short"),new FullName("full name"), data,new Contacto(963258741),new LocalResidencia("Local Residencia"),EmailAddress.valueOf("email@gmail.com"),new HashSet<>()),new DescricaoCompletaCatalogo("Desc Completa"),new DescricaoBreve("Desc Breve"), new Icone("Icone"), iterable, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
     }
 
     /**
@@ -59,7 +59,7 @@ public class CatalogoTest {
         dataAux.set(1993,4,3);
         Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
                 ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
-                ,EmailAddress.valueOf("exemplo@examplo.com"));
+                ,EmailAddress.valueOf("exemplo@examplo.com"),new HashSet<>());
         Object other = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descrição Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>(), new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
         boolean expResult = false;
@@ -78,7 +78,7 @@ public class CatalogoTest {
         dataAux.set(1993,4,3);
         Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
                 ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
-                ,EmailAddress.valueOf("exemplo@examplo.com"));
+                ,EmailAddress.valueOf("exemplo@examplo.com"),new HashSet<>());
         Object other = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descrição Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>(), new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
         Catalogo instance1 = (Catalogo) other;
@@ -111,7 +111,7 @@ public class CatalogoTest {
         dataAux.set(1993,4,3);
         Colaborador colaborador = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
                 ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
-                ,EmailAddress.valueOf("exemplo@examplo.com"));
+                ,EmailAddress.valueOf("exemplo@examplo.com"),new HashSet<>());
         Catalogo instance = new Catalogo(new Titulo("Test"),colaborador,new DescricaoCompletaCatalogo("Descricao Completa"),
                 new DescricaoBreve("Descricao Breve"),new Icone("Icone"),new ArrayList<>(), new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
         String expResult = "Catalogo{titulo=Test, descricaoCompleta=Descricao Completa, descricaoBreve=Descricao Breve, icone=Icone{icone='Icone'}, listEquipas=[], listServicos=[], colab=Colaborador{numeroMecanografico=Number: 123456, shortName=Robert, fullName=Robert De Niro Dos Santos Afonso, localResidencia=LocalResidencia{endereco='Somewhere Over the rainbow'}, endereco=exemplo@examplo.com, contacto=Contacto{number=159753215, prefix=0}} criticidade=Criticidade: etiqueta=Etiqueta2, escala=Valor:3, designacao=Name2, objetivo=Objetivo\n" +

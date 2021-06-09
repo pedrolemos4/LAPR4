@@ -11,6 +11,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +26,7 @@ public class ColaboradorTest {
     public ColaboradorTest() {
         this.dataAux = Calendar.getInstance();
         this.dataAux.set(1993,4,3);
-        this.instance = new Colaborador(new MecanographicNumber(123654),new ShortName("short"),new FullName("full name"),dataAux,new Contacto(963258741),new LocalResidencia("Local Residencia"), EmailAddress.valueOf("email@gmail.com"));
+        this.instance = new Colaborador(new MecanographicNumber(123654),new ShortName("short"),new FullName("full name"),dataAux,new Contacto(963258741),new LocalResidencia("Local Residencia"), EmailAddress.valueOf("email@gmail.com"),new HashSet<>());
     }
 
     /**
@@ -47,7 +48,7 @@ public class ColaboradorTest {
         System.out.println("sameAs=true");
         Object other = new Colaborador(new MecanographicNumber(123456),new ShortName("Robert"),new FullName("Robert De Niro Dos Santos Afonso")
                 ,dataAux,new Contacto(159753215),new LocalResidencia("Somewhere Over the rainbow")
-                ,EmailAddress.valueOf("exemplo@examplo.com"));
+                ,EmailAddress.valueOf("exemplo@examplo.com"),new HashSet<>());
         Object that = (Colaborador) other;
         boolean expResult = false;
         boolean result = instance.sameAs(that);

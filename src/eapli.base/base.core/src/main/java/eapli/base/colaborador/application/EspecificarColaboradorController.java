@@ -12,6 +12,7 @@ import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.RandomRawPassword;
 
 import java.util.Calendar;
+import java.util.Set;
 
 @UseCaseController
 public class EspecificarColaboradorController {
@@ -21,7 +22,7 @@ public class EspecificarColaboradorController {
     private final RandomRawPassword randomPassword = new RandomRawPassword();
 
     public void novoColaborador(final int numeroMecanografico, final String nomeCompleto, final String nomeCurto,
-                                       final String dataNascimento, final int prefix, final int contacto, final String local, final String email) {
+                                final String dataNascimento, final int prefix, final int contacto, final String local, final String email, Set<FuncaoColaborador> roles) {
         authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER, BaseRoles.RRH);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(numeroMecanografico);
         ShortName shortName = new ShortName(nomeCurto);
@@ -37,7 +38,7 @@ public class EspecificarColaboradorController {
         }
         LocalResidencia local1 = new LocalResidencia(local);
         EmailAddress email1 = EmailAddress.valueOf(email);
-        Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, data, contact, local1, email1);
+        Colaborador colab = new Colaborador(mecanographicNumber, shortName, fullName, data, contact, local1, email1,roles);
         repository.save(colab);
     }
 
@@ -45,4 +46,6 @@ public class EspecificarColaboradorController {
     public String geraPassword() {
         return randomPassword.toString();
     }
+
+
 }

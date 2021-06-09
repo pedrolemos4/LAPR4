@@ -1,18 +1,18 @@
 package eapli.base.infrastructure.bootstrapers;
 
-import java.util.Set;
-
 import eapli.base.colaborador.application.EspecificarColaboradorController;
+import eapli.base.colaborador.domain.FuncaoColaborador;
+import eapli.base.usermanagement.application.AddUserController;
+import eapli.base.usermanagement.application.ListUsersController;
 import eapli.framework.domain.repositories.ConcurrencyException;
 import eapli.framework.domain.repositories.IntegrityViolationException;
+import eapli.framework.infrastructure.authz.domain.model.Role;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import eapli.framework.infrastructure.authz.domain.model.Username;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eapli.base.usermanagement.application.AddUserController;
-import eapli.base.usermanagement.application.ListUsersController;
-import eapli.framework.infrastructure.authz.domain.model.Role;
+import java.util.Set;
 
 public class UsersBootstrapperBase {
 
@@ -50,9 +50,9 @@ public class UsersBootstrapperBase {
     }
 
     protected void registerColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
-                                                    final String dataNascimento, final int prefix, final int contacto, final String local, final String email){
+                                       final String dataNascimento, final int prefix, final int contacto, final String local, final String email, Set<FuncaoColaborador> roles){
         try{
-            colabController.novoColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, prefix, contacto, local,email);
+            colabController.novoColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, prefix, contacto, local,email,roles);
             LOGGER.debug("»»» %s", nomeCurto);
         } catch (final IntegrityViolationException | ConcurrencyException e) {
             // assuming it is just a primary key violation due to the tentative

@@ -27,11 +27,13 @@ public class EquipaBootstrapper implements Action {
 
     @Override
     public boolean execute() {
+        Set<FuncaoColaborador> funcao = new HashSet<>();
+        funcao.add(BaseRolesColaborador.DIRETOR);
         Calendar dataAux = Calendar.getInstance();
         dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080),new ShortName("Joao"),new FullName("Joao Alves Pereira"),dataAux
-                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"),  EmailAddress.valueOf("joao@gmail.com"));
+                ,new Contacto(931203457),new LocalResidencia("Bairro Baixo"),  EmailAddress.valueOf("joao@gmail.com"),funcao);
 
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
@@ -43,7 +45,7 @@ public class EquipaBootstrapper implements Action {
        // registarTipoEquipaController.registarAlt(t2);
         //registarTipoEquipaController.registarTipoEquipa("t2","tipo2",60,40,80);
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876),new ShortName("Gustavo"),new FullName("Gustavo Mike White"),dataAux
-                ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"));
+                ,new Contacto(932705057),new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("gustavo@gmail.com"),funcao);
 
         Set<Colaborador> setCol2 = new HashSet<>();
         setCol2.add(c1);

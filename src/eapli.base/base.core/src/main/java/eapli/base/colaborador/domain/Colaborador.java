@@ -5,12 +5,14 @@ import eapli.base.equipa.domain.Equipa;
 import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.EmailAddress;
+import eapli.framework.time.util.Calendars;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Colaborador implements AggregateRoot<MecanographicNumber>{
@@ -46,12 +48,16 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Pedido> pediddosEfetuados;
 
-    //@OneToMany(fetch = FetchType.LAZY)
-   // private Set<FuncaoColaborador> funcoes;
+    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+    private Set<FuncaoSet> funcoes;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Calendar dataNasc, Contacto contacto,
-                        LocalResidencia localResidencia, EmailAddress endereco){//}, Funcao funcao) {
+                        LocalResidencia localResidencia, EmailAddress endereco, final Set<FuncaoColaborador> roles){
         try {
+            final FuncaoSet roleset = new FuncaoSet();
+            roleset.addAll(roles.stream().map(rt -> new FuncaoAssignment(rt, Calendars.now()))
+                    .collect(Collectors.toList()));
+            
             this.numeroMecanografico = numeroMecanografico;
             this.shortName = shortName;
             this.fullName = fullName;

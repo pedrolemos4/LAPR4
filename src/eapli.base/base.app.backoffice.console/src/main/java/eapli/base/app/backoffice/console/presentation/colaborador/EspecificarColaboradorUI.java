@@ -77,7 +77,7 @@ public class EspecificarColaboradorUI extends AbstractUI {
             final String password = this.controller.geraPassword();
             String fullName[] = fullNameWidget.value().split(" ");
             this.userController.addUser(usernameWidget.value(), password, fullName[0], fullName[fullName.length - 1], endereco.value(), listRole);
-            this.controller.novoColaborador(numberWidget.value(), fullNameWidget.value(), shortNameWidget.value(), dataWidget.value(), contactoWidget.prefix(), contactoWidget.contact(), localResidenciaWidget.value(), endereco.value());
+            this.controller.novoColaborador(numberWidget.value(), fullNameWidget.value(), shortNameWidget.value(), dataWidget.value(), contactoWidget.prefix(), contactoWidget.contact(), localResidenciaWidget.value(), endereco.value(), new HashSet<>());
         } catch (Exception e) {
             System.out.println("Erro");
             System.out.println("");

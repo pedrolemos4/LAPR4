@@ -33,7 +33,7 @@ public class LerFicheiroColaboradorController {
                 finalRoles.add(Role.valueOf(roles[p]));
             }
             this.userController.addUser(strings.get(0), strings.get(1), strings.get(2), strings.get(3), strings.get(4), finalRoles);
-            this.colaboradorController.novoColaborador(Integer.parseInt(strings.get(5)), strings.get(6), strings.get(7), strings.get(8), Integer.parseInt(strings.get(9)), Integer.parseInt(strings.get(10)), strings.get(11), strings.get(4));
+            this.colaboradorController.novoColaborador(Integer.parseInt(strings.get(5)), strings.get(6), strings.get(7), strings.get(8), Integer.parseInt(strings.get(9)), Integer.parseInt(strings.get(10)), strings.get(11), strings.get(4),new HashSet<>());
         }
     }
 
