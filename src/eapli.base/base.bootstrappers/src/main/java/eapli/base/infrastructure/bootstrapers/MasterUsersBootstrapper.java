@@ -35,22 +35,17 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
         return true;
     }
 
-    /**
-     * US 2103 - LEANDRO SOUSA 1190800
-     * -----------------------------------------------------------------------------------------------
-     * Como Gestor de Projeto, eu pretendo que a equipa proceda à configuração da estrutura do projeto
-     * para facilitar / acelerar o desenvolvimento das próximas user stories.
-     * @return true in case of sucess or false if fails
-     */
     private void initializeOrganizationOrganicStructure(){
-        registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 965824578, "Penafiel", "joao@gmail.com",BaseRolesColaborador.COMERCIAL);
         registerUser("orgColab","Admin1","Joao","Alves Pereira","joao@gmail.com", BaseRoles.COLABORADOR);
+
+        registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 965824578, "Penafiel", "joao@gmail.com",BaseRolesColaborador.COMERCIAL);
 
         registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 
         registerUser("orgGestorServico","Gestor2","Rui","Nunes",EMAILGESTOR,BaseRoles.GESTOR_SERVICO);
 
         registerUser("orgColab1","Colab1","Afonso","Sousa","afonso@gmail.com",BaseRoles.COLABORADOR);
+
         registaColaborador(119876,"Afonso","Afonso Sousa","1992/07/05", 351,932705057, "Bairro Alto", "afonso@gmail.com",BaseRolesColaborador.COMERCIAL);
 
         registerUser("orgUser","Client1","Leonardo","Reis",EMAILUSER,BaseRoles.CLIENT_USER);

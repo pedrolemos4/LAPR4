@@ -48,16 +48,16 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Pedido> pediddosEfetuados;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
-    private Set<FuncaoSet> funcoes;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private FuncaoSet funcoes;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Calendar dataNasc, Contacto contacto,
                         LocalResidencia localResidencia, EmailAddress endereco, final Set<FuncaoColaborador> roles){
         try {
-            final FuncaoSet roleset = new FuncaoSet();
-            roleset.addAll(roles.stream().map(rt -> new FuncaoAssignment(rt, Calendars.now()))
+            funcoes = new FuncaoSet();
+            funcoes.addAll(roles.stream().map(rt -> new FuncaoAssignment(rt, Calendars.now()))
                     .collect(Collectors.toList()));
-            
+
             this.numeroMecanografico = numeroMecanografico;
             this.shortName = shortName;
             this.fullName = fullName;
