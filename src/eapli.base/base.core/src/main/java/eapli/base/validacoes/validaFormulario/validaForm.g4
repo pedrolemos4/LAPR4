@@ -16,19 +16,19 @@ atributo: atributo var=nome PV label=LABEL? PV des=DESCRICAO_AJUDA? PV tp=TIPO_D
 nome: STRING #validoString
 | INTEGER #validoInteger
 | DATA #validoData
-| BOOLEAN #validoBoolean
+//| BOOLEAN #validoBoolean
 | #vazio2
 ;
 
 //ID:[0-9]|[1-9][0-9]+;
 PV:';';
-TITULO:[A-Z][a-z]+[0-9]+{1,50};
-LABEL:[a-z]+{1,30};
+TITULO:[A-Z][a-z]+[0-9]+;
+LABEL:[a-z]+;
 STRING:[A-Z][a-z]+;
 INTEGER:[0-9]|[1-9][0-9]+;
 DATA:[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1]);
 //NOME_VAR:(|ID|){1,30}; //nomes, numeros, data e falta boolean
-DESCRICAO_AJUDA:[a-z]+[0-9]+{1,30};
+DESCRICAO_AJUDA:[a-z]+[0-9]+;
 TIPO_DADOS:'INTEGER' | 'STRING' | 'BOOLEAN' | 'DATA';
 OBRIGATORIO:'OBRIGATORIO' | 'OPCIONAL';
 //EXPRESSAO_REGULAR:[A-Z][a-z]+{1,30};

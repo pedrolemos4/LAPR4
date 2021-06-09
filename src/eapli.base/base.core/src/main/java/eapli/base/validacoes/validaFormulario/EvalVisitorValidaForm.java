@@ -1,4 +1,4 @@
-package eapli.base.validacoes.valida;
+package eapli.base.validacoes.validaFormulario;
 
 public class EvalVisitorValidaForm extends validaFormBaseVisitor {
 
@@ -43,10 +43,10 @@ public class EvalVisitorValidaForm extends validaFormBaseVisitor {
         return Integer.parseInt(ctx.getText());
     }
 
-    @Override
+    /*@Override
     public Object visitValidoBoolean(validaFormParser.ValidoBooleanContext ctx) {
         return Boolean.parseBoolean(ctx.getText());
-    }
+    }*/
 
     @Override
     public Object visitValido2(validaFormParser.Valido2Context ctx) {
