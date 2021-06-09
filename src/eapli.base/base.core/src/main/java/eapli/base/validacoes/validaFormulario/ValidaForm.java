@@ -1,4 +1,4 @@
-package eapli.base.validacoes.valida;
+package eapli.base.validacoes.validaFormulario;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;

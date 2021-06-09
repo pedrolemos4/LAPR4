@@ -1,4 +1,4 @@
-package eapli.base.validacoes.valida;
+package eapli.base.validacoes.validaFormulario;
 
 public class EvalVisitorValidaForm extends validaFormBaseVisitor {
 
