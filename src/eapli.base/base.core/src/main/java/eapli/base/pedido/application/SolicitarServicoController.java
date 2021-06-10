@@ -25,6 +25,7 @@ import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.application.UserSession;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
+import eapli.framework.infrastructure.authz.domain.model.Username;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,13 +150,14 @@ public class SolicitarServicoController {
         System.out.println("Client name is required as second argument (a matching keystore must exist)");
         System.exit(1);
         }*/
-
+        final String name = this.authz.session().get().authenticatedUser().username().toString();
+        System.out.println("Name: "+name);
         // Trust these certificates provided by servers
-        System.setProperty("javax.net.ssl.trustStore", "client1_J.jks");
+        System.setProperty("javax.net.ssl.trustStore", name + ".jks");
         System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
         // Use this certificate and private key for client certificate when requested by the server
-        System.setProperty("javax.net.ssl.keyStore", "client1_J.jks");
+        System.setProperty("javax.net.ssl.keyStore", name + ".jks");
         System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
         SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -65,17 +66,14 @@ public class MotorServer {
         }
 
         while (true) {
-            Socket s = sock.accept(); // wait for a new client connection request
-            //    addCli(s);
-            Thread cli = new ClientHandler(s);
-            cli.start();
+            cliSock = sock.accept();
+            new Thread(new ClientHandler(cliSock)).start();
         }
     }
 
     private static class ClientHandler extends Thread {
 
         private Socket myS;
-        private DataInputStream sIn;
 
         public ClientHandler(Socket s) {
             myS = s;
@@ -87,28 +85,30 @@ public class MotorServer {
             byte[] data = new byte[258];
 
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                    /*BufferedReader in = new BufferedReader(new InputStreamReader(myS.getInputStream()))*/
                  DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
+                sIn.read(data, i, 258);
+                //System.out.println("sIn: " + data[3] + " " + sIn.available());
+                //List<byte[]> listBytes = new ArrayList<>();
+                //while (sIn.available()>0) {
+                // sIn.read(data, i, 258);
+                //   listBytes.add(data);
+                //   i++;
+                /*}
 
-                List<byte[]> listBytes = new ArrayList<>();
-                while (sIn.readBoolean()) {
-                    sIn.read(data, i, 258);
-                    listBytes.add(data);
-                    i++;
-                }
-
-                String inputLine = new String(listBytes.get(0), 2, (int)listBytes.get(0)[3]);
-                if(listBytes.size()>1) {
-                    for (byte[] b : listBytes) {
-                        LOGGER.trace("Received message:----\n{}\n----", b);
-                        inputLine = inputLine.concat(new String(b, 2, (int) b[3]));
-                    }
+                //String inputLine = new String(listBytes.get(0), 2, (int)listBytes.get(0)[3]);
+                //if(listBytes.size()>1) {
+                //    for (byte[] b : listBytes) {
+                //        LOGGER.trace("Received message:----\n{}\n----", b);
+                //       inputLine = inputLine.concat(new String(b, 2, (int) b[3]));
+                //    }
                 }else{
                     LOGGER.trace("Received message:----\n{}\n----", listBytes.get(0));
                 }
 
-                int id = /*(int)*/ listBytes.get(listBytes.size())[1];
+                int id = (int) listBytes.get(listBytes.size())[1];*/
+                int id = data[1];
+                String inputLine = new String(data, 2, (int) data[3]);
                 final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine, id);
                 final byte[] response = request.execute();
 
