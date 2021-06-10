@@ -2,15 +2,13 @@ package base.daemon.executor.algorithms;
 
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.atividade.domain.Atividade;
-import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.pedido.repositories.PedidoRepository;
 
 import java.util.*;
 
 public class WorkloadBasedAlgorithm {
 
     private static Queue<ExecutorServer> instances;
-    private static final PedidoRepository repository = PersistenceContext.repositories().pedidos();
+    private static final WorkloadController controller = new WorkloadController();
     private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
 
     public static ExecutorServer proximaInstancia() {
@@ -18,7 +16,7 @@ public class WorkloadBasedAlgorithm {
         for (ExecutorServer s : instances) {
             double tempo = 0.0;
             for (Atividade a : s.tarefas()) {
-                tempo += repository.getTempoDeExecucaoTarefa(a);
+                tempo += controller.getTempoDeExecucaoTarefa(a);
             }
             if (!mapExecutores.containsKey(s)) {
                 mapExecutores.put(s, tempo);
