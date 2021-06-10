@@ -424,6 +424,11 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     }
 
     @Override
+    public Double getTempoDeExecucaoTarefa(Atividade atividade) {
+        return null;
+    }
+
+    @Override
     public List<Pedido> getPedidosEmCurso(Colaborador colab) {
         final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p WHERE p.colaborador =:colab AND " +

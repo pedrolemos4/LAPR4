@@ -24,12 +24,17 @@ import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
 import eapli.base.Application;
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.repositories.PedidoRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -41,9 +46,11 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_E.jks";
     static final String KEYSTORE_PASS = "forgotten";
 
-    private List<Atividade> tarefas = new ArrayList<>();
+    private static final List<Atividade> tarefas = new ArrayList<>();
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
+
+    private static final PedidoRepository repository = PersistenceContext.repositories().pedidos();
 
     //private static ServerSocket sock;
 
@@ -124,6 +131,10 @@ public class ExecutorServer {
 
                 int id = /*(int)*/ listBytes.get(listBytes.size())[1];
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
+
+                //Adicionar Atividade aqui talvez
+                tarefas.add(repository.getTarefaByScript(inputLine));
+
                 final String response = request.execute();
 
                 byte[] respostaByte = new byte[258];
@@ -167,4 +178,10 @@ public class ExecutorServer {
             }*/
         }
     }
+
+
+    public List<Atividade> tarefas(){
+        return this.tarefas;
+    }
+
 }

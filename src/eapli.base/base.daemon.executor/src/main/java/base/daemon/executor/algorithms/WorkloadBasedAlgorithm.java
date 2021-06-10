@@ -1,14 +1,19 @@
 package base.daemon.executor.algorithms;
 
 import base.daemon.executor.presentation.ExecutorServer;
+import eapli.base.atividade.domain.Atividade;
+import jdk.internal.net.http.common.Pair;
 
+import java.util.ArrayList;
 import java.util.Queue;
 
 public class WorkloadBasedAlgorithm {
 
-        private static Queue<ExecutorServer> instances;
+    private static ArrayList<Pair<Atividade,Double>> orderedInstances;
 
-        public static void main(String[] args) {
+    private static Queue<ExecutorServer> instances;
+
+    public static void main(String[] args) {
             //Percorrer todas as instancias do motor
             //Buscar a instancia com menor trabalho(baseado em tempo de execução)
             //O que for preciso fazer com a instancia
@@ -23,8 +28,13 @@ public class WorkloadBasedAlgorithm {
             ***PROVAVELMENTE USAR UMA ESTIMATIVA (VARIAVEL GLOBAL)
  */
             for (ExecutorServer s: instances) {
+                double tempo = 0;
+                for (Atividade a : s.tarefas()) {
 
+                }
             }
+
+
     }
 
     public boolean addInstance(ExecutorServer executorServer){

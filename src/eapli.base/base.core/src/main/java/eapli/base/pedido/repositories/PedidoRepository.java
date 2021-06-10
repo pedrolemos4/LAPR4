@@ -92,4 +92,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     Label getLabelDoAtributo(Long identity);
 
     Atividade getTarefaByScript(String caminho);
+
+    Double getTempoDeExecucaoTarefa(Atividade atividade);
 }
