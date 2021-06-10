@@ -3,40 +3,46 @@ package base.daemon.executor.algorithms;
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.atividade.domain.Atividade;
 
-import java.util.Queue;
+import java.util.*;
 
 public class WorkloadBasedAlgorithm {
 
-    //private static ArrayList<Pair<Atividade,Double>> orderedInstances;
-
     private static Queue<ExecutorServer> instances;
+    private static final WorkloadController controller = new WorkloadController();
+    private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
 
-    public static void main(String[] args) {
-            //Percorrer todas as instancias do motor
-            //Buscar a instancia com menor trabalho(baseado em tempo de execução)
-            //O que for preciso fazer com a instancia
-            //getInstances()
-/*          GET EXECUTION TIMES
-            long startTime = System.nanoTime();
-            //methodToTime();
-            long endTime = System.nanoTime();
-            long duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
-            ***NAO VIAVEL***
-            Só obtida no final do metodo
-            ***PROVAVELMENTE USAR UMA ESTIMATIVA (VARIAVEL GLOBAL)
- */
-            for (ExecutorServer s: instances) {
-                double tempo = 0;
-                for (Atividade a : s.tarefas()) {
+    public static ExecutorServer proximaInstancia() {
 
-                }
+        for (ExecutorServer s : instances) {
+            double tempo = 0.0;
+            for (Atividade a : s.tarefas()) {
+                tempo += controller.getTempoDeExecucaoTarefa(a);
             }
+            if (!mapExecutores.containsKey(s)) {
+                mapExecutores.put(s, tempo);
+            }
+        }
 
+        entriesSortedByValues(mapExecutores);
 
+        Map.Entry<ExecutorServer,Double> entry = mapExecutores.entrySet().iterator().next();
+
+        return entry.getKey();
     }
 
-    public boolean addInstance(ExecutorServer executorServer){
-            return this.instances.add(executorServer);
+    public boolean addInstance(ExecutorServer executorServer) {
+        return this.instances.add(executorServer);
     }
 
+    static <K, V extends Comparable<? super V>>
+    SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
+        SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<>((e1, e2) -> {
+                    int res = e1.getValue().compareTo(e2.getValue());
+                    return res != 0 ? res : 1;
+                }
+        );
+        sortedEntries.addAll(map.entrySet());
+        return sortedEntries;
+    }
 }
+

@@ -20,12 +20,11 @@
  */
 package base.daemon.executor.presentation;
 
+import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
 import eapli.base.Application;
 import eapli.base.atividade.domain.Atividade;
-import eapli.base.infrastructure.persistence.PersistenceContext;
-import eapli.base.pedido.repositories.PedidoRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +49,7 @@ public class ExecutorServer {
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
 
-    private static final PedidoRepository repository = PersistenceContext.repositories().pedidos();
+    private static final WorkloadController controller = new WorkloadController();
 
     //private static ServerSocket sock;
 
@@ -133,7 +132,7 @@ public class ExecutorServer {
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 //Adicionar Atividade aqui talvez
-                tarefas.add(repository.getTarefaByScript(inputLine));
+                tarefas.add(controller.getTarefaByScript(inputLine));
 
                 final String response = request.execute();
 
