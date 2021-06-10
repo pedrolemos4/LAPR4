@@ -23,16 +23,10 @@
  */
 package eapli.base.app.backoffice.console.presentation;
 
-import eapli.base.app.backoffice.console.presentation.atividades.ConsultarReivindicarTarefaUI;
-import eapli.base.app.backoffice.console.presentation.atividades.ConsultarTarefasUI;
-import eapli.base.app.backoffice.console.presentation.catalogo.ListCatalogoServicoUI;
 import eapli.base.app.backoffice.console.presentation.catalogo.NovoCatalogoUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.EspecificarColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.colaborador.LerFicheiroColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.AtribuirCriticidadeUI;
-import eapli.base.app.backoffice.console.presentation.pedidos.AtribuirGrauSatisfacaoUI;
-import eapli.base.app.backoffice.console.presentation.pedidos.ShowTaskHistoryUI;
-import eapli.base.app.backoffice.console.presentation.pedidos.SolicitarServicoUI;
 import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCriticidadeUI;
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
@@ -48,7 +42,6 @@ import eapli.framework.actions.menu.MenuItem;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.presentation.console.AbstractUI;
-import eapli.framework.presentation.console.ExitWithMessageAction;
 import eapli.framework.presentation.console.menu.HorizontalMenuRenderer;
 import eapli.framework.presentation.console.menu.MenuItemRenderer;
 import eapli.framework.presentation.console.menu.MenuRenderer;
@@ -172,7 +165,7 @@ public class MainMenu extends AbstractUI {
             final Menu menuEspecificarColaboradorFicheiro = buildEspecificaColaboradorFicheiroMenu();
             mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR_FICHEIRO, menuEspecificarColaboradorFicheiro);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-        } else if(authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR)){
+        } /*else if(authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR)){
             final Menu menuCatalogoServico = buildConsultarCatalogoServico();
             mainMenu.addSubMenu(CONSULTAR_CATALOGO_SERVICO,menuCatalogoServico);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -187,11 +180,11 @@ public class MainMenu extends AbstractUI {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             /*final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
             mainMenu.addSubMenu(CONSULTAR_REIVINDICAR_TAREFAS,menuConsultarReivindicarTarefas);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));*/
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu menuConsultarHistoricoPedidos = buildConsultarHistoricoPedidos();
             mainMenu.addSubMenu(CONSULTAR_HISTORICO_PEDIDOS,menuConsultarHistoricoPedidos);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-        }
+        }*/
 
         if (!Application.settings().isMenuLayoutHorizontal()) {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -203,12 +196,6 @@ public class MainMenu extends AbstractUI {
         return mainMenu;
     }
 
-    private Menu buildConsultarHistoricoPedidos() {
-        final Menu consultarHistoricoPedidos = new Menu("Consultar Historico de Pedidos");
-        consultarHistoricoPedidos.addItem(1,"Consultar Historico de Pedidos",()->new ShowTaskHistoryUI().show());
-        consultarHistoricoPedidos.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
-        return consultarHistoricoPedidos;
-    }
 
     private boolean voltarAoLogin(){
         if(new LoginUI().show()){
@@ -254,7 +241,7 @@ public class MainMenu extends AbstractUI {
         return menu;
     }*/
 
-    private Menu buildConsultarCatalogoServico(){
+    /*private Menu buildConsultarCatalogoServico(){
         final Menu consultarCatalogoServicoMenu = new Menu("Consultar Catálogo e/ou Serviço");
         consultarCatalogoServicoMenu.addItem(CONSULTAR_CATALOGO_SERVICO,"Consultar Catálogo e/ou Serviço",()->new ListCatalogoServicoUI().show());
         consultarCatalogoServicoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
@@ -274,7 +261,7 @@ public class MainMenu extends AbstractUI {
         atribuirGrauMenu.addItem(ATRIBUIR_GRAU_SATISFACAO,"Atribuir Grau de Satisfação",()->new AtribuirGrauSatisfacaoUI().show());
         atribuirGrauMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
         return atribuirGrauMenu;
-    }
+    }*/
 
     /*private Menu buildConsultarReivindicarTarefas(){
         final Menu consultarReivindicarTarefasMenu = new Menu("Consultar/ Reivindicar Tarefas");
@@ -334,12 +321,12 @@ public class MainMenu extends AbstractUI {
     }
 
 
-    private Menu buildSolicitarServico() {
+    /*private Menu buildSolicitarServico() {
         final Menu solicitarServico = new Menu("Solicitar Servico");
         solicitarServico.addItem(1,"Solicitar Servico",()->new SolicitarServicoUI().show());
         solicitarServico.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return solicitarServico;
-    }
+    }*/
 
     private Menu buildAtribuirCriticidadeMenu(){
         final Menu atribuirCriticidade = new Menu("Atribuir Criticidade");

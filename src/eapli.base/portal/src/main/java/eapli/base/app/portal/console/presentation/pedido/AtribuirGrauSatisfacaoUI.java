@@ -1,4 +1,4 @@
-package eapli.base.app.backoffice.console.presentation.pedidos;
+package eapli.base.app.portal.console.presentation.pedido;
 
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.application.AtribuirGrauSatisfacaoController;

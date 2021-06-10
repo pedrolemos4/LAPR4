@@ -1,19 +1,18 @@
-package eapli.base.app.backoffice.console.presentation.atividades;
+package eapli.base.app.portal.console.presentation.atividades;
 
-import eapli.base.atividade.application.ConsultarTarefasController;
+import eapli.base.atividade.application.ConsultarReivindicarTarefaController;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.domain.Pedido;
-import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.framework.io.util.Console;
 
 import java.util.List;
 
-public class OrdenarTarefasDataWidget {
+public class OrdenarPendenteDataWidget {
 
-    private final ConsultarTarefasController controller = new ConsultarTarefasController();
+    private final ConsultarReivindicarTarefaController controller = new ConsultarReivindicarTarefaController();
 
-    private int opc;
+    private int opc3;
 
     public void ordenaTarefasPendentes(List<Atividade> listTarefas, Colaborador colab) {
 
@@ -28,14 +27,14 @@ public class OrdenarTarefasDataWidget {
                     "7 - Criticidade (etiqueta) crescente\n" +
                     "8 - Criticidade (etiqueta) decrescente\n" +
                     "0 - Sair");
-            opc = Console.readInteger("Insira uma opção:");
-            switch (opc) {
+            opc3 = Console.readInteger("Insira o numero da opção escolhida");
+            switch (opc3) {
                 case 1: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.filtrarUrgencia(colab, UrgenciaPedido.REDUZIDA));
-                    listTarefas.addAll(this.controller.filtrarUrgencia(colab, UrgenciaPedido.MODERADA));
-                    listTarefas.addAll(this.controller.filtrarUrgencia(colab, UrgenciaPedido.URGENTE));
+                    listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "REDUZIDA"));
+                    listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "MODERADA"));
+                    listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "URGENTE"));
 
                     printTarefas(listTarefas);
                     break;
@@ -43,9 +42,9 @@ public class OrdenarTarefasDataWidget {
                 case 2: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.filtrarUrgencia(colab, UrgenciaPedido.URGENTE));
-                    listTarefas.addAll(this.controller.filtrarUrgencia(colab, UrgenciaPedido.MODERADA));
-                    listTarefas.addAll(this.controller.filtrarUrgencia(colab, UrgenciaPedido.REDUZIDA));
+                    listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "URGENTE"));
+                    listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "MODERADA"));
+                    listTarefas.addAll(this.controller.filtrarUrgenciaPendentes(colab, "REDUZIDA"));
 
                     printTarefas(listTarefas);
                     break;
@@ -53,7 +52,7 @@ public class OrdenarTarefasDataWidget {
                 case 3: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.ordenarDataCrescente(colab));
+                    listTarefas.addAll(this.controller.ordenarDataCrescentePendentes(colab));
 
                     printTarefas(listTarefas);
                     break;
@@ -61,7 +60,7 @@ public class OrdenarTarefasDataWidget {
                 case 4: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.ordenarDataDecrescente(colab));
+                    listTarefas.addAll(this.controller.ordenarDataDecrescentePendentes(colab));
 
                     printTarefas(listTarefas);
                     break;
@@ -69,11 +68,11 @@ public class OrdenarTarefasDataWidget {
                 case 5: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 1));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 2));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 3));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 4));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 5));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 1));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 2));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 3));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 4));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 5));
 
                     printTarefas(listTarefas);
                     break;
@@ -81,11 +80,11 @@ public class OrdenarTarefasDataWidget {
                 case 6: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 5));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 4));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 3));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 2));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEscala(colab, 1));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 5));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 4));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 3));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 2));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEscalaPendentes(colab, 1));
 
                     printTarefas(listTarefas);
                     break;
@@ -93,9 +92,9 @@ public class OrdenarTarefasDataWidget {
                 case 7: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiqueta(colab, "BAIXA"));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiqueta(colab, "MEDIA"));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiqueta(colab, "ELEVADA"));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "BAIXA"));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "MEDIA"));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "ELEVADA"));
 
                     printTarefas(listTarefas);
                     break;
@@ -103,9 +102,9 @@ public class OrdenarTarefasDataWidget {
                 case 8: {
                     listTarefas.clear();
                     System.out.println("Lista de tarefas ordenada:\n");
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiqueta(colab, "ELEVADA"));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiqueta(colab, "MEDIA"));
-                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiqueta(colab, "BAIXA"));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "ELEVADA"));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "MEDIA"));
+                    listTarefas.addAll(this.controller.filtrarCriticidadeEtiquetaPendentes(colab, "BAIXA"));
 
                     printTarefas(listTarefas);
                 }
@@ -114,7 +113,7 @@ public class OrdenarTarefasDataWidget {
                 default:
                     System.out.println("Opção inválida!");
             }
-        } while (opc != 0);
+        } while (opc3 != 0);
     }
 
     private void printTarefas(List<Atividade> listTarefas){

@@ -1,4 +1,4 @@
-package ajax_server;
+package eapli.base.app.portal.console.ajax_server;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;

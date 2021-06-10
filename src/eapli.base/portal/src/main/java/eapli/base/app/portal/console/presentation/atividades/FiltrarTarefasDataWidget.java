@@ -1,4 +1,4 @@
-package eapli.base.app.backoffice.console.presentation.atividades;
+package eapli.base.app.portal.console.presentation.atividades;
 
 import eapli.base.atividade.application.ConsultarTarefasController;
 import eapli.base.atividade.domain.Atividade;
