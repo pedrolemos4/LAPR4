@@ -36,7 +36,7 @@ public class FluxoRequest extends AplicacoesRequest {
         try {
             String id = request.trim();
             System.out.println("Id: " + id);
-            Servico servico = controller.findServico(CodigoUnico.valueOf(id));
+            Servico servico = controller.findServico(id);
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             for (Atividade atividade : fluxo.atividades()) {
                 if (atividade instanceof AtividadeManual) {

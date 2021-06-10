@@ -59,7 +59,7 @@ public class AplicacoesController {
         return this.servicoRepository.findFluxo(idServico);
     }
 
-    public Servico findServico(CodigoUnico idServico) {
+    public Servico findServico(String idServico) {
         return this.servicoRepository.findServico(idServico);
     }
 

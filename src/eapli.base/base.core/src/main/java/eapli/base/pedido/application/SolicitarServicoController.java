@@ -233,7 +233,7 @@ public class SolicitarServicoController {
 
         data[0] = 0;
         data[1] = 3;
-        byte[] idArray = pedido.servico().identity().toString().getBytes();
+        byte[] idArray = pedido.identity().getBytes();
         data[2] = (byte) idArray.length;
         for (int i = 0; i < idArray.length; i++) {
             data[i + 2] = idArray[i];
