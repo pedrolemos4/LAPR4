@@ -10,16 +10,16 @@ public class AtividadeResolucaoWidget {
     private int anoA;
     private int mesA;
     private int diaA;
-    private String decisao;
-    private String comentario;
+    /*private String decisao;
+    private String comentario;*/
 
 
     public void doManual() {
         this.ano = Console.readInteger("\nAno:");
         this.mes = Console.readInteger("\nMês:");
         this.dia = Console.readInteger("\nDia:");
-        this.decisao = Console.readLine("\nDecisão:");
-        this.comentario = Console.readLine("\nComentário");
+        /*this.decisao = Console.readLine("\nDecisão:");
+        this.comentario = Console.readLine("\nComentário");*/
     }
 
     public void doAutomatica() {
@@ -40,13 +40,13 @@ public class AtividadeResolucaoWidget {
         return this.dia;
     }
 
-    public String decisao() {
+    /*public String decisao() {
         return this.decisao;
     }
 
     public String comentario() {
         return this.comentario;
-    }
+    }*/
 
     public int anoA() {
         return this.anoA;

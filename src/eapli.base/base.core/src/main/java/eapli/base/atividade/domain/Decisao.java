@@ -1,14 +1,9 @@
 package eapli.base.atividade.domain;
 
-import eapli.framework.domain.model.ValueObject;
-
-import javax.persistence.Embeddable;
-
-@Embeddable
-public class Decisao implements ValueObject {
+public enum Decisao  {
 
 
-    private String des;
+    /*private String des;
 
     public Decisao(String des) {
         this.des = des;
@@ -22,5 +17,6 @@ public class Decisao implements ValueObject {
         return "Decisao{" +
                 "des='" + des + '\'' +
                 '}';
-    }
+    }*/
+    APROVADO, REJEITADO
 }

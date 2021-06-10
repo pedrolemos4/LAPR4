@@ -1,6 +1,8 @@
 package eapli.base.atividade.application;
 
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.Comentario;
+import eapli.base.atividade.domain.Decisao;
 import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
@@ -19,6 +21,7 @@ import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 
@@ -63,8 +66,20 @@ public class RealizarTarefaController {
         pedido.completaFormulario(Variavel.valueOf(variavel), atributo);
     }
 
-    /*public void validaFormulario(FileWriter form) {
+    public void completaForm(Formulario form, Variavel valueOf, Atributo atributo) {
+        form.completaFormulario(valueOf, atributo);
+    }
+
+    public void validaFormulario(File file) {
         ValidaForm valida = new ValidaForm();
-        valida.validaForm(form);
-    }*/
+        valida.validaForm(file);
+    }
+
+    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at) {
+        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at);
+    }
+
+    public void savePedido(Pedido pedido) {
+        this.pRepo.save(pedido);
+    }
 }
