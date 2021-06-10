@@ -46,7 +46,7 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     FluxoAtividade findFluxo(String cod);
 
-    Servico findServico(String cod);
+    Servico findServico(CodigoUnico cod);
 
     List<Atividade> findListAtividades(String idServico);
 

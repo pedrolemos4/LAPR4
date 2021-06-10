@@ -3,6 +3,7 @@ package base.daemon.motor.protocol;
 import eapli.base.AppSettings;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.servico.domain.Servico;
 
@@ -35,7 +36,7 @@ public class FluxoRequest extends AplicacoesRequest {
         try {
             String id = request.trim();
             System.out.println("Id: " + id);
-            Servico servico = controller.findServico(id);
+            Servico servico = controller.findServico(CodigoUnico.valueOf(id));
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             for (Atividade atividade : fluxo.atividades()) {
                 if (atividade instanceof AtividadeManual) {
