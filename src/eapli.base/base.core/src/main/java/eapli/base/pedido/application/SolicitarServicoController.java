@@ -48,6 +48,8 @@ public class SolicitarServicoController {
     static SSLSocket sockSSL;
     static final String KEYSTORE_PASS = "forgotten";
 
+    private static final int MOTOR_PORT = 32507;
+
     private static final String IPMOTOR = "10.8.0.82";
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
@@ -149,11 +151,11 @@ public class SolicitarServicoController {
         }*/
 
         // Trust these certificates provided by servers
-        System.setProperty("javax.net.ssl.trustStore", "make_certs.jks");
+        System.setProperty("javax.net.ssl.trustStore", "client1_J.jks");
         System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
         // Use this certificate and private key for client certificate when requested by the server
-        System.setProperty("javax.net.ssl.keyStore", "make_certs.jks");
+        System.setProperty("javax.net.ssl.keyStore", "client1_J.jks");
         System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
         SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -167,14 +169,14 @@ public class SolicitarServicoController {
 
 
         try {
-            sockSSL = (SSLSocket) sf.createSocket(serverIP, 32145);
+            sockSSL = (SSLSocket) sf.createSocket(serverIP, MOTOR_PORT);
         } catch (IOException ex) {
-            System.out.println("Failed to connect to: " + IPMOTOR + ":" + 32145);
+            System.out.println("Failed to connect to: " + IPMOTOR + ":" + MOTOR_PORT);
             System.out.println("Application aborted.");
             System.exit(1);
         }
 
-        System.out.println("Connected to: " + IPMOTOR + ":" + 32145);
+        System.out.println("Connected to: " + IPMOTOR + ":" + MOTOR_PORT);
 
 
         sockSSL.startHandshake();

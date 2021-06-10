@@ -18,9 +18,9 @@ public class MotorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
 
-    private static final String IPMOTOR = "10.8.0.82";
-
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
+
+    private static final int MOTOR_PORT = 32507;
 
     private static final HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
 
@@ -57,10 +57,10 @@ public class MotorServer {
         SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
         try {
-            sock = (SSLServerSocket) sslF.createServerSocket(32145);
+            sock = (SSLServerSocket) sslF.createServerSocket(MOTOR_PORT);
             sock.setNeedClientAuth(true);
         } catch (IOException ex) {
-            System.out.println("Local port number not available." + 32145);
+            System.out.println("Local port number not available." + MOTOR_PORT);
             System.exit(1);
         }
 
