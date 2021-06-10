@@ -37,7 +37,7 @@ public class Pedido implements AggregateRoot<String> {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataSolicitacao;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "servico")
     private Servico servico;
 
