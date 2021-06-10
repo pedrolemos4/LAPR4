@@ -43,7 +43,7 @@ import java.util.List;
 
 public class ExecutorServer {
 
-    static final String TRUSTED_STORE = "server_E.jks";
+    static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
 
     private static final List<Atividade> tarefas = new ArrayList<>();

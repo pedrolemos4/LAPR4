@@ -18,13 +18,13 @@ public class Atributo implements ValueObject {
     @Column(name="Label")
     private Label label;
 
-    @Column(name="TipoDados")
+    /*@Column(name="TipoDados")
     @Enumerated(EnumType.STRING)
     private TipoDados tipoDados;
 
     @Column(name="Obrigatoriedada")
     @Enumerated(EnumType.STRING)
-    private Obrigatoriedade obrigatoriedade;
+    private Obrigatoriedade obrigatoriedade;*/
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "formulario")
@@ -55,8 +55,8 @@ public class Atributo implements ValueObject {
                 "id=" + id +
                 ", nomeVariavel=" + nomeVariavel +
                 ", label=" + label +
-                ", tipoDados=" + tipoDados +
-                ", obrigatoriedade=" + obrigatoriedade +
+                /*", tipoDados=" + tipoDados +
+                ", obrigatoriedade=" + obrigatoriedade +*/
                 ", formulario=" + formulario +
                 '}';
     }

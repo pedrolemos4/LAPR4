@@ -1,9 +1,7 @@
 package base.daemon.motor.protocol;
 
-import eapli.base.AppSettings;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
-import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.servico.domain.Servico;
 
@@ -14,14 +12,22 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import eapli.framework.infrastructure.authz.application.AuthorizationService;
+import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 public class FluxoRequest extends AplicacoesRequest {
     //private final String servicoId;
+
+    private AuthorizationService authz = AuthzRegistry.authorizationService();
+    static final String KEYSTORE_PASS = "forgotten";
     private static final int CODIGO_MOTOR = 10;
     static InetAddress serverIP;
-    static Socket sock;
+    static SSLSocket sock;
 
     private static final String IPMOTOR = "10.8.0.82";
     private static final int MOTOR_PORT = 32145;
@@ -34,6 +40,18 @@ public class FluxoRequest extends AplicacoesRequest {
     @Override
     public byte[] execute() {
         try {
+
+            final String name = this.authz.session().get().authenticatedUser().username().toString();
+            System.out.println("Name: "+name);
+            // Trust these certificates provided by servers
+            System.setProperty("javax.net.ssl.trustStore", name + ".jks");
+            System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
+
+            // Use this certificate and private key for client certificate when requested by the server
+            System.setProperty("javax.net.ssl.keyStore", name + ".jks");
+            System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
+
+
             String id = request.trim();
             System.out.println("Id: " + id);
             Servico servico = controller.findServico(id);
@@ -51,6 +69,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     //mandar para o executor
                     byte[] data = new byte[258];
 
+                    SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+
                     try {
                         serverIP = InetAddress.getByName(IPMOTOR);
                     } catch (UnknownHostException ex) {
@@ -59,11 +79,17 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     try {
-                        sock = new Socket(serverIP, MOTOR_PORT);
+                        sock = (SSLSocket) sf.createSocket(serverIP, MOTOR_PORT);
                     } catch (IOException ex) {
-                        System.out.println("Failed to connect.");
+                        System.out.println("Failed to connect to: " + IPMOTOR + ":" + MOTOR_PORT);
+                        System.out.println("Application aborted.");
                         System.exit(1);
                     }
+
+                    System.out.println("Connected to: " + IPMOTOR + ":" + MOTOR_PORT);
+
+                    sock.startHandshake();
+
                     DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
 
                     /*ArrayList<Thread> threads = new ArrayList<>();
