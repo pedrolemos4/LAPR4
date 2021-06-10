@@ -1,5 +1,6 @@
 package eapli.base.atividade.domain;
 
+import eapli.base.formulario.domain.Label;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.Column;
@@ -16,6 +17,10 @@ public class Comentario implements ValueObject {
     }
 
     protected Comentario() {
+    }
+
+    public static Comentario valueOf(final String name) {
+        return new Comentario(name);
     }
 
     @Override

@@ -83,37 +83,37 @@ public class EspecificarServicoController {
     }
 
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final Set<Equipa> equipa,
-                                                              final String decisao, final String comentario,
+                                                              /*final String decisao, final String comentario,*/
                                                               final int ano, final int mes, final int dia,
                                                               final Formulario formulario, TipoAtividade tipo){
         final AtividadeManual atividadeAprovacaoManualEquipa;
         final Calendar data = Calendar.getInstance();
         data.set(ano,mes,dia);
-        final Decisao des = new Decisao(decisao);
-        final Comentario com = new Comentario(comentario);
+        /*final Decisao des = new Decisao(decisao);
+        final Comentario com = new Comentario(comentario);*/
         final EstadoAtividade e  = EstadoAtividade.PENDENTE ;
         if(ano==0 && mes==0 && dia==0) {
-            atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, des, com, formulario, null, tipo);
+            atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo);
         }else{
-            atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, des, com, formulario, data, tipo);
+            atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, data, tipo);
         }
         return atividadeAprovacaoManualEquipa;
     }
 
     public AtividadeManual novaAtividadeAprovacaoManualColaborador(final Colaborador colaborador,
-                                                                   final String decisao, final String comentario,
+                                                                   /*final String decisao, final String comentario,*/
                                                                    final int ano, final int mes, final int dia,
                                                                    final Formulario formulario, final TipoAtividade tipoAtividade){
         final AtividadeManual atividadeAprovacaoColaborador;
         final Calendar data = Calendar.getInstance();
         data.set(ano,mes,dia);
-        final Decisao des = new Decisao(decisao);
-        final Comentario com = new Comentario(comentario);
+        /*final Decisao des = new Decisao(decisao);
+        final Comentario com = new Comentario(comentario);*/
         final EstadoAtividade e  = EstadoAtividade.PENDENTE ;
         if(ano==0 && mes==0 && dia==0) {
-            atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, des, com, formulario, null, tipoAtividade);
+            atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, null, tipoAtividade);
         }else{
-            atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, des, com, formulario, data, tipoAtividade);
+            atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, data, tipoAtividade);
         }
         return atividadeAprovacaoColaborador;
     }

@@ -1,18 +1,18 @@
-package ajax_server;
+package eapli.base.app.portal.console.ajax_server;
 
+import javax.net.ssl.SSLSocket;
 import java.io.*;
-import java.net.Socket;
 
 /**
  * @author ANDRE MOREIRA (asc@isep.ipp.pt)
  */
-public class HttpAjaxVotingRequest extends Thread {
+public class HttpEstadoFluxoRequest extends Thread {
     String baseFolder;
-    Socket sock;
+    SSLSocket sock;
     DataInputStream inS;
     DataOutputStream outS;
 
-    public HttpAjaxVotingRequest(Socket s, String f) {
+    public HttpEstadoFluxoRequest(SSLSocket s, String f) {
         baseFolder = f;
         sock = s;
     }
@@ -32,11 +32,11 @@ public class HttpAjaxVotingRequest extends Thread {
             if (request.getMethod().equals("GET")) {
                 if (request.getURI().equals("/votes")) {
                     response.setContentFromString(
-                            HttpServerAjaxVoting.getVotesStandingInHTML(), "text/html");
+                            HttpServerDashboardFluxo.getDashboardDataInHTML(), "text/html");
                     response.setResponseStatus("200 Ok");
                 } else {
-                    String fullname = baseFolder + "/";
-                    if (request.getURI().equals("/")) fullname = fullname + "index.html";
+                    String fullname = "..\\lei20_21_s4_2di_04\\src\\eapli.base\\portal\\src\\main\\java\\eapli.base.app.portal.console.ajax_server\\www\\";
+                    if (request.getURI().equals("/")) fullname = fullname + "fluxo.html";
                     else fullname = fullname + request.getURI();
                     if (response.setContentFromFile(fullname)) {
                         response.setResponseStatus("200 Ok");
@@ -51,7 +51,6 @@ public class HttpAjaxVotingRequest extends Thread {
             } else { // NOT GET
                 if (request.getMethod().equals("PUT")
                         && request.getURI().startsWith("/votes/")) {
-                    HttpServerAjaxVoting.castVote(request.getURI().substring(7));
                     response.setResponseStatus("200 Ok");
                 } else {
                     response.setContentFromString(

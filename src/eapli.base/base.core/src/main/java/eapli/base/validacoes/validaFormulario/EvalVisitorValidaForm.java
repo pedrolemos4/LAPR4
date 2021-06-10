@@ -49,21 +49,24 @@ public class EvalVisitorValidaForm extends validaFormBaseVisitor {
     }*/
 
     @Override
-    public Object visitValido2(validaFormParser.Valido2Context ctx) {
+    public Integer visitValido2(validaFormParser.Valido2Context ctx) {
         switch (ctx.tp.getText()) {
             case "INTEGER":
                 if (!ctx.var.getText().matches("[0-9]|[1-9][0-9]+")) {
                     System.out.println("Nome de variavel nao tem formato Integer!");
+                    return 1;
                 }
                 ;
             case "STRING":
                 if (!ctx.var.getText().matches("[A-Z][a-z]+")) {
                     System.out.println("Nome de variavel nao tem formato String!");
+                    return 1;
                 }
                 ;
             case "DATA":
                 if (!ctx.var.getText().matches("[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1])")) {
                     System.out.println("Nome de variavel nao tem formato Data!");
+                    return 1;
                 }
                 ;
             /*case "BOOLEAN" :
@@ -77,12 +80,15 @@ public class EvalVisitorValidaForm extends validaFormBaseVisitor {
         if (ctx.obr.getText().equalsIgnoreCase("OBRIGATORIO")) {
             if (ctx.var.getText().isEmpty() || ctx.var.getText() == null) {
                 System.out.println("Nome da variável é Obrigatória!");
+                return 1;
             } else if (ctx.des.getText().isEmpty() || ctx.des.getText() == null) {
                 System.out.println("Descrição Ajuda é Obrigatória!");
+                return 1;
             } else if (ctx.label.getText().isEmpty() || ctx.label.getText() == null) {
                 System.out.println("Label é Obrigatória!");
+                return 1;
             }
         }
-        return visitChildren(ctx);
+        return 0;
     }
 }

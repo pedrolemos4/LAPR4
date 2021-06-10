@@ -45,7 +45,7 @@ public class FluxoAtividadeTest extends TestCase {
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
                 , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),new HashSet<>());
         AtividadeAutomatica atA1 = new AtividadeAutomatica(dataAux1, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, new Script("caminho.sh"));
-        AtividadeManual atM1 = new AtividadeManual(EstadoAtividade.PENDENTE, c1, new Decisao("desc"), new Comentario("Coment"), form1, dataAux1, TipoAtividade.APROVACAO);
+        AtividadeManual atM1 = new AtividadeManual(EstadoAtividade.PENDENTE, c1, Decisao.APROVADO, new Comentario("Coment"), form1, dataAux1, TipoAtividade.APROVACAO);
 
         setAtividades1.add(atA1);
         setAtividades2.add(atM1);

@@ -22,7 +22,8 @@ public class FluxoRequest extends AplicacoesRequest {
     static InetAddress serverIP;
     static Socket sock;
 
-    private final AppSettings appSettings = new AppSettings();
+    private static final String IPMOTOR = "10.8.0.82";
+    private static final int MOTOR_PORT = 32145;
 
     public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
         super(controller, request);
@@ -49,17 +50,15 @@ public class FluxoRequest extends AplicacoesRequest {
                     //mandar para o executor
                     byte[] data = new byte[258];
 
-                    final String ipExecutor = this.appSettings.getIpExecutor();
-
                     try {
-                        serverIP = InetAddress.getByName(ipExecutor);
+                        serverIP = InetAddress.getByName(IPMOTOR);
                     } catch (UnknownHostException ex) {
                         System.out.println("Invalid server: " + "endereçoIp");
                         System.exit(1);
                     }
 
                     try {
-                        sock = new Socket(serverIP, this.appSettings.getPortMotor());
+                        sock = new Socket(serverIP, MOTOR_PORT);
                     } catch (IOException ex) {
                         System.out.println("Failed to connect.");
                         System.exit(1);

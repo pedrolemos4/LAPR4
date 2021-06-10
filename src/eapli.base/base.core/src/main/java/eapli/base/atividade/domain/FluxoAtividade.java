@@ -87,4 +87,12 @@ public class FluxoAtividade implements DomainEntity<Long> {
                 ", listaAtividade=" + listaAtividade +
                 '}';
     }
+
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
+        for (Atividade atividade : listaAtividade) {
+            if (atividade.equals(at)) {
+                atividade.completaDecisaoComentario(valueOf, aprovado, at);
+            }
+        }
+    }
 }

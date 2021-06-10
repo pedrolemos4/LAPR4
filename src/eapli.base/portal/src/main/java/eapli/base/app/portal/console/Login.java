@@ -1,12 +1,14 @@
-package login;
+package eapli.base.app.portal.console;
 
-import ajax_server.Dashboard;
-import eapli.base.app.backoffice.console.presentation.MainMenu;
+import base.daemon.motor.MotorDaemon;
+import eapli.base.app.portal.console.ajax_server.Dashboard;
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
+import eapli.base.app.portal.console.presentation.MenuPortal;
 import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegisteredFromSignupWatchDog;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
@@ -16,19 +18,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.InetAddress;
 
+@SuppressWarnings("squid:S106")
+public final class Login extends BaseApplication {
 
-public class login  extends BaseApplication {
+    private static final Logger LOGGER = LogManager.getLogger(MotorDaemon.class);
 
-    private static final Logger LOGGER = LogManager.getLogger(login.class);
-
-
-    private login(){
+    private Login(){
 
     }
 
     public static void main(String[] args) {
+        LOGGER.info("Configuring the portal");
         AuthzRegistry.configure(PersistenceContext.repositories().users(), new BasePasswordPolicy(), new PlainTextEncoder());
-        new login().run(args);
+        new Login().run(args);
     }
 
     @Override
@@ -36,10 +38,12 @@ public class login  extends BaseApplication {
         // login and go to main menu
         if (new LoginUI().show()) {
             // go to main menu
-            final var menu = new MainMenu();
+            final var menu = new MenuPortal();
+            menu.mainLoop();
             //Server Creation Here
             new Dashboard().execute(InetAddress.getLocalHost(),32507);
-            menu.mainLoop();
+
+
         }
     }
 

@@ -16,11 +16,11 @@ import java.util.List;
 
 public class MotorServer {
     static final String TRUSTED_STORE = "server_J.jks";
-    static final String KEYSTORE_PASS = "forgotten";        
+    static final String KEYSTORE_PASS = "forgotten";
 
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
-    private static final AppSettings appSettings = new AppSettings();
+    private static final int MOTOR_PORT = 32507;
 
     private static final HashMap<Socket, DataOutputStream> cliList = new HashMap<>();
 
@@ -55,12 +55,12 @@ public class MotorServer {
         System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
         SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-        System.out.println(appSettings.getPortMotor());
+
         try {
-            sock = (SSLServerSocket) sslF.createServerSocket(appSettings.getPortMotor());
+            sock = (SSLServerSocket) sslF.createServerSocket(MOTOR_PORT);
             sock.setNeedClientAuth(true);
         } catch (IOException ex) {
-            System.out.println("Local port number not available." + appSettings.getPortMotor());
+            System.out.println("Local port number not available." + MOTOR_PORT);
             System.exit(1);
         }
 

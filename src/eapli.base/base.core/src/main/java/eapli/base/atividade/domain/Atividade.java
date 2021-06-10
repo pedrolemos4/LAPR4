@@ -62,4 +62,9 @@ public class Atividade implements ValueObject{
     public void atualizarDataAtividade(Calendar dataLimiteRes) {
         this.dataLimite = dataLimiteRes;
     }
+
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
+        AtividadeManual manual = (AtividadeManual) at;
+        manual.completaDecisaoComentario(valueOf, aprovado);
+    }
 }

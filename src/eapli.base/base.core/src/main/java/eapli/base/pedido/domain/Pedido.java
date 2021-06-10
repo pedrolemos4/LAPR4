@@ -1,6 +1,8 @@
 package eapli.base.pedido.domain;
 
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.Comentario;
+import eapli.base.atividade.domain.Decisao;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -35,7 +37,7 @@ public class Pedido implements AggregateRoot<String> {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataSolicitacao;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "servico")
     private Servico servico;
 
@@ -117,5 +119,9 @@ public class Pedido implements AggregateRoot<String> {
 
     public void completaFormulario(Variavel variavel, Atributo atributo) {
         this.formulario.completaFormulario(variavel, atributo);
+    }
+
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
+        this.servico.completaDecisaoComentario(valueOf,aprovado,at);
     }
 }

@@ -1,4 +1,4 @@
-package eapli.base.app.backoffice.console.presentation.catalogo;
+package eapli.base.app.portal.console.presentation.catalogo;
 
 import eapli.base.app.backoffice.console.presentation.servicos.DescricaoBreveDataWidget;
 import eapli.base.app.backoffice.console.presentation.servicos.DescricaoCompletaDataWidget;
@@ -173,7 +173,6 @@ public class ListCatalogoServicoUI extends AbstractUI {
             switch (op) {
                 case 1:
                     TituloDataWidget titulo = lerTitulo();
-                    System.out.println("TITULO::: " +titulo.titulo());
                     return this.controller.findByTitulo(titulo.titulo());
                 case 2:
                     DescricaoBreveDataWidget descricaoBreve = lerDescricaoBreve();

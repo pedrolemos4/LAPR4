@@ -1,4 +1,4 @@
-package ajax_server;
+package eapli.base.app.portal.console.ajax_server;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -14,7 +14,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static ajax_server.HttpServerDashboardFluxo.*;
+import static eapli.base.app.portal.console.ajax_server.HttpServerDashboardFluxo.*;
 
 /**
  *
