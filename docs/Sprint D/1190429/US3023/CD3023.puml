@@ -20,13 +20,15 @@ RealizarTarefaController : getUser()
 RealizarTarefaController : getTarefasPendentes(colab)
 RealizarTarefaController : getPedidoByAtividade(atividade)
 RealizarTarefaController : getFormularioDaAtividade(atividade)
-RealizarTarefaController : completaFormulario(formulario)
+RealizarTarefaController : getAtributosDoFormulario(formulario)
+RealizarTarefaController : getLabelDoAtributo(atividade)
+RealizarTarefaController : completaFormulario(formulario,variavel,atibuto)
 RealizarTarefaController : validaFormulario(formulario)
-RealizarTarefaController : completaDecisaoComentario(atividade)
+RealizarTarefaController : completaDecisaoComentario(comentario,decisao,pedido,atividade)
 RealizarTarefaController : savePedido(pedido)
 
-Pedido : completaFormulario(formulario)
-Pedido : completaDecisaoComentario(atividade)
+Pedido : completaFormulario(formulario,variavel,atibuto)
+Pedido : completaDecisaoComentario(comentario,decisao,pedido,atividade)
 
 ValidaForm : validaFormulario(formulario)
 
@@ -40,6 +42,8 @@ ColaboradorRepository : getUser()
 PedidoRepository : getTarefasPendentes(colab)
 PedidoRepository : getPedidoByAtividade(atividade)
 PedidoRepository : getFormularioDaAtividade(atividade)
+PedidoRepository : getAtributosDoFormulario(formulario)
+PedidoRepository : getLabelDoAtributo(atividade)
 PedidoRepository : savePedido(pedido)
 
 @enduml
