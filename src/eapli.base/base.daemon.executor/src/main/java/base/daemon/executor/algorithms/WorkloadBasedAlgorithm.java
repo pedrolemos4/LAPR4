@@ -2,14 +2,12 @@ package base.daemon.executor.algorithms;
 
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.atividade.domain.Atividade;
-import jdk.internal.net.http.common.Pair;
 
-import java.util.ArrayList;
 import java.util.Queue;
 
 public class WorkloadBasedAlgorithm {
 
-    private static ArrayList<Pair<Atividade,Double>> orderedInstances;
+    //private static ArrayList<Pair<Atividade,Double>> orderedInstances;
 
     private static Queue<ExecutorServer> instances;
 
