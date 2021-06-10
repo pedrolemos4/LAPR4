@@ -425,7 +425,13 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
 
     @Override
     public Double getTempoDeExecucaoTarefa(Atividade atividade) {
-        return null;
+        final TypedQuery<Double> q = createQuery(
+                "SELECT crit.tempoMedioAprov FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat " +
+                        "JOIN cat.criticidade crit JOIN " +
+                        "ser.fluxoAtividade fl JOIN fl.listaAtividade a" +
+                        "WHERE a.id =:identity", Double.class);
+        q.setParameter("identity", atividade);
+        return q.getSingleResult();
     }
 
     @Override
