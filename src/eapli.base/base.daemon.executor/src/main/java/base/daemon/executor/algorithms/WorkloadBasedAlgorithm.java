@@ -1,16 +1,18 @@
 package base.daemon.executor.algorithms;
 
-import java.util.Map;
-import java.util.TreeMap;
+import base.daemon.executor.presentation.ExecutorServer;
+
+import java.util.Queue;
 
 public class WorkloadBasedAlgorithm {
+
+        private static Queue<ExecutorServer> instances;
 
         public static void main(String[] args) {
             //Percorrer todas as instancias do motor
             //Buscar a instancia com menor trabalho(baseado em tempo de execução)
             //O que for preciso fazer com a instancia
             //getInstances()
-            Map<Double,String> instances = new TreeMap<>();
 /*          GET EXECUTION TIMES
             long startTime = System.nanoTime();
             //methodToTime();
@@ -20,7 +22,13 @@ public class WorkloadBasedAlgorithm {
             Só obtida no final do metodo
             ***PROVAVELMENTE USAR UMA ESTIMATIVA (VARIAVEL GLOBAL)
  */
+            for (ExecutorServer s: instances) {
 
+            }
+    }
+
+    public boolean addInstance(ExecutorServer executorServer){
+            return this.instances.add(executorServer);
     }
 
 }

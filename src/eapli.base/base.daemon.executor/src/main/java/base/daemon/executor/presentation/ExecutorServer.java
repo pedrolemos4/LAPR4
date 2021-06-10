@@ -23,6 +23,7 @@ package base.daemon.executor.presentation;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
 import eapli.base.Application;
+import eapli.base.atividade.domain.Atividade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,6 +41,7 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_E.jks";
     static final String KEYSTORE_PASS = "forgotten";
 
+    private List<Atividade> tarefas = new ArrayList<>();
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
 

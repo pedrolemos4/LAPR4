@@ -20,6 +20,7 @@
  */
 package base.daemon.executor;
 
+import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
@@ -39,6 +40,7 @@ public final class ExecutorTarefaAutomaticaDaemon {
     // TODO read port number from property file
     private static final int EXECUTOR_PORT = 32507;
     private static final Logger LOGGER = LogManager.getLogger(ExecutorTarefaAutomaticaDaemon.class);
+    private static WorkloadBasedAlgorithm workloadBasedAlgorithm = new WorkloadBasedAlgorithm();
 
     /**
      * Avoid instantiation of this class.
@@ -55,8 +57,8 @@ public final class ExecutorTarefaAutomaticaDaemon {
 
         LOGGER.info("Starting the server socket");
         final ExecutorServer server = new ExecutorServer();
+        workloadBasedAlgorithm.addInstance(server);
         server.main(null);
-
         LOGGER.info("Exiting the daemon");
         System.exit(0);
     }

@@ -90,4 +90,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atributo> getAtributosDoFormulario(Long identity);
 
     Label getLabelDoAtributo(Long identity);
+
+    Atividade getTarefaByScript(String caminho);
 }

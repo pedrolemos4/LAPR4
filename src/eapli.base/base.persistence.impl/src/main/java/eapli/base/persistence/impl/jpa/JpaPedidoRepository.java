@@ -3,6 +3,7 @@ package eapli.base.persistence.impl.jpa;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.atividade.domain.EstadoFluxo;
+import eapli.base.atividade.domain.Script;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
@@ -409,6 +410,16 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
                         " WHERE atr.id =:identity",
                 Label.class);
         q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Atividade getTarefaByScript(String caminho) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
+                        " JOIN f.listaAtividade at" +
+                        "WHERE at.script =:identity", Atividade.class);
+        q.setParameter("identity", new Script(caminho));
         return q.getSingleResult();
     }
 
