@@ -18,43 +18,46 @@ public class Atributo implements ValueObject {
     @Column(name="Label")
     private Label label;
 
+    @Column(name="TipoDados")
+    @Enumerated(EnumType.STRING)
+    private TipoDados tipoDados;
+
+    @Column(name="Obrigatoriedada")
+    @Enumerated(EnumType.STRING)
+    private Obrigatoriedade obrigatoriedade;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "formulario")
     private Formulario formulario;
 
     protected Atributo() {
-        this.nomeVariavel=null;
-        this.label = null;
-        this.formulario = null;
     }
 
     public void completaFormulario(Variavel valueOf) {
         this.nomeVariavel = valueOf;
     }
 
-    private enum TipoDados{
-        INTEGER ,STRING,BOOLEAN,DATA
-    }
-
     public Long identity() {
         return id;
     }
 
-    public Atributo(Variavel nomeVariavel, Label label, Formulario formulario){
+    public Atributo(Variavel nomeVariavel, Label label,/* TipoDados tipo, Obrigatoriedade obr,*/ Formulario formulario){
         this.nomeVariavel=nomeVariavel;
         this.label=label;
+        /*this.tipoDados=tipo;
+        this.obrigatoriedade=obr;*/
         this.formulario = formulario;
-    }
-
-    public Variavel nomeVariavel(){
-        return this.nomeVariavel;
     }
 
     @Override
     public String toString() {
         return "Atributo{" +
-                "nomeVariavel='" + nomeVariavel + '\'' +
-                ", label='" + label + '\'' +
+                "id=" + id +
+                ", nomeVariavel=" + nomeVariavel +
+                ", label=" + label +
+                ", tipoDados=" + tipoDados +
+                ", obrigatoriedade=" + obrigatoriedade +
+                ", formulario=" + formulario +
                 '}';
     }
 }

@@ -3,29 +3,29 @@ package eapli.base.validacoes.validaFormulario;
 public class EvalVisitorValidaForm extends validaFormBaseVisitor {
 
     @Override
-    public Object visitValido(validaFormParser.ValidoContext ctx) {
+    public Integer visitValido(validaFormParser.ValidoContext ctx) {
         System.out.println("Formulário Válido!");
-        return visitChildren(ctx);
+        return /*visitChildren(ctx)*/ 0;
     }
 
     @Override
     public Object visitInvalido(validaFormParser.InvalidoContext ctx) {
-        return visitChildren(ctx);
+        return /*visitChildren(ctx)*/ 1;
     }
 
     @Override
     public Object visitVazio(validaFormParser.VazioContext ctx) {
-        return visitChildren(ctx);
+        return /*visitChildren(ctx)*/ 1;
     }
 
     @Override
     public Object visitInvalido2(validaFormParser.Invalido2Context ctx) {
-        return visitChildren(ctx);
+        return /*visitChildren(ctx)*/ 1;
     }
 
     @Override
     public Object visitVazio2(validaFormParser.Vazio2Context ctx) {
-        return visitChildren(ctx);
+        return /*visitChildren(ctx)*/ 1;
     }
 
     @Override

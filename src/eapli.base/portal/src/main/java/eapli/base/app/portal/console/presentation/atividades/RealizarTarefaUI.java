@@ -23,7 +23,9 @@ public class RealizarTarefaUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
+        boolean flag = false;
         Colaborador colab = this.controller.getUser();
+        //System.out.println("COLABORADOR:: " + colab.identity());
 
         final SelectWidget<Atividade> selector = new SelectWidget<>("Selecione uma das seguintes atividades para a realizar: ",
                 this.controller.getListaTarefasPendentes(colab),
@@ -49,18 +51,17 @@ public class RealizarTarefaUI extends AbstractUI {
 
                     // de forma a que formulario(instancia) seja atualizada também
                     this.controller.completaForm(form, Variavel.valueOf(variavel), atributo);
-                    form.completaFormulario(Variavel.valueOf(variavel), atributo);
+                    //form.completaFormulario(Variavel.valueOf(variavel), atributo);
                 }
 
                 /// problema pois estás a atualizar pelo pedido e nao pelo form
-
                 try {
                     File file = new File("filename.txt");
                     FileWriter myWriter = new FileWriter(file);
                     myWriter.write(form.toString());
 
                     // conseguir que retorne se formulario é valido ou nao
-                    this.controller.validaFormulario(file);
+                    flag = this.controller.validaFormulario(file);
                     myWriter.close();
                     System.out.println("Successfully wrote to the file.");
                 } catch (IOException e) {
@@ -72,7 +73,14 @@ public class RealizarTarefaUI extends AbstractUI {
             String comentario = Console.readLine("Introduza um comentario:");
 
             // todas as decisões são aprovadas
-            this.controller.completaDecisaoComentario(comentario, Decisao.APROVADO, pedido, at);
+            Decisao decisao;
+            if(flag == true){
+                 decisao = Decisao.APROVADO;
+            } else{
+                decisao = Decisao.REJEITADO;
+            }
+
+            this.controller.completaDecisaoComentario(comentario, decisao, pedido, at);
 
             this.controller.savePedido(pedido);
         }

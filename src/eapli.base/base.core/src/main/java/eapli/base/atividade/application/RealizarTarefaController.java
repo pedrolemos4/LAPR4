@@ -70,9 +70,9 @@ public class RealizarTarefaController {
         form.completaFormulario(valueOf, atributo);
     }
 
-    public void validaFormulario(File file) {
+    public boolean validaFormulario(File file) {
         ValidaForm valida = new ValidaForm();
-        valida.validaForm(file);
+        return valida.validaForm(file);
     }
 
     public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at) {

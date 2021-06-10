@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 public class ValidaForm {
 
     public boolean validaForm(File file) {
-        //FileInputStream file = new FileInputStream(new File("testFormulario.txt"));
         try {
             FileInputStream file1 = new FileInputStream(file);
             validaFormLexer lexer = new validaFormLexer((new ANTLRInputStream(file1)));
@@ -18,7 +17,10 @@ public class ValidaForm {
             validaFormParser parser = new validaFormParser(tokens);
             ParseTree tree = parser.regra();
             EvalVisitorValidaForm eval = new EvalVisitorValidaForm();
-            eval.visit(tree);
+            int value = (int) eval.visit(tree);
+            if(value == 1){
+                return false;
+            }
         } catch (Exception e){
             return false;
         }

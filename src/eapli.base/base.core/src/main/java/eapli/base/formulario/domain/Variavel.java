@@ -17,7 +17,7 @@ public class Variavel implements ValueObject {
     private String variavel;
 
     public Variavel(final String name) {
-        Preconditions.ensure(StringPredicates.isPhrase(name), "A variavel tem de ser especificada");
+        //Preconditions.ensure(StringPredicates.isPhrase(name), "A variavel tem de ser especificada");
         this.variavel = name;
     }
 
