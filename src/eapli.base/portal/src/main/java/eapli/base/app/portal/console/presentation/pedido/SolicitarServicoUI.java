@@ -79,31 +79,17 @@ public class SolicitarServicoUI extends AbstractUI {
                 flag = false;
             }
         }
-
-        System.out.println("Urgencia____________________________________________________________________");
-        for (UrgenciaPedido u : UrgenciaPedido.values()) {
-            System.out.println(u);
-        }
-        System.out.println("Introduza Urgencia");
-        String urgencia = sc.next();
+        UrgenciaPedido urgencia = selectUrgencia();
         System.out.println("Data Limite de Resolucao(yyyy/mm/dd,hh:mm)________________________________________");
-        String string1[] = sc.next().split(",");
-        String data1[] = string1[0].split("/");
-        String horas1[] = string1[1].split(":");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Integer.parseInt(data1[0]),Integer.parseInt(data1[1])-1,Integer.parseInt(data1[2]),Integer.parseInt(horas1[0]),Integer.parseInt(horas1[1]));
+        Calendar calendar = setData();
         Servico clone = this.controller.getServicoClone(idServico);
         List<Atividade> atividades = this.controller.getListAtividadesServico(idServico);
         for (Atividade atividade : atividades) {
             System.out.println("Data Limite de Resolucao da Atividade(yyyy/mm/dd,hh:mm)___________________________________");
-            String string2[] = sc.next().split(",");
-            String data2[] = string2[0].split("/");
-            String horas2[] = string2[1].split(":");
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.set(Integer.parseInt(data2[0]),Integer.parseInt(data2[1])-1,Integer.parseInt(data2[2]),Integer.parseInt(horas2[0]),Integer.parseInt(horas2[1]));
+            Calendar calendar1 = setData();
             this.controller.atualizarDataAtividade(clone,atividade,calendar1);
         }
-        Pedido pedido = controller.efetuarPedido(clone,Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase()),calendar,formulario,listaAtributos);
+        Pedido pedido = controller.efetuarPedido(clone,urgencia,calendar,formulario,listaAtributos);
         String option = "S";
         while(option == "S") {
             System.out.println("Pretende anexar ficheiros?(S/N)_____________________________________________");
@@ -118,6 +104,36 @@ public class SolicitarServicoUI extends AbstractUI {
         //}
     }
 
+    public Calendar setData(){
+        try{
+            String string1[] = sc.next().split(",");
+            String data1[] = string1[0].split("/");
+            String horas1[] = string1[1].split(":");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Integer.parseInt(data1[0]),Integer.parseInt(data1[1])-1,Integer.parseInt(data1[2]),Integer.parseInt(horas1[0]),Integer.parseInt(horas1[1]));
+            return calendar;
+        } catch (ArrayIndexOutOfBoundsException ex){
+            System.out.println("Insira a data corretamente\n");
+            System.out.println("\nData (yyyy/mm/dd,hh:mm)________________________________________");
+            setData();
+        }
+        return null;
+    }
+    public UrgenciaPedido selectUrgencia(){
+        try {
+            System.out.println("\nUrgencia____________________________________________________________________");
+            for (UrgenciaPedido u : UrgenciaPedido.values()) {
+                System.out.println(u);
+            }
+            System.out.println("Introduza Urgencia");
+            String urgencia = sc.next();
+            return Enum.valueOf(UrgenciaPedido.class, urgencia.toUpperCase());
+        } catch (IllegalArgumentException ex ){
+            System.out.println("Escolha um nível válido de urgência\n");
+            selectUrgencia();
+        }
+        return null;
+    }
 
     @Override
     public String headline() {
