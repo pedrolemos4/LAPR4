@@ -7,7 +7,7 @@ import java.util.*;
 
 public class WorkloadBasedAlgorithm {
 
-    private static Queue<ExecutorServer> instances;
+    private static Queue<ExecutorServer> instances = new LinkedList<>();
     private static final WorkloadController controller = new WorkloadController();
     private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
 

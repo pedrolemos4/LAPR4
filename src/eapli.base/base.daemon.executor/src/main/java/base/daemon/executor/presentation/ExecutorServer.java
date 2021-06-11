@@ -126,7 +126,7 @@ public class ExecutorServer {
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 //Adicionar Atividade aqui talvez
-                tarefas.add(controller.getTarefaByScript(inputLine));
+                //tarefas.add(controller.getTarefaByScript(inputLine));
 
                 final String response = request.execute();
 
