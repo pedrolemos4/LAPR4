@@ -200,10 +200,10 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     }
 
     @Override
-    public List<Atividade> findListAtividades(String idServico) {
+    public List<Atividade> findListAtividades(CodigoUnico idServico) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT la FROM Servico e JOIN e.fluxoAtividade fl JOIN fl.listaAtividade la WHERE e.codigoUnico=:idServico",Atividade.class);
-        q.setParameter("idServico",new CodigoUnico(idServico));
+        q.setParameter("idServico",idServico);
         return q.getResultList();
     }
 

@@ -98,20 +98,18 @@ public class SolicitarServicoController {
             ValidaForm vf = new ValidaForm();
             boolean checkForm = vf.validaForm(file);
 
-	    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
-                return this.pedidoRepository.save(pedido);
-            /*if (checkForm == true) {
+          //  if (checkForm == true) {
                 Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
                 Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
                 return this.pedidoRepository.save(pedido);
-            } else {
+            /*} else {
                 System.out.println("Formulário inválido. Pedido não será efetuado.");
             }*/
         } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
+   //     return null;
     }
 
     public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
@@ -132,7 +130,7 @@ public class SolicitarServicoController {
         pedido.annexFile(file);
     }
 
-    public Formulario findFormulario(String idServico) {
+    public Formulario findFormulario(CodigoUnico idServico) {
         try {
             return formularioRepository.getFormularioDoServico(idServico);
         } catch (Exception e) {
@@ -236,32 +234,9 @@ public class SolicitarServicoController {
         data[0] = 0;
         data[1] = 3;
         byte[] idArray = pedido.identity().getBytes();
-        int size = idArray.length;
-        data[2] = (byte) size;
-        double amount_of_times = size/255;
-        int p=0;
-	
-        while (amount_of_times > 1) {
-        
-            byte[] info = new byte[258];
-            info[0] = 0;
-            info[1] = 10;
-            for (int k = 0; k < 255; k++) {
-				if(p<size){
-					info[k + 2] = idArray[p];
-					p++;
-				}else{
-					k=255;
-				}
-            }
-            sOut.write(info);
-            size -= 255;
-            amount_of_times--;
-        }
-	
+        data[2] = (byte) idArray.length;
         for (int i = 0; i < idArray.length; i++) {
-            data[i + 2] = idArray[p];
-            p++;
+            data[i + 2] = idArray[i];
         }
 
         sOut.write(data);
@@ -280,7 +255,7 @@ public class SolicitarServicoController {
         }
     }
 
-    public List<Atividade> getListAtividadesServico(String idServico) {
+    public List<Atividade> getListAtividadesServico(CodigoUnico idServico) {
         try {
             return this.servicoRepository.findListAtividades(idServico);
         } catch (NoResultException e) {
@@ -289,8 +264,8 @@ public class SolicitarServicoController {
         }
     }
 
-    public Servico getServicoClone(String idServico) {
-        Servico servicoSolicitado = servicoRepository.ofIdentity(new CodigoUnico(idServico)).get();
+    public Servico getServicoClone(CodigoUnico idServico) {
+        Servico servicoSolicitado = servicoRepository.ofIdentity(idServico).get();
         Servico clone = servicoSolicitado;
         return clone;
     }

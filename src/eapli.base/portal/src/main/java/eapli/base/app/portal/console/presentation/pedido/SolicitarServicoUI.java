@@ -3,6 +3,7 @@ package eapli.base.app.portal.console.presentation.pedido;
 import eapli.base.app.backoffice.console.presentation.servicos.FormularioDataWidget;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.application.SolicitarServicoController;
@@ -11,6 +12,7 @@ import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
+import eapli.framework.presentation.console.SelectWidget;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,12 +24,8 @@ public class SolicitarServicoUI extends AbstractUI {
 
     @Override
     public boolean doShow(){
-        showCatalogos();
-        System.out.println("Introduza id catalogo desejado______________________________________________");
-        long idCatalogo = sc.nextLong();
-        showServicos(idCatalogo);
-        System.out.println("Introduza codigo do servico_________________________________________________");
-        String idServico = sc.next();
+        long idCatalogo = showCatalogos();
+        CodigoUnico idServico = showServicos(idCatalogo);
         try {
             solicitarServico(idServico);
         } catch (IOException e) {
@@ -38,24 +36,25 @@ public class SolicitarServicoUI extends AbstractUI {
         return true;
         }
 
-    private void showCatalogos(){
-        System.out.println("Catálogos disponiveis________________________________________________________");
-        for (Catalogo c : controller.displayAvailableCatalogos()) {
-            System.out.println("ID " + c.identity() + " | " + c.titulo()+"\n");
-        }
+    private Long showCatalogos(){
+        final List<Catalogo> catalogos = controller.displayAvailableCatalogos();
+        final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos",catalogos,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
+        System.out.println("\nSelecione o catálogo a que pertence o serviço:");
+        selector.show();
+        final Catalogo theCatalogo = selector.selectedElement();
+        return theCatalogo.identity();
     }
 
-    private void showServicos(long idCatalogo){
+    private CodigoUnico showServicos(long idCatalogo){
         Iterable<Servico> servicos = controller.getServicosCatalogo(idCatalogo);
-        System.out.println("Servicos disponiveis_________________________________________________________");
-        if (servicos != null) {
-            for (Servico s : servicos) {
-                System.out.println("Codigo " + s.identity() + " | " + s.descricaoBreve());
-            }
-        }
+        final SelectWidget<Servico> selector = new SelectWidget<>("Serviços",servicos,visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
+        System.out.println("\nSelecione o catálogo a que pertence o serviço:");
+        selector.show();
+        final Servico theServico = selector.selectedElement();
+        return theServico.identity();
     }
 
-    private void solicitarServico(String idServico) throws IOException, InterruptedException {
+    private void solicitarServico(CodigoUnico idServico) throws IOException, InterruptedException {
         Formulario formulario = new Formulario(this.controller.findFormulario(idServico));
 
         final FormularioDataWidget formularioData = new FormularioDataWidget();
