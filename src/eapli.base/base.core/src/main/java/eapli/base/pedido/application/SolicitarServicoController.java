@@ -49,7 +49,7 @@ public class SolicitarServicoController {
     static SSLSocket sockSSL;
     static final String KEYSTORE_PASS = "forgotten";
 
-    private static final int MOTOR_PORT = 32507;
+    private static final int MOTOR_PORT = 32508;
 
     private static final String IPMOTOR = "10.8.0.82";
 
@@ -98,18 +98,20 @@ public class SolicitarServicoController {
             ValidaForm vf = new ValidaForm();
             boolean checkForm = vf.validaForm(file);
 
-            if (checkForm == true) {
+	    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
+                return this.pedidoRepository.save(pedido);
+            /*if (checkForm == true) {
                 Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
                 Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
                 return this.pedidoRepository.save(pedido);
             } else {
                 System.out.println("Formulário inválido. Pedido não será efetuado.");
-            }
+            }*/
         } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
-        return null;
     }
 
     public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
@@ -234,9 +236,32 @@ public class SolicitarServicoController {
         data[0] = 0;
         data[1] = 3;
         byte[] idArray = pedido.identity().getBytes();
-        data[2] = (byte) idArray.length;
+        int size = idArray.length;
+        data[2] = (byte) size;
+        double amount_of_times = size/255;
+        int p=0;
+	
+        while (amount_of_times > 1) {
+        
+            byte[] info = new byte[258];
+            info[0] = 0;
+            info[1] = 10;
+            for (int k = 0; k < 255; k++) {
+				if(p<size){
+					info[k + 2] = idArray[p];
+					p++;
+				}else{
+					k=255;
+				}
+            }
+            sOut.write(info);
+            size -= 255;
+            amount_of_times--;
+        }
+	
         for (int i = 0; i < idArray.length; i++) {
-            data[i + 2] = idArray[i];
+            data[i + 2] = idArray[p];
+            p++;
         }
 
         sOut.write(data);
