@@ -42,8 +42,10 @@ import java.util.List;
 
 public class ExecutorServer {
 
-    static final String TRUSTED_STORE = "server_J.jks";
+    static final String TRUSTED_STORE = "server_E.jks";
     static final String KEYSTORE_PASS = "forgotten";
+    private static final int PORT = 32510;
+    private static final String IP = "10.8.0.81";
 
     private static final List<Atividade> tarefas = new ArrayList<>();
 
@@ -68,14 +70,14 @@ public class ExecutorServer {
         SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
         try {
-            sockSSL = (SSLServerSocket) sf.createServerSocket(Application.settings().getPortExecutor());
+            sockSSL = (SSLServerSocket) sf.createServerSocket(PORT);
             sockSSL.setNeedClientAuth(true);
         } catch (IOException ex) {
-            System.out.println("Server failed to open local port " + Application.settings().getPortExecutor());
+            System.out.println("Server failed to open local port " + PORT);
             System.exit(1);
         }
 
-        System.out.println("Connected to server: " + Application.settings().getIpExecutor() + ":" + Application.settings().getPortExecutor());
+        System.out.println("Connected to server: " + IP + ":" + PORT);
 
 
         while (true) {
@@ -107,28 +109,20 @@ public class ExecutorServer {
 
             byte[] data = new byte[258];
 
-            try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                 DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
+            try (DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
 
-                List<byte[]> listBytes = new ArrayList<>();
-                while (sIn.readBoolean()) {
-                    sIn.read(data, i, 258);
-                    listBytes.add(data);
-                    i++;
+                sIn.read(data, 0, 258);
+                //System.out.println("Size of info: " + data[2]);
+                String inputLine = new String(data, 2, (int) data[3]);
+                while(data[2]==255){
+                    data=new byte[258];
+                    sIn.read(data,0,258);
+                    inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
                 }
+                int id = data[1];
 
-                String inputLine = new String(listBytes.get(0), 2, (int)listBytes.get(0)[3]);
-                if(listBytes.size()>1) {
-                    for (byte[] b : listBytes) {
-                        LOGGER.trace("Received message:----\n{}\n----", b);
-                        inputLine = inputLine.concat(new String(b, 2, (int) b[3]));
-                    }
-                }else{
-                    LOGGER.trace("Received message:----\n{}\n----", listBytes.get(0));
-                }
 
-                int id = /*(int)*/ listBytes.get(listBytes.size())[1];
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 //Adicionar Atividade aqui talvez
@@ -148,7 +142,7 @@ public class ExecutorServer {
 
                 sOut.write(respostaByte);
 
-                out.println(response);
+                //out.println(response);
                 LOGGER.trace("Sent message:----\n{}\n----", response);
 
                 if (request.isGoodbye()) {

@@ -29,8 +29,8 @@ public class FluxoRequest extends AplicacoesRequest {
     static InetAddress serverIP;
     static SSLSocket sock;
 
-    private static final String IPMOTOR = "10.8.0.82";
-    private static final int MOTOR_PORT = 32145;
+    private static final String IPMOTOR = "10.8.0.81";
+    private static final int MOTOR_PORT = 32510;
 
     public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
         super(controller, request);
@@ -41,14 +41,12 @@ public class FluxoRequest extends AplicacoesRequest {
     public byte[] execute() {
         try {
 
-            final String name = this.authz.session().get().authenticatedUser().username().toString();
-            System.out.println("Name: "+name);
             // Trust these certificates provided by servers
-            System.setProperty("javax.net.ssl.trustStore", name + ".jks");
+            System.setProperty("javax.net.ssl.trustStore", "motor.jks");
             System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
             // Use this certificate and private key for client certificate when requested by the server
-            System.setProperty("javax.net.ssl.keyStore", name + ".jks");
+            System.setProperty("javax.net.ssl.keyStore", "motor.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
 

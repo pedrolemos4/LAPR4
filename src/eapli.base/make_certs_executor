@@ -1,0 +1,19 @@
+#!/bin/bash
+STOREPASS="forgotten"
+for ENT in server_E motor ; do
+ rm -f ${ENT}.jks ${ENT}.pem
+ echo -e "${ENT}\nDEI\nISEP\nPORTO\nPORTO\nPT\nyes" | keytool -genkey -v -alias ${ENT} -keyalg RSA -keysize 2048 \
+	-validity 365 -keystore ${ENT}.jks -storepass ${STOREPASS}
+ keytool -exportcert -alias ${ENT} -keystore ${ENT}.jks -storepass ${STOREPASS} -rfc -file ${ENT}.pem
+done
+####
+echo "Creating trust relations"
+### IMPORTING TRUSTED CERTIFICATES
+### (The server trusts all clients except for client4_J)
+### (Every client trusts server_J)
+ echo "yes"|keytool -import -alias motor -keystore server_E.jks -file motor.pem -storepass ${STOREPASS}
+ echo "yes"|keytool -import -alias server_E -keystore motor.jks -file server_E.pem -storepass ${STOREPASS}
+### echo "yes"|keytool -import -alias server_J -keystore client4_J.jks -file server_E.pem -storepass ${STOREPASS}
+echo "############################################################################"
+keytool -list -keystore server_E.jks -storepass ${STOREPASS}
+#######
