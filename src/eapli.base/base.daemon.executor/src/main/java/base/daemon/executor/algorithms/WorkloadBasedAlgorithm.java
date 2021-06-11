@@ -5,13 +5,13 @@ import eapli.base.atividade.domain.Atividade;
 
 import java.util.*;
 
-public class WorkloadBasedAlgorithm {
+public class WorkloadBasedAlgorithm extends Thread {
 
     private static Queue<ExecutorServer> instances = new LinkedList<>();
     private static final WorkloadController controller = new WorkloadController();
     private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
 
-    public static ExecutorServer proximaInstancia() {
+    public void run() {
 
         for (ExecutorServer s : instances) {
             double tempo = 0.0;
@@ -26,8 +26,7 @@ public class WorkloadBasedAlgorithm {
         entriesSortedByValues(mapExecutores);
 
         Map.Entry<ExecutorServer,Double> entry = mapExecutores.entrySet().iterator().next();
-
-        return entry.getKey();
+        entry.getKey();
     }
 
     public boolean addInstance(ExecutorServer executorServer) {
