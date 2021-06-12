@@ -228,7 +228,7 @@ public class SolicitarServicoController {
         }
         DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());*/
         LOGGER.warn("Connected to server");
-        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
+        //Thread serverConn = new Thread(new TcpChatCliConn(sockSSL));
         //serverConn.start();
 
         data[0] = 0;
@@ -264,7 +264,7 @@ public class SolicitarServicoController {
 
         sOut.write(data);
 
-        // serverConn.join();
+        //serverConn.join();
         sockSSL.close();
     }
 
