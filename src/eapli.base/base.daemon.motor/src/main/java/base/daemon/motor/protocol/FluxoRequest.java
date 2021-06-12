@@ -65,7 +65,12 @@ public class FluxoRequest extends AplicacoesRequest {
                     data[0]=1;
                     data[1]=1;
                     data[2]=0;
-                    return data;
+                    InetAddress ipAddress = InetAddress.getByName("10.8.0.82");
+                    Socket s = new Socket(ipAddress,32508);
+                    DataOutputStream d = new DataOutputStream(s.getOutputStream());
+                    d.write(data);
+                    //new TcpChatCliConn(s);
+                    //return data;
                 } else {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
@@ -104,8 +109,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     System.out.println("Connected to server");
-                    //Thread serverConn = new Thread(new TcpChatCliConn(sock));
-                    //serverConn.start();
+                    Thread serverConn = new Thread(new TcpChatCliConn(sock));
+                    serverConn.start();
 
                     //CodigoUnico cod = new CodigoUnico(id);
                     String caminhoScript = controller.findScriptServico(servico.identity());
@@ -141,7 +146,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     sOut.write(data);
-                    //serverConn.join();
+                    serverConn.join();
                     sock.close();
 
                     /*for (Thread thread : threads) {
@@ -161,8 +166,8 @@ public class FluxoRequest extends AplicacoesRequest {
             // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e1) {
+            e1.printStackTrace();
         }
         return null;
     }
