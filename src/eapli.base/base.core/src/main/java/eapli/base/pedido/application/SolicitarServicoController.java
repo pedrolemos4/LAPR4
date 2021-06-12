@@ -133,8 +133,13 @@ public class SolicitarServicoController {
         }
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade obrigatoriedade, DescricaoAjuda descAjuda, Formulario formulario) {
-        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados, obrigatoriedade,descAjuda,formulario);
+    public Atributo createAtributo(String nomeVariavel, String label, String tipoDados, String obrigatoriedade,
+                                   String descAjuda, Formulario formulario) {
+        TipoDados tipoDados1 = Enum.valueOf(TipoDados.class,tipoDados.toUpperCase());
+        Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class,obrigatoriedade.toUpperCase());
+        DescricaoAjuda descricaoAjuda = new DescricaoAjuda(descAjuda);
+        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados1, obr,
+                descricaoAjuda,formulario);
         return atributo;
     }
 

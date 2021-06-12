@@ -29,9 +29,9 @@ public class FormularioDataWidget {
         this.tipoDados=Console.readLine("\nTipo de dados:");
         this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
         this.label=Console.readLine("\nLabel:");
-        this.tipoDados=TipoDados.valueOf(Console.readLine("\nTipo de Dados:").toUpperCase()).toString();
-        this.obrigatoriedade=Obrigatoriedade.valueOf(Console.readLine("\nObrigatoriedade:").toUpperCase()).toString();
-        this.descAjuda=new DescricaoAjuda(Console.readLine("\nDescricao Ajuda:")).toString();
+        this.tipoDados=Console.readLine("\nTipo de Dados:");
+        this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
+        this.descAjuda=Console.readLine("\nDescricao Ajuda:");
     }
 
     public void preencherVariavel(){
