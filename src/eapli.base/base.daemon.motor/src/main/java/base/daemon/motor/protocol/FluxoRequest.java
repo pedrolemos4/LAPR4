@@ -150,6 +150,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
+
+                    return data;
                 }
             }
             // controller.saveServico(servico);
