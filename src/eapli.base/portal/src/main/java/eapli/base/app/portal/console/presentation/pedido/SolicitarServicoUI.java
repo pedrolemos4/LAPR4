@@ -64,7 +64,7 @@ public class SolicitarServicoUI extends AbstractUI {
         System.out.println(formularioData.nomeVariavel());
         System.out.println(formularioData.label());
         Set<Atributo> listaAtributos = new HashSet<>();
-        Atributo atributo = controller.createAtributo(formularioData.nomeVariavel(), formularioData.label(), formulario);
+        Atributo atributo = controller.createAtributo(formularioData.nomeVariavel(), formularioData.label(),formularioData.tipoDados(),formularioData.obrigatoriedade(),formularioData.descricaoAjuda(),formulario);
         listaAtributos.add(atributo);
 
         boolean flag = true;
@@ -74,7 +74,7 @@ public class SolicitarServicoUI extends AbstractUI {
             resposta = Console.readLine("Deseja adicionar mais atributos ao formulário?\nResposta(S/N):");
             if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
                 formularioData.atributo();
-                atributo = controller.createAtributo(formularioData.nomeVariavel(), formularioData.label(), formulario);
+                atributo = controller.createAtributo(formularioData.nomeVariavel(), formularioData.label(), formularioData.tipoDados(),formularioData.obrigatoriedade(),formularioData.descricaoAjuda(),formulario);
                 listaAtributos.add(atributo);
             } else {
                 flag = false;

@@ -37,4 +37,6 @@ public final class BaseRolesColaborador {
 
     public static final FuncaoColaborador COMERCIAL = FuncaoColaborador.valueOf("COMERCIAL");
 
+    public static final FuncaoColaborador DEPARTAMENTO_DE_VENDAS = FuncaoColaborador.valueOf("DEPARTAMENTO_DE_VENDAS");
+
 }

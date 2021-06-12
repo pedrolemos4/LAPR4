@@ -1,6 +1,5 @@
 package eapli.base.pedido.application;
 
-import eapli.base.AppSettings;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
@@ -8,10 +7,8 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.domain.Label;
-import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.domain.*;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
@@ -23,9 +20,6 @@ import eapli.base.validacoes.validaFormulario.ValidaForm;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.application.UserSession;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
-import eapli.framework.infrastructure.authz.domain.model.Username;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,8 +135,8 @@ public class SolicitarServicoController {
         }
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label, Formulario formulario) {
-        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), formulario);
+    public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade obrigatoriedade, DescricaoAjuda descAjuda, Formulario formulario) {
+        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados, obrigatoriedade,descAjuda,formulario);
         return atributo;
     }
 

@@ -18,13 +18,16 @@ public class Atributo implements ValueObject {
     @Column(name="Label")
     private Label label;
 
-    /*@Column(name="TipoDados")
+    @Column(name="TipoDados")
     @Enumerated(EnumType.STRING)
     private TipoDados tipoDados;
 
-    @Column(name="Obrigatoriedada")
+    @Column(name="Obrigatoriedade")
     @Enumerated(EnumType.STRING)
-    private Obrigatoriedade obrigatoriedade;*/
+    private Obrigatoriedade obrigatoriedade;
+
+    @Column(name = "DescricaoAjuda")
+    private DescricaoAjuda descricaoAjuda;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "formulario")
@@ -41,11 +44,12 @@ public class Atributo implements ValueObject {
         return id;
     }
 
-    public Atributo(Variavel nomeVariavel, Label label,/* TipoDados tipo, Obrigatoriedade obr,*/ Formulario formulario){
+    public Atributo(Variavel nomeVariavel, Label label, TipoDados tipo, Obrigatoriedade obr,DescricaoAjuda descricao,Formulario formulario){
         this.nomeVariavel=nomeVariavel;
         this.label=label;
-        /*this.tipoDados=tipo;
-        this.obrigatoriedade=obr;*/
+        this.tipoDados=tipo;
+        this.obrigatoriedade=obr;
+        this.descricaoAjuda = descricao;
         this.formulario = formulario;
     }
 
@@ -55,8 +59,9 @@ public class Atributo implements ValueObject {
                 "id=" + id +
                 ", nomeVariavel=" + nomeVariavel +
                 ", label=" + label +
-                /*", tipoDados=" + tipoDados +
-                ", obrigatoriedade=" + obrigatoriedade +*/
+                ", tipoDados=" + tipoDados +
+                ", obrigatoriedade=" + obrigatoriedade +
+                ", descricaoAjuda=" + descricaoAjuda +
                 ", formulario=" + formulario +
                 '}';
     }

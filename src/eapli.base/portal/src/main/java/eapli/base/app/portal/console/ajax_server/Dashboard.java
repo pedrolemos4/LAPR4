@@ -33,7 +33,7 @@ public class Dashboard {
 
 	static final AuthorizationService authz = AuthzRegistry.authorizationService();
 
-	public void execute(InetAddress address, int porta) throws Exception {
+	public void execute(InetAddress address, int porta) {
 
 		SSLSocket cliSock;
 
@@ -64,16 +64,19 @@ public class Dashboard {
 		}
 
 		while (flag) {
-			cliSock= (SSLSocket) sock.accept();
-			HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
-			//sendTestConnection();
-			req.start();
-			incAccessesCounter();
+			try {
+				cliSock= (SSLSocket) sock.accept();
+				HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
+				//sendTestConnection();
+				req.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private void openDashboard() throws URISyntaxException, IOException {
-		URI uri = new URI("http://localhost:35210");
+		URI uri = new URI("https://localhost:35210");
 		Desktop.getDesktop().browse(uri); //open url for dashboard
 	}
 

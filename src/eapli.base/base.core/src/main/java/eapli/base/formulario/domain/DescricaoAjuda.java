@@ -1,12 +1,13 @@
 package eapli.base.formulario.domain;
 
+import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.util.StringPredicates;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Column;
 
-public class DescricaoAjuda {
+public class DescricaoAjuda implements ValueObject {
 
     private static final long serialVersionUID = 1L;
 
