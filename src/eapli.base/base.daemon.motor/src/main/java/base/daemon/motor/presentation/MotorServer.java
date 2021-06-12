@@ -137,9 +137,11 @@ public class MotorServer {
                 }*/
 
                 //out.write(respostaByte);
-
+                sOut.write(response);
                 out.println(response);
 
+                String p = new String(response);
+                System.out.println("STRING: "+p);
                 // out.println(response.toString());
                 LOGGER.trace("Sent message:----\n{}\n----", response);
                 if (request.isGoodbye()) {
