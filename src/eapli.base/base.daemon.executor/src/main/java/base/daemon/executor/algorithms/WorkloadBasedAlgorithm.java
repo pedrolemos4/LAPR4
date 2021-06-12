@@ -1,32 +1,40 @@
 package base.daemon.executor.algorithms;
 
 import base.daemon.executor.presentation.ExecutorServer;
-import eapli.base.atividade.domain.Atividade;
 
 import java.util.*;
 
-public class WorkloadBasedAlgorithm extends Thread {
+public class WorkloadBasedAlgorithm implements Runnable {
 
     private static Queue<ExecutorServer> instances = new LinkedList<>();
-    private static final WorkloadController controller = new WorkloadController();
     private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
 
     public void run() {
+        synchronized (this) {
+            int i = 0;
+            Thread[] threads = new Thread[instances.size()]; //talvez tenha de ser chamado noutro local
 
-        for (ExecutorServer s : instances) {
-            double tempo = 0.0;
-            for (Atividade a : s.tarefas()) {
-                tempo += controller.getTempoDeExecucaoTarefa(a);
+            for (ExecutorServer es : instances) {
+                WorkloadTimeCounter wtc = new WorkloadTimeCounter(mapExecutores, es);
+                threads[i] = new Thread(wtc);
+                threads[i].start();
+                i++;
             }
-            if (!mapExecutores.containsKey(s)) {
-                mapExecutores.put(s, tempo);
+
+            for (Thread t : threads) {
+                t.interrupt();
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    System.out.println("Thread was interrupted!");
+                }
             }
+            entriesSortedByValues(mapExecutores);
+
+            Map.Entry<ExecutorServer, Double> entry = mapExecutores.entrySet().iterator().next();
+            entry.getKey(); //instancia com menor workload
+
         }
-
-        entriesSortedByValues(mapExecutores);
-
-        Map.Entry<ExecutorServer,Double> entry = mapExecutores.entrySet().iterator().next();
-        entry.getKey();
     }
 
     public boolean addInstance(ExecutorServer executorServer) {
@@ -36,9 +44,9 @@ public class WorkloadBasedAlgorithm extends Thread {
     static <K, V extends Comparable<? super V>>
     SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
         SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<>((e1, e2) -> {
-                    int res = e1.getValue().compareTo(e2.getValue());
-                    return res != 0 ? res : 1;
-                }
+            int res = e1.getValue().compareTo(e2.getValue());
+            return res != 0 ? res : 1;
+        }
         );
         sortedEntries.addAll(map.entrySet());
         return sortedEntries;
