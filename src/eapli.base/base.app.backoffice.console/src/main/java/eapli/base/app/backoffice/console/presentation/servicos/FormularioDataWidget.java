@@ -29,8 +29,6 @@ public class FormularioDataWidget {
         this.tipoDados=Console.readLine("\nTipo de dados:");
         this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
         this.label=Console.readLine("\nLabel:");
-        this.tipoDados=Console.readLine("\nTipo de Dados:");
-        this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
         this.descAjuda=Console.readLine("\nDescricao Ajuda:");
     }
 

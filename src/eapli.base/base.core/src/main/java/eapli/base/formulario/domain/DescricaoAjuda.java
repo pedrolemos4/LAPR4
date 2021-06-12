@@ -6,12 +6,14 @@ import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
 public class DescricaoAjuda implements ValueObject {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "Label")
+    @Column(name = "DescricaoAjuda")
     private String desc;
 
     public DescricaoAjuda(final String name) {

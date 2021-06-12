@@ -1,10 +1,13 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.equipa.domain.CodigoUnico;
+import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.repositories.FormularioRepository;
 
 import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.Set;
 
 public class JpaFormularioRepository extends BasepaRepositoryBase<Formulario,Long, Long>
         implements FormularioRepository {
@@ -19,5 +22,13 @@ public class JpaFormularioRepository extends BasepaRepositoryBase<Formulario,Lon
                 Formulario.class);
         q.setParameter("identity", idServico);
         return q.getSingleResult();
+    }
+
+    @Override
+    public List<Atributo> findAtributos(Long id) {
+        final TypedQuery<Atributo> q = createQuery("SELECT la from Formulario f INNER JOIN f.atributos la" +
+                        " WHERE f.pk=:id",Atributo.class);
+        q.setParameter("id",id);
+        return q.getResultList();
     }
 }

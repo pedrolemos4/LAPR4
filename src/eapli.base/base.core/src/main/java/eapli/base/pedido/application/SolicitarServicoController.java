@@ -92,10 +92,10 @@ public class SolicitarServicoController {
             ValidaForm vf = new ValidaForm();
             boolean checkForm = vf.validaForm(file);
 
-          //  if (checkForm == true) {
-                Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
-                return this.pedidoRepository.save(pedido);
+            //  if (checkForm == true) {
+            Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
+            return this.pedidoRepository.save(pedido);
             /*} else {
                 System.out.println("Formulário inválido. Pedido não será efetuado.");
             }*/
@@ -103,7 +103,7 @@ public class SolicitarServicoController {
             LOGGER.error("Something went wrong");
             return null;
         }
-   //     return null;
+        //     return null;
     }
 
     public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
@@ -114,6 +114,26 @@ public class SolicitarServicoController {
             LOGGER.error("Unexpected Error");
             return false;
         }
+    }
+
+    public List<Atributo> findAtributos(Long identity) {
+        return formularioRepository.findAtributos(identity);
+    }
+
+    public String label(Atributo a) {
+        return a.label().toString();
+    }
+
+    public TipoDados tipoDados(Atributo a) {
+        return a.tipoDados();
+    }
+
+    public Obrigatoriedade obrigatoriedade(Atributo a) {
+        return a.obrigatoriedade();
+    }
+
+    public String descricaoAjuda(Atributo a){
+        return a.descricaoAjuda().toString();
     }
 
     public void annexFile(Pedido pedido) {
@@ -133,13 +153,13 @@ public class SolicitarServicoController {
         }
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label, String tipoDados, String obrigatoriedade,
+    public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade obrigatoriedade,
                                    String descAjuda, Formulario formulario) {
-        TipoDados tipoDados1 = Enum.valueOf(TipoDados.class,tipoDados.toUpperCase());
-        Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class,obrigatoriedade.toUpperCase());
+        //TipoDados tipoDados1 = Enum.valueOf(TipoDados.class, tipoDados.toUpperCase());
+        //Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class, obrigatoriedade.toUpperCase());
         DescricaoAjuda descricaoAjuda = new DescricaoAjuda(descAjuda);
-        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados1, obr,
-                descricaoAjuda,formulario);
+        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados, obrigatoriedade,
+                descricaoAjuda, formulario);
         return atributo;
     }
 
@@ -150,7 +170,7 @@ public class SolicitarServicoController {
         System.exit(1);
         }*/
         final String name = this.authz.session().get().authenticatedUser().username().toString();
-        System.out.println("Name: "+name);
+        System.out.println("Name: " + name);
         // Trust these certificates provided by servers
         System.setProperty("javax.net.ssl.trustStore", name + ".jks");
         System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
@@ -235,8 +255,8 @@ public class SolicitarServicoController {
         byte[] idArray = pedido.identity().getBytes();
         int size = idArray.length;
         data[2] = (byte) size;
-        double amount_of_times = size/255;
-        int p=0;
+        double amount_of_times = size / 255;
+        int p = 0;
 
         while (amount_of_times > 1) {
 
@@ -244,11 +264,11 @@ public class SolicitarServicoController {
             info[0] = 0;
             info[1] = 10;
             for (int k = 0; k < 255; k++) {
-                if(p<size){
+                if (p < size) {
                     info[k + 2] = idArray[p];
                     p++;
-                }else{
-                    k=255;
+                } else {
+                    k = 255;
                 }
             }
             sOut.write(info);

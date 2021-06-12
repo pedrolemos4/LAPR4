@@ -53,11 +53,28 @@ public class Atributo implements ValueObject {
         this.formulario = formulario;
     }
 
-    public Atributo(Label label, TipoDados tipo, Obrigatoriedade obr, Formulario formulario){
+    public Atributo(Label label, TipoDados tipo, Obrigatoriedade obr, DescricaoAjuda desc,Formulario formulario){
         this.label=label;
-        /*this.tipoDados=tipo;
-        this.obrigatoriedade=obr;*/
+        this.tipoDados=tipo;
+        this.obrigatoriedade=obr;
+        this.descricaoAjuda=desc;
         this.formulario = formulario;
+    }
+
+    public Label label(){
+        return this.label;
+    }
+
+    public TipoDados tipoDados(){
+        return this.tipoDados;
+    }
+
+    public Obrigatoriedade obrigatoriedade(){
+        return this.obrigatoriedade;
+    }
+
+    public DescricaoAjuda descricaoAjuda(){
+        return this.descricaoAjuda;
     }
 
     @Override
