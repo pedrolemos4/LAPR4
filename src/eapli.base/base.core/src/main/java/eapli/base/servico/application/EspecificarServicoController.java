@@ -133,10 +133,11 @@ public class EspecificarServicoController {
         return atividadeAutomatica;
     }
 
-    public Atributo createAtributo(String label, String tipoDados, String obrigatoriedade,Formulario formulario) {
+    public Atributo createAtributo(String label, String tipoDados, String obrigatoriedade,String descricaoAjuda,Formulario formulario) {
+        DescricaoAjuda descricaoAjuda1 = new DescricaoAjuda(descricaoAjuda);
         TipoDados tipoDados1 = Enum.valueOf(TipoDados.class,tipoDados.toUpperCase());
         Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class,obrigatoriedade.toUpperCase());
-        final Atributo atributo = new Atributo(new Label(label),tipoDados1,obr,formulario);
+        final Atributo atributo = new Atributo(new Label(label),tipoDados1,obr,descricaoAjuda1,formulario);
         return atributo;
     }
 

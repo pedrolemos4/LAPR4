@@ -234,13 +234,13 @@ public class EspecificarServicoUI extends AbstractUI {
         Atributo atributo = null;
         try {
             atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
-                    formularioData.obrigatoriedade(), formulario);
+                    formularioData.obrigatoriedade(),formularioData.descricaoAjuda(), formulario);
         } catch (IllegalArgumentException ex) {
             System.out.println("Insira um tipo de dados válido");
-            formularioData.atributo();
+            //formularioData.atributo();
         }
         listaAtributos.add(atributo);
-
+        System.out.println("Linha 243");
         boolean flag = true;
 
         while (flag) {
@@ -249,7 +249,7 @@ public class EspecificarServicoUI extends AbstractUI {
             if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
                 formularioData.atributo();
                 atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
-                        formularioData.obrigatoriedade(), formulario);
+                        formularioData.obrigatoriedade(),formularioData.descricaoAjuda(), formulario);
                 listaAtributos.add(atributo);
             } else {
                 flag = false;
