@@ -81,7 +81,7 @@ public class SolicitarServicoUI extends AbstractUI {
         }
         //if(controller.submeterPedido(pedido)){
         controller.doConnection(pedido);
-        System.out.println("SUCESSO");
+        //System.out.println("SUCESSO");
         //}
     }
 

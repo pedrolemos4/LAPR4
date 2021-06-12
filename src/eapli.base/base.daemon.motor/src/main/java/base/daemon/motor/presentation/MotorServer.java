@@ -84,17 +84,17 @@ public class MotorServer {
             int i = 0;
             byte[] data = new byte[258];
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                    DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
+                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 sIn.read(data, 0, 258);
                 //System.out.println("Size of info: " + data[2]);
-				String inputLine = new String(data, 2, (int) data[3]);
-				while(data[2]==255){
-					data=new byte[258];
-					sIn.read(data,0,258);
-					inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
-				}
-				int id = data[1];
+                String inputLine = new String(data, 2, (int) data[3]);
+                while(data[2]==255){
+                    data=new byte[258];
+                    sIn.read(data,0,258);
+                    inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
+                }
+                int id = data[1];
                 /*List<byte[]> listBytes = new ArrayList<>();
 				int size = sIn.available();
 				System.out.println("SIZE: "+size+" "+sIn.read());
@@ -138,16 +138,15 @@ public class MotorServer {
 
                 //out.write(respostaByte);
                 sOut.write(response);
-                out.println(response);
+                //out.println(response);
 
-                String p = new String(response);
-                System.out.println("STRING: "+p);
+                //System.out.println("STRING: "+response.toString());
                 // out.println(response.toString());
-                LOGGER.trace("Sent message:----\n{}\n----", response);
-                if (request.isGoodbye()) {
+                //LOGGER.trace("Sent message:----\n{}\n----", response);
+                //if (request.isGoodbye()) {
                     //  break;
                     //  }
-                }
+                //}
             } catch (final IOException e) {
                 LOGGER.error(e);
             } finally {
@@ -199,4 +198,3 @@ public class MotorServer {
 
 
 }
-

@@ -323,11 +323,13 @@ class TcpChatCliConn implements Runnable {
 
     public void run() {
         byte[] data = new byte[258];
-        String frase;
 
         try {
             sIn = new DataInputStream(s.getInputStream());
             sIn.read(data);
+            if(data[1]==1) {
+                System.out.println("Sucesso");
+            }
         } catch (IOException ex) {
             System.out.println("Client disconnected.");
         }
