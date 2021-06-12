@@ -12,12 +12,12 @@ public class JpaFormularioRepository extends BasepaRepositoryBase<Formulario,Lon
     public JpaFormularioRepository(){super("Id");}
 
     @Override
-    public Formulario getFormularioDoServico(String idServico) {
+    public Formulario getFormularioDoServico(CodigoUnico idServico) {
         final TypedQuery<Formulario> q = createQuery(
                 "SELECT f FROM Formulario f INNER JOIN f.servico s WHERE" +
                         " s.codigoUnico =:identity",
                 Formulario.class);
-        q.setParameter("identity", new CodigoUnico(idServico));
+        q.setParameter("identity", idServico);
         return q.getSingleResult();
     }
 }

@@ -100,37 +100,44 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     System.out.println("Connected to server");
-                    Thread serverConn = new Thread(new TcpChatCliConn(sock));
-                    serverConn.start();
+                    //Thread serverConn = new Thread(new TcpChatCliConn(sock));
+                    //serverConn.start();
 
                     //CodigoUnico cod = new CodigoUnico(id);
                     String caminhoScript = controller.findScriptServico(servico.identity());
                     byte[] idArray = caminhoScript.getBytes();
                     int size = idArray.length;
-                    data[2] = (byte) size;
                     data[0] = 0;
-                    data[1] = CODIGO_MOTOR;
-
-                    int amount_of_times = size % 255;
+                    data[1] = 9;
+                    data[2] = (byte) size;
+                    double amount_of_times = size/255;
+                    int p=0;
 
                     while (amount_of_times > 1) {
+
                         byte[] info = new byte[258];
                         info[0] = 0;
-                        info[1] = (byte) 255;
+                        info[1] = 10;
                         for (int k = 0; k < 255; k++) {
-                            info[k + 2] = idArray[k];
+                            if(p<size){
+                                info[k + 2] = idArray[p];
+                                p++;
+                            }else{
+                                k=255;
+                            }
                         }
                         sOut.write(info);
                         size -= 255;
                         amount_of_times--;
                     }
 
-                    for (int i = 0; i < size; i++) {
-                        data[i + 2] = idArray[i];
+                    for (int i = 0; i < idArray.length; i++) {
+                        data[i + 2] = idArray[p];
+                        p++;
                     }
 
                     sOut.write(data);
-                    serverConn.join();
+                    //serverConn.join();
                     sock.close();
 
                     /*for (Thread thread : threads) {
@@ -148,7 +155,7 @@ public class FluxoRequest extends AplicacoesRequest {
             // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -177,7 +184,7 @@ class TcpChatCliConn implements Runnable {
 
 
     public void run() {
-        byte[] data = new byte[258]; /// TIAGO FEIO
+        byte[] data = new byte[258];
 
         try {
             /*//String caminhoScript = controller.findScriptServico(servico.identity());

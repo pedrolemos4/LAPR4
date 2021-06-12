@@ -101,11 +101,6 @@ public class ExecutorServer {
         @Override
         public void run() {
             int i = 0;
-            InetAddress clientIP;
-
-            clientIP = myS.getInetAddress();
-            System.out.println("New client connection from " + clientIP.getHostAddress() +
-                    ", port number " + myS.getPort());
 
             byte[] data = new byte[258];
 
@@ -126,7 +121,7 @@ public class ExecutorServer {
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 //Adicionar Atividade aqui talvez
-                tarefas.add(controller.getTarefaByScript(inputLine));
+                //tarefas.add(controller.getTarefaByScript(inputLine));
 
                 final String response = request.execute();
 
@@ -153,8 +148,6 @@ public class ExecutorServer {
                 LOGGER.error(e);
             } finally {
                 try {
-                    System.out.println("Client " + clientIP.getHostAddress() + ", port number: " + myS.getPort() +
-                            " disconnected");
                     myS.close();
                 } catch (final IOException e) {
                     LOGGER.error("While closing the client socket", e);

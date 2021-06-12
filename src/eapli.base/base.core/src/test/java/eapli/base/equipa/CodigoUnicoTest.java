@@ -14,9 +14,13 @@ public class CodigoUnicoTest extends TestCase {
         assertEquals(c1.toString(), "cod1");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+
     public void testEnsureCodigoUnicoLengthMustNotBeNull() {
-        new CodigoUnico("");
+        try {
+            new CodigoUnico("");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

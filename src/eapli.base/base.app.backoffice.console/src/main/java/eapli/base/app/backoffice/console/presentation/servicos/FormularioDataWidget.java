@@ -13,24 +13,29 @@ public class FormularioDataWidget {
 
     private String label;
 
-    private TipoDados tipoDados;
+    private String tipoDados;
 
-    private Obrigatoriedade obrigatoriedade;
+    private String obrigatoriedade;
 
-    private DescricaoAjuda descAjuda;
+    private String descAjuda;
 
     public void show(){
         this.titulo= Console.readLine("\nTítulo do Formulario:");
-        //  atributo();
+        atributo();
     }
 
     public void atributo(){
         System.out.println("\nDados do Atributo");
-        this.nomeVariavel=Console.readLine("\nNome de variável:");
+        this.tipoDados=Console.readLine("\nTipo de dados:");
+        this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
         this.label=Console.readLine("\nLabel:");
-        this.tipoDados=TipoDados.valueOf(Console.readLine("\nTipo de Dados:").toUpperCase());
-        this.obrigatoriedade=Obrigatoriedade.valueOf(Console.readLine("\nObrigatoriedade:").toUpperCase());
-        this.descAjuda=new DescricaoAjuda(Console.readLine("\nDescricao Ajuda:"));
+        this.tipoDados=TipoDados.valueOf(Console.readLine("\nTipo de Dados:").toUpperCase()).toString();
+        this.obrigatoriedade=Obrigatoriedade.valueOf(Console.readLine("\nObrigatoriedade:").toUpperCase()).toString();
+        this.descAjuda=new DescricaoAjuda(Console.readLine("\nDescricao Ajuda:")).toString();
+    }
+
+    public void preencherVariavel(){
+        this.nomeVariavel=Console.readLine("\nNome de variável:");
     }
 
     public String titulo(){
@@ -45,10 +50,10 @@ public class FormularioDataWidget {
         return this.label;
     }
 
-    public TipoDados tipoDados(){ return  this.tipoDados;}
+    public String tipoDados(){ return  this.tipoDados;}
 
-    public Obrigatoriedade obrigatoriedade(){ return this.obrigatoriedade;}
+    public String obrigatoriedade(){ return this.obrigatoriedade;}
 
-    public DescricaoAjuda descricaoAjuda(){ return this.descAjuda;}
+    public String descricaoAjuda(){ return this.descAjuda;}
 
 }
