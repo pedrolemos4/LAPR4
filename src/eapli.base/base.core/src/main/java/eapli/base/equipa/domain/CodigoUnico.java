@@ -1,6 +1,7 @@
 package eapli.base.equipa.domain;
 
 import eapli.framework.domain.model.ValueObject;
+import eapli.framework.strings.util.StringPredicates;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ public class CodigoUnico implements ValueObject, Comparable<CodigoUnico> {
     private final String codigo;
 
     public CodigoUnico(final String codigo){
-        Preconditions.noneNull(codigo);
+        Preconditions.ensure(!StringPredicates.isNullOrEmpty(codigo));
         Preconditions.ensure(codigo.length()<=15,"O tamanho máximo do código são 15 caracteres.");
 
         this.codigo = codigo;

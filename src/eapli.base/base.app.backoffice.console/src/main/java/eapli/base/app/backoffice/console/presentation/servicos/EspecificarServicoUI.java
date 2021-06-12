@@ -61,36 +61,18 @@ public class EspecificarServicoUI extends AbstractUI {
 
         final Iterable<Catalogo> catalogos = this.theController.listCatalogos();
 
-        final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos", catalogos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
+        final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos\n", catalogos, visitee -> System.out.printf("\n%-15s%-80s\n", visitee.identity(), visitee.toString()));
         System.out.println("\nSelecione o catálogo a que pertence o serviço:");
         selector.show();
         final Catalogo theCatalogo = selector.selectedElement();
 
         final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
-        keywordsDataWidget.show();
-        boolean flag = true;
-
         Set<String> keywords = new HashSet<>();
-        keywords.add(keywordsDataWidget.keyword());
-
-        while (flag) {
-            String answer;
-            System.out.println("Deseja adicionar mais keywords?");
-            answer = Console.readLine("Resposta(S/N):");
-            if (answer.equalsIgnoreCase("Sim") || answer.equalsIgnoreCase("S")) {
-                keywordsDataWidget.show();
-                keywords.add(keywordsDataWidget.keyword());
-            } else {
-                flag = false;
-            }
-        }
+        especificarKeywords(keywordsDataWidget, keywords);
 
         final FormularioDataWidget formularioData = new FormularioDataWidget();
-        formularioData.show();
-
-        //perguntar sobre os formulários e os atributos ao stor
-
         Set<Atributo> listaAtributos = new HashSet<>();
+        Formulario formServico = preencherAtributos(formularioData, listaAtributos);
 
         final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
         final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
@@ -100,7 +82,7 @@ public class EspecificarServicoUI extends AbstractUI {
         String tipoResolucao;
         tipoResolucao = Console.readLine("A atividade de resolução é automática ou manual?");
         String resposta2;
-        flag = true;
+        boolean flag = true;
         while (flag) {
             if (tipoResolucao.equalsIgnoreCase("manual")) {
                 atividadeResolucaoWidget.doManual();
@@ -126,8 +108,8 @@ public class EspecificarServicoUI extends AbstractUI {
                 } else {
                     Set<Equipa> listEquipas = new HashSet<>();
                     listEquipas.add(equipa);
-                    Formulario form = null;
                     TipoAtividade tipo = TipoAtividade.REALIZACAO;
+                    Formulario form = null;
                     AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas,
                             /*atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(),*/ atividadeResolucaoWidget.ano(),
                             atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
@@ -194,9 +176,9 @@ public class EspecificarServicoUI extends AbstractUI {
                         keywords, theCatalogo, fluxoAtividade);
             } else {
                 try {
-                    Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
+                    //Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
                     this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
-                            descricaoCompletaData.descricao(), formulario, keywords, theCatalogo, fluxoAtividade);
+                            descricaoCompletaData.descricao(), formServico, keywords, theCatalogo, fluxoAtividade);
                     System.out.println("\nServiço especificado com sucesso!\n");
                 } catch (final IntegrityViolationException e) {
                     System.out.println("Erro.");
@@ -205,12 +187,64 @@ public class EspecificarServicoUI extends AbstractUI {
         } catch (final IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-      //  motor(codigoUnicoData.codigoUnico());
+        //  motor(codigoUnicoData.codigoUnico());
+    }
+
+    private void especificarKeywords(KeywordsDataWidget keywordsDataWidget, Set<String> keywords) {
+        keywordsDataWidget.show();
+        boolean flag = true;
+
+
+        keywords.add(keywordsDataWidget.keyword());
+
+        while (flag) {
+            String answer;
+            System.out.println("Deseja adicionar mais keywords?");
+            answer = Console.readLine("Resposta(S/N):");
+            if (answer.equalsIgnoreCase("Sim") || answer.equalsIgnoreCase("S")) {
+                keywordsDataWidget.show();
+                keywords.add(keywordsDataWidget.keyword());
+            } else {
+                flag = false;
+            }
+        }
     }
 
     @Override
     public String headline() {
         return "Especificar Serviço";
+    }
+
+    public Formulario preencherAtributos(FormularioDataWidget formularioData, Set<Atributo> listaAtributos) {
+        formularioData.show();
+
+        Formulario formulario = new Formulario(formularioData.titulo());
+        Atributo atributo = null;
+        try {
+            atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
+                    formularioData.obrigatoriedade(), formulario);
+        } catch (IllegalArgumentException ex){
+            System.out.println("Insira um tipo de dados válido");
+            formularioData.atributo();
+        }
+        listaAtributos.add(atributo);
+
+        boolean flag = true;
+
+        while (flag) {
+            String resposta;
+            resposta = Console.readLine("Deseja adicionar mais atributos ao formulário?\nResposta(S/N):");
+            if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
+                formularioData.atributo();
+                atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
+                        formularioData.obrigatoriedade(), formulario);
+                listaAtributos.add(atributo);
+            } else {
+                flag = false;
+            }
+        }
+        formulario.copyAtributos(listaAtributos);
+        return formulario;
     }
 
     /*private void motor(final String codigo) throws IOException {

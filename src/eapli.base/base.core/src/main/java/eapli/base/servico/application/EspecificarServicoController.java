@@ -8,8 +8,7 @@ import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.equipa.repositories.EquipaRepository;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.*;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.draft.repositories.DraftServicoRepository;
 import eapli.base.servico.domain.Servico;
@@ -19,6 +18,7 @@ import eapli.framework.application.UseCaseController;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -132,6 +132,14 @@ public class EspecificarServicoController {
         }
         return atividadeAutomatica;
     }
+
+    public Atributo createAtributo(String label, String tipoDados, String obrigatoriedade,Formulario formulario) {
+        TipoDados tipoDados1 = Enum.valueOf(TipoDados.class,tipoDados.toUpperCase());
+        Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class,obrigatoriedade.toUpperCase());
+        final Atributo atributo = new Atributo(new Label(label),tipoDados1,obr,formulario);
+        return atributo;
+    }
+
 
     public Catalogo saveCatalogo(Catalogo catalogo){
         return this.catalogoRepository.save(catalogo);

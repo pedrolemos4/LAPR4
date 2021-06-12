@@ -52,6 +52,10 @@ public class Formulario implements AggregateRoot<Long> {
                 '}';
     }
 
+    public Formulario(final String titulo){
+        this.titulo = new Titulo(titulo);
+    }
+
     public Formulario(final String titulo, final Set<Atributo> listaAtributos) {
         this.titulo = new Titulo(titulo);
 

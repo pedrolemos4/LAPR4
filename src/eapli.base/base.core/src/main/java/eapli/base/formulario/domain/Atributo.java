@@ -49,6 +49,13 @@ public class Atributo implements ValueObject {
         this.formulario = formulario;
     }
 
+    public Atributo(Label label, TipoDados tipo, Obrigatoriedade obr, Formulario formulario){
+        this.label=label;
+        /*this.tipoDados=tipo;
+        this.obrigatoriedade=obr;*/
+        this.formulario = formulario;
+    }
+
     @Override
     public String toString() {
         return "Atributo{" +
