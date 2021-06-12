@@ -83,12 +83,14 @@ public class HTTPDashboardRequest extends Thread {
 		for (int i = 0; i < idArray.length; i++) {
 			data[i + 2] = idArray[i];
 		}
-
+/*
 		try {
 			outS.write(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+ */
 
 		// serverConn.join();
 		try {

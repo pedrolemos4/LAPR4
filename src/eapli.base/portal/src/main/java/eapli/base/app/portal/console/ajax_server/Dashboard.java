@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 
 import static eapli.base.app.portal.console.ajax_server.HttpServerDashboardFluxo.*;
 
@@ -20,7 +21,7 @@ import static eapli.base.app.portal.console.ajax_server.HttpServerDashboardFluxo
  *
  * @author asc@isep.ipp.pt
  */
-public class Dashboard {
+public class Dashboard extends Thread {
 
 	//static private Socket sock;
 	static private SSLServerSocket sock;
@@ -32,6 +33,17 @@ public class Dashboard {
 	static private boolean flag = true;
 
 	static final AuthorizationService authz = AuthzRegistry.authorizationService();
+
+	@Override
+	public void start() {
+		InetAddress address = null;
+		try {
+			address = InetAddress.getLocalHost();
+			execute(address,32507);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void execute(InetAddress address, int porta) {
 

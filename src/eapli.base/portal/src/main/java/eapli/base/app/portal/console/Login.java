@@ -3,6 +3,7 @@ package eapli.base.app.portal.console;
 import base.daemon.motor.MotorDaemon;
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
+import eapli.base.app.portal.console.ajax_server.Dashboard;
 import eapli.base.app.portal.console.presentation.MenuPortal;
 import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegisteredFromSignupWatchDog;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
@@ -35,25 +36,11 @@ public final class Login extends BaseApplication {
         if (new LoginUI().show()) {
             // go to main menu
             final var menu = new MenuPortal();
-            menu.mainLoop();
-            /*
-            //Paralelismo com Threads
-            InetAddress address = InetAddress.getLocalHost();
 
-            new Thread(()->{menu.mainLoop();}).start();
 
-            new Thread(()->{new Dashboard().execute(address,32507);}).start();
-
-            //Paralelismo estabelecido com ThreadPool
-            /*
-            ExecutorService executorService = Executors.newFixedThreadPool(2);
-            InetAddress address = InetAddress.getLocalHost();
-
-            executorService.submit(() -> menu.mainLoop());
-            executorService.submit(() -> new Dashboard().execute(address,32507));
-
-             */
-            //Server Creation Here
+            Thread t1 = new Thread(() -> menu.mainLoop());
+            t1.start();
+            new Dashboard().start();
 
         }
     }
