@@ -34,7 +34,7 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     }
 
     @Override
-    public String execute() {
+    public byte[] execute() {
         File fileScript = new File(request);
         ValidaScript vs = new ValidaScript();
        // boolean checkScript = vs.validaScript(fileScript);
@@ -43,12 +43,17 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
                 executarScript(fileScript);
             } catch (final Exception e) {
                 System.out.println("Erro");
-                return buildServerError(e.getMessage());
+                //return buildServerError(e.getMessage());
             }
         //} else {
          //   System.out.println("Script inválido. Não será executado.");
        // }
-        return "Sucesso";
+        byte[] retorno = new byte[3];
+            retorno[0] = 1;
+            retorno[1] = 1;
+            retorno[2] = 0;
+
+        return retorno;
     }
 
     private void guardarScript(final String input, final String output) throws IOException {

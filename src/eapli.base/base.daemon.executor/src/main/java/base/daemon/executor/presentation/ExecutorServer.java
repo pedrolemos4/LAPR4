@@ -79,7 +79,6 @@ public class ExecutorServer {
 
         System.out.println("Connected to server: " + IP + ":" + PORT);
 
-
         while (true) {
             Socket s = sockSSL.accept(); // wait for a new client connection request
             //    addCli(s);
@@ -92,7 +91,6 @@ public class ExecutorServer {
     private static class ClientHandler extends Thread {
 
         private Socket myS;
-        private DataInputStream sIn;
 
         public ClientHandler(Socket s) {
             myS = s;
@@ -123,9 +121,9 @@ public class ExecutorServer {
                 //Adicionar Atividade aqui talvez
                 //tarefas.add(controller.getTarefaByScript(inputLine));
 
-                final String response = request.execute();
+                final byte[] response = request.execute();
 
-                byte[] respostaByte = new byte[258];
+                /*byte[] respostaByte = new byte[258];
                 respostaByte[0] = 0;
                 respostaByte[1] = 1;
                 byte[] respostaByteAux = request.toString().getBytes();
@@ -133,17 +131,17 @@ public class ExecutorServer {
 
                 for (i = 0; i < respostaByteAux.length; i++) {
                     respostaByte[i + 2] = respostaByteAux[i];
-                }
+                }*/
 
-                sOut.write(respostaByte);
+                sOut.write(response);
 
                 //out.println(response);
-                LOGGER.trace("Sent message:----\n{}\n----", response);
+                /*LOGGER.trace("Sent message:----\n{}\n----", response);
 
                 if (request.isGoodbye()) {
                     //  break;
                     //  }
-                }
+                }*/
             } catch (IOException e) {
                 LOGGER.error(e);
             } finally {

@@ -47,7 +47,7 @@ public class ExecutorTarefaAutomaticaTest {
     // semantic error
     private static final String[] SEMANTIC_ERROR_FIXTURES = {
             // empty dados
-            "0, 10, 0, ,",
+            "0, 9, 0, ,",
 
     };
 
@@ -55,10 +55,10 @@ public class ExecutorTarefaAutomaticaTest {
     public void ensureOkReturnsEstadoFluxo() throws ParseException {
 
         final ExecutorProtocolRequest request = ExecutorProtocolMessageParser
-                .parse("cod007",10);
+                .parse("cod007",9);
 
-        final String result = request.execute();
-        LOGGER.info("{} -> {}", 10, result);
+        final byte[] result = request.execute();
+        LOGGER.info("{} -> {}", 9, result);
 
         /*final String[] lines = result.split("\n");
         assertEquals(1, lines.length);

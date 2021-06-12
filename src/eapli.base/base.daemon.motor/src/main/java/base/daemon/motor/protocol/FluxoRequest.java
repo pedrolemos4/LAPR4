@@ -221,11 +221,12 @@ class TcpChatCliConn implements Runnable {
 */
             sIn = new DataInputStream(s.getInputStream());
             sIn.read(data);
-            LOGGER.trace("Received message:----\n{}\n----", data);
+            //LOGGER.trace("Received message:----\n{}\n----", data);
+
+            if(data[1]==1) {
+                System.out.println("Sucesso");
+            }
             //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, "Received message:----\n{}\n----", data);
-            String inputLine = new String(data, 2, (int) data[3]);
-            int id = (int) data[1];
-            System.out.println("Input line: " + inputLine + " Id: " + id);
             //sout.write(data); // TALVEZ AQUI
         } catch (IOException ex) {
             System.out.println("Client disconnected.");
