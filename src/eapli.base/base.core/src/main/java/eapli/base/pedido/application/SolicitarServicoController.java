@@ -247,8 +247,8 @@ public class SolicitarServicoController {
         }
         DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());*/
         LOGGER.warn("Connected to server");
-        //Thread serverConn = new Thread(new TcpChatCliConn(sockSSL));
-        //serverConn.start();
+        Thread serverConn = new Thread(new TcpChatCliConn(sockSSL));
+        serverConn.start();
 
         data[0] = 0;
         data[1] = 3;
@@ -283,7 +283,7 @@ public class SolicitarServicoController {
 
         sOut.write(data);
 
-        //serverConn.join();
+        serverConn.join();
         sockSSL.close();
     }
 
@@ -322,19 +322,12 @@ class TcpChatCliConn implements Runnable {
     }
 
     public void run() {
-        int nChars;
-        byte[] data = new byte[300];
+        byte[] data = new byte[258];
         String frase;
 
         try {
             sIn = new DataInputStream(s.getInputStream());
-            while (true) {
-                nChars = sIn.read();
-                if (nChars == 0) break;
-                sIn.read(data, 0, nChars);
-                frase = new String(data, 0, nChars);
-                System.out.println(frase);
-            }
+            sIn.read(data);
         } catch (IOException ex) {
             System.out.println("Client disconnected.");
         }

@@ -83,7 +83,8 @@ public class MotorServer {
         public void run() {
             int i = 0;
             byte[] data = new byte[258];
-            try (DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
+            try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
+                    DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 sIn.read(data, 0, 258);
                 //System.out.println("Size of info: " + data[2]);
@@ -125,7 +126,7 @@ public class MotorServer {
                 final AplicacoesRequest request = AplicacoesMessageParser.parse(inputLine, id);
                 final byte[] response = request.execute();
 
-                byte[] respostaByte = new byte[258];
+                /*byte[] respostaByte = new byte[258];
                 respostaByte[0] = 0;
                 respostaByte[1] = 1;
                 byte[] respostaByteAux = request.toString().getBytes();
@@ -133,12 +134,14 @@ public class MotorServer {
 
                 for (i = 0; i < respostaByteAux.length; i++) {
                     respostaByte[i + 2] = respostaByteAux[i];
-                }
+                }*/
 
-                sOut.write(respostaByte);
+                //out.write(respostaByte);
+                sOut.write(response);
+                out.println(response);
 
-                //out.println(response);
-
+                String p = new String(response);
+                System.out.println("STRING: "+p);
                 // out.println(response.toString());
                 LOGGER.trace("Sent message:----\n{}\n----", response);
                 if (request.isGoodbye()) {

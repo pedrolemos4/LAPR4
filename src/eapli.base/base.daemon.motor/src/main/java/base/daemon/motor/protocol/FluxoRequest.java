@@ -40,7 +40,6 @@ public class FluxoRequest extends AplicacoesRequest {
     @Override
     public byte[] execute() {
         try {
-
             // Trust these certificates provided by servers
             System.setProperty("javax.net.ssl.trustStore", "motor.jks");
             System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
@@ -62,6 +61,11 @@ public class FluxoRequest extends AplicacoesRequest {
                         controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                         //fazer atividade resolução
                     }
+                    byte[] data = new byte[3];
+                    data[0]=1;
+                    data[1]=1;
+                    data[2]=0;
+                    return data;
                 } else {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
@@ -150,6 +154,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
+
+                    return data;
                 }
             }
             // controller.saveServico(servico);
