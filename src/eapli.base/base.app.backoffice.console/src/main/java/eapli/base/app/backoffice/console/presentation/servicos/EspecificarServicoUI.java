@@ -98,7 +98,10 @@ public class EspecificarServicoUI extends AbstractUI {
                     System.out.println("\nSelecione o Colaborador:");
                     selectorColaborador.show();
                     final Colaborador col = selectorColaborador.selectedElement();
-                    Formulario form = null;
+                    FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
+                    Set<Atributo> listaAtributos1 = new HashSet<>();
+                    Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
+                    form.copyAtributos(listaAtributos1);
                     TipoAtividade tipo = TipoAtividade.REALIZACAO;
                     AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,
                             /*atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(),*/ atividadeResolucaoWidget.ano(),
@@ -109,7 +112,10 @@ public class EspecificarServicoUI extends AbstractUI {
                     Set<Equipa> listEquipas = new HashSet<>();
                     listEquipas.add(equipa);
                     TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                    Formulario form = null;
+                    FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
+                    Set<Atributo> listaAtributos1 = new HashSet<>();
+                    Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
+                    form.copyAtributos(listaAtributos1);
                     AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas,
                             /*atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(),*/ atividadeResolucaoWidget.ano(),
                             atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
@@ -150,7 +156,10 @@ public class EspecificarServicoUI extends AbstractUI {
                 System.out.println("\nSelecione o Colaborador:");
                 selectorColaborador.show();
                 final Colaborador col = selectorColaborador.selectedElement();
-                Formulario form = null;
+                FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
+                Set<Atributo> listaAtributos1 = new HashSet<>();
+                Formulario form = preencherAtributos(formularioDataWidget,listaAtributos1);
+                form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
                         /*atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(),*/ atividadeAprovacaoWidget.ano(),
@@ -159,7 +168,10 @@ public class EspecificarServicoUI extends AbstractUI {
             } else {
                 Set<Equipa> listEquipas = new HashSet<>();
                 listEquipas.add(equipa);
-                Formulario form = null;
+                FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
+                Set<Atributo> listaAtributos1 = new HashSet<>();
+                Formulario form = preencherAtributos(formularioDataWidget,listaAtributos1);
+                form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
                         /*atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(),*/ atividadeAprovacaoWidget.ano(),
@@ -223,7 +235,7 @@ public class EspecificarServicoUI extends AbstractUI {
         try {
             atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
                     formularioData.obrigatoriedade(), formulario);
-        } catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             System.out.println("Insira um tipo de dados válido");
             formularioData.atributo();
         }

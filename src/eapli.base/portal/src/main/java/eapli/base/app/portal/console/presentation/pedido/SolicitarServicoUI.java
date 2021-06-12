@@ -116,6 +116,10 @@ public class SolicitarServicoUI extends AbstractUI {
             System.out.println("Insira a data corretamente\n");
             System.out.println("\nData (yyyy/mm/dd,hh:mm)________________________________________");
             setData();
+        } catch (NumberFormatException ex){
+            System.out.println("Insira a data corretamente\n");
+            System.out.println("\nData (yyyy/mm/dd,hh:mm)________________________________________");
+            setData();
         }
         return null;
     }
