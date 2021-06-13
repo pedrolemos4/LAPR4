@@ -13,10 +13,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class HttpServerDashboardFluxo {
-    static final int PORT = 35210;
+    static final int PORT = 32508;
+    //static final String TRUSTED_STORE = "httpServer.jks";
     static final String KEYSTORE_PASS = "forgotten";
-    static private SSLSocket clisock;
     static private SSLServerSocket sock;
+    static private SSLSocket clisock;
     static private boolean flag = true;
     static private final String BASE_FOLDER = "www";
     static final AuthorizationService authz = AuthzRegistry.authorizationService();
@@ -57,18 +58,15 @@ public class HttpServerDashboardFluxo {
     public static boolean doConnection() {
         UserSession session = authz.session().orElseThrow();
         SystemUser systemUser = session.authenticatedUser();
-        SSLServerSocket sockSSL;
-        final String userName = systemUser.name().firstName() + " " + systemUser.name().lastName();
+        final String userName = systemUser.username().toString();
         String args [] = new String[1]; //ARGS[0] = IP ADDRESS
         // Trust these certificates provided by authorized clients
-        System.setProperty("javax.net.ssl.trustStore", userName + ".jks");
+        System.setProperty("javax.net.ssl.trustStore", userName + ".jks"); //talvez por server.jks
         System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
 
         // Use this certificate and private key as server certificate
-        System.setProperty("javax.net.ssl.keyStore",userName + ".jks");
+        System.setProperty("javax.net.ssl.keyStore", userName + ".jks"); //talvez por server.jks
         System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
-
-        SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
         try {
             SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
@@ -90,6 +88,33 @@ public class HttpServerDashboardFluxo {
         data[1] = (byte) num;
         byte[] idArray = input.getBytes();
         data[2] = (byte) idArray.length;
+        //colocar caso seja preciso enviar mensagens muito grandes
+        /*double amount_of_times = size / 255;
+        int p = 0;
+
+        while (amount_of_times > 1) {
+
+            byte[] info = new byte[258];
+            info[0] = 0;
+            info[1] = 10;
+            for (int k = 0; k < 255; k++) {
+                if (p < size) {
+                    info[k + 2] = idArray[p];
+                    p++;
+                } else {
+                    k = 255;
+                }
+            }
+            sOut.write(info);
+            size -= 255;
+            amount_of_times--;
+        }
+
+        for (int i = 0; i < idArray.length; i++) {
+            data[i + 2] = idArray[p];
+            p++;
+        }*/
+
         for (int i = 0; i < idArray.length; i++) {
             data[i + 2] = idArray[i];
         }

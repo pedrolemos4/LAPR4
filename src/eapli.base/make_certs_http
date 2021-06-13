@@ -1,0 +1,21 @@
+#!/bin/bash
+STOREPASS="forgotten"
+for ENT in httpServer ; do
+ rm -f ${ENT}.jks ${ENT}.pem
+ echo -e "${ENT}\nDEI\nISEP\nPORTO\nPORTO\nPT\nyes" | keytool -genkey -v -alias ${ENT} -keyalg RSA -keysize 2048 \
+	-validity 365 -keystore ${ENT}.jks -storepass ${STOREPASS}
+ keytool -exportcert -alias ${ENT} -keystore ${ENT}.jks -storepass ${STOREPASS} -rfc -file ${ENT}.pem
+done
+###
+echo "Creating trust relations"
+### IMPORTING TRUSTED CERTIFICATES
+### (The server trusts all clients except for client4_J)
+### (Every client trusts httpServer)
+for ENT in orgColab orgColab1 orgColab2 orgColab3 orgColab4 orgColab5 orgColab6 orgColab7 orgColab8 orgColab9 orgColab10; do
+ echo "yes"|keytool -import -alias ${ENT} -keystore httpServer.jks -file ${ENT}.pem -storepass ${STOREPASS}
+ echo "yes"|keytool -import -alias httpServer -keystore ${ENT}.jks -file httpServer.pem -storepass ${STOREPASS}
+done
+echo "yes"|keytool -import -alias httpServer -keystore client4_J.jks -file httpServer.pem -storepass ${STOREPASS}
+echo "############################################################################"
+keytool -list -keystore httpServer.jks -storepass ${STOREPASS}
+#######
