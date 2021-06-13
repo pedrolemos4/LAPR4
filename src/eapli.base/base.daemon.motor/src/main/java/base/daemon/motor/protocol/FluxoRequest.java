@@ -11,23 +11,25 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Set;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 public class FluxoRequest extends AplicacoesRequest {
-    //private final String servicoId;
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     static final String KEYSTORE_PASS = "forgotten";
     private static final int CODIGO_MOTOR = 10;
     static InetAddress serverIP;
     static SSLSocket sock;
+    static SSLServerSocket s;
 
     private static final String IPMOTOR = "10.8.0.81";
     private static final int MOTOR_PORT = 32510;
@@ -39,6 +41,9 @@ public class FluxoRequest extends AplicacoesRequest {
 
     @Override
     public byte[] execute() {
+        boolean atividadeManual=false;
+        boolean atividadeAutomatica=false;
+
         try {
             // Trust these certificates provided by servers
             System.setProperty("javax.net.ssl.trustStore", "motor.jks");
@@ -53,7 +58,8 @@ public class FluxoRequest extends AplicacoesRequest {
             System.out.println("Id: " + id);
             Servico servico = controller.findServico(id);
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
-            for (Atividade atividade : fluxo.atividades()) {
+            Set<Atividade> atividadesList = fluxo.atividades();
+            for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual) {
                     if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                         controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
@@ -61,14 +67,8 @@ public class FluxoRequest extends AplicacoesRequest {
                         controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                         //fazer atividade resolução
                     }
-                    byte[] data = new byte[3];
-                    data[0]=1;
-                    data[1]=1;
-                    data[2]=0;
-                    InetAddress ipAddress = InetAddress.getByName("10.8.0.82");
-                    Socket s = new Socket(ipAddress,32508);
-                    DataOutputStream d = new DataOutputStream(s.getOutputStream());
-                    d.write(data);
+
+                    //atividadeManual=true;
                     //new TcpChatCliConn(s);
                     //return data;
                 } else {
@@ -160,16 +160,25 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
 
-                    return data;
+                    //atividadeAutomatica=true;
                 }
             }
+            /*byte[] data = new byte[3];
+            data[0]=1;
+            data[1]=1;
+            data[2]=0;*/
+
             // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e1) {
             e1.printStackTrace();
         }
-        return null;
+        byte[] data = new byte[3];
+        data[0]=1;
+        data[1]=1;
+        data[2]=0;
+        return data;
     }
 
 }
@@ -238,5 +247,3 @@ class TcpChatCliConn implements Runnable {
         }
     }
 }
-
-

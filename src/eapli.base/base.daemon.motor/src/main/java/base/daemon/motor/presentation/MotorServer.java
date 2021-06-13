@@ -2,18 +2,14 @@ package base.daemon.motor.presentation;
 
 import base.daemon.motor.protocol.AplicacoesMessageParser;
 import base.daemon.motor.protocol.AplicacoesRequest;
-import eapli.base.AppSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLSocket;
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MotorServer {
     static final String TRUSTED_STORE = "server_J.jks";
@@ -144,8 +140,8 @@ public class MotorServer {
                 // out.println(response.toString());
                 //LOGGER.trace("Sent message:----\n{}\n----", response);
                 //if (request.isGoodbye()) {
-                    //  break;
-                    //  }
+                //  break;
+                //  }
                 //}
             } catch (final IOException e) {
                 LOGGER.error(e);
