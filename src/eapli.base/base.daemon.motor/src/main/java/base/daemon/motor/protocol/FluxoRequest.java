@@ -1,6 +1,7 @@
 package base.daemon.motor.protocol;
 
 import eapli.base.AppSettings;
+import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
 import eapli.base.colaborador.domain.Colaborador;
@@ -58,7 +59,7 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
-            final String algoritmo = this.appSettings.getAlgoritmoAtribuirColaboradores();
+            final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores();
             System.out.println("Algoritmo:" + algoritmo);
             String id = request.trim();
             System.out.println("Id: " + id);

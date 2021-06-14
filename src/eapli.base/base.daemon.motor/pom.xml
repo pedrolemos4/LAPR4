@@ -23,6 +23,11 @@
     <dependencies>
         <dependency>
             <groupId>eapli</groupId>
+            <artifactId>base.core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eapli</groupId>
             <artifactId>base.app.common.console</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
