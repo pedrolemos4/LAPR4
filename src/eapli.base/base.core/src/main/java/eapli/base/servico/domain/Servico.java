@@ -108,6 +108,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         return codigoUnico;
     }
 
+    public Long idCatalogo(){
+        return this.catalogo.identity();
+    }
+
     public DescricaoBreve descricaoBreve() {
         return descricaoBreve;
     }
