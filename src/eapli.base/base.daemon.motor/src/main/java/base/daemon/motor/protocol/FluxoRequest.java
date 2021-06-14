@@ -1,5 +1,6 @@
 package base.daemon.motor.protocol;
 
+import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.AppSettings;
 import eapli.base.Application;
@@ -61,6 +62,8 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
             final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores();
+            final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica();
+
             String id = request.trim();
             Servico servico = controller.findServico(id);
             List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
@@ -98,6 +101,15 @@ public class FluxoRequest extends AplicacoesRequest {
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                 } else {
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        //algoritmo da bia
+                    } else {
+                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
+                        threads[j] = new Thread(wba);
+                        threads[j].start();
+                        j++;
+                    }
+
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
                     byte[] data = new byte[258];
@@ -135,25 +147,6 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     LOGGER.info("Connected to server");
-
-                    /*Scanner s = new Scanner(System.in);
-                    System.out.println("Qual algoritmo deseja utilizar para atribuir a próxima tarefa?\n1: First Came First Served\n2: Workload Based");
-                    int opcao = s.nextInt();
-
-                    switch (opcao) {
-                        case 1: {
-                            //algoritmo da bia
-                            break;
-                        }
-                        case 2: {
-                            WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm();
-                            Thread threadWorkload = new Thread(wba);
-                            threadWorkload.start();
-                            break;
-                        }
-                        default:
-                            System.out.println("Opção inválida!");
-                    }*/
 
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();

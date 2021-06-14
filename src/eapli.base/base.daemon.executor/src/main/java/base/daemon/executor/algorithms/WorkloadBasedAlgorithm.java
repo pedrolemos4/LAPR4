@@ -1,6 +1,7 @@
 package base.daemon.executor.algorithms;
 
 import base.daemon.executor.presentation.ExecutorServer;
+import eapli.base.atividade.domain.Atividade;
 
 import java.util.*;
 
@@ -8,6 +9,11 @@ public class WorkloadBasedAlgorithm implements Runnable {
 
     private static final Queue<ExecutorServer> instances = new LinkedList<>();
     private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
+    private Atividade at;
+
+    public WorkloadBasedAlgorithm(Atividade at) {
+        this.at = at;
+    }
 
     public void run() {
         synchronized (this) {
