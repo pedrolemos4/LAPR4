@@ -14,6 +14,6 @@ public class FormularioTest extends TestCase {
         listaAtributos.add(a1);
 
         Formulario f1 = new Formulario("titulo1", listaAtributos);
-        assertEquals(f1.toString(), "Formulario{pk=null, version=null, titulo=titulo1, atributos=1}");
+        assertEquals(f1.toString(), "null; titulo1; [nome; label; ola; STRING; OPCIONAL]");
     }
 }

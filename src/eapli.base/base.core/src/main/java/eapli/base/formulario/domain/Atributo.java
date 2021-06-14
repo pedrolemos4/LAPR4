@@ -79,14 +79,10 @@ public class Atributo implements ValueObject {
 
     @Override
     public String toString() {
-        return "Atributo{" +
-                "id=" + id +
-                ", nomeVariavel=" + nomeVariavel +
-                ", label=" + label +
-                ", tipoDados=" + tipoDados +
-                ", obrigatoriedade=" + obrigatoriedade +
-                ", descricaoAjuda=" + descricaoAjuda +
-                ", formulario=" + formulario +
-                '}';
+        return nomeVariavel +
+                "; " + label +
+                "; " + descricaoAjuda +
+                "; " + tipoDados +
+                "; " + obrigatoriedade;
     }
 }

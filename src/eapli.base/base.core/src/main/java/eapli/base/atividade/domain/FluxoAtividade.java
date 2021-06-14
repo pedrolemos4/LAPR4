@@ -1,6 +1,7 @@
 package eapli.base.atividade.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Formulario;
 import eapli.framework.domain.model.DomainEntity;
 
 import javax.persistence.*;
@@ -92,6 +93,14 @@ public class FluxoAtividade implements DomainEntity<Long> {
         for (Atividade atividade : listaAtividade) {
             if (atividade.equals(at)) {
                 atividade.completaDecisaoComentario(valueOf, aprovado, at);
+            }
+        }
+    }
+
+    public void replaceFormulario(Atividade at, Formulario formFinal) {
+        for (Atividade atividade : listaAtividade){
+            if (atividade.equals(at)) {
+                atividade.replaceFormulario(at, formFinal);
             }
         }
     }

@@ -64,7 +64,7 @@ public class AtividadeManualTest extends TestCase {
         AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS, TipoAtividade.REALIZACAO);
 
         String expResult = "AtividadeManual{colab=null, equipa=[Equipa\n" +
-                "Codigo: e1 Acronimo: EQP1 Designacao: desig1 Tipo: TipoEquipa{, codigoUnico=t1, designacao=tipo1, cor=Cor: red=10, green=20, blue=30}], decisao=APROVADO, comentario=Comentario{coment='comentario'}, formulario=Formulario{pk=null, version=null, titulo=Formulario1, atributos=2}}";
+                "Codigo: e1 Acronimo: EQP1 Designacao: desig1 Tipo: TipoEquipa{, codigoUnico=t1, designacao=tipo1, cor=Cor: red=10, green=20, blue=30}], decisao=APROVADO, comentario=Comentario{coment='comentario'}, formulario=null; Formulario1; [Nome Completo; Label do nome completo; ola; STRING; OPCIONAL, Idade; Label da idade; ola; STRING; OPCIONAL]}";
         String result = instance.toString();
         assertEquals(expResult, result);
     }

@@ -148,6 +148,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         this.fluxoAtividade.completaDecisaoComentario(valueOf,aprovado,at);
     }
 
+    public void replaceFormulario(Atividade at, Formulario formFinal) {
+        this.fluxoAtividade.replaceFormulario(at, formFinal);
+    }
+
     public static class ServicoBuilder {
 
         private final CodigoUnico codigoUnico;

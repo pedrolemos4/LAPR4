@@ -5,7 +5,7 @@ import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolu
 import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.equipa.domain.CodigoUnico;
+
 import eapli.base.equipa.domain.Equipa;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -15,11 +15,11 @@ import eapli.framework.io.util.Console;
 import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
-import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -159,7 +159,7 @@ public class EspecificarServicoUI extends AbstractUI {
                 FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
                 Set<Atributo> listaAtributos1 = new HashSet<>();
                 Formulario form = preencherAtributos(formularioDataWidget,listaAtributos1);
-                form.copyAtributos(listaAtributos1);
+                //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
                         /*atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(),*/ atividadeAprovacaoWidget.ano(),
@@ -171,7 +171,7 @@ public class EspecificarServicoUI extends AbstractUI {
                 FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
                 Set<Atributo> listaAtributos1 = new HashSet<>();
                 Formulario form = preencherAtributos(formularioDataWidget,listaAtributos1);
-                form.copyAtributos(listaAtributos1);
+                //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
                         /*atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(),*/ atividadeAprovacaoWidget.ano(),
