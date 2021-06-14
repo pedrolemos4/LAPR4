@@ -88,8 +88,10 @@ public class Dashboard extends Thread {
 	}
 
 	private void openDashboard() throws URISyntaxException, IOException {
-		URI uri = new URI("https://localhost:35210");
-		Desktop.getDesktop().browse(uri); //open url for dashboard
+		if (Desktop.isDesktopSupported()) {
+			URI uri = new URI("https://localhost:32507");
+			Desktop.getDesktop().browse(uri); //open url for dashboard
+		}
 	}
 
 	private static String tasks;
