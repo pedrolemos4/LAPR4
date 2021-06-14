@@ -79,11 +79,13 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     }
 
     private void executarScript(final File script) throws IOException {
-        MainValidaScript valida = new MainValidaScript();
-        String [] args = new String[2];
-        args[0]="DESCOBRIR";   //Descobrir qual o id (produto ou cliente) devo enviar
-        args[1]=script.getPath();
-        valida.main(args);
+        //String [] args = new String[2];
+        //args[0]="DESCOBRIR";   //Descobrir qual o id (produto ou cliente) devo enviar
+        //args[1]=script.getPath();
+
+        //MainValidaScript valida = new MainValidaScript();
+        //valida.main(script.getPath());
+        
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script

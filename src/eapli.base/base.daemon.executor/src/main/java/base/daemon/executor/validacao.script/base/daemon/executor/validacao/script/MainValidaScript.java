@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class MainValidaScript {
 
-    public void main(String[] args) throws IOException {
-        FileInputStream fis = new FileInputStream(new File(args[1]));
+    public void main(String args) throws IOException {
+        FileInputStream fis = new FileInputStream(new File(args));
         ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ValidaScriptParser parser = new ValidaScriptParser(tokens);
