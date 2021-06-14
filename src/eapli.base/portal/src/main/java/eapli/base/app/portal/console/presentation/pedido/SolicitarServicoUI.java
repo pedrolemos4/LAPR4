@@ -1,5 +1,6 @@
 package eapli.base.app.portal.console.presentation.pedido;
 
+import eapli.base.Application;
 import eapli.base.app.backoffice.console.presentation.servicos.FormularioDataWidget;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
@@ -50,7 +51,7 @@ public class SolicitarServicoUI extends AbstractUI {
     private CodigoUnico showServicos(long idCatalogo) {
         Iterable<Servico> servicos = controller.getServicosCatalogo(idCatalogo);
         final SelectWidget<Servico> selector = new SelectWidget<>("Serviços", servicos, visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
-        System.out.println("\nSelecione o catálogo a que pertence o serviço:");
+        System.out.println("\nSelecione o serviço:");
         selector.show();
         final Servico theServico = selector.selectedElement();
         return theServico.identity();
@@ -59,7 +60,6 @@ public class SolicitarServicoUI extends AbstractUI {
     private void solicitarServico(CodigoUnico idServico) throws IOException, InterruptedException {
         Set<Atributo> listaAtributos = new HashSet<>();
         Formulario formulario = preencherAtributos(this.controller.findFormulario(idServico), listaAtributos);
-        System.out.println("wtf");
         UrgenciaPedido urgencia = selectUrgencia();
         System.out.println("Data Limite de Resolucao(yyyy/mm/dd,hh:mm)________________________________________");
         Calendar calendar = setData();
@@ -86,10 +86,8 @@ public class SolicitarServicoUI extends AbstractUI {
     }
 
     private Formulario preencherAtributos(Formulario formulario1, Set<Atributo> listaAtributos) {
-        System.out.println("linha 89");
         List<Atributo> listaAtributosForm = controller.findAtributos(formulario1.identity());
         Formulario formulario = new Formulario(formulario1);
-        System.out.println("Size" + listaAtributosForm.size());
         for (Atributo a : listaAtributosForm) {
             System.out.println("Label: " + controller.label(a));
             String variavel = Console.readLine("Introduza o nome da variável correspondente: ");

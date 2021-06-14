@@ -1,5 +1,6 @@
 package base.daemon.motor.protocol;
 
+import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.AppSettings;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
@@ -47,8 +48,8 @@ public class FluxoRequest extends AplicacoesRequest {
 
     @Override
     public byte[] execute() {
-        boolean atividadeManual=false;
-        boolean atividadeAutomatica=false;
+        boolean atividadeManual = false;
+        boolean atividadeAutomatica = false;
 
         try {
             // Trust these certificates provided by servers
@@ -60,26 +61,42 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
             final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores();
-            System.out.println("Algoritmo:" + algoritmo);
             String id = request.trim();
-            System.out.println("Id: " + id);
             Servico servico = controller.findServico(id);
             List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             Set<Atividade> atividadesList = fluxo.atividades();
+            int j = 0;
+            Thread[] threads = new Thread[list.size()];
+
             for (Atividade atividade : atividadesList) {
-                if (atividade instanceof AtividadeManual) {
-                    if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                        controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-
+                if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+                    controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
+                    if (algoritmo.equalsIgnoreCase("FCFS")) {
+                        for (Colaborador col : list) {
+                            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col,atividade);
+                            threads[j] = new Thread(fcfs);
+                            threads[j].start();
+                            j++;
+                        }
                     } else {
-                        controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                        //fazer atividade resolução
+                        //Chamas a tua classe algoritmo
+                         /* threads[i] = new Thread(fcfs);
+                         i++;*/
                     }
-
+                    for (Thread t : threads) {
+                        t.interrupt();
+                        try {
+                            t.join();
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread was interrupted!");
+                        }
+                    }
                     //atividadeManual=true;
                     //new TcpChatCliConn(s);
                     //return data;
+                } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
+                    controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                 } else {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
@@ -148,8 +165,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     data[0] = 0;
                     data[1] = 9;
                     data[2] = (byte) size;
-                    double amount_of_times = size/255;
-                    int p=0;
+                    double amount_of_times = size / 255;
+                    int p = 0;
 
                     while (amount_of_times > 1) {
 
@@ -157,11 +174,11 @@ public class FluxoRequest extends AplicacoesRequest {
                         info[0] = 0;
                         info[1] = 10;
                         for (int k = 0; k < 255; k++) {
-                            if(p<size){
+                            if (p < size) {
                                 info[k + 2] = idArray[p];
                                 p++;
-                            }else{
-                                k=255;
+                            } else {
+                                k = 255;
                             }
                         }
                         sOut.write(info);
@@ -204,9 +221,9 @@ public class FluxoRequest extends AplicacoesRequest {
             e1.printStackTrace();
         }
         byte[] data = new byte[3];
-        data[0]=1;
-        data[1]=1;
-        data[2]=0;
+        data[0] = 1;
+        data[1] = 1;
+        data[2] = 0;
         return data;
     }
 
@@ -266,7 +283,7 @@ class TcpChatCliConn implements Runnable {
             sIn.read(data);
             //LOGGER.trace("Received message:----\n{}\n----", data);
 
-            if(data[1]==1) {
+            if (data[1] == 1) {
                 LOGGER.info("Mensagem recebida com sucesso");
                 LOGGER.info("Fim da operação");
             }
