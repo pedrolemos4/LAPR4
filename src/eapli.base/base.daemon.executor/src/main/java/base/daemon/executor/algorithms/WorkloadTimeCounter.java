@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class WorkloadTimeCounter implements Runnable {
     private static final WorkloadController controller = new WorkloadController();
-    private static Map<ExecutorServer, Double> mapExecutores;
+    private Map<ExecutorServer, Double> mapExecutores;
     private ExecutorServer es;
 
     public WorkloadTimeCounter(Map<ExecutorServer, Double> mapExecutores, ExecutorServer executor) {
@@ -19,10 +19,14 @@ public class WorkloadTimeCounter implements Runnable {
     public void run() {
         synchronized (this) {
             double tempo = 0.0;
-            for (Atividade a : es.tarefas()) {
-                tempo += controller.getTempoDeExecucaoTarefa(a);
-            }
-            if (!mapExecutores.containsKey(es)) {
+            if (es.tarefas().isEmpty()) {
+                System.out.println(es.toString() + " Workload: " + tempo);
+                mapExecutores.put(es, 0.0);
+            } else if (!mapExecutores.containsKey(es)) {
+                for (Atividade a : es.tarefas()) {
+                    tempo += controller.getTempoDeExecucaoTarefa(a);
+                }
+                System.out.println(es.toString() + " Workload: " + tempo);
                 mapExecutores.put(es, tempo);
             }
         }

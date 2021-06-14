@@ -117,6 +117,26 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     LOGGER.info("Connected to server");
+
+                    /*Scanner s = new Scanner(System.in);
+                    System.out.println("Qual algoritmo deseja utilizar para atribuir a próxima tarefa?\n1: First Came First Served\n2: Workload Based");
+                    int opcao = s.nextInt();
+
+                    switch (opcao) {
+                        case 1: {
+                            //algoritmo da bia
+                            break;
+                        }
+                        case 2: {
+                            WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm();
+                            Thread threadWorkload = new Thread(wba);
+                            threadWorkload.start();
+                            break;
+                        }
+                        default:
+                            System.out.println("Opção inválida!");
+                    }*/
+
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 

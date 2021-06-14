@@ -20,10 +20,10 @@
  */
 package base.daemon.executor.presentation;
 
+import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
-import eapli.base.Application;
 import eapli.base.atividade.domain.Atividade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,8 +33,6 @@ import javax.net.ssl.SSLServerSocketFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +77,9 @@ public class ExecutorServer {
 
         System.out.println("Connected to server: " + IP + ":" + PORT);
 
+        ExecutorServer exec = new ExecutorServer();
+        WorkloadBasedAlgorithm.addInstance(exec);
+
         while (true) {
             cliSock = sockSSL.accept(); // wait for a new client connection request
             //    addCli(s);
@@ -113,13 +114,14 @@ public class ExecutorServer {
                 }
                 int id = data[1];
 
-
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 //Adicionar Atividade aqui talvez
                 //tarefas.add(controller.getTarefaByScript(inputLine));
 
                 final byte[] response = request.execute();
+                //depois disto em principio terminou a tarefa
+                //tarefas.remove(controller.getTarefaByScript(inputLine));
 
                 /*byte[] respostaByte = new byte[258];
                 respostaByte[0] = 0;
