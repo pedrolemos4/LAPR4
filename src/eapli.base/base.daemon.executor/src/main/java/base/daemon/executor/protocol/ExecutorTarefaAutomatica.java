@@ -21,14 +21,19 @@
 package base.daemon.executor.protocol;
 
 
+import base.daemon.executor.presentation.ExecutorServer;
 import base.daemon.executor.validacao.script.base.daemon.executor.validacao.script.MainValidaScript;
 import eapli.base.validacoes.validaScript.ValidaScript;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
 
 
 public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
+
+    private static final Logger LOGGER = LogManager.getLogger(ExecutorTarefaAutomatica.class);
 
     public ExecutorTarefaAutomatica(final String request) {
         super(request);
@@ -43,7 +48,7 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         try {
             executarScript(fileScript);
         } catch (final Exception e) {
-            System.out.println("Erro");
+            LOGGER.info("Erro");
             //return buildServerError(e.getMessage());
         }
         //} else {
@@ -75,7 +80,7 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         if (destination != null) {
             destination.close();
         }
-        System.out.println("Script guardado para posterior execução");
+        LOGGER.info("Script guardado para posterior execução");
     }
 
     private void executarScript(final File script) throws IOException {
@@ -91,7 +96,7 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         //executa o script
         String[] cmd = {"sh", script.getName(), script.getPath()};
         Runtime.getRuntime().exec(cmd);
-        System.out.println("A executar o script...");
+        LOGGER.info("A executar o script...");
     }
 
 }
