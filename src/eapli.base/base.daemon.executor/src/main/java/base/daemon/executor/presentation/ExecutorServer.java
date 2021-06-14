@@ -42,7 +42,7 @@ import java.util.List;
 
 public class ExecutorServer {
 
-    static final String TRUSTED_STORE = "server_E.jks";
+    static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
     private static final String IP = "10.8.0.81";
@@ -56,8 +56,8 @@ public class ExecutorServer {
     //private static ServerSocket sock;
 
     public static void main(String args[]) throws Exception {
-        int i;
         SSLServerSocket sockSSL = null;
+        Socket cliSock;
 
         // Trust these certificates provided by authorized clients
         System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
@@ -80,11 +80,10 @@ public class ExecutorServer {
         System.out.println("Connected to server: " + IP + ":" + PORT);
 
         while (true) {
-            Socket s = sockSSL.accept(); // wait for a new client connection request
+            cliSock = sockSSL.accept(); // wait for a new client connection request
             //    addCli(s);
             //System.out.println(s.toString());
-            Thread cli = new ClientHandler(s);
-            cli.start();
+            new Thread(new ClientHandler(cliSock)).start();
         }
     }
 
@@ -98,7 +97,6 @@ public class ExecutorServer {
 
         @Override
         public void run() {
-            int i = 0;
 
             byte[] data = new byte[258];
 
@@ -132,10 +130,10 @@ public class ExecutorServer {
                 for (i = 0; i < respostaByteAux.length; i++) {
                     respostaByte[i + 2] = respostaByteAux[i];
                 }*/
-
+                LOGGER.info("Executor vai mandar mensagem");
+                //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, null, ex);
                 sOut.write(response);
 
-                //out.println(response);
                 /*LOGGER.trace("Sent message:----\n{}\n----", response);
 
                 if (request.isGoodbye()) {

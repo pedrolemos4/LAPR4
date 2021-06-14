@@ -26,13 +26,14 @@ public class FluxoRequest extends AplicacoesRequest {
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     static final String KEYSTORE_PASS = "forgotten";
-    private static final int CODIGO_MOTOR = 10;
     static InetAddress serverIP;
     static SSLSocket sock;
     static SSLServerSocket s;
 
-    private static final String IPMOTOR = "10.8.0.81";
-    private static final int MOTOR_PORT = 32510;
+    private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
+
+    private static final String IP_EXECUTOR = "10.8.0.81";
+    private static final int EXECUTOR_PORT = 32510;
 
     public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
         super(controller, request);
@@ -46,11 +47,11 @@ public class FluxoRequest extends AplicacoesRequest {
 
         try {
             // Trust these certificates provided by servers
-            System.setProperty("javax.net.ssl.trustStore", "motor.jks");
+            System.setProperty("javax.net.ssl.trustStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
             // Use this certificate and private key for client certificate when requested by the server
-            System.setProperty("javax.net.ssl.keyStore", "motor.jks");
+            System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
 
@@ -79,21 +80,21 @@ public class FluxoRequest extends AplicacoesRequest {
                     SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
                     try {
-                        serverIP = InetAddress.getByName(IPMOTOR);
+                        serverIP = InetAddress.getByName(IP_EXECUTOR);
                     } catch (UnknownHostException ex) {
-                        System.out.println("Invalid server: " + "endereçoIp");
+                        LOGGER.info("Invalid server: " + "endereçoIp");
                         System.exit(1);
                     }
 
                     try {
-                        sock = (SSLSocket) sf.createSocket(serverIP, MOTOR_PORT);
+                        sock = (SSLSocket) sf.createSocket(serverIP, EXECUTOR_PORT);
                     } catch (IOException ex) {
-                        System.out.println("Failed to connect to: " + IPMOTOR + ":" + MOTOR_PORT);
-                        System.out.println("Application aborted.");
+                        LOGGER.info("Failed to connect to: " + IP_EXECUTOR + ":" + EXECUTOR_PORT);
+                        LOGGER.info("Application aborted.");
                         System.exit(1);
                     }
 
-                    System.out.println("Connected to: " + IPMOTOR + ":" + MOTOR_PORT);
+                    LOGGER.info("Connected to: " + IP_EXECUTOR + ":" + EXECUTOR_PORT);
 
                     sock.startHandshake();
 
@@ -108,7 +109,7 @@ public class FluxoRequest extends AplicacoesRequest {
                         serverConn.start();
                     }*/
 
-                    System.out.println("Connected to server");
+                    LOGGER.info("Connected to server");
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
@@ -238,12 +239,13 @@ class TcpChatCliConn implements Runnable {
             //LOGGER.trace("Received message:----\n{}\n----", data);
 
             if(data[1]==1) {
-                System.out.println("Sucesso");
+                LOGGER.info("Mensagem recebida com sucesso");
+                LOGGER.info("Fim da operação");
             }
             //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, "Received message:----\n{}\n----", data);
             //sout.write(data); // TALVEZ AQUI
         } catch (IOException ex) {
-            System.out.println("Client disconnected.");
+            LOGGER.info("Client disconnected.");
         }
     }
 }
