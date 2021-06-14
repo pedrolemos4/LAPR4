@@ -21,6 +21,7 @@
 package base.daemon.executor.protocol;
 
 
+import base.daemon.executor.validacao.script.base.daemon.executor.validacao.script.MainValidaScript;
 import eapli.base.validacoes.validaScript.ValidaScript;
 
 import java.io.*;
@@ -36,22 +37,22 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     @Override
     public byte[] execute() {
         File fileScript = new File(request);
-        ValidaScript vs = new ValidaScript();
-       // boolean checkScript = vs.validaScript(fileScript);
-       // if (checkScript) {
-            try {
-                executarScript(fileScript);
-            } catch (final Exception e) {
-                System.out.println("Erro");
-                //return buildServerError(e.getMessage());
-            }
+        //ValidaScript vs = new ValidaScript();
+        // boolean checkScript = vs.validaScript(fileScript);
+        // if (checkScript) {
+        try {
+            executarScript(fileScript);
+        } catch (final Exception e) {
+            System.out.println("Erro");
+            //return buildServerError(e.getMessage());
+        }
         //} else {
-         //   System.out.println("Script inválido. Não será executado.");
-       // }
+        //   System.out.println("Script inválido. Não será executado.");
+        // }
         byte[] retorno = new byte[3];
-            retorno[0] = 1;
-            retorno[1] = 1;
-            retorno[2] = 0;
+        retorno[0] = 1;
+        retorno[1] = 1;
+        retorno[2] = 0;
 
         return retorno;
     }
@@ -78,10 +79,15 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     }
 
     private void executarScript(final File script) throws IOException {
+        MainValidaScript valida = new MainValidaScript();
+        String [] args = new String[2];
+        args[0]="DESCOBRIR";   //Descobrir qual o id (produto ou cliente) devo enviar
+        args[1]=script.getPath();
+        valida.main(args);
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script
-        String[] cmd = { "sh", script.getName(), script.getPath() };
+        String[] cmd = {"sh", script.getName(), script.getPath()};
         Runtime.getRuntime().exec(cmd);
         System.out.println("A executar o script...");
     }

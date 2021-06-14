@@ -1,0 +1,11 @@
+T__0=1
+INTEIRO=2
+PONTO_VIRGULA=3
+BARRA=4
+PALAVRA=5
+XML=6
+WS=7
+'Ler ficheiro'=1
+';'=3
+'/'=4
+'.xml'=6
