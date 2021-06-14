@@ -16,4 +16,6 @@ public interface ColaboradorRepository extends DomainRepository<MecanographicNum
     List<Equipa> findAssociatedTeams(MecanographicNumber mecanographicNumber);
 
     Iterable<Colaborador> findColaboradoresDaEquipa(CodigoUnico codigoUnico);
+
+    List<Colaborador> findColaboradoresElegiveis(Long idCatalogo);
 }

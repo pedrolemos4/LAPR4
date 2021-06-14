@@ -1,7 +1,9 @@
 package base.daemon.motor.protocol;
 
+import eapli.base.AppSettings;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.servico.domain.Servico;
 
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Set;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -29,6 +32,7 @@ public class FluxoRequest extends AplicacoesRequest {
     static InetAddress serverIP;
     static SSLSocket sock;
     static SSLServerSocket s;
+    private AppSettings appSettings;
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
@@ -54,16 +58,19 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
-
+            final String algoritmo = this.appSettings.getAlgoritmoAtribuirColaboradores();
+            System.out.println("Algoritmo:" + algoritmo);
             String id = request.trim();
             System.out.println("Id: " + id);
             Servico servico = controller.findServico(id);
+            List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             Set<Atividade> atividadesList = fluxo.atividades();
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual) {
                     if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                         controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
+
                     } else {
                         controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                         //fazer atividade resolução
@@ -110,6 +117,26 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     LOGGER.info("Connected to server");
+
+                    /*Scanner s = new Scanner(System.in);
+                    System.out.println("Qual algoritmo deseja utilizar para atribuir a próxima tarefa?\n1: First Came First Served\n2: Workload Based");
+                    int opcao = s.nextInt();
+
+                    switch (opcao) {
+                        case 1: {
+                            //algoritmo da bia
+                            break;
+                        }
+                        case 2: {
+                            WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm();
+                            Thread threadWorkload = new Thread(wba);
+                            threadWorkload.start();
+                            break;
+                        }
+                        default:
+                            System.out.println("Opção inválida!");
+                    }*/
+
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
