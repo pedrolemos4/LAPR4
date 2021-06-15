@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -76,13 +75,13 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    createThreads(atividade, servico, list, threads,algoritmo);
+                    createThreads(atividade, servico, list, threads, algoritmo,id);
                     //atividadeManual=true;
                     //new TcpChatCliConn(s);
                     //return data;
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    createThreads(atividade, servico, list, threads,algoritmo);
+                    createThreads(atividade, servico, list, threads, algoritmo,id);
                 } else {
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia
@@ -203,11 +202,13 @@ public class FluxoRequest extends AplicacoesRequest {
         return data;
     }
 
-    public void createThreads(Atividade atividade,Servico servico,List<Colaborador> list,Thread[] threads,String algoritmo) {
-        int j=0;
+    public void createThreads(Atividade atividade, Servico servico, List<Colaborador> list, Thread[] threads, String algoritmo,
+                              String idPedido) {
+        int j = 0;
         if (algoritmo.equalsIgnoreCase("FCFS")) {
+            Map<Calendar, Colaborador> map = new TreeMap<>();
             for (Colaborador col : list) {
-                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade);
+                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade, map,idPedido);
                 threads[j] = new Thread(fcfs);
                 threads[j].start();
                 j++;

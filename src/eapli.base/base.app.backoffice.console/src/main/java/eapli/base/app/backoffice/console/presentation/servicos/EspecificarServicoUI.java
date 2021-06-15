@@ -1,7 +1,5 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
-import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
-import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
 import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;

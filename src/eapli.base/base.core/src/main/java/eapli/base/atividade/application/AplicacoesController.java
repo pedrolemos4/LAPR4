@@ -17,6 +17,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -88,5 +89,9 @@ public class AplicacoesController {
 
     public String findScriptAtividade(Long identity) {
         return this.pedidoRepository.findScriptAtividade(identity);
+    }
+
+    public List<Calendar> findDatas(MecanographicNumber number,String idPedido){
+        return this.pedidoRepository.findDatas(number,idPedido);
     }
 }

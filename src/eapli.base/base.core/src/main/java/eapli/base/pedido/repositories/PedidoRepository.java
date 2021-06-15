@@ -94,4 +94,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     Atividade getTarefaByScript(String caminho);
 
     Double getTempoDeExecucaoTarefa(Atividade atividade);
+
+    List<Calendar> findDatas(MecanographicNumber number,String idPedido);
 }
