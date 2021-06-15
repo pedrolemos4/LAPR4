@@ -56,7 +56,6 @@ public final class ExecutorTarefaAutomaticaDaemon {
 
         LOGGER.info("Starting the server socket");
         final ExecutorServer server = new ExecutorServer();
-        WorkloadBasedAlgorithm.addInstance(server);
         server.main(null);
         LOGGER.info("Exiting the daemon");
         System.exit(0);

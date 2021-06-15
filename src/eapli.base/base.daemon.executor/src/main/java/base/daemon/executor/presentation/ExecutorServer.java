@@ -20,7 +20,6 @@
  */
 package base.daemon.executor.presentation;
 
-import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
@@ -35,7 +34,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 
 public class ExecutorServer {
@@ -52,6 +53,22 @@ public class ExecutorServer {
     private static final WorkloadController controller = new WorkloadController();
 
     //private static ServerSocket sock;
+
+    private static Queue<ExecutorServer> allInstances;
+
+    static
+    {
+        allInstances = new LinkedList<>();
+    }
+
+    public ExecutorServer() {
+        allInstances.add( this );
+    }
+
+    public static synchronized Queue<ExecutorServer> getAllInstances()
+    {
+        return allInstances;
+    }
 
     public static void main(String args[]) throws Exception {
         SSLServerSocket sockSSL = null;
@@ -76,9 +93,6 @@ public class ExecutorServer {
         }
 
         System.out.println("Connected to server: " + IP + ":" + PORT);
-
-        ExecutorServer exec = new ExecutorServer();
-        WorkloadBasedAlgorithm.addInstance(exec);
 
         while (true) {
             cliSock = sockSSL.accept(); // wait for a new client connection request
