@@ -5,6 +5,7 @@ import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.atividade.domain.EstadoFluxo;
 import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.infrastructure.persistence.PersistenceContext;
@@ -75,6 +76,10 @@ public class AplicacoesController {
 
     public Iterable<Servico> getServicos() {
         return this.servicoRepository.findAll();
+    }
+
+    public List<Colaborador> findColaboradoresElegiveis(Long idCatalogo){
+        return this.colabRepo.findColaboradoresElegiveis(idCatalogo);
     }
 
     public List<Atividade> getAtividadesAuto() {

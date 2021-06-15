@@ -1,6 +1,7 @@
 package eapli.base.atividade.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Formulario;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
@@ -66,5 +67,10 @@ public class Atividade implements ValueObject{
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
         AtividadeManual manual = (AtividadeManual) at;
         manual.completaDecisaoComentario(valueOf, aprovado);
+    }
+
+    public void replaceFormulario(Atividade at, Formulario formFinal) {
+        AtividadeManual manual = (AtividadeManual) at;
+        manual.replaceFormulario(formFinal);
     }
 }

@@ -108,6 +108,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         return codigoUnico;
     }
 
+    public Long idCatalogo(){
+        return this.catalogo.identity();
+    }
+
     public DescricaoBreve descricaoBreve() {
         return descricaoBreve;
     }
@@ -146,6 +150,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
         this.fluxoAtividade.completaDecisaoComentario(valueOf,aprovado,at);
+    }
+
+    public void replaceFormulario(Atividade at, Formulario formFinal) {
+        this.fluxoAtividade.replaceFormulario(at, formFinal);
     }
 
     public static class ServicoBuilder {

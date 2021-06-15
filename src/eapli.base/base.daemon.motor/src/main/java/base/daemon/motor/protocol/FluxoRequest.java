@@ -1,7 +1,13 @@
 package base.daemon.motor.protocol;
 
+import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
+import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
+import eapli.base.AppSettings;
+import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.servico.domain.Servico;
 
@@ -11,6 +17,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Set;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -29,6 +36,7 @@ public class FluxoRequest extends AplicacoesRequest {
     static InetAddress serverIP;
     static SSLSocket sock;
     static SSLServerSocket s;
+    private AppSettings appSettings;
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
@@ -42,8 +50,8 @@ public class FluxoRequest extends AplicacoesRequest {
 
     @Override
     public byte[] execute() {
-        boolean atividadeManual=false;
-        boolean atividadeAutomatica=false;
+        boolean atividadeManual = false;
+        boolean atividadeAutomatica = false;
 
         try {
             // Trust these certificates provided by servers
@@ -54,25 +62,37 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
+            final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores();
+            final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica();
 
             String id = request.trim();
-            System.out.println("Id: " + id);
             Servico servico = controller.findServico(id);
+            List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             Set<Atividade> atividadesList = fluxo.atividades();
-            for (Atividade atividade : atividadesList) {
-                if (atividade instanceof AtividadeManual) {
-                    if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                        controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    } else {
-                        controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                        //fazer atividade resolução
-                    }
+            int j = 0;
+            Thread[] threads = new Thread[list.size()];
 
+            for (Atividade atividade : atividadesList) {
+                if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+                    controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
+                    createThreads(atividade, servico, list, threads,algoritmo);
                     //atividadeManual=true;
                     //new TcpChatCliConn(s);
                     //return data;
+                } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
+                    controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
+                    createThreads(atividade, servico, list, threads,algoritmo);
                 } else {
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        //algoritmo da bia
+                    } else {
+                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
+                        threads[j] = new Thread(wba);
+                        threads[j].start();
+                        j++;
+                    }
+
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     //mandar para o executor
                     byte[] data = new byte[258];
@@ -110,6 +130,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }*/
 
                     LOGGER.info("Connected to server");
+
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
@@ -120,8 +141,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     data[0] = 0;
                     data[1] = 9;
                     data[2] = (byte) size;
-                    double amount_of_times = size/255;
-                    int p=0;
+                    double amount_of_times = size / 255;
+                    int p = 0;
 
                     while (amount_of_times > 1) {
 
@@ -129,11 +150,11 @@ public class FluxoRequest extends AplicacoesRequest {
                         info[0] = 0;
                         info[1] = 10;
                         for (int k = 0; k < 255; k++) {
-                            if(p<size){
+                            if (p < size) {
                                 info[k + 2] = idArray[p];
                                 p++;
-                            }else{
-                                k=255;
+                            } else {
+                                k = 255;
                             }
                         }
                         sOut.write(info);
@@ -176,10 +197,37 @@ public class FluxoRequest extends AplicacoesRequest {
             e1.printStackTrace();
         }
         byte[] data = new byte[3];
-        data[0]=1;
-        data[1]=1;
-        data[2]=0;
+        data[0] = 1;
+        data[1] = 1;
+        data[2] = 0;
         return data;
+    }
+
+    public void createThreads(Atividade atividade,Servico servico,List<Colaborador> list,Thread[] threads,String algoritmo) {
+        int j=0;
+        if (algoritmo.equalsIgnoreCase("FCFS")) {
+            for (Colaborador col : list) {
+                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade);
+                threads[j] = new Thread(fcfs);
+                threads[j].start();
+                j++;
+            }
+        } else {
+            for (Colaborador col : list) {
+                AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(col, atividade, servico.identity());
+                threads[j] = new Thread(atm);
+                threads[j].start();
+                j++;
+            }
+        }
+        /*for (Thread t : threads) {
+            t.interrupt();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                System.out.println("Thread was interrupted!");
+            }
+        }*/
     }
 
 }
@@ -238,7 +286,7 @@ class TcpChatCliConn implements Runnable {
             sIn.read(data);
             //LOGGER.trace("Received message:----\n{}\n----", data);
 
-            if(data[1]==1) {
+            if (data[1] == 1) {
                 LOGGER.info("Mensagem recebida com sucesso");
                 LOGGER.info("Fim da operação");
             }

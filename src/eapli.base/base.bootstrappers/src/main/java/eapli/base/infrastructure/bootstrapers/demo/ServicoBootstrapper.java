@@ -103,30 +103,30 @@ public class ServicoBootstrapper implements Action {
 
         //Atividades
         Set<Atividade> atividades1 = new HashSet<>();
-        AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica(0,0,0);
+        AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica();
         Formulario form1 = controller.createFormulario("Formulario1", listaAtributosFormulario2);
-        AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1,/*"decisao1","comentario1",*/ 0,0,0,form1, TipoAtividade.APROVACAO);
+        AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1, form1, TipoAtividade.APROVACAO);
         atividades1.add(atividadeManual2);
         atividades1.add(atividadeAutomatica1);
 
         Set<Atividade> atividades2 = new HashSet<>();
         Formulario form2 = controller.createFormulario("Formulario2", listaAtributosFormulario4);
-        AtividadeManual a1 = controller.novaAtividadeAprovacaoManualColaborador(c2,/*"decisao2","comentario2",*/0,0,0,form2,TipoAtividade.REALIZACAO);
+        AtividadeManual a1 = controller.novaAtividadeAprovacaoManualColaborador(c2,form2,TipoAtividade.REALIZACAO);
         atividades2.add(a1);
 
         Set<Atividade> atividades3 = new HashSet<>();
         Formulario form3 = controller.createFormulario("Formulario3", listaAtributosFormulario5);
-        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas1,/*"decisao3","comentario3",*/0,0,0,form3,TipoAtividade.REALIZACAO);
+        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas1,form3,TipoAtividade.REALIZACAO);
         atividades3.add(a2);
 
         Set<Atividade> atividades4 = new HashSet<>();
         Formulario form4 = controller.createFormulario("Formulario4", listaAtributosFormulario2);
-        AtividadeManual a3 = controller.novaAtividadeAprovacaoManualColaborador(c1,/*"decisao4","comentario4",*/0,0,0,form4,TipoAtividade.REALIZACAO);
+        AtividadeManual a3 = controller.novaAtividadeAprovacaoManualColaborador(c1,form4,TipoAtividade.REALIZACAO);
         atividades4.add(a3);
 
         Set<Atividade> atividades5 = new HashSet<>();
         Formulario form5 = controller.createFormulario("Formulario5", listaAtributosFormulario1);
-        AtividadeManual a4 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas2,/*"decisao5","comentario5",*/0,0,0,form5,TipoAtividade.REALIZACAO);
+        AtividadeManual a4 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas2,form5,TipoAtividade.REALIZACAO);
         atividades5.add(a4);
 
         //Register

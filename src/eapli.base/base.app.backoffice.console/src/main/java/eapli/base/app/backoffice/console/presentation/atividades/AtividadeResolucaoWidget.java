@@ -14,13 +14,13 @@ public class AtividadeResolucaoWidget {
     private String comentario;*/
 
 
-    public void doManual() {
+    /*public void doManual() {
         this.ano = Console.readInteger("\nAno:");
         this.mes = Console.readInteger("\nMês:");
         this.dia = Console.readInteger("\nDia:");
         /*this.decisao = Console.readLine("\nDecisão:");
         this.comentario = Console.readLine("\nComentário");*/
-    }
+/*    }
 
     public void doAutomatica() {
         this.anoA = Console.readInteger("\nAno:");
@@ -48,7 +48,7 @@ public class AtividadeResolucaoWidget {
         return this.comentario;
     }*/
 
-    public int anoA() {
+   /* public int anoA() {
         return this.anoA;
     }
 
@@ -58,5 +58,5 @@ public class AtividadeResolucaoWidget {
 
     public int diaA(){
         return this.diaA;
-    }
+    }*/
 }

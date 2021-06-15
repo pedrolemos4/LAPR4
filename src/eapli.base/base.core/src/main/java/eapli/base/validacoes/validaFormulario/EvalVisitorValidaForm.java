@@ -24,11 +24,6 @@ public class EvalVisitorValidaForm extends validaFormBaseVisitor {
     }
 
     @Override
-    public Object visitVazio2(validaFormParser.Vazio2Context ctx) {
-        return /*visitChildren(ctx)*/ 1;
-    }
-
-    @Override
     public String visitValidoString(validaFormParser.ValidoStringContext ctx) {
         return ctx.getText();
     }
@@ -80,12 +75,6 @@ public class EvalVisitorValidaForm extends validaFormBaseVisitor {
         if (ctx.obr.getText().equalsIgnoreCase("OBRIGATORIO")) {
             if (ctx.var.getText().isEmpty() || ctx.var.getText() == null) {
                 System.out.println("Nome da variável é Obrigatória!");
-                return 1;
-            } else if (ctx.des.getText().isEmpty() || ctx.des.getText() == null) {
-                System.out.println("Descrição Ajuda é Obrigatória!");
-                return 1;
-            } else if (ctx.label.getText().isEmpty() || ctx.label.getText() == null) {
-                System.out.println("Label é Obrigatória!");
                 return 1;
             }
         }

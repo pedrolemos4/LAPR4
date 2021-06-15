@@ -117,11 +117,11 @@ public class Pedido implements AggregateRoot<String> {
 
     public Servico servico() { return this.servico;}
 
-    public void completaFormulario(Variavel variavel, Atributo atributo) {
-        this.formulario.completaFormulario(variavel, atributo);
-    }
-
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
         this.servico.completaDecisaoComentario(valueOf,aprovado,at);
+    }
+
+    public void replaceFormulario(Atividade at, Formulario formFinal) {
+        this.servico.replaceFormulario(at, formFinal);
     }
 }

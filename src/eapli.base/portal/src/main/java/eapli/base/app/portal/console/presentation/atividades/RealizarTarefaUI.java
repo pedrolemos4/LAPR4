@@ -41,24 +41,28 @@ public class RealizarTarefaUI extends AbstractUI {
             Formulario form = this.controller.getFormularioDaAtividade(at);
 
             if (form != null) {
+                // faz copia do formulario da atividade feito aquando da especificação do serviço
+                Formulario formFinal = new Formulario(form);
+
                 List<Atributo> listAtributos = this.controller.getAtributosDoFormulario(form);
                 for (Atributo atributo : listAtributos) {
-                    // mostra a label do atributo
+                    // mostra a label de cada atributo
                     Console.readLine("Label: " + this.controller.getLabelDoAtributo(atributo));
                     String variavel = Console.readLine("Introduza o nome da variável correspondente: ");
-                    // completa formulario preenchendo a variavel do atributo
-                    this.controller.completaFormulario(pedido, variavel, atributo);
 
-                    // de forma a que formulario(instancia) seja atualizada também
-                    this.controller.completaForm(form, Variavel.valueOf(variavel), atributo);
-                    //form.completaFormulario(Variavel.valueOf(variavel), atributo);
+                    // completa formulario final preenchendo a variavel do atributo
+                    this.controller.completaForm(formFinal, Variavel.valueOf(variavel), atributo);
+
                 }
 
+                this.controller.replaceFormulario(pedido, at, formFinal);
+
                 /// problema pois estás a atualizar pelo pedido e nao pelo form
+                // dar save do formulario ou criar clone do formulario e só depois é que o preencho e dou save???
                 try {
-                    File file = new File("filename.txt");
+                    File file = new File("formularioAtividade.txt");
                     FileWriter myWriter = new FileWriter(file);
-                    myWriter.write(form.toString());
+                    myWriter.write(formFinal.toString());
 
                     // conseguir que retorne se formulario é valido ou nao
                     flag = this.controller.validaFormulario(file);
@@ -79,7 +83,6 @@ public class RealizarTarefaUI extends AbstractUI {
             } else{
                 decisao = Decisao.REJEITADO;
             }
-
             this.controller.completaDecisaoComentario(comentario, decisao, pedido, at);
 
             this.controller.savePedido(pedido);

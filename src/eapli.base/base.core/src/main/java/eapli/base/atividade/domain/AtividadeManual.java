@@ -70,4 +70,8 @@ public class AtividadeManual extends Atividade{
         this.comentario = valueOf;
         this.decisao = aprovado;
     }
+
+    public void replaceFormulario(Formulario formFinal) {
+        this.formulario = formFinal;
+    }
 }

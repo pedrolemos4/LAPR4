@@ -11,6 +11,7 @@ import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.domain.Label;
 import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
@@ -30,6 +31,7 @@ public class RealizarTarefaController {
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
     private ColaboradorRepository colabRepo= PersistenceContext.repositories().colaborador();
+    private FormularioRepository formRepo= PersistenceContext.repositories().formularios();
     private PedidoRepository pRepo= PersistenceContext.repositories().pedidos();
 
     private SystemUser currentUser() {
@@ -55,15 +57,11 @@ public class RealizarTarefaController {
     }
 
     public List<Atributo> getAtributosDoFormulario(Formulario form) {
-        return this.pRepo.getAtributosDoFormulario(form.identity());
+        return this.formRepo.findAtributos(form.identity());
     }
 
     public Label getLabelDoAtributo(Atributo atributo) {
-        return this.pRepo.getLabelDoAtributo(atributo.identity());
-    }
-
-    public void completaFormulario(Pedido pedido, String variavel, Atributo atributo) {
-        pedido.completaFormulario(Variavel.valueOf(variavel), atributo);
+        return this.formRepo.getLabelDoAtributo(atributo.identity());
     }
 
     public void completaForm(Formulario form, Variavel valueOf, Atributo atributo) {
@@ -81,5 +79,9 @@ public class RealizarTarefaController {
 
     public void savePedido(Pedido pedido) {
         this.pRepo.save(pedido);
+    }
+
+    public void replaceFormulario(Pedido pedido, Atividade at, Formulario formFinal) {
+        pedido.replaceFormulario(at, formFinal);
     }
 }

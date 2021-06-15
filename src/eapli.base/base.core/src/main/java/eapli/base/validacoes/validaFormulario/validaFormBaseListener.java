@@ -1,4 +1,3 @@
-// Generated from D:/2ANO/2SEMESTRE/LAPR4/LAPR4_PROJETO/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/valida\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -119,18 +118,6 @@ public class validaFormBaseListener implements validaFormListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitValidoData(validaFormParser.ValidoDataContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVazio2(validaFormParser.Vazio2Context ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVazio2(validaFormParser.Vazio2Context ctx) { }
 
 	/**
 	 * {@inheritDoc}
