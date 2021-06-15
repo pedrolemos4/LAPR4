@@ -43,7 +43,7 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
-    private static final String IP = "10.8.0.81";
+    private static final String IP = "10.8.0.82";
 
     private static final List<Atividade> tarefas = new ArrayList<>();
 

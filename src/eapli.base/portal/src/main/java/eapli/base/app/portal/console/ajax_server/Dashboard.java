@@ -28,7 +28,7 @@ public class Dashboard extends Thread {
 
 	private static final Logger LOGGER = LogManager.getLogger(Dashboard.class);
 
-	static final String TRUSTED_STORE = "httpServer.jks";
+	static final String TRUSTED_STORE = "server_J.jks";
 	static final String KEYSTORE_PASS = "forgotten";
 
 	//static private Socket sock;
@@ -36,8 +36,8 @@ public class Dashboard extends Thread {
 	static private SSLSocket cliSock;
 	static private InetAddress serverIP;
 	static private int serverPort;
-	static private DataOutputStream sOut;
-	static private DataInputStream sIn;
+	//static private DataOutputStream sOut;
+	//static private DataInputStream sIn;
 	static private final String BASE_FOLDER = "www";
 	static private boolean flag = true;
 
@@ -46,67 +46,41 @@ public class Dashboard extends Thread {
 
 	@Override
 	public void start() {
-		InetAddress address = null;
 		try {
-			address = InetAddress.getLocalHost();
-			execute(address,1904);
+			execute(1904);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void execute(InetAddress address, int porta) throws IOException {
+	public void execute(int porta) throws IOException {
 
-		sendTestConnection(address,porta);
+		doConnection(porta);
 
 		while (flag) {
+			cliSock= (SSLSocket) sock.accept();
 			HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
-				/*
-				try {
-					cliSock.startHandshake();
-					LOGGER.info("Handshake Successful");
-				}catch (Exception e){
-						LOGGER.error("Handshake Failed");
-				}
-				 */
+			sendTestConnection();
 			req.start();
 		}
 	}
 
-	private static void openDashboard() throws URISyntaxException, IOException {
-		if (Desktop.isDesktopSupported()) {
-			URI uri = new URI("https://localhost:1904");
-			Desktop.getDesktop().browse(uri); //open url for dashboard
-		}
-	}
-
-	private static String tasks;
-	private static int accessesCounter;
-
-	private static synchronized void incAccessesCounter() {
-		accessesCounter++;
-	}
-
-	public static synchronized void sendTestConnection(InetAddress address, int porta) throws IOException {
+	public static synchronized void sendTestConnection() throws IOException {
 		Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
-		if (doConnection(address,porta)) {
-			if (sendMessage(5, colab.identity().toString())) {
-				byte[] response = receiveMessage();
-				tasks = new String(response, 3, response[3]);
-			} else {
-				System.out.println("Error trying to send the protocol!");
-			}
+		if (sendMessage(5, colab.identity().toString())) {
+			byte[] response = receiveMessage();
+			tasks = new String(response, 3, response[3]);
 		} else {
-			System.out.println("Error trying to connect to the server!");
+			System.out.println("Error trying to send the protocol!");
 		}
 	}
 
-	private static boolean doConnection(InetAddress address, int porta) {
+	private static boolean doConnection(int porta) {
 		// Use this certificate and private key as server certificate
-		System.setProperty("javax.net.ssl.keyStore",TRUSTED_STORE); //talvez por server.jks
-		System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
+		System.setProperty("javax.net.ssl.trustStore",TRUSTED_STORE);
+		System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
 
-		serverIP = address;
+		//serverIP = address;
 
 		try {
 			serverPort = porta;
@@ -117,16 +91,12 @@ public class Dashboard extends Thread {
 		}
 
 		try{
-			System.out.println("Connecting to https://" + address.getHostAddress() + ":" + serverPort + "/");
+			System.out.println("Connecting to https://localhost:" + serverPort + "/");
 
 			SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-			System.out.println(1);
 			sock = (SSLServerSocket) sslF.createServerSocket(serverPort);
-			System.out.println(2);
-			cliSock= (SSLSocket) sock.accept();
-			System.out.println(3);
 			//sock = new Socket(serverIP, serverPort);
-			System.out.println("Connected to " + serverIP.getHostAddress() + ":" + serverPort);
+			System.out.println("Connected to https://localhost:" + serverPort + "/");
 
 			try {
 				openDashboard();
@@ -140,6 +110,21 @@ public class Dashboard extends Thread {
 			return false;
 		}
 	}
+
+	private static void openDashboard() throws URISyntaxException, IOException {
+		if (Desktop.isDesktopSupported()) {
+			URI uri = new URI("http://localhost:" + serverPort +"/");
+			Desktop.getDesktop().browse(uri); //open url for dashboard
+		}
+	}
+
+	private static String tasks;
+	private static int accessesCounter;
+
+	private static synchronized void incAccessesCounter() {
+		accessesCounter++;
+	}
+
 
 	public static synchronized String getDashboardDataInHTML() {
 		String[] dashboard = tasks.split("-");

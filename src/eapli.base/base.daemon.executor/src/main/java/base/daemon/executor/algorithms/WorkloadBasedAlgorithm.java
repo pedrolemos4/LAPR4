@@ -41,6 +41,8 @@ public class WorkloadBasedAlgorithm implements Runnable {
                 Map.Entry<ExecutorServer, Integer> entry = mapExecutores.entrySet().iterator().next();
                 System.out.println("Executor com menor workload: " + entry.getKey().toString() + " Com workload de: " + entry.getValue());  //instancia com menor workload
                 entry.getKey().addTarefa(at);
+            }else {
+                System.out.println("WELELELE");
             }
         }
     }

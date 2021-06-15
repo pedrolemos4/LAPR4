@@ -6,19 +6,13 @@ import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.AppSettings;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
-import eapli.base.atividade.domain.*;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.AtividadeManual;
+import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.servico.domain.Servico;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.*;
-
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +21,13 @@ import org.apache.logging.log4j.Logger;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.*;
 
 public class FluxoRequest extends AplicacoesRequest {
 
@@ -39,7 +40,7 @@ public class FluxoRequest extends AplicacoesRequest {
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
-    private static final String IP_EXECUTOR = "10.8.0.81";
+    private static final String IP_EXECUTOR = "10.8.0.82";
     private static final int EXECUTOR_PORT = 32510;
 
     public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
