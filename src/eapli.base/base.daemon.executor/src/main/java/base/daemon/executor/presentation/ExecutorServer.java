@@ -116,12 +116,14 @@ public class ExecutorServer {
 
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
-                //Adicionar Atividade aqui talvez
-                //tarefas.add(controller.getTarefaByScript(inputLine));
-
                 final byte[] response = request.execute();
                 //depois disto em principio terminou a tarefa
-                //tarefas.remove(controller.getTarefaByScript(inputLine));
+                /*if(tarefas.contains(controller.getTarefaByScript(inputLine))){
+                    final byte[] response = request.execute();
+                    tarefas.remove(controller.getTarefaByScript(inputLine));
+                    LOGGER.info("Executor vai mandar mensagem");
+                    sOut.write(response);
+                }*/
 
                 /*byte[] respostaByte = new byte[258];
                 respostaByte[0] = 0;
@@ -166,6 +168,10 @@ public class ExecutorServer {
 
     public List<Atividade> tarefas(){
         return this.tarefas;
+    }
+
+    public boolean addTarefa(Atividade at){
+        return tarefas.add(at);
     }
 
 }
