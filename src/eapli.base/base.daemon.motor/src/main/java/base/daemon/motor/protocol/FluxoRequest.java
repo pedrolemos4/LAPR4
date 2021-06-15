@@ -1,6 +1,7 @@
 package base.daemon.motor.protocol;
 
 import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.AppSettings;
 import eapli.base.Application;
@@ -75,31 +76,13 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    if (algoritmo.equalsIgnoreCase("FCFS")) {
-                        for (Colaborador col : list) {
-                            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col,atividade);
-                            threads[j] = new Thread(fcfs);
-                            threads[j].start();
-                            j++;
-                        }
-                    } else {
-                        //Chamas a tua classe algoritmo
-                         /* threads[i] = new Thread(fcfs);
-                         i++;*/
-                    }
-                    for (Thread t : threads) {
-                        t.interrupt();
-                        try {
-                            t.join();
-                        } catch (InterruptedException e) {
-                            System.out.println("Thread was interrupted!");
-                        }
-                    }
+                    createThreads(atividade, servico, list, threads,algoritmo);
                     //atividadeManual=true;
                     //new TcpChatCliConn(s);
                     //return data;
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
+                    createThreads(atividade, servico, list, threads,algoritmo);
                 } else {
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia
@@ -218,6 +201,33 @@ public class FluxoRequest extends AplicacoesRequest {
         data[1] = 1;
         data[2] = 0;
         return data;
+    }
+
+    public void createThreads(Atividade atividade,Servico servico,List<Colaborador> list,Thread[] threads,String algoritmo) {
+        int j=0;
+        if (algoritmo.equalsIgnoreCase("FCFS")) {
+            for (Colaborador col : list) {
+                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade);
+                threads[j] = new Thread(fcfs);
+                threads[j].start();
+                j++;
+            }
+        } else {
+            for (Colaborador col : list) {
+                AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(col, atividade, servico.identity());
+                threads[j] = new Thread(atm);
+                threads[j].start();
+                j++;
+            }
+        }
+        /*for (Thread t : threads) {
+            t.interrupt();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                System.out.println("Thread was interrupted!");
+            }
+        }*/
     }
 
 }
