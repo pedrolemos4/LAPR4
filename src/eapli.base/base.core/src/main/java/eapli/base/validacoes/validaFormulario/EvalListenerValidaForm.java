@@ -1,6 +1,10 @@
 package eapli.base.validacoes.validaFormulario;
 
+import java.util.Stack;
+
 public class EvalListenerValidaForm extends validaFormBaseListener {
+
+    Stack<String> stack = new Stack<>();
 
     @Override
     public void enterValido(validaFormParser.ValidoContext ctx) {
