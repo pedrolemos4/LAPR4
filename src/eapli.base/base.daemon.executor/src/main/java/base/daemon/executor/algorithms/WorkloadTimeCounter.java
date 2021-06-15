@@ -1,16 +1,14 @@
 package base.daemon.executor.algorithms;
 
 import base.daemon.executor.presentation.ExecutorServer;
-import eapli.base.atividade.domain.Atividade;
 
 import java.util.Map;
 
 public class WorkloadTimeCounter implements Runnable {
-    private static final WorkloadController controller = new WorkloadController();
-    private Map<ExecutorServer, Double> mapExecutores;
+    private Map<ExecutorServer, Integer> mapExecutores;
     private ExecutorServer es;
 
-    public WorkloadTimeCounter(Map<ExecutorServer, Double> mapExecutores, ExecutorServer executor) {
+    public WorkloadTimeCounter(Map<ExecutorServer, Integer> mapExecutores, ExecutorServer executor) {
         this.mapExecutores = mapExecutores;
         this.es = executor;
     }
@@ -18,16 +16,12 @@ public class WorkloadTimeCounter implements Runnable {
     @Override
     public void run() {
         synchronized (this) {
-            double tempo = 0.0;
             if (es.tarefas().isEmpty()) {
-                System.out.println(es.toString() + " Workload: " + tempo);
-                mapExecutores.put(es, 0.0);
+                System.out.println(es.toString() + " Workload: " + 0);
+                mapExecutores.put(es, 0);
             } else if (!mapExecutores.containsKey(es)) {
-                for (Atividade a : es.tarefas()) {
-                    tempo += controller.getTempoDeExecucaoTarefa(a);
-                }
-                System.out.println(es.toString() + " Workload: " + tempo);
-                mapExecutores.put(es, tempo);
+                System.out.println(es.toString() + " Workload: " + es.tarefas().size());
+                mapExecutores.put(es, es.tarefas().size());
             }
         }
     }
