@@ -1,5 +1,5 @@
 // Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
-package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
+package base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -59,4 +59,28 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPath(ValidaScriptParser.PathContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#progFile}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgFile(ValidaScriptParser.ProgFileContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#startFile}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStartFile(ValidaScriptParser.StartFileContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#infoProduto}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInfoProduto(ValidaScriptParser.InfoProdutoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#infoCliente}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInfoCliente(ValidaScriptParser.InfoClienteContext ctx);
 }

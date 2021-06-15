@@ -1,5 +1,5 @@
 // Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
-package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
+package base.daemon.executor.validacao.script;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -107,6 +107,54 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPath(ValidaScriptParser.PathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterProgFile(ValidaScriptParser.ProgFileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitProgFile(ValidaScriptParser.ProgFileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStartFile(ValidaScriptParser.StartFileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStartFile(ValidaScriptParser.StartFileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInfoCliente(ValidaScriptParser.InfoClienteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInfoCliente(ValidaScriptParser.InfoClienteContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
