@@ -74,8 +74,6 @@ public class EspecificarServicoUI extends AbstractUI {
         Set<Atributo> listaAtributos = new HashSet<>();
         Formulario formServico = preencherAtributos(formularioData, listaAtributos);
 
-        final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
-        final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
         System.out.println("\nEspecificação do fluxo de atividades");
         FluxoAtividade fluxoAtividade = null;
         Set<Atividade> listAtividades = new HashSet<>();
@@ -85,7 +83,6 @@ public class EspecificarServicoUI extends AbstractUI {
         boolean flag = true;
         while (flag) {
             if (tipoResolucao.equalsIgnoreCase("manual")) {
-                atividadeResolucaoWidget.doManual();
                 final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
                 final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
                 System.out.println("\nSelecione a Equipa:");
@@ -103,9 +100,7 @@ public class EspecificarServicoUI extends AbstractUI {
                     Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
                     form.copyAtributos(listaAtributos1);
                     TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,
-                            /*atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(),*/ atividadeResolucaoWidget.ano(),
-                            atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,form, tipo);
                     listAtividades.add(atividadeManual);
                     flag = false;
                 } else {
@@ -116,17 +111,13 @@ public class EspecificarServicoUI extends AbstractUI {
                     Set<Atributo> listaAtributos1 = new HashSet<>();
                     Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
                     form.copyAtributos(listaAtributos1);
-                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas,
-                            /*atividadeResolucaoWidget.decisao(), atividadeResolucaoWidget.comentario(),*/ atividadeResolucaoWidget.ano(),
-                            atividadeResolucaoWidget.mes(), atividadeResolucaoWidget.dia(), form, tipo);
+                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas, form, tipo);
                     listAtividades.add(atividadeManual);
                     flag = false;
                 }
             } else if (tipoResolucao.equalsIgnoreCase("automatica") || tipoResolucao.equalsIgnoreCase("automática")) {
                 try {
-                    atividadeResolucaoWidget.doAutomatica();
-                    AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica(atividadeResolucaoWidget.anoA(),
-                            atividadeResolucaoWidget.mesA(), atividadeResolucaoWidget.diaA());
+                    AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica();
                     listAtividades.add(atividadeAutomatica);
                     flag = false;
                 } catch (IllegalArgumentException ex) {
@@ -142,7 +133,6 @@ public class EspecificarServicoUI extends AbstractUI {
 
         resposta = Console.readLine("O fluxo de atividades deste serviço é composto por uma atividade de aprovação?");
         if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
-            atividadeAprovacaoWidget.show();
 
             final Iterable<Equipa> listaEquipas = this.theController.findEquipaDoCatalogo(theCatalogo.identity());
             final SelectWidget<Equipa> selectorEquipa = new SelectWidget<>("Equipas Disponíveis", listaEquipas, visitee2 -> System.out.printf("%-15s%-80s\n", visitee2.identity(), visitee2.toString()));
@@ -158,24 +148,20 @@ public class EspecificarServicoUI extends AbstractUI {
                 final Colaborador col = selectorColaborador.selectedElement();
                 FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
                 Set<Atributo> listaAtributos1 = new HashSet<>();
-                Formulario form = preencherAtributos(formularioDataWidget,listaAtributos1);
+                Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
                 //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
-                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(/*EstadoAtividade.PENDENTE, */col,
-                        /*atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(),*/ atividadeAprovacaoWidget.ano(),
-                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form, tipo);
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,form, tipo);
                 listAtividades.add(atividadeManual);
             } else {
                 Set<Equipa> listEquipas = new HashSet<>();
                 listEquipas.add(equipa);
                 FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
                 Set<Atributo> listaAtributos1 = new HashSet<>();
-                Formulario form = preencherAtributos(formularioDataWidget,listaAtributos1);
+                Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
                 //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
-                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(/*EstadoAtividade.PENDENTE, */listEquipas,
-                        /*atividadeAprovacaoWidget.decisao(), atividadeAprovacaoWidget.comentario(),*/ atividadeAprovacaoWidget.ano(),
-                        atividadeAprovacaoWidget.mes(), atividadeAprovacaoWidget.dia(), form, tipo);
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas, form, tipo);
                 listAtividades.add(atividadeManual);
             }
         }
@@ -199,13 +185,11 @@ public class EspecificarServicoUI extends AbstractUI {
         } catch (final IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-        //  motor(codigoUnicoData.codigoUnico());
     }
 
     private void especificarKeywords(KeywordsDataWidget keywordsDataWidget, Set<String> keywords) {
         keywordsDataWidget.show();
         boolean flag = true;
-
 
         keywords.add(keywordsDataWidget.keyword());
 
@@ -229,18 +213,9 @@ public class EspecificarServicoUI extends AbstractUI {
 
     public Formulario preencherAtributos(FormularioDataWidget formularioData, Set<Atributo> listaAtributos) {
         formularioData.show();
-
         Formulario formulario = new Formulario(formularioData.titulo());
-        Atributo atributo = null;
-        try {
-            atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
-                    formularioData.obrigatoriedade(),formularioData.descricaoAjuda(), formulario);
-        } catch (IllegalArgumentException ex) {
-            System.out.println("Insira um tipo de dados válido");
-            //formularioData.atributo();
-        }
-        listaAtributos.add(atributo);
-        System.out.println("Linha 243");
+        criarAtributos(formularioData,listaAtributos,formulario);
+
         boolean flag = true;
 
         while (flag) {
@@ -248,9 +223,7 @@ public class EspecificarServicoUI extends AbstractUI {
             resposta = Console.readLine("Deseja adicionar mais atributos ao formulário?\nResposta(S/N):");
             if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
                 formularioData.atributo();
-                atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
-                        formularioData.obrigatoriedade(),formularioData.descricaoAjuda(), formulario);
-                listaAtributos.add(atributo);
+                criarAtributos(formularioData,listaAtributos,formulario);
             } else {
                 flag = false;
             }
@@ -259,37 +232,16 @@ public class EspecificarServicoUI extends AbstractUI {
         return formulario;
     }
 
-    /*private void motor(final String codigo) throws IOException {
-        byte[] data = new byte[258];
+    public void criarAtributos(FormularioDataWidget formularioData,Set<Atributo> listaAtributos,Formulario formulario){
+        formularioData.atributo();
+        Atributo atributo = null;
         try {
-            serverIP = InetAddress.getByName("10.8.0.83");//.getByName("endereçoIp");
-        } catch (UnknownHostException ex) {
-            System.out.println("Invalid server: " + "endereçoIp");
-            System.exit(1);
+            atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
+                    formularioData.obrigatoriedade(), formularioData.descricaoAjuda(), formulario);
+        } catch (IllegalArgumentException ex) {
+            System.out.println("Insira um tipo de dados válido");
+            criarAtributos(formularioData,listaAtributos,formulario);
         }
-
-        try {
-            sock = new Socket(serverIP, 32507);
-        } catch (IOException ex) {
-            System.out.println("Failed to connect.");
-            System.exit(1);
-        }
-        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
-        System.out.println("Connected to server");
-        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
-        //serverConn.start();
-        CodigoUnico cod = new CodigoUnico(codigo);
-        data[0] = 0;
-        data[1] = 3;
-        byte[] idArray = cod.toString().getBytes();//pedido.servico().identity().toString().getBytes();
-        data[2] = (byte) idArray.length;
-        for (int i = 0; i < idArray.length; i++) {
-            data[i + 2] = idArray[i];
-        }
-
-        sOut.write(data);
-
-        // serverConn.join();
-        sock.close();
-    }*/
+        listaAtributos.add(atributo);
+    }
 }
