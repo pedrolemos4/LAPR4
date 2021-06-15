@@ -1,6 +1,17 @@
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 
-public class EvalListenerScript {
+import base.daemon.executor.validacao.script.base.daemon.executor.validacao.script.ValidaLerFicheiro.MainLerFicheiro;
+
+import java.io.IOException;
+import java.util.Stack;
+
+public class EvalListenerScript extends ValidaScriptBaseListener {
+
+    private final Stack<Integer> stack = new Stack<>();
+
+    public int getResult() {
+        return stack.peek();
+    }
 
     public void enterStart(ValidaScriptParser.StartContext ctx) { //mudar os contexts em todos
         System.out.println("teste");
@@ -43,10 +54,20 @@ public class EvalListenerScript {
     }
 
     public void enterLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
-        System.out.println("teste");
+        stack.push(Integer.valueOf(ctx.possivel_id.getText()));
     }
 
     public void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
-        System.out.println("teste");
+        final MainLerFicheiro mainLerFicheiro = new MainLerFicheiro();
+        String possivelId = Integer.toString(stack.pop());
+        try {
+            String[] file = new String[2];
+            file[0] = possivelId;
+            file[1] = ctx.ficheiro_script.getText();
+            mainLerFicheiro.lerFicheiro(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stack.push(1);
     }
 }
