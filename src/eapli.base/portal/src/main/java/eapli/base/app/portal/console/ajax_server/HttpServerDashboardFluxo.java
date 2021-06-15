@@ -12,8 +12,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class HttpServerDashboardFluxo {
-    static final int PORT = 32508;
+public class HttpServerDashboardFluxo extends Thread {
+    static final int PORT = 1904;
     //static final String TRUSTED_STORE = "httpServer.jks";
     static final String KEYSTORE_PASS = "forgotten";
     static private SSLServerSocket sock;
@@ -22,16 +22,20 @@ public class HttpServerDashboardFluxo {
     static private final String BASE_FOLDER = "www";
     static final AuthorizationService authz = AuthzRegistry.authorizationService();
 
-    public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.out.println("Local port number required at the command line.");
-            System.exit(1);
+    @Override
+    public void start() {
+        try {
+            sendTestConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        sendTestConnection();
-
         while (flag) {
-            clisock = (SSLSocket) sock.accept();
+            try {
+                clisock = (SSLSocket) sock.accept();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             HttpEstadoFluxoRequest req = new HttpEstadoFluxoRequest(clisock, BASE_FOLDER);
             req.start();
         }
@@ -70,13 +74,13 @@ public class HttpServerDashboardFluxo {
 
         try {
             SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-            sock = (SSLServerSocket) sslF.createServerSocket(Integer.parseInt(args[0]));
+            sock = (SSLServerSocket) sslF.createServerSocket(PORT);
         } catch (IOException ex) {
             System.out.println("Server failed to open local port " + PORT);
             System.exit(1);
         }
 
-        System.out.println("Connected to server: " + args[0] + ":" + PORT);
+        System.out.println("Connected to server: " +  ":" + PORT);
         return true;
     }
 
