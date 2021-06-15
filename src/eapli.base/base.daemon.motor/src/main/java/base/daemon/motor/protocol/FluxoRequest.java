@@ -75,10 +75,9 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    createThreads(atividade, servico, list, threads, algoritmo,id);
-                    //atividadeManual=true;
-                    //new TcpChatCliConn(s);
-                    //return data;
+                    Colaborador escolhido=createThreads(atividade, servico, list, null, algoritmo,id);
+                    //query para atribuir
+
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     createThreads(atividade, servico, list, threads, algoritmo,id);
@@ -202,9 +201,10 @@ public class FluxoRequest extends AplicacoesRequest {
         return data;
     }
 
-    public void createThreads(Atividade atividade, Servico servico, List<Colaborador> list, Thread[] threads, String algoritmo,
+    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, Thread[] threads, String algoritmo,
                               String idPedido) {
-        int j = 0;
+
+        int j=0;
         if (algoritmo.equalsIgnoreCase("FCFS")) {
             Map<Calendar, Colaborador> map = new TreeMap<>();
             for (Colaborador col : list) {
@@ -214,21 +214,19 @@ public class FluxoRequest extends AplicacoesRequest {
                 j++;
             }
         } else {
-            for (Colaborador col : list) {
-                AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(col, atividade, servico.identity());
-                threads[j] = new Thread(atm);
-                threads[j].start();
-                j++;
-            }
+            AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
+            atm.createThreads();
+            return atm.getColaboradorEscolhido();
         }
-        /*for (Thread t : threads) {
+        for (Thread t : threads) {
             t.interrupt();
             try {
                 t.join();
             } catch (InterruptedException e) {
                 System.out.println("Thread was interrupted!");
             }
-        }*/
+        }
+        return null;
     }
 
 }

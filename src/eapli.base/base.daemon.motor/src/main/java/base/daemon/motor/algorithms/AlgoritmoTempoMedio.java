@@ -5,62 +5,101 @@ import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.repositories.ServicoRepository;
 
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class AlgoritmoTempoMedio implements Runnable {
 
-    private Colaborador colaborador;
+    private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
+    private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
+
+    private List<Colaborador> list;
 
     private Atividade atividade;
 
     private CodigoUnico identity;
 
-    private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
+    private int incrementoColaboradores=0;
 
-    private Map<Colaborador, Double> mapColaboradores = new TreeMap<>();
+    private Map<Colaborador, Double> mapColaboradores;
 
-    public AlgoritmoTempoMedio(Colaborador colaborador, Atividade atividade, CodigoUnico identity) {
-        this.colaborador = colaborador;
+    public AlgoritmoTempoMedio(List<Colaborador> list, Atividade atividade, CodigoUnico identity) {
+        this.list = list;
         this.atividade = atividade;
         this.identity = identity;
+        this.mapColaboradores = new TreeMap<>();
     }
 
     @Override
     public void run() {
-        //while(!Thread.interrupted()){
-        addColabToMap();
 
-        new ValueComparator(this.mapColaboradores);
-        //}
-    }
-
-    private synchronized void addColabToMap() {
-        double tempoMedio;
-        if (this.atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-            tempoMedio = this.servicoRepository.tempoMedioAprovacao(this.identity);
+        double tempoMedioTotal = 0;
+        if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+            tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);
         } else {
-            tempoMedio = this.servicoRepository.tempoMedioResolucao(this.identity);
+            tempoMedioTotal += servicoRepository.tempoMedioResolucao(identity);
         }
-        this.mapColaboradores.put(this.colaborador, tempoMedio);
-    }
-}
+        synchronized (this) {
+            Colaborador colab = list.get(incrementoColaboradores);
+            getIncrement();
+            List<Atividade> listaTarefasPendentes = pedidoRepository.getListaTarefasPendentes(colab.identity());
+            for (Atividade atividadeList : listaTarefasPendentes) {
+                CodigoUnico codigo = new CodigoUnico(atividadeList.identity().toString());
+                if (atividadeList.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+                    tempoMedioTotal += servicoRepository.tempoMedioAprovacao(codigo);
+                } else {
+                    tempoMedioTotal += servicoRepository.tempoMedioResolucao(codigo);
+                }
+            }
 
-class ValueComparator implements Comparator<Colaborador> {
-    Map<Colaborador, Double> base;
-
-    public ValueComparator(Map<Colaborador, Double> base) {
-        this.base = base;
-    }
-
-    public int compare(Colaborador a, Colaborador b) {
-        if (base.get(a) >= base.get(b)) {
-            return -1;
-        } else {
-            return 1;
+            mapColaboradores.put(colab,tempoMedioTotal);
         }
     }
+
+    private synchronized void getIncrement(){
+        incrementoColaboradores++;
+    }
+
+    public void createThreads() {
+        Thread[] threads = new Thread[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            threads[i] = new Thread(this, "Thread" + i + " do algoritmo tempo medio");
+            threads[i].start();
+        }
+        for(Thread t : threads){
+            t.interrupt();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Colaborador getColaboradorEscolhido(){
+        this.mapColaboradores=sortByValue(mapColaboradores);
+        Colaborador[] c = new Colaborador[mapColaboradores.size()];
+        mapColaboradores.values().toArray(c);
+        return c[0];
+    }
+
+    public static Map<Colaborador, Double> sortByValue(Map<Colaborador, Double> unsortMap) {
+        LinkedList<Map.Entry<Colaborador, Double>> list
+                = new LinkedList<Map.Entry<Colaborador, Double>>(unsortMap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Colaborador, Double>>() {
+            @Override
+            public int compare(Map.Entry<Colaborador, Double> o1,
+                               Map.Entry<Colaborador, Double> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+        Map<Colaborador, Double> sortedMap = new LinkedHashMap<Colaborador, Double>();
+        for (Map.Entry<Colaborador, Double> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
+
 }
