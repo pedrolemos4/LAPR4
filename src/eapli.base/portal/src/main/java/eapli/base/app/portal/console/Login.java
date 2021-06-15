@@ -1,6 +1,5 @@
 package eapli.base.app.portal.console;
 
-import base.daemon.motor.MotorDaemon;
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
 import eapli.base.app.portal.console.ajax_server.Dashboard;
@@ -18,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("squid:S106")
 public final class Login extends BaseApplication {
 
-    private static final Logger LOGGER = LogManager.getLogger(MotorDaemon.class);
+    private static final Logger LOGGER = LogManager.getLogger(Login.class);
 
     private Login(){
 

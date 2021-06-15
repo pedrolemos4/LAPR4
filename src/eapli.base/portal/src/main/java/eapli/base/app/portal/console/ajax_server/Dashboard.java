@@ -2,6 +2,8 @@ package eapli.base.app.portal.console.ajax_server;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
@@ -22,6 +24,8 @@ import static eapli.base.app.portal.console.ajax_server.HttpServerDashboardFluxo
  * @author asc@isep.ipp.pt
  */
 public class Dashboard extends Thread {
+
+	private static final Logger LOGGER = LogManager.getLogger(Dashboard.class);
 
 	//static private Socket sock;
 	static private SSLServerSocket sock;
@@ -79,7 +83,12 @@ public class Dashboard extends Thread {
 			try {
 				cliSock= (SSLSocket) sock.accept();
 				HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
-				//sendTestConnection();
+				try {
+					cliSock.startHandshake();
+					LOGGER.info("Handshake Successful");
+				}catch (Exception e){
+						LOGGER.error("Handshake Failed");
+				}
 				req.start();
 			} catch (IOException e) {
 				e.printStackTrace();
