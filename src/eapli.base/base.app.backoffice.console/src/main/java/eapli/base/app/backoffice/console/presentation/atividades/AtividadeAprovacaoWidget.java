@@ -10,7 +10,7 @@ public class AtividadeAprovacaoWidget {
     private String decisao;
     private String comentario;
 
-    public void show(){
+   /* public void show(){
         this.ano=Console.readInteger("\nAno:");
         this.mes=Console.readInteger("\nMês:");
         this.dia=Console.readInteger("\nDia:");
@@ -36,5 +36,5 @@ public class AtividadeAprovacaoWidget {
 
     public String comentario(){
         return this.comentario;
-    }
+    }*/
 }

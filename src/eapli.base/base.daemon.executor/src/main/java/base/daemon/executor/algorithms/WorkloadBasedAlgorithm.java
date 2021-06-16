@@ -7,8 +7,8 @@ import java.util.*;
 
 public class WorkloadBasedAlgorithm implements Runnable {
 
-    private static final Queue<ExecutorServer> instances = new LinkedList<>();
-    private static final Map<ExecutorServer, Double> mapExecutores = new HashMap<>();
+    private static final Queue<ExecutorServer> instances = ExecutorServer.getAllInstances();
+    private static final Map<ExecutorServer, Integer> mapExecutores = new HashMap<>();
     private Atividade at;
 
     public WorkloadBasedAlgorithm(Atividade at) {
@@ -38,14 +38,13 @@ public class WorkloadBasedAlgorithm implements Runnable {
                 }
                 entriesSortedByValues(mapExecutores);
 
-                Map.Entry<ExecutorServer, Double> entry = mapExecutores.entrySet().iterator().next();
+                Map.Entry<ExecutorServer, Integer> entry = mapExecutores.entrySet().iterator().next();
                 System.out.println("Executor com menor workload: " + entry.getKey().toString() + " Com workload de: " + entry.getValue());  //instancia com menor workload
+                entry.getKey().addTarefa(at);
+            } else {
+                System.out.println("Não tem instâncias do executor a correr!");
             }
         }
-    }
-
-    public static boolean addInstance(ExecutorServer executorServer) {
-        return instances.add(executorServer);
     }
 
     static <K, V extends Comparable<? super V>>

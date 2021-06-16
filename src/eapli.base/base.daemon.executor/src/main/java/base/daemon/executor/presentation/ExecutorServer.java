@@ -20,7 +20,6 @@
  */
 package base.daemon.executor.presentation;
 
-import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
@@ -35,7 +34,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 
 public class ExecutorServer {
@@ -43,7 +44,7 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
-    private static final String IP = "10.8.0.81";
+    private static final String IP = "10.8.0.82";
 
     private static final List<Atividade> tarefas = new ArrayList<>();
 
@@ -52,6 +53,22 @@ public class ExecutorServer {
     private static final WorkloadController controller = new WorkloadController();
 
     //private static ServerSocket sock;
+
+    private static Queue<ExecutorServer> allInstances;
+
+    static
+    {
+        allInstances = new LinkedList<>();
+    }
+
+    public ExecutorServer() {
+        allInstances.add( this );
+    }
+
+    public static synchronized Queue<ExecutorServer> getAllInstances()
+    {
+        return allInstances;
+    }
 
     public static void main(String args[]) throws Exception {
         SSLServerSocket sockSSL = null;
@@ -76,9 +93,6 @@ public class ExecutorServer {
         }
 
         System.out.println("Connected to server: " + IP + ":" + PORT);
-
-        ExecutorServer exec = new ExecutorServer();
-        WorkloadBasedAlgorithm.addInstance(exec);
 
         while (true) {
             cliSock = sockSSL.accept(); // wait for a new client connection request
@@ -116,12 +130,14 @@ public class ExecutorServer {
 
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
-                //Adicionar Atividade aqui talvez
-                //tarefas.add(controller.getTarefaByScript(inputLine));
-
                 final byte[] response = request.execute();
                 //depois disto em principio terminou a tarefa
-                //tarefas.remove(controller.getTarefaByScript(inputLine));
+                /*if(tarefas.contains(controller.getTarefaByScript(inputLine))){
+                    final byte[] response = request.execute();
+                    tarefas.remove(controller.getTarefaByScript(inputLine));
+                    LOGGER.info("Executor vai mandar mensagem");
+                    sOut.write(response);
+                }*/
 
                 /*byte[] respostaByte = new byte[258];
                 respostaByte[0] = 0;
@@ -166,6 +182,10 @@ public class ExecutorServer {
 
     public List<Atividade> tarefas(){
         return this.tarefas;
+    }
+
+    public boolean addTarefa(Atividade at){
+        return tarefas.add(at);
     }
 
 }

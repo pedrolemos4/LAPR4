@@ -1,7 +1,12 @@
 package eapli.base.app.portal.console.ajax_server;
 
+import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
@@ -13,9 +18,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 
-import static eapli.base.app.portal.console.ajax_server.HttpServerDashboardFluxo.*;
 
 /**
  *
@@ -23,33 +26,61 @@ import static eapli.base.app.portal.console.ajax_server.HttpServerDashboardFluxo
  */
 public class Dashboard extends Thread {
 
+	private static final Logger LOGGER = LogManager.getLogger(Dashboard.class);
+
+	static final String TRUSTED_STORE = "server_J.jks";
+	static final String KEYSTORE_PASS = "forgotten";
+
 	//static private Socket sock;
 	static private SSLServerSocket sock;
+	static private SSLSocket cliSock;
 	static private InetAddress serverIP;
 	static private int serverPort;
-	static private DataOutputStream sOut;
-	static private DataInputStream sIn;
+	//static private DataOutputStream sOut;
+	//static private DataInputStream sIn;
 	static private final String BASE_FOLDER = "www";
 	static private boolean flag = true;
 
 	static final AuthorizationService authz = AuthzRegistry.authorizationService();
+	static ColaboradorRepository repo = PersistenceContext.repositories().colaborador();
 
 	@Override
 	public void start() {
-		InetAddress address = null;
 		try {
-			address = InetAddress.getLocalHost();
-			execute(address,32507);
-		} catch (UnknownHostException e) {
+			execute(1904);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void execute(InetAddress address, int porta) {
+	public void execute(int porta) throws IOException {
 
-		SSLSocket cliSock;
+		doConnection(porta);
 
-		serverIP = address;
+		while (flag) {
+			cliSock= (SSLSocket) sock.accept();
+			HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
+			sendTestConnection();
+			req.start();
+		}
+	}
+
+	public static synchronized void sendTestConnection() throws IOException {
+		Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
+		if (sendMessage(5, colab.identity().toString())) {
+			byte[] response = receiveMessage();
+			tasks = new String(response, 3, response[3]);
+		} else {
+			System.out.println("Error trying to send the protocol!");
+		}
+	}
+
+	private static boolean doConnection(int porta) {
+		// Use this certificate and private key as server certificate
+		System.setProperty("javax.net.ssl.trustStore",TRUSTED_STORE);
+		System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+
+		//serverIP = address;
 
 		try {
 			serverPort = porta;
@@ -59,37 +90,30 @@ public class Dashboard extends Thread {
 			System.exit(1);
 		}
 
-		System.out.println("Connecting to http://" + address.getHostAddress() + ":" + serverPort + "/");
-
 		try{
+			System.out.println("Connecting to https://localhost:" + serverPort + "/");
+
 			SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 			sock = (SSLServerSocket) sslF.createServerSocket(serverPort);
 			//sock = new Socket(serverIP, serverPort);
-			System.out.println("Connected to " + serverIP.getHostAddress() + ":" + serverPort);
+			System.out.println("Connected to https://localhost:" + serverPort + "/");
+
 			try {
 				openDashboard();
+				return true;
 			} catch (URISyntaxException | IOException e) {
 				e.printStackTrace();
+				return false;
 			}
 		}catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		while (flag) {
-			try {
-				cliSock= (SSLSocket) sock.accept();
-				HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
-				//sendTestConnection();
-				req.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			return false;
 		}
 	}
 
-	private void openDashboard() throws URISyntaxException, IOException {
+	private static void openDashboard() throws URISyntaxException, IOException {
 		if (Desktop.isDesktopSupported()) {
-			URI uri = new URI("https://localhost:32507");
+			URI uri = new URI("http://localhost:" + serverPort +"/");
 			Desktop.getDesktop().browse(uri); //open url for dashboard
 		}
 	}
@@ -101,28 +125,6 @@ public class Dashboard extends Thread {
 		accessesCounter++;
 	}
 
-	public static synchronized void sendTestConnection() throws IOException {
-		String username = authz.session().get().authenticatedUser().username().toString();
-		if (doConnection()) {
-			if (sendMessage(4, username)) {
-				byte[] response = receiveMessage();
-				String resp = new String(response, 3, response[3]);
-				if ((sendMessage(1, "103"))) {
-					response = receiveMessage();
-                    /*if (response[1] != 2 || !closeConnection()) {
-                        System.out.println("Error closing the connection!");
-                    }*/
-				} else {
-					System.out.println("Error trying to send the end connection code!");
-				}
-			} else {
-				System.out.println("Error trying to send the protocol!");
-			}
-		} else {
-			System.out.println("Error trying to connect to the server!");
-		}
-		//}
-	}
 
 	public static synchronized String getDashboardDataInHTML() {
 		String[] dashboard = tasks.split("-");
@@ -146,5 +148,62 @@ public class Dashboard extends Thread {
 	public static void setServerFlag(boolean value) {
 		flag = value;
 	}
+
+	public static synchronized boolean sendMessage(int num, String input) throws IOException {
+		DataOutputStream sOut = new DataOutputStream(cliSock.getOutputStream());
+		byte[] data = new byte[258];
+
+		data[0] = 0;
+		data[1] = (byte) num;
+		byte[] idArray = input.getBytes();
+		data[2] = (byte) idArray.length;
+		//colocar caso seja preciso enviar mensagens muito grandes
+        /*double amount_of_times = size / 255;
+        int p = 0;
+
+        while (amount_of_times > 1) {
+
+            byte[] info = new byte[258];
+            info[0] = 0;
+            info[1] = 10;
+            for (int k = 0; k < 255; k++) {
+                if (p < size) {
+                    info[k + 2] = idArray[p];
+                    p++;
+                } else {
+                    k = 255;
+                }
+            }
+            sOut.write(info);
+            size -= 255;
+            amount_of_times--;
+        }
+
+        for (int i = 0; i < idArray.length; i++) {
+            data[i + 2] = idArray[p];
+            p++;
+        }*/
+
+		for (int i = 0; i < idArray.length; i++) {
+			data[i + 2] = idArray[i];
+		}
+
+		sOut.write(data);
+		return true;
+	}
+
+
+	public static byte[] receiveMessage() throws IOException {
+		DataInputStream sIn = new DataInputStream(cliSock.getInputStream());
+		try {
+			byte[] answer = new byte[258];
+			sIn.read(answer);
+			return answer;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
 

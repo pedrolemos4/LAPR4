@@ -14,11 +14,12 @@ import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
+
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
 
-public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String> implements PedidoRepository {
+public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, String> implements PedidoRepository {
 
     public JpaPedidoRepository() {
         super("identificador");
@@ -407,6 +408,17 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     }
 
     @Override
+    public List<Calendar> findDatas(MecanographicNumber number, String idPedido) {
+        final TypedQuery<Calendar> q = createQuery("SELECT p.dataSolicitacao FROM Pedido p JOIN" +
+                " p.servico ser JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade la JOIN la.colab col" +
+                " WHERE p.id =:idPedido AND la.estadoAtividade =:pendente AND col.numeroMecanografico=:number", Calendar.class);
+        q.setParameter("pendente",EstadoAtividade.PENDENTE);
+        q.setParameter("idPedido", idPedido);
+        q.setParameter("number", number);
+        return q.getResultList();
+    }
+
+    @Override
     public List<Pedido> getAllPedidoConcluido(EstadoPedido concluido) {
         /*final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p" +
@@ -458,8 +470,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido,Long,String
     @Override
     public Pedido findPedido(String idPedido) {
         final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p WHERE p.Id = :idPedido",Pedido.class);
-        q.setParameter("idPedido",idPedido);
+                "SELECT p FROM Pedido p WHERE p.Id = :idPedido", Pedido.class);
+        q.setParameter("idPedido", idPedido);
         return q.getSingleResult();
     }
 

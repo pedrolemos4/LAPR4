@@ -1,24 +1,18 @@
 package base.daemon.motor.protocol;
 
 import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.AppSettings;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
-import eapli.base.atividade.domain.*;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.AtividadeManual;
+import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.servico.domain.Servico;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Set;
-
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +21,13 @@ import org.apache.logging.log4j.Logger;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.*;
 
 public class FluxoRequest extends AplicacoesRequest {
 
@@ -39,7 +40,7 @@ public class FluxoRequest extends AplicacoesRequest {
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
-    private static final String IP_EXECUTOR = "10.8.0.81";
+    private static final String IP_EXECUTOR = "10.8.0.82";
     private static final int EXECUTOR_PORT = 32510;
 
     public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
@@ -75,31 +76,12 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    if (algoritmo.equalsIgnoreCase("FCFS")) {
-                        for (Colaborador col : list) {
-                            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col,atividade);
-                            threads[j] = new Thread(fcfs);
-                            threads[j].start();
-                            j++;
-                        }
-                    } else {
-                        //Chamas a tua classe algoritmo
-                         /* threads[i] = new Thread(fcfs);
-                         i++;*/
-                    }
-                    for (Thread t : threads) {
-                        t.interrupt();
-                        try {
-                            t.join();
-                        } catch (InterruptedException e) {
-                            System.out.println("Thread was interrupted!");
-                        }
-                    }
-                    //atividadeManual=true;
-                    //new TcpChatCliConn(s);
-                    //return data;
+                    Colaborador escolhido=createThreads(atividade, servico, list, null, algoritmo,id);
+                    //query para atribuir
+
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
+                    createThreads(atividade, servico, list, threads, algoritmo,id);
                 } else {
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia
@@ -218,6 +200,34 @@ public class FluxoRequest extends AplicacoesRequest {
         data[1] = 1;
         data[2] = 0;
         return data;
+    }
+
+    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, Thread[] threads, String algoritmo,
+                              String idPedido) {
+
+        int j=0;
+        if (algoritmo.equalsIgnoreCase("FCFS")) {
+            Map<Calendar, Colaborador> map = new TreeMap<>();
+            for (Colaborador col : list) {
+                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade, map,idPedido);
+                threads[j] = new Thread(fcfs);
+                threads[j].start();
+                j++;
+            }
+        } else {
+            AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
+            atm.createThreads();
+            return atm.getColaboradorEscolhido();
+        }
+        for (Thread t : threads) {
+            t.interrupt();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                System.out.println("Thread was interrupted!");
+            }
+        }
+        return null;
     }
 
 }

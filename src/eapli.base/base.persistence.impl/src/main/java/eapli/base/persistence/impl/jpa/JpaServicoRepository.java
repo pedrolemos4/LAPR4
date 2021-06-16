@@ -217,4 +217,20 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getSingleResult();
     }
 
+    @Override
+    public double tempoMedioAprovacao(CodigoUnico identity){
+        final TypedQuery<Double> q = createQuery("SELECT ob.tempoMedioAprov FROM Servico e JOIN e.catalogo p JOIN" +
+                "p.criticidade la JOIN la.objetivo ob WHERE e.codigoUnico =:identity",Double.class);
+        q.setParameter("identity",identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public double tempoMedioResolucao(CodigoUnico identity){
+        final TypedQuery<Double> q = createQuery("SELECT ob.tempoMedioRes FROM Servico e JOIN e.catalogo p JOIN" +
+                "p.criticidade la JOIN la.objetivo ob WHERE e.codigoUnico =:identity",Double.class);
+        q.setParameter("identity",identity);
+        return q.getSingleResult();
+    }
+
 }

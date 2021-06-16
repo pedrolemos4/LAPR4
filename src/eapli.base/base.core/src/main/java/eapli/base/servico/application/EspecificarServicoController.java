@@ -33,7 +33,7 @@ public class EspecificarServicoController {
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
                                    final String descricaoCompleta, Formulario formulario, Set<String> keywords,
-                                   Catalogo catalogo,final FluxoAtividade fluxoAtividade) {
+                                   Catalogo catalogo, final FluxoAtividade fluxoAtividade) {
         final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
                 .withDescricaoBreve(descricaoBreve)
                 .withDescricaoCompleta(descricaoCompleta)
@@ -47,7 +47,7 @@ public class EspecificarServicoController {
         this.servicoRepository.save(servico);
     }
 
-    public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos){
+    public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos) {
         final Formulario formulario = new Formulario(titulo, listaAtributos);
         //System.out.println(formulario.toString());
         //this.formularioRepository.save(formulario);
@@ -55,19 +55,19 @@ public class EspecificarServicoController {
     }
 
     public void createDraftServico(final String codigoUnico, final String descricaoBreve,
-                                   final String descricaoCompleta,final String titulo,  final String tituloFormulario,
-                                   Set<Atributo> listaAtributos,Set<String> keywords,Catalogo catalogo, FluxoAtividade fluxo) {
+                                   final String descricaoCompleta, final String titulo, final String tituloFormulario,
+                                   Set<Atributo> listaAtributos, Set<String> keywords, Catalogo catalogo, FluxoAtividade fluxo) {
         DraftServico draftServico = new DraftServico(codigoUnico, descricaoBreve, descricaoCompleta, titulo,
-                tituloFormulario, listaAtributos, keywords,catalogo, fluxo);
+                tituloFormulario, listaAtributos, keywords, catalogo, fluxo);
         this.draftServicoRepository.save(draftServico);
     }
 
-    public Iterable<Catalogo> listCatalogos(){
+    public Iterable<Catalogo> listCatalogos() {
         final Iterable<Catalogo> lc = catalogoRepository.findAll();
         return lc;
     }
 
-    public FluxoAtividade createFluxo (Set<Atividade> atividades){
+    public FluxoAtividade createFluxo(Set<Atividade> atividades) {
         Set<Atividade> listAtividades = new HashSet<>(atividades);
         FluxoAtividade fluxoAtividade = new FluxoAtividade(listAtividades);
         return fluxoAtividade;
@@ -77,72 +77,44 @@ public class EspecificarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
-    public Iterable<Colaborador> findColaboradoresDaEquipa(CodigoUnico identity){
+    public Iterable<Colaborador> findColaboradoresDaEquipa(CodigoUnico identity) {
         final Iterable<Colaborador> lc = colaboradorRepository.findColaboradoresDaEquipa(identity);
         return lc;
     }
 
-    public AtividadeManual novaAtividadeAprovacaoManualEquipa(final Set<Equipa> equipa,
-                                                              /*final String decisao, final String comentario,*/
-                                                              final int ano, final int mes, final int dia,
-                                                              final Formulario formulario, TipoAtividade tipo){
+    public AtividadeManual novaAtividadeAprovacaoManualEquipa(final Set<Equipa> equipa, final Formulario formulario, TipoAtividade tipo) {
         final AtividadeManual atividadeAprovacaoManualEquipa;
-        final Calendar data = Calendar.getInstance();
-        data.set(ano,mes,dia);
-        /*final Decisao des = new Decisao(decisao);
-        final Comentario com = new Comentario(comentario);*/
-        final EstadoAtividade e  = EstadoAtividade.PENDENTE ;
-        if(ano==0 && mes==0 && dia==0) {
-            atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo);
-        }else{
-            atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, data, tipo);
-        }
+        final EstadoAtividade e = EstadoAtividade.PENDENTE;
+        atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo);
         return atividadeAprovacaoManualEquipa;
     }
 
-    public AtividadeManual novaAtividadeAprovacaoManualColaborador(final Colaborador colaborador,
-                                                                   /*final String decisao, final String comentario,*/
-                                                                   final int ano, final int mes, final int dia,
-                                                                   final Formulario formulario, final TipoAtividade tipoAtividade){
+    public AtividadeManual novaAtividadeAprovacaoManualColaborador(final Colaborador colaborador, final Formulario formulario, final TipoAtividade tipoAtividade) {
         final AtividadeManual atividadeAprovacaoColaborador;
-        final Calendar data = Calendar.getInstance();
-        data.set(ano,mes,dia);
-        /*final Decisao des = new Decisao(decisao);
-        final Comentario com = new Comentario(comentario);*/
-        final EstadoAtividade e  = EstadoAtividade.PENDENTE ;
-        if(ano==0 && mes==0 && dia==0) {
-            atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, null, tipoAtividade);
-        }else{
-            atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, data, tipoAtividade);
-        }
+        final EstadoAtividade e = EstadoAtividade.PENDENTE;
+        atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, null, tipoAtividade);
         return atividadeAprovacaoColaborador;
     }
 
-    public AtividadeAutomatica novaAtividadeAutomatica(final int ano, final int mes, final int dia){
+    public AtividadeAutomatica novaAtividadeAutomatica() {
         final AtividadeAutomatica atividadeAutomatica;
-        final Calendar data = Calendar.getInstance();
-        data.set(ano,mes,dia);
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
         final Script script = new Script("script.sh");
-        if(ano==0 && mes==0 && dia==0) {
-            atividadeAutomatica = new AtividadeAutomatica(null,e,tipoAtividade, script);
-        }else{
-            atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade, script);
-        }
+        atividadeAutomatica = new AtividadeAutomatica(null, e, tipoAtividade, script);
         return atividadeAutomatica;
     }
 
-    public Atributo createAtributo(String label, String tipoDados, String obrigatoriedade,String descricaoAjuda,Formulario formulario) {
+    public Atributo createAtributo(String label, String tipoDados, String obrigatoriedade, String descricaoAjuda, Formulario formulario) {
         DescricaoAjuda descricaoAjuda1 = new DescricaoAjuda(descricaoAjuda);
-        TipoDados tipoDados1 = Enum.valueOf(TipoDados.class,tipoDados.toUpperCase());
-        Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class,obrigatoriedade.toUpperCase());
-        final Atributo atributo = new Atributo(new Label(label),tipoDados1,obr,descricaoAjuda1,formulario);
+        TipoDados tipoDados1 = Enum.valueOf(TipoDados.class, tipoDados.toUpperCase());
+        Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class, obrigatoriedade.toUpperCase());
+        final Atributo atributo = new Atributo(new Label(label), tipoDados1, obr, descricaoAjuda1, formulario);
         return atributo;
     }
 
 
-    public Catalogo saveCatalogo(Catalogo catalogo){
+    public Catalogo saveCatalogo(Catalogo catalogo) {
         return this.catalogoRepository.save(catalogo);
     }
 }

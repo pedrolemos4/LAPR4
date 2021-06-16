@@ -51,4 +51,9 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
     List<Atividade> findListAtividades(CodigoUnico idServico);
 
     String findScriptServico(CodigoUnico cod);
+
+    double tempoMedioResolucao(CodigoUnico identity);
+
+    double tempoMedioAprovacao(CodigoUnico identity);
+
 }
