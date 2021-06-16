@@ -119,7 +119,7 @@ public class OrdenarTarefasDataWidget {
 
     private void printTarefas(List<Atividade> listTarefas){
         for (Atividade a : listTarefas) {
-            Pedido p = controller.getPedidoByAtividade(a);
+            Pedido p = controller.getPedidoByTarefa(a);
             System.out.println(a.toString() + "\n" + p.toString() + "\n");
         }
     }

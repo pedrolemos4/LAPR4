@@ -73,7 +73,7 @@ public class ConsultarTarefasController {
         return repo.ordenarEscalaDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public Pedido getPedidoByAtividade(Atividade a) {
-        return repo.getPedidoByAtividade(a.identity(), EstadoPedido.APROVADO);
+    public Pedido getPedidoByTarefa(Atividade a) {
+        return repo.getPedidoByTarefa(a.identity());
     }
 }

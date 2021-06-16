@@ -39,7 +39,7 @@ public class RealizarTarefaUI extends AbstractUI {
                 //AtividadeManual atFinal = null;
                 System.out.println("AT:: " + at.identity());
 
-                Pedido pedido = this.controller.getPedidoByAtividade(at);
+                Pedido pedido = this.controller.getPedidoByTarefa(at);
 
                 System.out.println("PEDIDO:: " + pedido.identity());
 

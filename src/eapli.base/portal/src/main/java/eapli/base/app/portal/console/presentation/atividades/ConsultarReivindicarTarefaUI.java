@@ -27,7 +27,7 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
             listTarefas.addAll(this.controller.getListaTarefasPendentesColaborador(colab.identity()));
 
             for (Atividade a : listTarefas) {
-                Pedido p = this.controller.getPedidoByAtividade(a);
+                Pedido p = this.controller.getPedidoByTarefa(a.identity());
                 System.out.println(a.toString() + "\n" + p.toString() + "\n");
             }
             System.out.println("Consultar tarefas:\n" +

@@ -50,10 +50,6 @@ public class ConsultarReivindicarTarefaController {
         this.pRepo.save(pedido);
     }
 
-    public Pedido getPedidoByAtividade(Atividade a) {
-        return this.pRepo.getPedidoByAtividade(a.identity(), EstadoPedido.APROVADO);
-    }
-
     public List<Atividade> filtrarUrgenciaPendentes(Colaborador colab, String urgencia) {
         return this.pRepo.filtrarUrgenciaPendentes(colab.identity(), EstadoAtividade.PENDENTE, UrgenciaPedido.valueOf(urgencia));
     }

@@ -118,16 +118,6 @@ public class SolicitarServicoController {
         //     return null;
     }
 
-    public boolean atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
-        try {
-            atividade.atualizarDataAtividade(dataLimiteRes);
-            return true;
-        } catch (Exception e) {
-            LOGGER.error("Unexpected Error");
-            return false;
-        }
-    }
-
     public List<Atributo> findAtributos(Long identity) {
         return formularioRepository.findAtributos(identity);
     }

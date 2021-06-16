@@ -51,8 +51,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta);
 
-    Pedido getPedidoByAtividade(Long idAtiv, EstadoPedido aprovado);
-
     List<Atividade> ordenarEscalaCrescente(Colaborador identity, EstadoAtividade estado);
 
     List<Atividade> ordenarEscalaDecrescente(Colaborador identity, EstadoAtividade estado);
@@ -92,8 +90,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atividade> getTarefasDoPedido(String identity);
 
     List<Atividade> getListaTarefasPendentes(Colaborador identity, EstadoAtividade pendente, EstadoPedido concluido);
-
-    List<Atividade> getListaAtividades();
 
     List<Calendar> findDatas(MecanographicNumber number, String idPedido);
 }

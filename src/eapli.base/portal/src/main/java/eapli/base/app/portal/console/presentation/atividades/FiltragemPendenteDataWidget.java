@@ -97,7 +97,7 @@ public class FiltragemPendenteDataWidget {
 
     private void printTarefas(List<Atividade> listTarefas){
         for (Atividade a : listTarefas) {
-            Pedido p = controller.getPedidoByAtividade(a);
+            Pedido p = controller.getPedidoByTarefa(a.identity());
             System.out.println(a.toString() + "\n" + p.toString() + "\n");
         }
     }

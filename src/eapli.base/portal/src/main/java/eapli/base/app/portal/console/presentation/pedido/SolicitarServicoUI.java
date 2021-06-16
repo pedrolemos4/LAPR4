@@ -1,7 +1,5 @@
 package eapli.base.app.portal.console.presentation.pedido;
 
-import eapli.base.Application;
-import eapli.base.app.backoffice.console.presentation.servicos.FormularioDataWidget;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.AtividadeManual;
 import eapli.base.atividade.domain.EstadoAtividade;
@@ -10,7 +8,6 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.application.SolicitarServicoController;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -20,7 +17,6 @@ import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.*;
 
 public class SolicitarServicoUI extends AbstractUI {
@@ -71,11 +67,10 @@ public class SolicitarServicoUI extends AbstractUI {
         List<Atividade> atividades = this.controller.getListAtividadesServico(idServico);
         Set<Atividade> listaAtividade = new HashSet<>();
         for (Atividade atividade : atividades) {
-            Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
-                    formulario, atividade.getDataLimite(), atividade.tipoAtividade());
             System.out.println("Data Limite de Resolucao da Atividade(yyyy/mm/dd,hh:mm)___________________________________");
             Calendar calendar1 = setData();
-            this.controller.atualizarDataAtividade(atividade, calendar1);
+            Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
+                    formulario, calendar1, atividade.tipoAtividade());
             listaAtividade.add(at);
         }
         Pedido pedido = controller.efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
@@ -91,16 +86,6 @@ public class SolicitarServicoUI extends AbstractUI {
         controller.doConnection(pedido);
         //System.out.println("SUCESSO");
         //}
-    }
-
-    private Set<Atividade> listToSet(List<Atividade> atividades) {
-        Set<Atividade> listaAtividade = new HashSet<>();
-        for(Atividade atividade : atividades) {
-            if (!listaAtividade.contains(atividade)) {
-                listaAtividade.add(atividade);
-            }
-        }
-        return listaAtividade;
     }
 
     private Formulario preencherAtributos(Formulario formulario1, Set<Atributo> listaAtributos) {
