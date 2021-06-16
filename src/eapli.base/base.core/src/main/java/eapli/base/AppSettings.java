@@ -66,7 +66,7 @@ public class AppSettings {
         this.applicationProperties.setProperty(HIGH_CALORIES_DISH_LIMIT, "300");
         this.applicationProperties.setProperty(ALGORITMO_ATRIBUIR_COLABORADORES,FCFS);
         this.applicationProperties.setProperty(ALGORITMO_ATRIBUIR_TAREFA_AUTOMATICA,FCFS);
-        this.applicationProperties.setProperty(METODO_VERIFICACAO_GRAMATICA,"visitor");
+        this.applicationProperties.setProperty(METODO_VERIFICACAO_GRAMATICA,"listener");
         /*this.applicationProperties.setProperty(EXECUTOR_IP,"10.8.0.82");
         this.applicationProperties.setProperty(MOTOR_IP,"10.8.0.81");*/
     }

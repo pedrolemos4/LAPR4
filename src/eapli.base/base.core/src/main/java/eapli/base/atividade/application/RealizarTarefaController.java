@@ -26,15 +26,15 @@ import java.util.List;
 public class RealizarTarefaController {
 
     private AuthorizationService authz = AuthzRegistry.authorizationService();
-    private ColaboradorRepository colabRepo= PersistenceContext.repositories().colaborador();
-    private FormularioRepository formRepo= PersistenceContext.repositories().formularios();
-    private PedidoRepository pRepo= PersistenceContext.repositories().pedidos();
+    private ColaboradorRepository colabRepo = PersistenceContext.repositories().colaborador();
+    private FormularioRepository formRepo = PersistenceContext.repositories().formularios();
+    private PedidoRepository pRepo = PersistenceContext.repositories().pedidos();
 
     private SystemUser currentUser() {
         return authz.session().get().authenticatedUser();
     }
 
-    public Colaborador getUser(){
+    public Colaborador getUser() {
         final SystemUser user = currentUser();
         EmailAddress email = user.email();
         return this.colabRepo.findEmailColaborador(email);
@@ -60,9 +60,18 @@ public class RealizarTarefaController {
         return this.formRepo.getLabelDoAtributo(atributo.identity());
     }
 
-    public boolean validaFormulario(File file) {
+    public boolean validaFormularioVisitor(File file) {
         ValidaForm valida = new ValidaForm();
-        return valida.validaForm(file);
+        return valida.validaFormVisitor(file);
+    }
+
+    public void validaFormularioListener(File file) {
+        ValidaForm valida = new ValidaForm();
+        try {
+            valida.validaFormListener(file);
+        } catch (Exception e) {
+            System.out.println("Erro de validação do formulário.");
+        }
     }
 
     public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at, EstadoPedido estado, EstadoAtividade estadoA) {
@@ -85,7 +94,7 @@ public class RealizarTarefaController {
         return a.obrigatoriedade();
     }
 
-    public String descricaoAjuda(Atributo a){
+    public String descricaoAjuda(Atributo a) {
         return a.descricaoAjuda().toString();
     }
 
