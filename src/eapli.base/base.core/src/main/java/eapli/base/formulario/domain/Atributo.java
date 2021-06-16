@@ -36,10 +36,6 @@ public class Atributo implements ValueObject {
     protected Atributo() {
     }
 
-    public void completaFormulario(Variavel valueOf) {
-        this.nomeVariavel = valueOf;
-    }
-
     public Long identity() {
         return id;
     }

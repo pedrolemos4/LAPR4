@@ -18,8 +18,10 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.base.validacoes.validaFormulario.ValidaForm;
 import eapli.framework.application.UseCaseController;
+import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +59,15 @@ public class SolicitarServicoController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
+    private SystemUser currentUser() {
+        return authz.session().get().authenticatedUser();
+    }
+
+    public Colaborador getUser(){
+        final SystemUser user = currentUser();
+        EmailAddress email = user.email();
+        return this.repository.findEmailColaborador(email);
+    }
 
     public List<Catalogo> displayAvailableCatalogos() {
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
@@ -82,7 +93,8 @@ public class SolicitarServicoController {
         }
     }
 
-    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes, Formulario formulario, Set<Atributo> atributos) {
+    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes,
+                                             Formulario formulario, Set<Atributo> atributos, Set<Atividade> atividades) {
         try {
             formulario.copyAtributos(atributos);
 
@@ -94,7 +106,7 @@ public class SolicitarServicoController {
 
             //  if (checkForm == true) {
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
             return this.pedidoRepository.save(pedido);
             /*} else {
                 System.out.println("Formulário inválido. Pedido não será efetuado.");
@@ -106,9 +118,9 @@ public class SolicitarServicoController {
         //     return null;
     }
 
-    public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
+    public boolean atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
         try {
-            clone.atualizarDataAtividade(atividade, dataLimiteRes);
+            atividade.atualizarDataAtividade(dataLimiteRes);
             return true;
         } catch (Exception e) {
             LOGGER.error("Unexpected Error");

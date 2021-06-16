@@ -2,6 +2,7 @@ package eapli.base.atividade.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
@@ -29,6 +30,10 @@ public class Atividade implements ValueObject{
     @Enumerated(EnumType.STRING)
     private TipoAtividade tipoAtividade;
 
+    /*@ManyToOne(optional = true)
+    @JoinColumn(name = "pedido")
+    private Pedido pedido;*/
+
     public Atividade(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade){
         this.estadoAtividade=estadoAtividade;
         this.dataLimite=dataLimite;
@@ -38,6 +43,12 @@ public class Atividade implements ValueObject{
     protected Atividade() {
         this.dataLimite=null;
         this.estadoAtividade=null;
+    }
+
+    public Atividade(Atividade atividade){
+        this.estadoAtividade=atividade.estadoAtividade;
+        this.dataLimite=atividade.dataLimite;
+        this.tipoAtividade = atividade.tipoAtividade;
     }
 
     public Long identity() {
@@ -60,17 +71,27 @@ public class Atividade implements ValueObject{
         return tipoAtividade;
     }
 
+    public Calendar getDataLimite() {
+        return dataLimite;
+    }
+
     public void atualizarDataAtividade(Calendar dataLimiteRes) {
         this.dataLimite = dataLimiteRes;
     }
 
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
-        AtividadeManual manual = (AtividadeManual) at;
+        AtividadeManual manual;
+        manual = (AtividadeManual) at;
         manual.completaDecisaoComentario(valueOf, aprovado);
     }
 
-    public void replaceFormulario(Atividade at, Formulario formFinal) {
-        AtividadeManual manual = (AtividadeManual) at;
-        manual.replaceFormulario(formFinal);
+    public void mudaEstadoAtividade(EstadoAtividade estado) {
+        this.estadoAtividade = estado;
+    }
+
+    public void replaceFormularioAtividade(Atividade at, Formulario formFinal) {
+        AtividadeManual manual;
+        manual = (AtividadeManual) at;
+        manual.replaceFormularioAtividade(formFinal);
     }
 }
