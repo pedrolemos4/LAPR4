@@ -26,7 +26,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade pendente) {
+    public List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade pendente) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
                         " JOIN f.listaAtividade at JOIN at.equipa eq " +

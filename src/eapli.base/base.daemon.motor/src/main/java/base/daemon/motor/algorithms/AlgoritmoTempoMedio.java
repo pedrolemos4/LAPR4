@@ -1,10 +1,12 @@
 package base.daemon.motor.algorithms;
 
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.repositories.ServicoRepository;
 
@@ -44,7 +46,7 @@ public class AlgoritmoTempoMedio implements Runnable {
         synchronized (this) {
             Colaborador colab = list.get(incrementoColaboradores);
             getIncrement();
-            List<Atividade> listaTarefasPendentes = pedidoRepository.getListaTarefasPendentes(colab.identity());
+            List<Atividade> listaTarefasPendentes = pedidoRepository.getListaTarefasPendentes(colab, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
             for (Atividade atividadeList : listaTarefasPendentes) {
                 if (atividadeList.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);

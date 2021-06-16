@@ -19,7 +19,7 @@ import java.util.List;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
-    List<Atividade> getListaTarefasPendentes(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade estado);
+    List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade estado);
 
     List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado, EstadoPedido concluido);
 
@@ -94,4 +94,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atividade> getListaTarefasPendentes(Colaborador identity, EstadoAtividade pendente, EstadoPedido concluido);
 
     List<Atividade> getListaAtividades();
+
+    List<Calendar> findDatas(MecanographicNumber number, String idPedido);
 }

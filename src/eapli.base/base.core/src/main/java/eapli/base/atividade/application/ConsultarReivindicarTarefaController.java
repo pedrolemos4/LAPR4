@@ -38,8 +38,8 @@ public class ConsultarReivindicarTarefaController {
         return this.colabRepo.findEmailColaborador(email);
     }
 
-    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
-        return this.pRepo.getListaTarefasPendentes(identity, EstadoPedido.CONCLUIDO, EstadoAtividade.PENDENTE);
+    public List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity) {
+        return this.pRepo.getListaTarefasPendentesColaborador(identity, EstadoPedido.CONCLUIDO, EstadoAtividade.PENDENTE);
     }
 
     public Pedido getPedidoByTarefa(long idAtividade) {
