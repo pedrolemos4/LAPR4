@@ -22,22 +22,22 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class ExecutorTarefaAutomaticaTest {
-    
+
     public ExecutorTarefaAutomaticaTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -51,7 +51,7 @@ public class ExecutorTarefaAutomaticaTest {
 
     };
 
-    @Test
+    /*@Test
     public void ensureOkReturnsEstadoFluxo() throws ParseException {
 
         final ExecutorProtocolRequest request = ExecutorProtocolMessageParser
@@ -66,6 +66,6 @@ public class ExecutorTarefaAutomaticaTest {
         final String[] tokens = CsvLineMarshaler.tokenize(lines[0]).toArray(new String[0]);
         assertEquals(2, tokens.length);
         assertEquals('\n', result.charAt(result.length() - 1));*/
-    }
+    //}
 
 }

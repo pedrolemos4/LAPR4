@@ -82,7 +82,8 @@ public class FluxoRequest extends AplicacoesRequest {
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     Colaborador escolhido = createThreads(atividade, servico, list,algoritmo, id);
-
+                    pedido.adicionaColaborador(escolhido,atividade);
+                    pedidoRepository.save(pedido);
                 } else {
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia

@@ -1,5 +1,6 @@
 package eapli.base.app.portal.console.presentation.atividades;
 
+import eapli.base.Application;
 import eapli.base.atividade.application.RealizarTarefaController;
 import eapli.base.atividade.domain.*;
 import eapli.base.colaborador.domain.Colaborador;
@@ -32,10 +33,10 @@ public class RealizarTarefaUI extends AbstractUI {
                 visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
         selector.show();
 
-        if(!this.controller.getListaTarefasPendentes(colab).isEmpty()) {
+        if (!this.controller.getListaTarefasPendentes(colab).isEmpty()) {
             // atividade correspondente
             Atividade at = selector.selectedElement();
-            if(at != null) {
+            if (at != null) {
                 //AtividadeManual atFinal = null;
                 System.out.println("AT:: " + at.identity());
 
@@ -63,9 +64,13 @@ public class RealizarTarefaUI extends AbstractUI {
                         File file = new File("formularioAtividade.txt");
                         FileWriter myWriter = new FileWriter(file);
                         myWriter.write(formFinal.toString());
-
-                        // conseguir que retorne se formulario é valido ou nao
-                        flag = this.controller.validaFormulario(file);
+                        String metodo = Application.settings().getMetodoVerificacaoGramatica();
+                        if (metodo.equalsIgnoreCase("visitor")) {
+                            // conseguir que retorne se formulario é valido ou nao
+                            flag = this.controller.validaFormularioVisitor(file);
+                        } else if (metodo.equalsIgnoreCase("listener")) {
+                            this.controller.validaFormularioListener(file);
+                        }
                         myWriter.close();
                         System.out.println("Successfully wrote to the file.");
                     } catch (IOException e) {
