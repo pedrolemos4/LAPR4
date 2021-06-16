@@ -1,3 +1,4 @@
+// Generated from C:/Users/Tiago/Desktop/LAPR4/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -114,4 +115,16 @@ public interface validaFormListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValidoData(validaFormParser.ValidoDataContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code validoDesc}
+	 * labeled alternative in {@link validaFormParser#desc}.
+	 * @param ctx the parse tree
+	 */
+	void enterValidoDesc(validaFormParser.ValidoDescContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code validoDesc}
+	 * labeled alternative in {@link validaFormParser#desc}.
+	 * @param ctx the parse tree
+	 */
+	void exitValidoDesc(validaFormParser.ValidoDescContext ctx);
 }

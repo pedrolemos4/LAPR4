@@ -49,6 +49,10 @@ public class Formulario implements AggregateRoot<Long> {
                 "; " + atributos;
     }
 
+    public String toStringVal(){
+        return titulo + "; " + atributos;
+    }
+
     public Formulario(final String titulo){
         this.titulo = new Titulo(titulo);
     }

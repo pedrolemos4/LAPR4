@@ -10,6 +10,9 @@ import eapli.base.atividade.domain.AtividadeManual;
 import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
@@ -35,6 +38,7 @@ public class FluxoRequest extends AplicacoesRequest {
     static SSLSocket sock;
 
     private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
+    private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
@@ -60,6 +64,7 @@ public class FluxoRequest extends AplicacoesRequest {
             final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica();
 
             String id = request.trim();
+            Pedido pedido = pedidoRepository.findPedido(id);
             Servico servico = controller.findServico(id);
             List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
             FluxoAtividade fluxo = controller.getFluxoAtividade(id);
@@ -71,7 +76,6 @@ public class FluxoRequest extends AplicacoesRequest {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
                     Colaborador escolhido=createThreads(atividade, servico, list, algoritmo,id);
-                    Pedido pedido = pedidoRepository.findPedido(id);
                     pedido.adicionaColaborador(escolhido,atividade);
                     pedidoRepository.save(pedido);
 
@@ -122,7 +126,16 @@ public class FluxoRequest extends AplicacoesRequest {
                     serverConn.start();
 
                     String caminhoScript = controller.findScriptServico(servico.identity());
-                    byte[] idArray = caminhoScript.getBytes();
+                    Formulario form = pedidoRepository.getFormularioPedido(id);
+                    List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
+                    String input="";
+                    for(Atributo at : atributos){
+                        input.concat(";");
+                        input.concat(formularioRepository.getVariavelDoAtributo(at.identity()).toString());
+                    }
+                    input.concat("/");
+                    input.concat(caminhoScript);
+                    byte[] idArray = input.getBytes();
                     int size = idArray.length;
                     data[0] = 0;
                     data[1] = 9;

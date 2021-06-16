@@ -4,6 +4,7 @@ import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.formulario.repositories.FormularioRepository;
 
 import javax.persistence.TypedQuery;
@@ -39,6 +40,16 @@ public class JpaFormularioRepository extends BasepaRepositoryBase<Formulario,Lon
                 "SELECT lab FROM Formulario form JOIN form.atributos atr JOIN atr.label lab" +
                         " WHERE atr.id =:identity",
                 Label.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Variavel getVariavelDoAtributo(Long identity) {
+        final TypedQuery<Variavel> q = createQuery(
+                "SELECT lab FROM Formulario form JOIN form.atributos atr JOIN atr.nomeVariavel lab" +
+                        " WHERE atr.id =:identity",
+                Variavel.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
     }

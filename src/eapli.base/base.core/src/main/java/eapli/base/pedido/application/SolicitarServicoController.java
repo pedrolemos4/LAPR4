@@ -63,7 +63,7 @@ public class SolicitarServicoController {
         return authz.session().get().authenticatedUser();
     }
 
-    public Colaborador getUser(){
+    public Colaborador getUser() {
         final SystemUser user = currentUser();
         EmailAddress email = user.email();
         return this.repository.findEmailColaborador(email);
@@ -97,25 +97,25 @@ public class SolicitarServicoController {
                                              Formulario formulario, Set<Atributo> atributos, Set<Atividade> atividades) {
         try {
             formulario.copyAtributos(atributos);
-
             File file = new File("testForm.txt");
             FileWriter fw = new FileWriter(file);
-            fw.write(formulario.toString());
+            fw.write(formulario.toStringVal());
+            fw.close();
             ValidaForm vf = new ValidaForm();
             boolean checkForm = vf.validaForm(file);
 
-            //  if (checkForm == true) {
-            Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
-            return this.pedidoRepository.save(pedido);
-            /*} else {
+            if (checkForm == true) {
+                Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                return this.pedidoRepository.save(pedido);
+            } else {
                 System.out.println("Formulário inválido. Pedido não será efetuado.");
-            }*/
+            }
         } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
-        //     return null;
+        return null;
     }
 
     public List<Atributo> findAtributos(Long identity) {
@@ -134,7 +134,7 @@ public class SolicitarServicoController {
         return a.obrigatoriedade();
     }
 
-    public String descricaoAjuda(Atributo a){
+    public String descricaoAjuda(Atributo a) {
         return a.descricaoAjuda().toString();
     }
 
@@ -329,7 +329,7 @@ class TcpChatCliConn implements Runnable {
         try {
             sIn = new DataInputStream(s.getInputStream());
             sIn.read(data);
-            if(data[1]==1) {
+            if (data[1] == 1) {
                 System.out.println("Sucesso");
             }
         } catch (IOException ex) {

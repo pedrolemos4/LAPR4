@@ -37,12 +37,14 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
 
     @Override
     public byte[] execute() {
-        File fileScript = new File(request);
+        String[] caminho = request.split("/");
+        String[] variaveis=caminho[0].split(";");
+        File fileScript = new File(caminho[1]);
         //ValidaScript vs = new ValidaScript();
         // boolean checkScript = vs.validaScript(fileScript);
         // if (checkScript) {
         try {
-            executarScript(fileScript);
+            executarScript(fileScript,variaveis);
         } catch (final Exception e) {
             LOGGER.info("Erro");
             //return buildServerError(e.getMessage());
@@ -79,14 +81,10 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         LOGGER.info("Script guardado para posterior execução");
     }
 
-    private void executarScript(final File script) throws IOException {
-        //String [] args = new String[2];
-        //args[0]="DESCOBRIR";   //Descobrir qual o id (produto ou cliente) devo enviar
-        //args[1]=script.getPath();
+    private void executarScript(final File script, final String[] variaveis) throws IOException {
+        //String de variaveis para mandar por parametro para verificar a quantidade
+        // de produtos e calcular o preco total
 
-        //MainValidaScript valida = new MainValidaScript();
-        //valida.main(script.getPath());
-        
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script

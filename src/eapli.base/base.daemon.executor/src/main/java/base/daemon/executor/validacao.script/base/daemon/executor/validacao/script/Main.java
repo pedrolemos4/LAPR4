@@ -1,11 +1,8 @@
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 
-import base.daemon.executor.validacao.script.ValidaScriptLexer;
-import base.daemon.executor.validacao.script.ValidaScriptParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.io.FileInputStream;
