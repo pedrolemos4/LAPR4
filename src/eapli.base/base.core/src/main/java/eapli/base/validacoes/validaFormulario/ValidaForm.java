@@ -3,6 +3,7 @@ package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,9 @@ public class ValidaForm {
             validaFormParser parser = new validaFormParser(tokens);
             ParseTree tree = parser.regra();
             EvalVisitorValidaForm eval = new EvalVisitorValidaForm();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            EvalListenerValidaForm listener = new EvalListenerValidaForm();
+            walker.walk(listener, tree);
             int value = (int) eval.visit(tree);
             if(value == 1){
                 return false;

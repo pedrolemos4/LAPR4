@@ -3,7 +3,6 @@ package base.daemon.motor.protocol;
 import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
-import eapli.base.AppSettings;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.Atividade;
@@ -13,14 +12,12 @@ import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
+import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
-import eapli.framework.infrastructure.authz.application.AuthorizationService;
-import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.DataInputStream;
@@ -50,8 +47,6 @@ public class FluxoRequest extends AplicacoesRequest {
 
     @Override
     public byte[] execute() {
-        boolean atividadeManual = false;
-        boolean atividadeAutomatica = false;
 
         try {
 
@@ -75,13 +70,15 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    Colaborador escolhido=createThreads(atividade, servico, list, null, algoritmo,id);
-                    atividade.adicionaColaborador(escolhido,atividade);
-                    //pedidoRepository.save(atividade);
+                    Colaborador escolhido=createThreads(atividade, servico, list, algoritmo,id);
+                    Pedido pedido = pedidoRepository.findPedido(id);
+                    pedido.adicionaColaborador(escolhido,atividade);
+                    pedidoRepository.save(pedido);
 
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    createThreads(atividade, servico, list, threads, algoritmo,id);
+                    Colaborador escolhido = createThreads(atividade, servico, list,algoritmo, id);
+
                 } else {
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia
@@ -93,7 +90,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    //mandar para o executor
+
                     byte[] data = new byte[258];
 
                     SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -119,21 +116,11 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
 
-                    /*ArrayList<Thread> threads = new ArrayList<>();
-                    List<Atividade> atividades = controller.getAtividadesAuto();
-                    for (Atividade at : atividades){
-                        System.out.println("Connected to server");
-                        Thread serverConn = new Thread(new TcpChatCliConn(at, sOut));
-                        threads.add(serverConn);
-                        serverConn.start();
-                    }*/
-
                     LOGGER.info("Connected to server");
 
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
-                    //CodigoUnico cod = new CodigoUnico(id);
                     String caminhoScript = controller.findScriptServico(servico.identity());
                     byte[] idArray = caminhoScript.getBytes();
                     int size = idArray.length;
@@ -170,26 +157,9 @@ public class FluxoRequest extends AplicacoesRequest {
                     serverConn.join();
                     sock.close();
 
-                    /*for (Thread thread : threads) {
-                        try {
-                            //sOut.write(data); ????????????
-                            thread.join();
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }*/
-
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
-
-                    //atividadeAutomatica=true;
                 }
             }
-            /*byte[] data = new byte[3];
-            data[0]=1;
-            data[1]=1;
-            data[2]=0;*/
-
-            // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e1) {
@@ -202,32 +172,18 @@ public class FluxoRequest extends AplicacoesRequest {
         return data;
     }
 
-    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, Thread[] threads, String algoritmo,
-                              String idPedido) {
+    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo,
+                                     String idPedido) {
 
-        int j=0;
         if (algoritmo.equalsIgnoreCase("FCFS")) {
-            Map<Calendar, Colaborador> map = new TreeMap<>();
-            for (Colaborador col : list) {
-                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade, map,idPedido);
-                threads[j] = new Thread(fcfs);
-                threads[j].start();
-                j++;
-            }
+            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(list, atividade, idPedido);
+            fcfs.createThreads();
+            return fcfs.getColaboradorEscolhido();
         } else {
             AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
             atm.createThreads();
             return atm.getColaboradorEscolhido();
         }
-        for (Thread t : threads) {
-            t.interrupt();
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                System.out.println("Thread was interrupted!");
-            }
-        }
-        return null;
     }
 
 }
@@ -238,60 +194,23 @@ class TcpChatCliConn implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
     private Socket s;
-    //private Atividade a;
     private DataInputStream sIn;
-    //private DataOutputStream sout;
 
     public TcpChatCliConn(Socket tcp_s) {
         s = tcp_s;
     }
 
-    /*public TcpChatCliConn(Atividade atividade, DataOutputStream out) {
-        a = atividade;
-        sout = out;
-    }*/
-
-
     public void run() {
         byte[] data = new byte[258];
 
         try {
-            /*//String caminhoScript = controller.findScriptServico(servico.identity());
-            String caminhoScript = controller.findScriptAtividade(a.identity());
-            byte[] idArray = caminhoScript.getBytes();
-            int size = idArray.length;
-            data[2] = (byte) size;
-            data[0] = 0;
-            data[1] = 10;
-
-            int amount_of_times = size % 255;
-
-            while (amount_of_times > 1) {
-                byte[] info = new byte[255];
-                info[0] = 0;
-                info[1] = 10;
-                for (int k = 0; k < 255; k++) {
-                    info[k + 2] = idArray[k];
-                }
-                sout.write(info);
-                size -= 255;
-                amount_of_times--;
-            }
-
-            for (int i = 0; i < size; i++) {
-                data[i + 2] = idArray[i];
-            }
-*/
             sIn = new DataInputStream(s.getInputStream());
             sIn.read(data);
-            //LOGGER.trace("Received message:----\n{}\n----", data);
 
             if (data[1] == 1) {
                 LOGGER.info("Mensagem recebida com sucesso");
                 LOGGER.info("Fim da operação");
             }
-            //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, "Received message:----\n{}\n----", data);
-            //sout.write(data); // TALVEZ AQUI
         } catch (IOException ex) {
             LOGGER.info("Client disconnected.");
         }

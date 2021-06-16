@@ -23,7 +23,7 @@ public class Pedido implements AggregateRoot<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ano_seq")
     @GenericGenerator(name = "ano_seq",
-            strategy = "eapli.base.pedido.generators.IdentificadorGenerator",parameters = {
+            strategy = "eapli.base.pedido.generators.IdentificadorGenerator", parameters = {
             @org.hibernate.annotations.Parameter(name = IdentificadorGenerator.INCREMENT_PARAM, value = "1"),
             @org.hibernate.annotations.Parameter(name = IdentificadorGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")
     })
@@ -76,7 +76,7 @@ public class Pedido implements AggregateRoot<String> {
     }
 
     public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido,
-                  Calendar dataLimiteResolucao,Formulario formulario, Set<Atividade> atividades) {
+                  Calendar dataLimiteResolucao, Formulario formulario, Set<Atividade> atividades) {
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
@@ -109,36 +109,43 @@ public class Pedido implements AggregateRoot<String> {
     }
 
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
-        this.servico.adicionaColaborador(colab, idAtividade);
+        for (Atividade a : listaAtiv) {
+            if (a.equals(idAtividade)) {
+                a.adicionaColaborador(colab, idAtividade);
+            }
+        }
+
     }
 
     public void atribuirGrau(GrauSatisfacao g) {
         this.grau = g;
     }
 
-    public void alterarEstadoPedido(EstadoPedido estadoPedido){
-        this.estado=estadoPedido;
+    public void alterarEstadoPedido(EstadoPedido estadoPedido) {
+        this.estado = estadoPedido;
     }
 
-    public void annexFile(File file){
-     //   this.annexedFiles.add(file);
+    public void annexFile(File file) {
+        //   this.annexedFiles.add(file);
     }
 
-    public Servico servico() { return this.servico;}
+    public Servico servico() {
+        return this.servico;
+    }
 
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoPedido estado, EstadoAtividade estadoA) {
         this.estado = estado;
-        for(Atividade atividade : listaAtiv){
-            if(atividade.equals(at)){
+        for (Atividade atividade : listaAtiv) {
+            if (atividade.equals(at)) {
                 at.mudaEstadoAtividade(estadoA);
-                atividade.completaDecisaoComentario(valueOf,aprovado,at);
+                atividade.completaDecisaoComentario(valueOf, aprovado, at);
             }
         }
     }
 
     public void replaceFormularioAtividade(Atividade at, Formulario formFinal) {
-        for(Atividade atividade : listaAtiv){
-            if(atividade.equals(at)){
+        for (Atividade atividade : listaAtiv) {
+            if (atividade.equals(at)) {
                 atividade.replaceFormularioAtividade(at, formFinal);
             }
         }
