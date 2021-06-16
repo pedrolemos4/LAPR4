@@ -451,7 +451,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public String findScriptAtividade(Long identity) {
         final TypedQuery<String> q = createQuery(
                 "SELECT sas.caminhoScript FROM Pedido p JOIN p.listaAtiv a" +
-                        " JOIN a.script sas WHERE a.id :=identity",
+                        " JOIN a.script sas WHERE a.id =:identity",
                 String.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
