@@ -23,7 +23,7 @@ public class AlgoritmoTempoMedio implements Runnable {
 
     private int incrementoColaboradores=0;
 
-    private Map<Colaborador, Double> mapColaboradores;
+    private Map<Double, Colaborador> mapColaboradores;
 
     public AlgoritmoTempoMedio(List<Colaborador> list, Atividade atividade, CodigoUnico identity) {
         this.list = list;
@@ -46,15 +46,14 @@ public class AlgoritmoTempoMedio implements Runnable {
             getIncrement();
             List<Atividade> listaTarefasPendentes = pedidoRepository.getListaTarefasPendentes(colab.identity());
             for (Atividade atividadeList : listaTarefasPendentes) {
-                CodigoUnico codigo = new CodigoUnico(atividadeList.identity().toString());
                 if (atividadeList.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                    tempoMedioTotal += servicoRepository.tempoMedioAprovacao(codigo);
+                    tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);
                 } else {
-                    tempoMedioTotal += servicoRepository.tempoMedioResolucao(codigo);
+                    tempoMedioTotal += servicoRepository.tempoMedioResolucao(identity);
                 }
             }
 
-            mapColaboradores.put(colab,tempoMedioTotal);
+            mapColaboradores.put(tempoMedioTotal,colab);
         }
     }
 
@@ -79,13 +78,11 @@ public class AlgoritmoTempoMedio implements Runnable {
     }
 
     public Colaborador getColaboradorEscolhido(){
-        this.mapColaboradores=sortByValue(mapColaboradores);
-        Colaborador[] c = new Colaborador[mapColaboradores.size()];
-        mapColaboradores.values().toArray(c);
-        return c[0];
+        Map.Entry<Double, Colaborador> entry = mapColaboradores.entrySet().iterator().next();
+        return entry.getValue();
     }
 
-    public static Map<Colaborador, Double> sortByValue(Map<Colaborador, Double> unsortMap) {
+   /* public static Map<Colaborador, Double> sortByValue(Map<Colaborador, Double> unsortMap) {
         LinkedList<Map.Entry<Colaborador, Double>> list
                 = new LinkedList<Map.Entry<Colaborador, Double>>(unsortMap.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<Colaborador, Double>>() {
@@ -100,6 +97,6 @@ public class AlgoritmoTempoMedio implements Runnable {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
         return sortedMap;
-    }
+    }*/
 
 }
