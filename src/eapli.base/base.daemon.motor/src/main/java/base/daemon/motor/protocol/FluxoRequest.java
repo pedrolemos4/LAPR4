@@ -75,13 +75,14 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    Colaborador escolhido=createThreads(atividade, servico, list, null, algoritmo,id);
-                    atividade.adicionaColaborador(escolhido,atividade);
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
+                    atividade.adicionaColaborador(escolhido, atividade);
                     //pedidoRepository.save(atividade);
 
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    createThreads(atividade, servico, list, threads, algoritmo,id);
+                    Colaborador escolhido = createThreads(atividade, servico, list,algoritmo, id);
+
                 } else {
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia
@@ -202,32 +203,18 @@ public class FluxoRequest extends AplicacoesRequest {
         return data;
     }
 
-    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, Thread[] threads, String algoritmo,
-                              String idPedido) {
+    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo,
+                                     String idPedido) {
 
-        int j=0;
         if (algoritmo.equalsIgnoreCase("FCFS")) {
-            Map<Calendar, Colaborador> map = new TreeMap<>();
-            for (Colaborador col : list) {
-                FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(col, atividade, map,idPedido);
-                threads[j] = new Thread(fcfs);
-                threads[j].start();
-                j++;
-            }
+            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(list, atividade, idPedido);
+            fcfs.createThreads();
+            return fcfs.getColaboradorEscolhido();
         } else {
             AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
             atm.createThreads();
             return atm.getColaboradorEscolhido();
         }
-        for (Thread t : threads) {
-            t.interrupt();
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                System.out.println("Thread was interrupted!");
-            }
-        }
-        return null;
     }
 
 }
