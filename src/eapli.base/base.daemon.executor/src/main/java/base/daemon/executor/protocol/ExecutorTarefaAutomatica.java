@@ -20,10 +20,6 @@
  */
 package base.daemon.executor.protocol;
 
-
-import base.daemon.executor.presentation.ExecutorServer;
-import base.daemon.executor.validacao.script.base.daemon.executor.validacao.script.MainValidaScript;
-import eapli.base.validacoes.validaScript.ValidaScript;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

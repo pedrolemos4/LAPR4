@@ -8,6 +8,7 @@ import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
@@ -37,12 +38,8 @@ public class ConsultarReivindicarTarefaController {
         return this.colabRepo.findEmailColaborador(email);
     }
 
-    public Atividade getTarefaById(long idAtividade) {
-        return this.pRepo.getTarefaById(idAtividade);
-    }
-
-    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
-        return this.pRepo.getListaTarefasPendentes(identity);
+    public List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity) {
+        return this.pRepo.getListaTarefasPendentesColaborador(identity, EstadoPedido.CONCLUIDO, EstadoAtividade.PENDENTE);
     }
 
     public Pedido getPedidoByTarefa(long idAtividade) {
@@ -54,7 +51,7 @@ public class ConsultarReivindicarTarefaController {
     }
 
     public Pedido getPedidoByAtividade(Atividade a) {
-        return this.pRepo.getPedidoByAtividade(a.identity());
+        return this.pRepo.getPedidoByAtividade(a.identity(), EstadoPedido.APROVADO);
     }
 
     public List<Atividade> filtrarUrgenciaPendentes(Colaborador colab, String urgencia) {

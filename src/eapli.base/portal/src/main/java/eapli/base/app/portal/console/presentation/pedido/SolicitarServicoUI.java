@@ -3,7 +3,10 @@ package eapli.base.app.portal.console.presentation.pedido;
 import eapli.base.Application;
 import eapli.base.app.backoffice.console.presentation.servicos.FormularioDataWidget;
 import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.AtividadeManual;
+import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -30,7 +33,8 @@ public class SolicitarServicoUI extends AbstractUI {
         long idCatalogo = showCatalogos();
         CodigoUnico idServico = showServicos(idCatalogo);
         try {
-            solicitarServico(idServico);
+            Colaborador colab = this.controller.getUser();
+            solicitarServico(idServico, colab);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -57,7 +61,7 @@ public class SolicitarServicoUI extends AbstractUI {
         return theServico.identity();
     }
 
-    private void solicitarServico(CodigoUnico idServico) throws IOException, InterruptedException {
+    private void solicitarServico(CodigoUnico idServico, Colaborador colab) throws IOException, InterruptedException {
         Set<Atributo> listaAtributos = new HashSet<>();
         Formulario formulario = preencherAtributos(this.controller.findFormulario(idServico), listaAtributos);
         UrgenciaPedido urgencia = selectUrgencia();
@@ -65,12 +69,16 @@ public class SolicitarServicoUI extends AbstractUI {
         Calendar calendar = setData();
         Servico clone = this.controller.getServicoClone(idServico);
         List<Atividade> atividades = this.controller.getListAtividadesServico(idServico);
+        Set<Atividade> listaAtividade = new HashSet<>();
         for (Atividade atividade : atividades) {
+            Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
+                    formulario, atividade.getDataLimite(), atividade.tipoAtividade());
             System.out.println("Data Limite de Resolucao da Atividade(yyyy/mm/dd,hh:mm)___________________________________");
             Calendar calendar1 = setData();
-            this.controller.atualizarDataAtividade(clone, atividade, calendar1);
+            this.controller.atualizarDataAtividade(atividade, calendar1);
+            listaAtividade.add(at);
         }
-        Pedido pedido = controller.efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos);
+        Pedido pedido = controller.efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
         String option = "S";
         while (option == "S") {
             System.out.println("Pretende anexar ficheiros?(S/N)_____________________________________________");
@@ -83,6 +91,16 @@ public class SolicitarServicoUI extends AbstractUI {
         controller.doConnection(pedido);
         //System.out.println("SUCESSO");
         //}
+    }
+
+    private Set<Atividade> listToSet(List<Atividade> atividades) {
+        Set<Atividade> listaAtividade = new HashSet<>();
+        for(Atividade atividade : atividades) {
+            if (!listaAtividade.contains(atividade)) {
+                listaAtividade.add(atividade);
+            }
+        }
+        return listaAtividade;
     }
 
     private Formulario preencherAtributos(Formulario formulario1, Set<Atributo> listaAtributos) {

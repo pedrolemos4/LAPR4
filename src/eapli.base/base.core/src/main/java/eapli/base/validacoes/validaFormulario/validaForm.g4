@@ -1,6 +1,6 @@
 grammar validaForm;
 
-regra: INTEGER PV TITULO PV atributo #valido
+regra: INTEGER PV TITULO PV  PR atributo PRD #valido
 | TITULO #invalido
 | #vazio
 ;
@@ -19,6 +19,8 @@ nome: STRING #validoString
 //| BOOLEAN #validoBoolean
 ;
 
+PR:'[';
+PRD:']';
 PV:';';
 TITULO:[A-Z][a-z]+[0-9]+;
 LABEL:[a-z]+;

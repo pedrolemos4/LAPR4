@@ -8,9 +8,7 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -21,9 +19,9 @@ import java.util.List;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
-    List<Atividade> getListaTarefasPendentes(MecanographicNumber identity);
+    List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade estado);
 
-    List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado);
+    List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado, EstadoPedido concluido);
 
     List<Atividade> filtrarData(Colaborador identity, Calendar dataI, Calendar dataF, EstadoAtividade estado);
 
@@ -36,8 +34,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atividade> ordenarDataCrescente(Colaborador identity, EstadoAtividade estado);
 
     List<Atividade> ordenarDataDecrescente(Colaborador identity, EstadoAtividade estado);
-
-    Atividade getTarefaById(long idAtividade);
 
     Pedido getPedidoByTarefa(long idAtividade);
 
@@ -55,7 +51,7 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta);
 
-    Pedido getPedidoByAtividade(Long idAtiv);
+    Pedido getPedidoByAtividade(Long idAtiv, EstadoPedido aprovado);
 
     List<Atividade> ordenarEscalaCrescente(Colaborador identity, EstadoAtividade estado);
 
@@ -87,13 +83,17 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Formulario getFormularioDaAtividade(Long identity);
 
-    List<Atributo> getAtributosDoFormulario(Long identity);
-
-    Label getLabelDoAtributo(Long identity);
-
     Atividade getTarefaByScript(String caminho);
 
     Double getTempoDeExecucaoTarefa(Atividade atividade);
 
-    List<Calendar> findDatas(MecanographicNumber number,String idPedido);
+    List<Pedido> getAllPedidoConcluido(EstadoPedido concluido);
+
+    List<Atividade> getTarefasDoPedido(String identity);
+
+    List<Atividade> getListaTarefasPendentes(Colaborador identity, EstadoAtividade pendente, EstadoPedido concluido);
+
+    List<Atividade> getListaAtividades();
+
+    List<Calendar> findDatas(MecanographicNumber number, String idPedido);
 }

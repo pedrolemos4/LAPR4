@@ -71,7 +71,7 @@ public class AtividadeManual extends Atividade{
         this.decisao = aprovado;
     }
 
-    public void replaceFormulario(Formulario formFinal) {
+    public void replaceFormularioAtividade(Formulario formFinal) {
         this.formulario = formFinal;
     }
 }

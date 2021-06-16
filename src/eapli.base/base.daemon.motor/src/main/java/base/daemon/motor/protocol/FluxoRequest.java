@@ -11,7 +11,9 @@ import eapli.base.atividade.domain.AtividadeManual;
 import eapli.base.atividade.domain.FluxoAtividade;
 import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -31,21 +33,19 @@ import java.util.*;
 
 public class FluxoRequest extends AplicacoesRequest {
 
-    private AuthorizationService authz = AuthzRegistry.authorizationService();
     static final String KEYSTORE_PASS = "forgotten";
     static InetAddress serverIP;
     static SSLSocket sock;
-    static SSLServerSocket s;
-    private AppSettings appSettings;
+
+    private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
     private static final String IP_EXECUTOR = "10.8.0.82";
     private static final int EXECUTOR_PORT = 32510;
 
-    public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
+    public FluxoRequest(final AplicacoesController controller, final String request) {
         super(controller, request);
-        //  this.servicoId = servicoId;
     }
 
     @Override
@@ -54,11 +54,10 @@ public class FluxoRequest extends AplicacoesRequest {
         boolean atividadeAutomatica = false;
 
         try {
-            // Trust these certificates provided by servers
+
             System.setProperty("javax.net.ssl.trustStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
-            // Use this certificate and private key for client certificate when requested by the server
             System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
@@ -77,7 +76,8 @@ public class FluxoRequest extends AplicacoesRequest {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
                     Colaborador escolhido=createThreads(atividade, servico, list, null, algoritmo,id);
-                    //query para atribuir
+                    atividade.adicionaColaborador(escolhido,atividade);
+                    //pedidoRepository.save(atividade);
 
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);

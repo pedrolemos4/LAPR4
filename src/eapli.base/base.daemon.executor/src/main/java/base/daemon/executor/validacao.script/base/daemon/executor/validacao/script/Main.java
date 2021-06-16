@@ -5,6 +5,7 @@ import base.daemon.executor.validacao.script.ValidaScriptParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +21,10 @@ public class Main {
         ParseTree tree = parser.prog();
         EvalVisitor eval = new EvalVisitor();
         eval.visit(tree);
+
+        /*ParseTreeWalker walker = new ParseTreeWalker();
+        EvalListener listener = new EvalListener();
+        walker.walk(listener, tree);*/
     }
 
 }

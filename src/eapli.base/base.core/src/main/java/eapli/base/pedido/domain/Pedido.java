@@ -3,10 +3,9 @@ package eapli.base.pedido.domain;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.Comentario;
 import eapli.base.atividade.domain.Decisao;
+import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.generators.IdentificadorGenerator;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.model.AggregateRoot;
@@ -15,6 +14,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Pedido implements AggregateRoot<String> {
@@ -60,6 +61,11 @@ public class Pedido implements AggregateRoot<String> {
     @JoinColumn(name = "formulario")
     private Formulario formulario;
 
+    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pedido_id")
+    private Set<Atividade> listaAtiv = new HashSet<>();
+
  /*   @Lob
     @Basic(fetch = FetchType.LAZY)
     private List<File> annexedFiles = new ArrayList<>();
@@ -69,7 +75,8 @@ public class Pedido implements AggregateRoot<String> {
         //for ORM
     }
 
-    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido, Calendar dataLimiteResolucao,Formulario formulario) {
+    public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido,
+                  Calendar dataLimiteResolucao,Formulario formulario, Set<Atividade> atividades) {
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
@@ -77,6 +84,7 @@ public class Pedido implements AggregateRoot<String> {
         this.dataLimiteResolucao = dataLimiteResolucao;
         this.estado = EstadoPedido.SUBMETIDO;
         this.formulario = formulario;
+        this.listaAtiv = atividades;
         this.grau = null;
     }
 
@@ -85,7 +93,8 @@ public class Pedido implements AggregateRoot<String> {
         return "Pedido: " +
                 colaborador +
                 ", UrgenciaPedido: " + urgenciaPedido +
-                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() + "Grau Satisfação: " + grau;
+                ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() + " Grau Satisfação: " + grau +
+                "Atividades: " + listaAtiv;
     }
 
     @Override
@@ -117,11 +126,21 @@ public class Pedido implements AggregateRoot<String> {
 
     public Servico servico() { return this.servico;}
 
-    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
-        this.servico.completaDecisaoComentario(valueOf,aprovado,at);
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoPedido estado, EstadoAtividade estadoA) {
+        this.estado = estado;
+        for(Atividade atividade : listaAtiv){
+            if(atividade.equals(at)){
+                at.mudaEstadoAtividade(estadoA);
+                atividade.completaDecisaoComentario(valueOf,aprovado,at);
+            }
+        }
     }
 
-    public void replaceFormulario(Atividade at, Formulario formFinal) {
-        this.servico.replaceFormulario(at, formFinal);
+    public void replaceFormularioAtividade(Atividade at, Formulario formFinal) {
+        for(Atividade atividade : listaAtiv){
+            if(atividade.equals(at)){
+                atividade.replaceFormularioAtividade(at, formFinal);
+            }
+        }
     }
 }

@@ -1,11 +1,9 @@
 package eapli.base.atividade.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.formulario.domain.Formulario;
 import eapli.framework.domain.model.DomainEntity;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -77,10 +75,6 @@ public class FluxoAtividade implements DomainEntity<Long> {
         this.estadoFluxo=estadoFluxo;
     }
 
-    public void atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
-        atividade.atualizarDataAtividade(dataLimiteRes);
-    }
-
     @Override
     public String toString() {
         return "FluxoAtividade{" +
@@ -89,19 +83,16 @@ public class FluxoAtividade implements DomainEntity<Long> {
                 '}';
     }
 
-    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoAtividade estado) {
         for (Atividade atividade : listaAtividade) {
             if (atividade.equals(at)) {
+                at.mudaEstadoAtividade(estado);
                 atividade.completaDecisaoComentario(valueOf, aprovado, at);
             }
         }
     }
 
-    public void replaceFormulario(Atividade at, Formulario formFinal) {
-        for (Atividade atividade : listaAtividade){
-            if (atividade.equals(at)) {
-                atividade.replaceFormulario(at, formFinal);
-            }
-        }
+    public void replaceFormularioAtividade(Atividade atFinal) {
+        listaAtividade.add(atFinal);
     }
 }

@@ -9,9 +9,7 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -28,14 +26,17 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public List<Atividade> getListaTarefasPendentes(MecanographicNumber identity) {
+    public List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade pendente) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
                         " JOIN f.listaAtividade at JOIN at.equipa eq " +
                         "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity" +
-                        " AND at.colab IS NULL",
+                        " AND at.colab IS NULL AND at.estadoAtividade =:pendente AND" +
+                        " p.concluido !=:concluido",
                 Atividade.class);
         q.setParameter("identity", identity);
+        q.setParameter("pendente", pendente);
+        q.setParameter("concluido", concluido);
         return q.getResultList();
     }
 
@@ -133,14 +134,16 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         return q.getResultList();
     }
 
-    public List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado) {
+    public List<Atividade> findTarefasServico(Colaborador identity, EstadoAtividade estado, EstadoPedido concluido) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
                         " JOIN fl.listaAtividade a WHERE a.colab =: identity " +
-                        "AND a.estadoAtividade =:estado",
+                        "AND a.estadoAtividade =:estado AND " +
+                        "p.estado !=:concluido",
                 Atividade.class);
         q.setParameter("identity", identity);
         q.setParameter("estado", estado);
+        q.setParameter("concluido", concluido);
         return q.getResultList();
     }
 
@@ -237,29 +240,20 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         return q.getResultList();
     }
 
-    public Pedido getPedidoByAtividade(Long idAtiv) {
+    // ver estados
+    public Pedido getPedidoByAtividade(Long idAtiv, EstadoPedido estado) {
         final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a WHERE a.id =: idAtiv", Pedido.class);
+                "SELECT p FROM Pedido p JOIN p.listaAtiv lista" +
+                        " WHERE lista.id =:idAtividade AND lista.estadoAtividade=:estado", Pedido.class);
         q.setParameter("idAtiv", idAtiv);
-        return q.getSingleResult();
-    }
-
-    @Override
-    public Atividade getTarefaById(long idAtividade) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a WHERE" +
-                        " a.id =:idAtividade",
-                Atividade.class);
-        q.setParameter("idAtividade", idAtividade);
+        q.setParameter("estado", estado);
         return q.getSingleResult();
     }
 
     @Override
     public Pedido getPedidoByTarefa(long idAtividade) {
         final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade lista" +
+                "SELECT p FROM Pedido p JOIN p.listaAtiv lista" +
                         " WHERE lista.id =:idAtividade",
                 Pedido.class);
         q.setParameter("idAtividade", idAtividade);
@@ -384,32 +378,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public Formulario getFormularioDaAtividade(Long identity) {
         final TypedQuery<Formulario> q = createQuery(
-                "SELECT form FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.formulario form" +
-                        " WHERE a.id =:identity",
+                "SELECT form FROM Pedido p JOIN p.listaAtiv lista" +
+                        " JOIN lista.formulario form" +
+                        " WHERE lista.id =:identity",
                 Formulario.class);
-        q.setParameter("identity", identity);
-        return q.getSingleResult();
-    }
-
-    @Override
-    public List<Atributo> getAtributosDoFormulario(Long identity) {
-        final TypedQuery<Atributo> q = createQuery(
-                "SELECT atr FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.formulario form JOIN form.atributos atr" +
-                        " WHERE form.pk =:identity",
-                Atributo.class);
-        q.setParameter("identity", identity);
-        return q.getResultList();
-    }
-
-    @Override
-    public Label getLabelDoAtributo(Long identity) {
-        final TypedQuery<Label> q = createQuery(
-                "SELECT lab FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.formulario form JOIN form.atributos atr JOIN atr.label lab" +
-                        " WHERE atr.id =:identity",
-                Label.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
     }
@@ -443,6 +415,45 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         q.setParameter("pendente",EstadoAtividade.PENDENTE);
         q.setParameter("idPedido", idPedido);
         q.setParameter("number", number);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Pedido> getAllPedidoConcluido(EstadoPedido concluido) {
+        /*final TypedQuery<Pedido> q = createQuery(
+                "SELECT p FROM Pedido p" +
+                        " WHERE p.estado =:concluido", Pedido.class);
+        q.setParameter("concluido", concluido);*/
+        return /*q.getResultList()*/ null;
+    }
+
+    @Override
+    public List<Atividade> getTarefasDoPedido(String identity) {
+        /*final TypedQuery<Atividade> q = createQuery(
+                "SELECT la FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade la" +
+                        " WHERE p.Id =:identity", Atividade.class);
+        q.setParameter("identity", identity);*/
+        return null/*q.getResultList()*/;
+    }
+
+    @Override
+    public List<Atividade> getListaTarefasPendentes(Colaborador identity, EstadoAtividade pendente, EstadoPedido concluido) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a WHERE a.colab =: identity " +
+                        "AND a.estadoAtividade =:pendente AND " +
+                        "p.estado !=:concluido",
+                Atividade.class);
+        q.setParameter("identity", identity);
+        q.setParameter("pendente", pendente);
+        q.setParameter("concluido", concluido);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Atividade> getListaAtividades() {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT lista FROM Pedido p JOIN p.listaAtiv lista",
+                Atividade.class);
         return q.getResultList();
     }
 

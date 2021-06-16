@@ -63,7 +63,7 @@ public class Formulario implements AggregateRoot<Long> {
     public Formulario(Formulario formulario){
         this.titulo=formulario.titulo;
         //Preconditions.nonNull(formulario.atributos);
-        copyAtributos(formulario.atributos);
+        //copyAtributos(formulario.atributos);
     }
 
     public void copyAtributos(final Set<Atributo> atributos) {
@@ -86,11 +86,4 @@ public class Formulario implements AggregateRoot<Long> {
         return pk;
     }
 
-    public void completaFormulario(Variavel variavel, Atributo atributo) {
-        for(Atributo a : this.atributos){
-            if (a.equals(atributo)) {
-                a.completaFormulario(variavel);
-            }
-        }
-    }
 }

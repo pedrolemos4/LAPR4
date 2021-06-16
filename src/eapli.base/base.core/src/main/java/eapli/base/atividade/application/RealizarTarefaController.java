@@ -4,15 +4,12 @@ import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.Comentario;
 import eapli.base.atividade.domain.Decisao;
 import eapli.base.atividade.domain.EstadoAtividade;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
-import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.domain.*;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
+import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.validacoes.validaFormulario.ValidaForm;
@@ -23,7 +20,6 @@ import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.List;
 
 @UseCaseController
@@ -45,11 +41,11 @@ public class RealizarTarefaController {
     }
 
     public List<Atividade> getListaTarefasPendentes(Colaborador identity) {
-        return this.pRepo.findTarefasServico(identity, EstadoAtividade.PENDENTE);
+        return this.pRepo.getListaTarefasPendentes(identity, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
     }
 
     public Pedido getPedidoByAtividade(Atividade at) {
-        return this.pRepo.getPedidoByAtividade(at.identity());
+        return this.pRepo.getPedidoByTarefa(at.identity());
     }
 
     public Formulario getFormularioDaAtividade(Atividade at) {
@@ -64,24 +60,51 @@ public class RealizarTarefaController {
         return this.formRepo.getLabelDoAtributo(atributo.identity());
     }
 
-    public void completaForm(Formulario form, Variavel valueOf, Atributo atributo) {
-        form.completaFormulario(valueOf, atributo);
-    }
-
     public boolean validaFormulario(File file) {
         ValidaForm valida = new ValidaForm();
         return valida.validaForm(file);
     }
 
-    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at) {
-        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at);
+    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at, EstadoPedido estado, EstadoAtividade estadoA) {
+        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at, estado, estadoA);
     }
 
     public void savePedido(Pedido pedido) {
         this.pRepo.save(pedido);
     }
 
-    public void replaceFormulario(Pedido pedido, Atividade at, Formulario formFinal) {
-        pedido.replaceFormulario(at, formFinal);
+    public void replaceFormularioAtividade(Pedido pedido, Atividade at, Formulario formFinal) {
+        pedido.replaceFormularioAtividade(at, formFinal);
+    }
+
+    public TipoDados tipoDados(Atributo a) {
+        return a.tipoDados();
+    }
+
+    public Obrigatoriedade obrigatoriedade(Atributo a) {
+        return a.obrigatoriedade();
+    }
+
+    public String descricaoAjuda(Atributo a){
+        return a.descricaoAjuda().toString();
+    }
+
+    public Atributo createAtributo(String nomeVariavel, Label label, TipoDados tipoDados, Obrigatoriedade obrigatoriedade,
+                                   String descAjuda, Formulario formulario) {
+        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), label, tipoDados, obrigatoriedade,
+                new DescricaoAjuda(descAjuda), formulario);
+        return atributo;
+    }
+
+    public void saveFormulario(Formulario formFinal) {
+        this.formRepo.save(formFinal);
+    }
+
+    public void deleteFormulario(Formulario formFinal) {
+        this.formRepo.delete(formFinal);
+    }
+
+    public List<Atividade> getListaAtividades() {
+        return this.pRepo.getListaAtividades();
     }
 }
