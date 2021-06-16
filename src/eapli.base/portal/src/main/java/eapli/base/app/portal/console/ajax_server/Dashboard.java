@@ -15,7 +15,6 @@ import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -31,13 +30,10 @@ public class Dashboard extends Thread {
 	static final String TRUSTED_STORE = "server_J.jks";
 	static final String KEYSTORE_PASS = "forgotten";
 
-	//static private Socket sock;
-	static private SSLServerSocket sock;
 	static private SSLSocket cliSock;
-	static private InetAddress serverIP;
+	static private SSLServerSocket sock;
 	static private int serverPort;
-	//static private DataOutputStream sOut;
-	//static private DataInputStream sIn;
+
 	static private final String BASE_FOLDER = "www";
 	static private boolean flag = true;
 
@@ -47,7 +43,7 @@ public class Dashboard extends Thread {
 	@Override
 	public void start() {
 		try {
-			execute(1904);
+			execute(32507);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,8 +76,6 @@ public class Dashboard extends Thread {
 		System.setProperty("javax.net.ssl.trustStore",TRUSTED_STORE);
 		System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
 
-		//serverIP = address;
-
 		try {
 			serverPort = porta;
 		}
@@ -90,13 +84,13 @@ public class Dashboard extends Thread {
 			System.exit(1);
 		}
 
+		LOGGER.info("Connecting to https://localhost:" + serverPort + "/");
+
 		try{
-			System.out.println("Connecting to https://localhost:" + serverPort + "/");
 
 			SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 			sock = (SSLServerSocket) sslF.createServerSocket(serverPort);
-			//sock = new Socket(serverIP, serverPort);
-			System.out.println("Connected to https://localhost:" + serverPort + "/");
+			LOGGER.info("Connected to https://localhost:" + serverPort + "/");
 
 			try {
 				openDashboard();
@@ -106,6 +100,7 @@ public class Dashboard extends Thread {
 				return false;
 			}
 		}catch (IOException e) {
+			LOGGER.error("Failed to connect to https://localhost:" + serverPort + "/");
 			e.printStackTrace();
 			return false;
 		}

@@ -2,6 +2,7 @@ package eapli.base.app.portal.console;
 
 import eapli.base.app.common.console.BaseApplication;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
+import eapli.base.app.portal.console.ajax_server.Dashboard;
 import eapli.base.app.portal.console.presentation.MenuPortal;
 import eapli.base.clientusermanagement.application.eventhandlers.NewUserRegisteredFromSignupWatchDog;
 import eapli.base.clientusermanagement.domain.events.NewUserRegisteredFromSignupEvent;
@@ -35,10 +36,10 @@ public final class Login extends BaseApplication {
             // go to main menu
             final var menu = new MenuPortal();
 
-            menu.mainLoop();
-           // Thread t1 = new Thread(() -> menu.mainLoop());
-            //t1.start();
-            //new Dashboard().start();
+            //menu.mainLoop();
+            Thread t1 = new Thread(() -> menu.mainLoop());
+            t1.start();
+            new Dashboard().start();
             //new HttpServerDashboardFluxo().start();
         }
     }
