@@ -47,8 +47,8 @@ public class EspecificarServicoController {
         this.servicoRepository.save(servico);
     }
 
-    public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos) {
-        final Formulario formulario = new Formulario(titulo, listaAtributos);
+    public Formulario createFormulario(final String titulo){//, Set<Atributo> listaAtributos) {
+        final Formulario formulario = new Formulario(titulo);//, listaAtributos);
         //System.out.println(formulario.toString());
         //this.formularioRepository.save(formulario);
         return formulario;

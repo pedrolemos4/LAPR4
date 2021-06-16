@@ -211,7 +211,7 @@ public class EspecificarServicoUI extends AbstractUI {
 
     public Formulario preencherAtributos(FormularioDataWidget formularioData, Set<Atributo> listaAtributos) {
         formularioData.show();
-        Formulario formulario = new Formulario(formularioData.titulo());
+        Formulario formulario = theController.createFormulario(formularioData.titulo());
         criarAtributos(formularioData,listaAtributos,formulario);
 
         boolean flag = true;

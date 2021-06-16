@@ -28,12 +28,12 @@ public class EvalListenerValidaForm extends validaFormBaseListener {
 
     @Override
     public void enterVazio(validaFormParser.VazioContext ctx) {
-        System.out.println("Campo Vazio.");
+        System.out.println("Campo Vazio1.");
     }
 
     @Override
     public void exitVazio(validaFormParser.VazioContext ctx) {
-        System.out.println("Campo Vazio.");
+        System.out.println("Campo Vazio1.");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class EvalListenerValidaForm extends validaFormBaseListener {
      */
     @Override
     public void enterVazio1(validaFormParser.Vazio1Context ctx) {
-        System.out.println("Campo Vazio.");
+        System.out.println("Enter Campo Vazio1.");
     }
 
     /**
@@ -68,7 +68,7 @@ public class EvalListenerValidaForm extends validaFormBaseListener {
      */
     @Override
     public void exitVazio1(validaFormParser.Vazio1Context ctx) {
-        System.out.println("Campo Vazio.");
+        System.out.println("Exit Campo Vazio1.");
     }
 
     /**
