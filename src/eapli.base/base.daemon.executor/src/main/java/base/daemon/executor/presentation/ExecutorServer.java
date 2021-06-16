@@ -36,7 +36,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 
 public class ExecutorServer {
@@ -44,7 +43,7 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
-    private static final String IP = "10.8.0.82";
+    private static final String IP = "10.8.0.81";
 
     private static final List<Atividade> tarefas = new ArrayList<>();
 
@@ -54,18 +53,15 @@ public class ExecutorServer {
 
     //private static ServerSocket sock;
 
-    private static Queue<ExecutorServer> allInstances;
-
-    static
-    {
-        allInstances = new LinkedList<>();
-    }
+    private static final List<ExecutorServer> allInstances = new LinkedList<>();
 
     public ExecutorServer() {
         allInstances.add( this );
+        System.out.println("criou algo");
+        System.out.println(allInstances.size());
     }
 
-    public static synchronized Queue<ExecutorServer> getAllInstances()
+    public static synchronized List<ExecutorServer> getAllInstances()
     {
         return allInstances;
     }

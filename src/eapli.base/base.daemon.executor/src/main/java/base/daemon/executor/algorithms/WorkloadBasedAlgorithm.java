@@ -7,7 +7,7 @@ import java.util.*;
 
 public class WorkloadBasedAlgorithm implements Runnable {
 
-    private static final Queue<ExecutorServer> instances = ExecutorServer.getAllInstances();
+    private static final List<ExecutorServer> instances = ExecutorServer.getAllInstances();
     private static final Map<ExecutorServer, Integer> mapExecutores = new HashMap<>();
     private Atividade at;
 

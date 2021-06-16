@@ -42,7 +42,7 @@ public class FluxoRequest extends AplicacoesRequest {
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
-    private static final String IP_EXECUTOR = "10.8.0.82";
+    private static final String IP_EXECUTOR = "10.8.0.81";
     private static final int EXECUTOR_PORT = 32510;
 
     public FluxoRequest(final AplicacoesController controller, final String request) {
