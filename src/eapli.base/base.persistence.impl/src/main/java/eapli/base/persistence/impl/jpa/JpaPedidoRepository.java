@@ -457,4 +457,12 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         return q.getSingleResult();
     }
 
+    @Override
+    public Formulario getFormularioPedido(String idPedido) {
+        final TypedQuery<Formulario> q = createQuery(
+                "SELECT p.formulario form FROM Pedido p WHERE p.id =:identity", Formulario.class);
+        q.setParameter("identity", idPedido);
+        return q.getSingleResult();
+    }
+
 }

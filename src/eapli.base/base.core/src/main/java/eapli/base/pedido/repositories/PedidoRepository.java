@@ -9,6 +9,7 @@ import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -92,4 +93,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Atividade> getListaTarefasPendentes(Colaborador identity, EstadoAtividade pendente, EstadoPedido concluido);
 
     List<Calendar> findDatas(MecanographicNumber number, String idPedido);
+
+    Formulario getFormularioPedido(String idPedido);
 }
