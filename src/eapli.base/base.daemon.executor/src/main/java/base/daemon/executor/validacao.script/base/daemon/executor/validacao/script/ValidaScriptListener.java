@@ -1,5 +1,5 @@
 // Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
-package base.daemon.executor.validacao.script;
+package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -28,26 +28,6 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitStart(ValidaScriptParser.StartContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValidaScriptParser#script}.
-	 * @param ctx the parse tree
-	 */
-	void enterScript(ValidaScriptParser.ScriptContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValidaScriptParser#script}.
-	 * @param ctx the parse tree
-	 */
-	void exitScript(ValidaScriptParser.ScriptContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValidaScriptParser#instrucao}.
-	 * @param ctx the parse tree
-	 */
-	void enterInstrucao(ValidaScriptParser.InstrucaoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValidaScriptParser#instrucao}.
-	 * @param ctx the parse tree
-	 */
-	void exitInstrucao(ValidaScriptParser.InstrucaoContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code lerFicheiro}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
@@ -60,15 +40,99 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ValidaScriptParser#inteiro}.
+	 * Enter a parse tree produced by the {@code calcularValor}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 */
-	void enterInteiro(ValidaScriptParser.InteiroContext ctx);
+	void enterCalcularValor(ValidaScriptParser.CalcularValorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ValidaScriptParser#inteiro}.
+	 * Exit a parse tree produced by the {@code calcularValor}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 */
-	void exitInteiro(ValidaScriptParser.InteiroContext ctx);
+	void exitCalcularValor(ValidaScriptParser.CalcularValorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code atribuir}
+	 * labeled alternative in {@link ValidaScriptParser#expressao}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtribuir(ValidaScriptParser.AtribuirContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code atribuir}
+	 * labeled alternative in {@link ValidaScriptParser#expressao}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtribuir(ValidaScriptParser.AtribuirContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code multiDiv}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiDiv(ValidaScriptParser.MultiDivContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code multiDiv}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiDiv(ValidaScriptParser.MultiDivContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code somaSub}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void enterSomaSub(ValidaScriptParser.SomaSubContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code somaSub}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void exitSomaSub(ValidaScriptParser.SomaSubContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parenteses}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenteses(ValidaScriptParser.ParentesesContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parenteses}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenteses(ValidaScriptParser.ParentesesContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code variavel}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariavel(ValidaScriptParser.VariavelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code variavel}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariavel(ValidaScriptParser.VariavelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code proprioValor}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void enterProprioValor(ValidaScriptParser.ProprioValorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code proprioValor}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void exitProprioValor(ValidaScriptParser.ProprioValorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#nameVar}.
+	 * @param ctx the parse tree
+	 */
+	void enterNameVar(ValidaScriptParser.NameVarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#nameVar}.
+	 * @param ctx the parse tree
+	 */
+	void exitNameVar(ValidaScriptParser.NameVarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#ficheiro}.
 	 * @param ctx the parse tree

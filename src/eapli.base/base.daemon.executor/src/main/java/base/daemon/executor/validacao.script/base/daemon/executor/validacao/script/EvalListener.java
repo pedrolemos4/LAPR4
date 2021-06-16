@@ -1,8 +1,5 @@
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 
-import base.daemon.executor.validacao.script.ValidaScriptBaseListener;
-import base.daemon.executor.validacao.script.ValidaScriptLexer;
-import base.daemon.executor.validacao.script.ValidaScriptParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -28,7 +25,7 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     }
 
-    public void enterScript(ValidaScriptParser.ScriptContext ctx) {
+    /*public void enterScript(ValidaScriptParser.ScriptContext ctx) {
 
     }
 
@@ -42,7 +39,7 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     public void exitInstrucao(ValidaScriptParser.InstrucaoContext ctx) {
 
-    }
+    }*/
 
     public void enterFicheiro(ValidaScriptParser.FicheiroContext ctx) {
 
