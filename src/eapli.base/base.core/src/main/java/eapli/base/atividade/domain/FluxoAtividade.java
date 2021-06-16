@@ -59,14 +59,6 @@ public class FluxoAtividade implements DomainEntity<Long> {
         return id;
     }
 
-    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
-        for (Atividade atividade : listaAtividade) {
-            if (atividade.equals(idAtividade)) {
-                atividade.adicionaColaborador(colab, idAtividade);
-            }
-        }
-    }
-
     public Set<Atividade> atividades() {
         return this.listaAtividade;
     }

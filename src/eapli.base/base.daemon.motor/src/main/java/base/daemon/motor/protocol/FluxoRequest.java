@@ -13,6 +13,7 @@ import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
+import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -75,9 +76,11 @@ public class FluxoRequest extends AplicacoesRequest {
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
-                    atividade.adicionaColaborador(escolhido, atividade);
-                    //pedidoRepository.save(atividade);
+                    Colaborador escolhido=createThreads(atividade, servico, list, algoritmo,id);
+                    Pedido pedido = pedidoRepository.findPedido(id);
+                    pedido.adicionaColaborador(escolhido,atividade);
+                    pedidoRepository.save(pedido);
+                    System.out.println(pedido.toString());
 
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);

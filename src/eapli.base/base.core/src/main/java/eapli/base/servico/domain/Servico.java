@@ -133,10 +133,6 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         return estado() == EstadoServico.INDISPONIVEL;
     }
 
-    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
-        this.fluxoAtividade.adicionaColaborador(colab, idAtividade);
-    }
-
     public void alterarEstadoFluxo(FluxoAtividade fluxoAtividade){
         this.fluxoAtividade=fluxoAtividade;
     }
