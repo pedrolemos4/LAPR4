@@ -27,6 +27,7 @@ public class AppSettings {
     private static final String ATM = "ATM";
     private static final String ALGORITMO_ATRIBUIR_COLABORADORES = "algoritmo.atribuir.colaboradores";
     private static final String ALGORITMO_ATRIBUIR_TAREFA_AUTOMATICA = "algoritmo.atribuir.tarefa.automatica";
+    private static final String METODO_VERIFICACAO_GRAMATICA = "metodo.verificacao.gramatica";
     private static final String PROPERTIES_RESOURCE = "application.properties";
     private static final String REPOSITORY_FACTORY_KEY = "persistence.repositoryFactory";
     private static final String UI_MENU_LAYOUT_KEY = "ui.menu.layout";
@@ -65,6 +66,7 @@ public class AppSettings {
         this.applicationProperties.setProperty(HIGH_CALORIES_DISH_LIMIT, "300");
         this.applicationProperties.setProperty(ALGORITMO_ATRIBUIR_COLABORADORES,FCFS);
         this.applicationProperties.setProperty(ALGORITMO_ATRIBUIR_TAREFA_AUTOMATICA,FCFS);
+        this.applicationProperties.setProperty(METODO_VERIFICACAO_GRAMATICA,"visitor");
         /*this.applicationProperties.setProperty(EXECUTOR_IP,"10.8.0.82");
         this.applicationProperties.setProperty(MOTOR_IP,"10.8.0.81");*/
     }
@@ -104,6 +106,10 @@ public class AppSettings {
 
     public String getAlgoritmoAtribuirTarefaAutomatica(){
         return this.applicationProperties.getProperty(ALGORITMO_ATRIBUIR_TAREFA_AUTOMATICA);
+    }
+
+    public String getMetodoVerificacaoGramatica(){
+        return this.applicationProperties.getProperty(METODO_VERIFICACAO_GRAMATICA);
     }
     /*public String getIpExecutor(){
         return this.applicationProperties.getProperty(EXECUTOR_IP);
