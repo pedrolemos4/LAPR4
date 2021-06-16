@@ -44,7 +44,7 @@ public class RealizarTarefaController {
         return this.pRepo.getListaTarefasPendentes(identity, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
     }
 
-    public Pedido getPedidoByAtividade(Atividade at) {
+    public Pedido getPedidoByTarefa(Atividade at) {
         return this.pRepo.getPedidoByTarefa(at.identity());
     }
 
@@ -104,7 +104,4 @@ public class RealizarTarefaController {
         this.formRepo.delete(formFinal);
     }
 
-    public List<Atividade> getListaAtividades() {
-        return this.pRepo.getListaAtividades();
-    }
 }

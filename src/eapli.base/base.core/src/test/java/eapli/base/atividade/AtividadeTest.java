@@ -94,19 +94,6 @@ public class AtividadeTest extends TestCase {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of atualizarDataAtividade method, of class Atividade.
-     */
-    @Test
-    public void testAtualizarDataAtividade() {
-        System.out.println("atualizarDataAtividade");
-        Calendar dataLimiteRes = Calendar.getInstance();
-        dataLimiteRes.set(2021,06,03,20,0,0);
-        Calendar dataS = Calendar.getInstance();
-        dataS.set(2021,06,03,10,0,0);
-        Atividade instance = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
-        instance.atualizarDataAtividade(dataLimiteRes);
-    }
 
     @Test
     public void ensureAtividade() {

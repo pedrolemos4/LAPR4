@@ -71,14 +71,6 @@ public class Atividade implements ValueObject{
         return tipoAtividade;
     }
 
-    public Calendar getDataLimite() {
-        return dataLimite;
-    }
-
-    public void atualizarDataAtividade(Calendar dataLimiteRes) {
-        this.dataLimite = dataLimiteRes;
-    }
-
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
         AtividadeManual manual;
         manual = (AtividadeManual) at;

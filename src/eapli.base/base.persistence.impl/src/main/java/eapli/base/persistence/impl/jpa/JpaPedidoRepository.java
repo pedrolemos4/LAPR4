@@ -28,8 +28,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getListaTarefasPendentesColaborador(MecanographicNumber identity, EstadoPedido concluido, EstadoAtividade pendente) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT at FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade f" +
-                        " JOIN f.listaAtividade at JOIN at.equipa eq " +
+                "SELECT at FROM Pedido p JOIN p.listaAtiv at JOIN at.equipa eq " +
                         "JOIN eq.listMembros lm WHERE lm.numeroMecanografico =:identity" +
                         " AND at.colab IS NULL AND at.estadoAtividade =:pendente AND" +
                         " p.concluido !=:concluido",
@@ -44,8 +43,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> filtrarUrgenciaPendentes(MecanographicNumber colab, EstadoAtividade estado, UrgenciaPedido urgencia) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a " +
+                        "JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:colab " +
                         "AND a.estadoAtividade =:estado AND p.urgenciaPedido =:urgencia" +
                         " AND a.colab IS NULL",
@@ -59,8 +58,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> filtrarDataPendentes(MecanographicNumber identity, Calendar data1, Calendar data2, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
                         "AND a.estadoAtividade =:estado AND a.dataLimite > :data1 AND a.dataLimite < :data2" +
                         " AND a.colab IS NULL",
@@ -75,9 +73,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> filtrarCriticidadeEscalaPendentes(MecanographicNumber identity, Escala escala, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
-                        "JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
                         "AND a.estadoAtividade =:estado AND crit.escala=:escala" +
                         " AND a.colab IS NULL",
@@ -91,9 +87,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> filtrarCriticidadeEtiquetaPendentes(MecanographicNumber identity, Etiqueta etiqueta, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat JOIN cat.criticidade crit " +
-                        "JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
                         "AND a.estadoAtividade =:estado AND crit.etiqueta =:etiqueta" +
                         " AND a.colab IS NULL",
@@ -107,9 +101,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> ordenarDataCrescentePendentes(MecanographicNumber identity, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser " +
-                        "JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.equipa eq JOIN eq.listMembros lm " +
                         "WHERE lm.numeroMecanografico=:identity " +
                         "AND a.estadoAtividade =:estado ORDER BY a.dataLimite ASC" +
                         " AND a.colab IS NULL",
@@ -122,10 +114,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> ordenarDataDecrescentePendentes(MecanographicNumber identity, EstadoAtividade estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.servico ser " +
-                        "JOIN ser.fluxoAtividade fl" +
-                        " JOIN fl.listaAtividade a JOIN a.equipa eq JOIN eq.listMembros lm " +
-                        "WHERE lm.numeroMecanografico=:identity " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.equipa eq" +
+                        " JOIN eq.listMembros lm WHERE lm.numeroMecanografico=:identity " +
                         "AND a.estadoAtividade =:estado ORDER BY a.dataLimite DESC" +
                         " AND a.colab IS NULL",
                 Atividade.class);
@@ -240,16 +230,6 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         return q.getResultList();
     }
 
-    // ver estados
-    public Pedido getPedidoByAtividade(Long idAtiv, EstadoPedido estado) {
-        final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p JOIN p.listaAtiv lista" +
-                        " WHERE lista.id =:idAtividade AND lista.estadoAtividade=:estado", Pedido.class);
-        q.setParameter("idAtiv", idAtiv);
-        q.setParameter("estado", estado);
-        return q.getSingleResult();
-    }
-
     @Override
     public Pedido getPedidoByTarefa(long idAtividade) {
         final TypedQuery<Pedido> q = createQuery(
@@ -273,7 +253,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
         final TypedQuery<Long> q = createQuery(
-                "SELECT count(a) FROM Atividade a JOIN a.colab c " +
+                "SELECT count(a) FROM PEDIDO p JOIN p.listaAtiv a JOIN a.colab c " +
                         " WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado",
                 Long.class);
         q.setParameter("userId", userId);
@@ -285,8 +265,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
         final TypedQuery<Long> q = createQuery(
-                "SELECT count(a) FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                "SELECT count(a) FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
                         "AND p.dataLimiteResolucao > a.dataLimite",
                 Long.class);
@@ -299,8 +278,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
         final TypedQuery<Long> q = createQuery(
-                "SELECT count(a) FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                "SELECT count(a) FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
                         "AND p.dataLimiteResolucao < a.dataLimite + :hours * INTERVAL '1 hour'" +
                         "AND p.dataLimiteResolucao > a.dataLimite",
@@ -314,8 +292,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgencia) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
                         "AND p.urgenciaPedido =:urgencia",
                 Atividade.class);
@@ -330,10 +307,9 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c JOIN ser.catalogo cat JOIN cat.criticidade cri" +
-                        "JOIN cri.escala es" +
-                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c" +
+                        " JOIN ser.catalogo cat JOIN cat.criticidade cri" +
+                        " JOIN cri.escala es WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
                         "AND es.value =:i",
                 Atividade.class);
         q.setParameter("userId", userId);
@@ -345,11 +321,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.colab c JOIN ser.catalogo cat JOIN cat.criticidade cri" +
-                        "JOIN cri.etiqueta et" +
-                        "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
-                        "AND et.value =:etiqueta",
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c JOIN ser.catalogo cat" +
+                        " JOIN cat.criticidade cri" +
+                        " JOIN cri.etiqueta et WHERE c.numeroMecanografico =:userId AND" +
+                        " a.estadoAtividade =:estado AND et.value =:etiqueta",
                 Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
@@ -450,14 +425,6 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public List<Atividade> getListaAtividades() {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT lista FROM Pedido p JOIN p.listaAtiv lista",
-                Atividade.class);
-        return q.getResultList();
-    }
-
-    @Override
     public List<Pedido> getPedidosEmCurso(Colaborador colab) {
         final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p WHERE p.colaborador =:colab AND " +
@@ -478,9 +445,9 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getAtividadesAuto(EstadoPedido estado) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.script sas" +
-                        "WHERE a.colab IS NULL AND sas.caminhoScript IS NOT NULL AND a.estadoAtividade =:estado",
+                "SELECT a FROM Pedido JOIN p.listaAtiv a JOIN a.script sas" +
+                        "WHERE a.colab IS NULL AND sas.caminhoScript IS NOT NULL" +
+                        " AND a.estadoAtividade =:estado",
                 Atividade.class);
         q.setParameter("estado", estado);
         return q.getResultList();
@@ -489,9 +456,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public String findScriptAtividade(Long identity) {
         final TypedQuery<String> q = createQuery(
-                "SELECT sas.caminhoScript FROM Pedido p JOIN p JOIN p.servico ser JOIN ser.fluxoAtividade fl " +
-                        "JOIN fl.listaAtividade a JOIN a.script sas" +
-                        "WHERE a.id :=identity",
+                "SELECT sas.caminhoScript FROM Pedido p JOIN p.listaAtiv a" +
+                        " JOIN a.script sas WHERE a.id :=identity",
                 String.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();

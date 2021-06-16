@@ -4,14 +4,12 @@ import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;
-import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,14 +133,6 @@ public class Servico implements AggregateRoot<CodigoUnico> {
 
     public void alterarEstadoFluxo(FluxoAtividade fluxoAtividade){
         this.fluxoAtividade=fluxoAtividade;
-    }
-
-    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoAtividade estadoA) {
-        this.fluxoAtividade.completaDecisaoComentario(valueOf,aprovado,at, estadoA);
-    }
-
-    public void replaceFormularioAtividade(Atividade atFinal) {
-        this.fluxoAtividade.replaceFormularioAtividade(atFinal);
     }
 
     public static class ServicoBuilder {

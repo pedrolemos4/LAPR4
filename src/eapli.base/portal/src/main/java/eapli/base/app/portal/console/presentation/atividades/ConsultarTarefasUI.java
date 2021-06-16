@@ -26,7 +26,7 @@ public class ConsultarTarefasUI extends AbstractUI {
             listTarefas.addAll(this.controller.tarefasPendentes(colab));
 
             for (Atividade a : listTarefas) {
-                Pedido p = controller.getPedidoByAtividade(a);
+                Pedido p = controller.getPedidoByTarefa(a);
                 System.out.println(a.toString() + "\n" + p.toString());
                 System.out.println();
             }
