@@ -2,23 +2,28 @@ grammar ValidaScript;
 
 prog: start;
 
-start: script
-     |
+start: start funcao
+     | funcao
      ;
 
-script: instrucao
-      //| instrucao_calculo
+funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro   #lerFicheiro
+      | expressao #calcularValor
       ;
 
-instrucao: instrucao funcao
-         | funcao
+expressao: //calculosMatematicos  #express
+         nameVar '->' calculosMatematicos   #atribuir
          ;
 
-funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=inteiro PONTO_VIRGULA ficheiro_script=ficheiro  #lerFicheiro
-      ;
+calculosMatematicos: left=param sinal=MULT_DIV right=param    #multiDiv
+                   | left=param sinal=SOMA_SUB right=param    #somaSub
+                   | '(' calculosMatematicos ')'                #parenteses
+                   ;
 
-inteiro: INTEIRO
-        ;
+param: nameVar  #variavel
+     | INTEIRO  #proprioValor
+     ;
+
+nameVar: '#' PALAVRA '#';
 
 ficheiro: path XML
         ;
@@ -47,10 +52,18 @@ infoCliente: '<Numero>' numero=INTEIRO '</Numero>' '<Escalao>' escalao=PALAVRA '
            ;
 
 
+SOMA_SUB: '+'
+        | '-';
+MULT_DIV: '*'
+        | '/'
+        ;
+SOMA: '+';
+SUBTRACAO: '-';
+MULT: '*';
+BARRA: '/' ;
 INTEIRO: [0-9]+;
 DOUBLE: [0-9]+('.'[0-9]+)?;
 PONTO_VIRGULA: ';';
-BARRA: '/' ;
 PALAVRA: [A-Za-z0-9]+;
 XML: '.xml';
-WS:[ \t\r\n]+->skip; //ignora espaços, tabs e mudanças de linha
+WS:[ \t\r\n]+->skip; //ignora espaços, tabs
