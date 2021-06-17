@@ -1,10 +1,7 @@
 package eapli.base.persistence.impl.jpa;
 
 import eapli.base.equipa.domain.CodigoUnico;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
-import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.domain.*;
 import eapli.base.formulario.repositories.FormularioRepository;
 
 import javax.persistence.TypedQuery;
@@ -52,5 +49,23 @@ public class JpaFormularioRepository extends BasepaRepositoryBase<Formulario,Lon
                 Variavel.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
+    }
+
+    @Override
+    public ExpressaoRegular getExpressaoRegularDoAtributo(Long identity) {
+        final TypedQuery<ExpressaoRegular> q = createQuery(
+                "SELECT exp FROM Formulario form JOIN form.atributos atr JOIN atr.expressaoRegular exp" +
+                        " WHERE atr.id =:identity",
+                ExpressaoRegular.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public List<ExpressaoRegular> getListaExpressaoRegularDoFormulario(Long identity) {
+        final TypedQuery<ExpressaoRegular> q = createQuery("SELECT exp from Formulario f JOIN" +
+                " f.atributos atr JOIN atr.expressaoRegular exp WHERE f.pk=:identity",ExpressaoRegular.class);
+        q.setParameter("identity",identity);
+        return q.getResultList();
     }
 }

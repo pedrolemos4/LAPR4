@@ -1,11 +1,11 @@
 grammar validaForm;
 
-regra: TITULO PV PR atributo PRD #valido
+regra: TITULO PV atributo #valido
 | TITULO #invalido
 | #vazio
 ;
 
-atributo: atributo var=nome? PV label=STRING PV des=desc PV tp=TIPO_DADOS PV obr=OBRIGATORIO #valido2
+atributo: atributo var=nome? PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV obr=OBRIGATORIO #valido2
 | STRING #invalido2
 | TIPO_DADOS #invalido2
 | OBRIGATORIO #invalido2
@@ -14,22 +14,22 @@ atributo: atributo var=nome? PV label=STRING PV des=desc PV tp=TIPO_DADOS PV obr
 
 nome: STRING #validoString
 | INTEGER #validoInteger
-| DATA #validoData
+| data #validoData
 //| BOOLEAN #validoBoolean
 ;
 
-desc: (STRING)* #validoDesc
+data: ano=ANO BARRA mes=(DOIS_DIGITOS|DIGITO) BARRA dia=(DOIS_DIGITOS|DIGITO) #validoData1
 ;
 
-PR:'[';
-PRD:']';
+BARRA:'/';
 PV:';';
+ANO:[0-9][0-9][0-9][0-9];
+DOIS_DIGITOS:[0-9][0-9];
+DIGITO:[0-9];
 TITULO:[A-Z][a-z]+[0-9]+;
 STRING:[A-Z][a-z]+;
-INTEGER:[0-9]|[1-9][0-9]+;
-DATA:[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1]);
 TIPO_DADOS:'INTEGER' | 'STRING' | 'BOOLEAN' | 'DATA';
 OBRIGATORIO:'OBRIGATORIO' | 'OPCIONAL';
 //EXPRESSAO_REGULAR:[A-Z][a-z]+{1,30};
 
-WS:[ \r\n]+->skip; //ignora espaços, tabs e mudanças de linha
+WS:[ \t\r\n]+->skip; //ignora espaços, tabs e mudanças de linha

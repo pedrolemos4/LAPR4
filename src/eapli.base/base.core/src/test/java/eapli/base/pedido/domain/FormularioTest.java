@@ -10,7 +10,8 @@ public class FormularioTest extends TestCase {
 
     public void testTestToString() {
         Set<Atributo> listaAtributos = new HashSet<>();
-        Atributo a1 = new Atributo(new Variavel("nome"), new Label("label"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"),null);
+        Atributo a1 = new Atributo(new Variavel("nome"), new Label("label"),
+                TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"), null,null);
         listaAtributos.add(a1);
 
         Formulario f1 = new Formulario("titulo1", listaAtributos);

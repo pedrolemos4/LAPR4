@@ -18,8 +18,8 @@ public class ValidaForm {
             validaFormParser parser = new validaFormParser(tokens);
             ParseTree tree = parser.regra();
             EvalVisitorValidaForm eval = new EvalVisitorValidaForm();
-            int value = (int) eval.visit(tree);
-            if (value == 1) {
+            String value = eval.visit(tree);
+            if (value.equalsIgnoreCase("invalido")) {
                 return false;
             }
         } catch (Exception e) {
@@ -34,7 +34,6 @@ public class ValidaForm {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         validaFormParser parser = new validaFormParser(tokens);
         ParseTree tree = parser.regra();
-        EvalVisitorValidaForm eval = new EvalVisitorValidaForm();
         ParseTreeWalker walker = new ParseTreeWalker();
         EvalListenerValidaForm listener = new EvalListenerValidaForm();
         walker.walk(listener, tree);

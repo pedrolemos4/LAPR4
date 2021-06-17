@@ -2,10 +2,15 @@ package eapli.base.app.portal.console.presentation.atividades;
 
 import eapli.base.Application;
 import eapli.base.atividade.application.RealizarTarefaController;
-import eapli.base.atividade.domain.*;
+import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.Decisao;
+import eapli.base.atividade.domain.EstadoAtividade;
+import eapli.base.atividade.domain.TipoAtividade;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.ExpressaoRegular;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.framework.io.util.Console;
@@ -37,12 +42,10 @@ public class RealizarTarefaUI extends AbstractUI {
             // atividade correspondente
             Atividade at = selector.selectedElement();
             if (at != null) {
-                //AtividadeManual atFinal = null;
-                System.out.println("AT:: " + at.identity());
 
                 Pedido pedido = this.controller.getPedidoByTarefa(at);
 
-                System.out.println("PEDIDO:: " + pedido.identity());
+                //System.out.println("PEDIDO:: " + pedido.identity());
 
                 Formulario form = this.controller.getFormularioDaAtividade(at);
 
@@ -52,41 +55,56 @@ public class RealizarTarefaUI extends AbstractUI {
                     Formulario formFinal = preencherAtributos(form, listaAtributos);
                     formFinal.copyAtributos(listaAtributos);
 
-                    // criaçao da atividade que será atualizada no pedido
-                    /*atFinal = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
-                            formFinal, at.getDataLimite(), at.tipoAtividade());*/
-
                     //this.controller.savePedido(pedido);
                     this.controller.replaceFormularioAtividade(pedido, at, formFinal);
-                    //this.controller.saveFormulario(formFinal);
 
-                    try {
-                        File file = new File("formularioAtividade.txt");
-                        FileWriter myWriter = new FileWriter(file);
-                        myWriter.write(formFinal.toString());
-                        String metodo = Application.settings().getMetodoVerificacaoGramatica();
-                        if (metodo.equalsIgnoreCase("visitor")) {
-                            // conseguir que retorne se formulario é valido ou nao
-                            flag = this.controller.validaFormularioVisitor(file);
-                        } else if (metodo.equalsIgnoreCase("listener")) {
-                            this.controller.validaFormularioListener(file);
+                    int counterFormularioInvalido = 0;
+
+                    List<ExpressaoRegular> listaExpressao = this.controller.getListaExpressaoRegularDoFormulario(formFinal);
+
+                    if (listaExpressao != null) {
+                        System.out.println("Expressao Regular vai ser verificada localmente.");
+                        for (Atributo atributo : this.controller.getAtributosDoFormulario(formFinal)) {
+                            ExpressaoRegular expressao = this.controller.getExpressaoRegularDoAtributo(atributo);
+                            Variavel var = this.controller.getVariavelDoAtributo(atributo);
+                            if (!var.toString().matches(expressao.toString())) {
+                                counterFormularioInvalido++;
+                            }
                         }
-                        myWriter.close();
-                        System.out.println("Successfully wrote to the file.");
-                    } catch (IOException e) {
-                        System.out.println("An error occurred.");
-                        e.printStackTrace();
+                    } else {
+
+                        try {
+                            File file = new File("formularioAtividade.txt");
+                            FileWriter myWriter = new FileWriter(file);
+                            formFinal.toString().replace("[", "");
+                            formFinal.toString().replace("]", "");
+                            myWriter.write(formFinal.toString());
+                            String metodo = Application.settings().getMetodoVerificacaoGramatica();
+                            if (metodo.equalsIgnoreCase("visitor")) {
+                                // conseguir que retorne se formulario é valido ou nao
+                                flag = this.controller.validaFormularioVisitor(file);
+                            } else if (metodo.equalsIgnoreCase("listener")) {
+                                this.controller.validaFormularioListener(file);
+                            }
+                            myWriter.close();
+                            System.out.println("Successfully wrote to the file.");
+                        } catch (IOException e) {
+                            System.out.println("An error occurred.");
+                            e.printStackTrace();
+                        }
                     }
 
-                    //this.controller.deleteFormulario(formFinal);
-                }
+                    if(counterFormularioInvalido > 0){
+                        flag = false;
+                        System.out.println("Validação Rejeitada.");
+                    }
 
+                }
 
                 //this.controller.savePedido(pedido);
 
                 String comentario = Console.readLine("Introduza um comentario:");
 
-                // todas as decisões são aprovadas
                 Decisao decisao;
                 EstadoPedido estado;
                 EstadoAtividade estadoA;
@@ -120,7 +138,8 @@ public class RealizarTarefaUI extends AbstractUI {
             System.out.println("Label: " + this.controller.getLabelDoAtributo(a));
             String variavel = Console.readLine("Introduza o nome da variável correspondente: ");
             Atributo atributo = this.controller.createAtributo(variavel, this.controller.getLabelDoAtributo(a),
-                    this.controller.tipoDados(a), this.controller.obrigatoriedade(a), this.controller.descricaoAjuda(a), formulario);
+                    this.controller.tipoDados(a), this.controller.obrigatoriedade(a),
+                    this.controller.descricaoAjuda(a), this.controller.expressaoRegular(a), formulario);
             listaAtributos.add(atributo);
         }
         return formulario;

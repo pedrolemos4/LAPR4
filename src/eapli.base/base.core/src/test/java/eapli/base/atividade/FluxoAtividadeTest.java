@@ -34,8 +34,8 @@ public class FluxoAtividadeTest extends TestCase {
         instance2 = new FluxoAtividade(setAtividades2);
 
         Set<Atributo> listaAtributosFormulario1 = new HashSet<>();
-        listaAtributosFormulario1.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"),null));
-        listaAtributosFormulario1.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"),null));
+        listaAtributosFormulario1.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"), null, null));
+        listaAtributosFormulario1.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"),null,null));
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario1);
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984, 10, 25);

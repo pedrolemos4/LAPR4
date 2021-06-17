@@ -94,23 +94,30 @@ public class RealizarTarefaController {
         return a.obrigatoriedade();
     }
 
-    public String descricaoAjuda(Atributo a) {
-        return a.descricaoAjuda().toString();
+    public ExpressaoRegular expressaoRegular(Atributo a) {
+        return a.expressaoRegular();
+    }
+
+    public DescricaoAjuda descricaoAjuda(Atributo a) {
+        return a.descricaoAjuda();
     }
 
     public Atributo createAtributo(String nomeVariavel, Label label, TipoDados tipoDados, Obrigatoriedade obrigatoriedade,
-                                   String descAjuda, Formulario formulario) {
+                                   DescricaoAjuda descAjuda, ExpressaoRegular expressao,Formulario formulario) {
         final Atributo atributo = new Atributo(new Variavel(nomeVariavel), label, tipoDados, obrigatoriedade,
-                new DescricaoAjuda(descAjuda), formulario);
+                        descAjuda, expressao, formulario);
         return atributo;
     }
 
-    public void saveFormulario(Formulario formFinal) {
-        this.formRepo.save(formFinal);
+    public ExpressaoRegular getExpressaoRegularDoAtributo(Atributo atr) {
+        return this.formRepo.getExpressaoRegularDoAtributo(atr.identity());
     }
 
-    public void deleteFormulario(Formulario formFinal) {
-        this.formRepo.delete(formFinal);
+    public Variavel getVariavelDoAtributo(Atributo atributo) {
+        return this.formRepo.getVariavelDoAtributo(atributo.identity());
     }
 
+    public List<ExpressaoRegular> getListaExpressaoRegularDoFormulario(Formulario formFinal) {
+        return this.formRepo.getListaExpressaoRegularDoFormulario(formFinal.identity());
+    }
 }
