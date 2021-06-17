@@ -80,14 +80,17 @@ public class ServicoBootstrapper implements Action {
         setCol1.add(c2);
         setCol1.add(c3);
 
-        //Equipas
+          //Equipas
         Set<Equipa> listEquipas1 = new HashSet<>();
         Equipa equipa1 = new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol);
+        System.out.println("Membros Equipa 1: " +equipa1.listMembros().size());
         listEquipas1.add(equipa1);
 
         Set<Equipa> listEquipas2 = new HashSet<>();
         Equipa equipa2 = new Equipa(new CodigoUnico("e2"), new Acronimo("EQP2"), new Designacao("equipa2"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo2"), new Cor(60, 60, 80)), setCol1);
+        System.out.println("Membros Equipa 2: " +equipa2.listMembros().size());
         listEquipas2.add(equipa2);
+
 
         Set<Equipa> listEquipas3 = new HashSet<>();
         listEquipas3.add(equipa1);
@@ -115,7 +118,7 @@ public class ServicoBootstrapper implements Action {
 
         Set<Atividade> atividades3 = new HashSet<>();
         Formulario form3 = preencherAtributos("Formulario3",listaAtributosFormulario5);
-        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas2, form3, TipoAtividade.REALIZACAO);
+        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas1, form3, TipoAtividade.REALIZACAO);
         atividades3.add(a2);
 
         Set<Atividade> atividades4 = new HashSet<>();

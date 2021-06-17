@@ -68,10 +68,14 @@ public class SolicitarServicoUI extends AbstractUI {
         for (Atividade atividade : atividades) {
             System.out.println("Data Limite de Resolucao da Atividade(yyyy/mm/dd,hh:mm)___________________________________");
             Calendar calendar1 = setData();
-            Atividade at;
-            if (atividade instanceof AtividadeManual) {
-                Colaborador col = this.controller.findColabResponsavel(atividade);
-                at = this.controller.createAtividadeManual(col, formulario, calendar1, atividade.tipoAtividade());
+            Atividade at = null;
+             if (atividade instanceof AtividadeManual) {
+                try{
+                    Colaborador col = this.controller.findColabResponsavel(atividade);
+                    at = this.controller.createAtividadeManual(col, formulario, calendar1, atividade.tipoAtividade());
+                } catch (Exception e){
+                    at = this.controller.createAtividadeManual(null, formulario, calendar1, atividade.tipoAtividade());
+                }
             } else{
                 at = this.controller.createAtividadeAutomatica(calendar1,atividade.tipoAtividade(),idServico);
             }
