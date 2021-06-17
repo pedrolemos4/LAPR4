@@ -108,7 +108,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Integer> {
         } else {
             right = Integer.parseInt(ctx.right.getText());
         }
-        int valor;
+
         if (ctx.sinal.getText().equals("/")) {
             return left / right;
         }
