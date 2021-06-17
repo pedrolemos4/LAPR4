@@ -6,10 +6,7 @@ import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
-import eapli.base.atividade.domain.Atividade;
-import eapli.base.atividade.domain.AtividadeManual;
-import eapli.base.atividade.domain.FluxoAtividade;
-import eapli.base.atividade.domain.TipoAtividade;
+import eapli.base.atividade.domain.*;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
@@ -68,11 +65,12 @@ public class FluxoRequest extends AplicacoesRequest {
             Pedido pedido = pedidoRepository.findPedido(id);
             Servico servico = controller.findServico(id);
             List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
-            FluxoAtividade fluxo = controller.getFluxoAtividade(id);
-            Set<Atividade> atividadesList = fluxo.atividades();
+            //FluxoAtividade fluxo = controller.getFluxoAtividade(id);
+            List<Atividade> atividadesList = pedidoRepository.getListaAtividades(id, EstadoAtividade.PENDENTE);
             int j = 0;
             Thread[] threads = new Thread[list.size()];
-
+			
+			j=0;
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
@@ -84,9 +82,17 @@ public class FluxoRequest extends AplicacoesRequest {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
                     Colaborador escolhido = createThreads(atividade, servico, list,algoritmo, id);
                     pedido.adicionaColaborador(escolhido,atividade);
+					System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: "+pedido.toString());
                     pedidoRepository.save(pedido);
                 } else {
-                    ExecutorServer.createThread(algoritmoAuto, atividade);
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        //algoritmo da bia
+                    } else {
+                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
+                        threads[j] = new Thread(wba);
+                        threads[j].start();
+                        j++;
+                    }
 
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
 
@@ -167,6 +173,9 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
                 }
+				for(j=0;j<list.size();j++){
+					System.out.println("Colaboradores: "+list.get(j).toString());
+				}
             }
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
@@ -190,7 +199,9 @@ public class FluxoRequest extends AplicacoesRequest {
         } else {
             AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
             atm.createThreads();
-            return atm.getColaboradorEscolhido();
+			Colaborador c = atm.getColaboradorEscolhido();
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: "+c.toString()+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            return c;
         }
     }
 
