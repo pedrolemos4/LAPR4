@@ -8,9 +8,8 @@ import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -31,8 +30,10 @@ public class Dashboard extends Thread {
 	static final String KEYSTORE_PASS = "forgotten";
 
 	static private SSLSocket cliSock;
-	static private SSLServerSocket sock;
+	static private SSLSocket sock;
 	static private int serverPort;
+
+	private static final String SERVERIP = "10.8.0.82";
 
 	static private final String BASE_FOLDER = "www";
 	static private boolean flag = true;
@@ -43,19 +44,23 @@ public class Dashboard extends Thread {
 	@Override
 	public void start() {
 		try {
-			execute(32509);
+			execute(SERVERIP,32509);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void execute(int porta) throws IOException {
+	public void execute(String serverIP,int porta) throws IOException {
 
-		doConnection(porta);
+		// Use this certificate and private key as server certificate
+		System.setProperty("javax.net.ssl.trustStore",TRUSTED_STORE);
+		System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+
+		doConnection(serverIP,porta);
 
 		while (flag) {
-			cliSock= (SSLSocket) sock.accept();
-			HTTPDashboardRequest req = new HTTPDashboardRequest(cliSock, BASE_FOLDER);
+			//cliSock= (SSLSocket) sock.accept();
+			HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
 			sendTestConnection();
 			req.start();
 		}
@@ -71,10 +76,7 @@ public class Dashboard extends Thread {
 		}
 	}
 
-	private static boolean doConnection(int porta) {
-		// Use this certificate and private key as server certificate
-		System.setProperty("javax.net.ssl.trustStore",TRUSTED_STORE);
-		System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+	private static boolean doConnection(String serverIP, int porta) {
 
 		try {
 			serverPort = porta;
@@ -84,13 +86,13 @@ public class Dashboard extends Thread {
 			System.exit(1);
 		}
 
-		LOGGER.info("Connecting to https://localhost:" + serverPort + "/");
+		LOGGER.info("Connecting to https://"+ serverIP + ":" + serverPort + "/");
 
 		try{
 
-			SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-			sock = (SSLServerSocket) sslF.createServerSocket(serverPort);
-			LOGGER.info("Connected to https://localhost:" + serverPort + "/");
+			SSLSocketFactory sslF = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			sock = (SSLSocket) sslF.createSocket(serverIP,serverPort);
+			LOGGER.info("Connected to https://"+ serverIP + ":" + serverPort + "/");
 
 			try {
 				openDashboard();
@@ -100,7 +102,7 @@ public class Dashboard extends Thread {
 				return false;
 			}
 		}catch (IOException e) {
-			LOGGER.error("Failed to connect to https://localhost:" + serverPort + "/");
+			LOGGER.error("Failed to connect to https://"+ serverIP + ":" + serverPort + "/");
 			e.printStackTrace();
 			return false;
 		}
