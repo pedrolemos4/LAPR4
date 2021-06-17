@@ -1,4 +1,4 @@
-// Generated from C:/Users/Tiago/Desktop/LAPR4/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
+// Generated from D:/2ANO/2SEMESTRE/LAPR4/LAPR4_PROJETO/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -74,10 +74,10 @@ public interface validaFormVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValidoData(validaFormParser.ValidoDataContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code validoDesc}
-	 * labeled alternative in {@link validaFormParser#desc}.
+	 * Visit a parse tree produced by the {@code validoData1}
+	 * labeled alternative in {@link validaFormParser#data}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValidoDesc(validaFormParser.ValidoDescContext ctx);
+	T visitValidoData1(validaFormParser.ValidoData1Context ctx);
 }

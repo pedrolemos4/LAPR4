@@ -172,7 +172,7 @@ public class ServicoBootstrapper implements Action {
 
     public void criarAtributos(Set<Atributo> listaAtributos, Formulario formulario) {
         Atributo atributo = controller.createAtributo("Label", "String",
-                "Obrigatorio", "Descricao Ajuda", formulario);
+                "Obrigatorio", "Descricao Ajuda", null, formulario);
         listaAtributos.add(atributo);
     }
 }

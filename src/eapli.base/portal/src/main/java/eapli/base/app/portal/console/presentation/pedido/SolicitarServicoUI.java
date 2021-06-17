@@ -99,7 +99,7 @@ public class SolicitarServicoUI extends AbstractUI {
             System.out.println("Label: " + controller.label(a));
             String variavel = Console.readLine("Introduza o nome da variável correspondente: ");
             Atributo atributo = controller.createAtributo(variavel, controller.label(a), controller.tipoDados(a),
-                    controller.obrigatoriedade(a), controller.descricaoAjuda(a), formulario);
+                    controller.obrigatoriedade(a), controller.descricaoAjuda(a), controller.expressaoRegular(a), formulario);
             listaAtributos.add(atributo);
         }
         return formulario;

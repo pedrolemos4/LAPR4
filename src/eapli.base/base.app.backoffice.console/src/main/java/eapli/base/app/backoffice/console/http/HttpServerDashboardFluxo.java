@@ -2,24 +2,26 @@ package eapli.base.app.backoffice.console.http;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.application.UserSession;
-import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
 import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class HttpServerDashboardFluxo extends Thread {
-    static final int PORT = 1904;
-    //static final String TRUSTED_STORE = "httpServer.jks";
+    static InetAddress serverIP;
     static final String KEYSTORE_PASS = "forgotten";
     static private SSLServerSocket sock;
     static private SSLSocket clisock;
     static private boolean flag = true;
     static private final String BASE_FOLDER = "www";
+    private static final int MOTOR_PORT = 32508;
+
+    private static final String IPMOTOR = "10.8.0.82";
     static final AuthorizationService authz = AuthzRegistry.authorizationService();
 
     @Override
@@ -59,28 +61,36 @@ public class HttpServerDashboardFluxo extends Thread {
         }
     }
 
-    public static boolean doConnection() {
-        UserSession session = authz.session().orElseThrow();
-        SystemUser systemUser = session.authenticatedUser();
-        final String userName = systemUser.username().toString();
-        String args [] = new String[1]; //ARGS[0] = IP ADDRESS
+    public static boolean doConnection() throws IOException {
+        final String userName = authz.session().get().authenticatedUser().username().toString();
         // Trust these certificates provided by authorized clients
-        System.setProperty("javax.net.ssl.trustStore", userName + ".jks"); //talvez por server.jks
+        System.setProperty("javax.net.ssl.trustStore", userName + ".jks");
         System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
 
         // Use this certificate and private key as server certificate
-        System.setProperty("javax.net.ssl.keyStore", userName + ".jks"); //talvez por server.jks
+        System.setProperty("javax.net.ssl.keyStore", userName + ".jks");
         System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
 
+        SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+
         try {
-            SSLServerSocketFactory sslF = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-            sock = (SSLServerSocket) sslF.createServerSocket(PORT);
-        } catch (IOException ex) {
-            System.out.println("Server failed to open local port " + PORT);
+            serverIP = InetAddress.getByName(IPMOTOR);
+        } catch (UnknownHostException ex) {
+            System.out.println("Invalid server specified: " + IPMOTOR);
             System.exit(1);
         }
 
-        System.out.println("Connected to server: " +  ":" + PORT);
+        try {
+            clisock = (SSLSocket) sf.createSocket(serverIP, MOTOR_PORT);
+        } catch (IOException ex) {
+            System.out.println("Failed to connect to: " + IPMOTOR + ":" + MOTOR_PORT);
+            System.out.println("Application aborted.");
+            System.exit(1);
+        }
+
+        System.out.println("Connected to: " + IPMOTOR + ":" + MOTOR_PORT);
+
+        clisock.startHandshake();
         return true;
     }
 
@@ -91,9 +101,10 @@ public class HttpServerDashboardFluxo extends Thread {
         data[0] = 0;
         data[1] = (byte) num;
         byte[] idArray = input.getBytes();
+        int size = idArray.length;
         data[2] = (byte) idArray.length;
-        //colocar caso seja preciso enviar mensagens muito grandes
-        /*double amount_of_times = size / 255;
+
+        double amount_of_times = size / 255;
         int p = 0;
 
         while (amount_of_times > 1) {
@@ -117,10 +128,6 @@ public class HttpServerDashboardFluxo extends Thread {
         for (int i = 0; i < idArray.length; i++) {
             data[i + 2] = idArray[p];
             p++;
-        }*/
-
-        for (int i = 0; i < idArray.length; i++) {
-            data[i + 2] = idArray[i];
         }
 
         sOut.write(data);

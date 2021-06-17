@@ -210,13 +210,12 @@ public class SolicitarServicoController {
     }
 
     public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade
-            obrigatoriedade,
-                                   String descAjuda, Formulario formulario) {
+            obrigatoriedade, String descAjuda, ExpressaoRegular expressao, Formulario formulario) {
         //TipoDados tipoDados1 = Enum.valueOf(TipoDados.class, tipoDados.toUpperCase());
         //Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class, obrigatoriedade.toUpperCase());
         DescricaoAjuda descricaoAjuda = new DescricaoAjuda(descAjuda);
         final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados, obrigatoriedade,
-                descricaoAjuda, formulario);
+                descricaoAjuda, expressao, formulario);
         return atributo;
     }
 
@@ -367,6 +366,10 @@ public class SolicitarServicoController {
         Servico servicoSolicitado = servicoRepository.ofIdentity(idServico).get();
         Servico clone = servicoSolicitado;
         return clone;
+    }
+
+    public ExpressaoRegular expressaoRegular(Atributo a) {
+        return a.expressaoRegular();
     }
 }
 

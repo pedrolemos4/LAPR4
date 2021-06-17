@@ -19,6 +19,8 @@ public class FormularioDataWidget {
 
     private String descAjuda;
 
+    private String expressaoRegular;
+
     public void show(){
         this.titulo= Console.readLine("\nTítulo do Formulario:");
        // atributo();
@@ -30,6 +32,7 @@ public class FormularioDataWidget {
         this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
         this.label=Console.readLine("\nLabel:");
         this.descAjuda=Console.readLine("\nDescricao Ajuda:");
+        this.expressaoRegular= Console.readLine("\nExpressao Regular:");
     }
 
     public void preencherVariavel(){
@@ -53,5 +56,7 @@ public class FormularioDataWidget {
     public String obrigatoriedade(){ return this.obrigatoriedade;}
 
     public String descricaoAjuda(){ return this.descAjuda;}
+
+    public String expressao(){ return this.expressaoRegular;}
 
 }

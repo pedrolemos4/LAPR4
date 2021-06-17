@@ -29,6 +29,9 @@ public class Atributo implements ValueObject {
     @Column(name = "DescricaoAjuda")
     private DescricaoAjuda descricaoAjuda;
 
+    @Column(name = "ExpressaoRegular")
+    private ExpressaoRegular expressaoRegular;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "formulario")
     private Formulario formulario;
@@ -40,20 +43,24 @@ public class Atributo implements ValueObject {
         return id;
     }
 
-    public Atributo(Variavel nomeVariavel, Label label, TipoDados tipo, Obrigatoriedade obr,DescricaoAjuda descricao,Formulario formulario){
+    public Atributo(Variavel nomeVariavel, Label label, TipoDados tipo, Obrigatoriedade obr,
+                    DescricaoAjuda descricao, ExpressaoRegular expressaoRegular, Formulario formulario){
         this.nomeVariavel=nomeVariavel;
         this.label=label;
         this.tipoDados=tipo;
         this.obrigatoriedade=obr;
         this.descricaoAjuda = descricao;
+        this.expressaoRegular = expressaoRegular;
         this.formulario = formulario;
     }
 
-    public Atributo(Label label, TipoDados tipo, Obrigatoriedade obr, DescricaoAjuda desc,Formulario formulario){
+    public Atributo(Label label, TipoDados tipo, Obrigatoriedade obr,
+                    DescricaoAjuda desc, ExpressaoRegular expressaoRegular,Formulario formulario){
         this.label=label;
         this.tipoDados=tipo;
         this.obrigatoriedade=obr;
         this.descricaoAjuda=desc;
+        this.expressaoRegular = expressaoRegular;
         this.formulario = formulario;
     }
 
@@ -71,6 +78,10 @@ public class Atributo implements ValueObject {
 
     public DescricaoAjuda descricaoAjuda(){
         return this.descricaoAjuda;
+    }
+
+    public ExpressaoRegular expressaoRegular() {
+        return this.expressaoRegular;
     }
 
     @Override

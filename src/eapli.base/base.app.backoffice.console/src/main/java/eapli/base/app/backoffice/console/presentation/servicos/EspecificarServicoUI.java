@@ -235,7 +235,7 @@ public class EspecificarServicoUI extends AbstractUI {
         Atributo atributo = null;
         try {
             atributo = theController.createAtributo(formularioData.label(), formularioData.tipoDados(),
-                    formularioData.obrigatoriedade(), formularioData.descricaoAjuda(), formulario);
+                    formularioData.obrigatoriedade(), formularioData.descricaoAjuda(), formularioData.expressao(), formulario);
         } catch (IllegalArgumentException ex) {
             System.out.println("Insira um tipo de dados válido");
             criarAtributos(formularioData,listaAtributos,formulario);
