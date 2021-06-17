@@ -20,6 +20,7 @@
  */
 package base.daemon.executor.presentation;
 
+import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
@@ -51,19 +52,12 @@ public class ExecutorServer {
 
     private static final WorkloadController controller = new WorkloadController();
 
+    private static List<ExecutorServer> instances = new ArrayList<>();
     //private static ServerSocket sock;
 
-    private static final List<ExecutorServer> allInstances = new LinkedList<>();
-
-    public ExecutorServer() {
-        allInstances.add( this );
-        System.out.println("criou algo");
-        System.out.println(allInstances.size());
-    }
-
-    public static synchronized List<ExecutorServer> getAllInstances()
+    public static synchronized boolean addAllInstances(List<ExecutorServer> list)
     {
-        return allInstances;
+        return instances.addAll(list);
     }
 
     public static void main(String args[]) throws Exception {
@@ -95,6 +89,16 @@ public class ExecutorServer {
             //    addCli(s);
             //System.out.println(s.toString());
             new Thread(new ClientHandler(cliSock)).start();
+        }
+    }
+
+    public static void createThread(String algoritmoAuto, Atividade atividade) {
+        if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+            //algoritmo da bia
+        } else {
+            WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade, instances);
+            Thread t = new Thread(wba);
+            t.start();
         }
     }
 

@@ -1,6 +1,7 @@
 package base.daemon.motor.protocol;
 
 import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.executor.presentation.ExecutorServer;
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.Application;
@@ -85,14 +86,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     pedido.adicionaColaborador(escolhido,atividade);
                     pedidoRepository.save(pedido);
                 } else {
-                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-                        //algoritmo da bia
-                    } else {
-                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
-                        threads[j] = new Thread(wba);
-                        threads[j].start();
-                        j++;
-                    }
+                    ExecutorServer.createThread(algoritmoAuto, atividade);
 
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
 
