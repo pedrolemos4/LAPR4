@@ -14,8 +14,10 @@ import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 
 
 /**
@@ -29,11 +31,11 @@ public class Dashboard extends Thread {
 	static final String TRUSTED_STORE = "server_J.jks";
 	static final String KEYSTORE_PASS = "forgotten";
 
-	static private SSLSocket cliSock;
+	static InetAddress serverIP;
+	private static final String IPMOTOR = "10.8.0.82";
+
 	static private SSLSocket sock;
 	static private int serverPort;
-
-	private static final String SERVERIP = "10.8.0.82";
 
 	static private final String BASE_FOLDER = "www";
 	static private boolean flag = true;
@@ -44,66 +46,82 @@ public class Dashboard extends Thread {
 	@Override
 	public void start() {
 		try {
-			execute(SERVERIP,32509);
+			execute(IPMOTOR,32508);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void execute(String serverIP,int porta) throws IOException {
+	public void execute(String address,int porta) throws IOException {
 
-		// Use this certificate and private key as server certificate
-		System.setProperty("javax.net.ssl.trustStore",TRUSTED_STORE);
-		System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+		final String name = this.authz.session().get().authenticatedUser().username().toString();
+		System.out.println("Name: " + name);
+		// Trust these certificates provided by servers
+		System.setProperty("javax.net.ssl.trustStore", name + ".jks");
+		System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
-		doConnection(serverIP,porta);
+		// Use this certificate and private key for client certificate when requested by the server
+		System.setProperty("javax.net.ssl.keyStore", name + ".jks");
+		System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
-		while (flag) {
-			//cliSock= (SSLSocket) sock.accept();
-			HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
-			sendTestConnection();
-			req.start();
+		if(doConnection(address,porta)) {
+			if (Desktop.isDesktopSupported())
+				while (flag) {
+					//cliSock= (SSLSocket) sock.accept();
+					//HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
+					sendTestConnection();
+					//req.start();
+				}
 		}
 	}
 
 	public static synchronized void sendTestConnection() throws IOException {
-		Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
-		if (sendMessage(5, colab.identity().toString())) {
-			byte[] response = receiveMessage();
-			tasks = new String(response, 3, response[3]);
-		} else {
-			System.out.println("Error trying to send the protocol!");
+		try {
+			Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
+			if (sendMessage(5, colab.identity().toString())) {
+				byte[] response = receiveMessage();
+				tasks = new String(response, 3, response[3]);
+			}
+		}catch (Exception e){
+			LOGGER.error("Error trying to send the protocol!");
 		}
 	}
 
-	private static boolean doConnection(String serverIP, int porta) {
+	private static boolean doConnection(String address, int porta) {
+
+		SSLSocketFactory sslF = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
 		try {
-			serverPort = porta;
-		}
-		catch(NumberFormatException ex) {
-			System.out.println("Invalid SERVER-PORT.");
-			System.exit(1);
-		}
-
-		LOGGER.info("Connecting to https://"+ serverIP + ":" + serverPort + "/");
-
-		try{
-
-			SSLSocketFactory sslF = (SSLSocketFactory) SSLSocketFactory.getDefault();
-			sock = (SSLSocket) sslF.createSocket(serverIP,serverPort);
-			LOGGER.info("Connected to https://"+ serverIP + ":" + serverPort + "/");
-
+			serverIP = InetAddress.getByName(address);
 			try {
-				openDashboard();
-				return true;
-			} catch (URISyntaxException | IOException e) {
-				e.printStackTrace();
+				serverPort = porta;
+
+				LOGGER.info("Connecting to https://"+ IPMOTOR + ":" + serverPort + "/");
+
+				try{
+					sock = (SSLSocket) sslF.createSocket(serverIP,serverPort);
+					LOGGER.info("Connected to https://"+ IPMOTOR + ":" + serverPort + "/");
+
+					try {
+						openDashboard();
+						return true;
+					} catch (URISyntaxException | IOException e) {
+						e.printStackTrace();
+						return false;
+					}
+				}catch (IOException e) {
+					LOGGER.error("Failed to connect to https://"+ IPMOTOR + ":" + serverPort + "/");
+					e.printStackTrace();
+					return false;
+				}
+			}
+			catch(NumberFormatException ex) {
+				System.out.println("Invalid SERVER-PORT.");
 				return false;
 			}
-		}catch (IOException e) {
-			LOGGER.error("Failed to connect to https://"+ serverIP + ":" + serverPort + "/");
-			e.printStackTrace();
+		}
+		catch(UnknownHostException ex) {
+			System.out.println("Invalid server specified: " + IPMOTOR);
 			return false;
 		}
 	}
@@ -147,7 +165,7 @@ public class Dashboard extends Thread {
 	}
 
 	public static synchronized boolean sendMessage(int num, String input) throws IOException {
-		DataOutputStream sOut = new DataOutputStream(cliSock.getOutputStream());
+		DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
 		byte[] data = new byte[258];
 
 		data[0] = 0;
@@ -191,7 +209,7 @@ public class Dashboard extends Thread {
 
 
 	public static byte[] receiveMessage() throws IOException {
-		DataInputStream sIn = new DataInputStream(cliSock.getInputStream());
+		DataInputStream sIn = new DataInputStream(sock.getInputStream());
 		try {
 			byte[] answer = new byte[258];
 			sIn.read(answer);
