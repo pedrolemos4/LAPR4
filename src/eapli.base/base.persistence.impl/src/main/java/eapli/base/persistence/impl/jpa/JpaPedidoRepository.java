@@ -451,7 +451,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public String findScriptAtividade(Long identity) {
         final TypedQuery<String> q = createQuery(
                 "SELECT sas.caminhoScript FROM Pedido p JOIN p.listaAtiv a" +
-                        " JOIN a.script sas WHERE a.id :=identity",
+                        " JOIN a.script sas WHERE a.id =:identity",
                 String.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
@@ -463,6 +463,17 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
                 "SELECT p.formulario form FROM Pedido p WHERE p.id =:identity", Formulario.class);
         q.setParameter("identity", idPedido);
         return q.getSingleResult();
+    }
+	
+	@Override
+    public List<Atividade> getListaAtividades(String idPedido, EstadoAtividade estadoAtividade) {
+        final TypedQuery<Atividade> q = createQuery("SELECT at FROM Pedido p JOIN p.listaAtiv at " +
+                        "WHERE p.Id =:idPedido" +
+                        " AND at.colab IS NULL AND at.estadoAtividade =:estadoAtividade",
+                Atividade.class);
+        q.setParameter("idPedido",idPedido);
+        q.setParameter("estadoAtividade",estadoAtividade);
+        return q.getResultList();
     }
 
 }

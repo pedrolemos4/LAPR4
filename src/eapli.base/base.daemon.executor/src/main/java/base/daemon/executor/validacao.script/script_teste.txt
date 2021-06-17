@@ -1,2 +1,4 @@
 Ler ficheiro;4;testeProdutos.xml
 Ler ficheiro;6;testeProdutos.xml
+#VAR1#->6+3
+#VAR2#->#VAR1#-2

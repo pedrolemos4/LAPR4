@@ -1,5 +1,6 @@
 package eapli.base.pedido.application;
 
+import eapli.base.Application;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
@@ -101,21 +102,36 @@ public class SolicitarServicoController {
             FileWriter fw = new FileWriter(file);
             fw.write(formulario.toStringVal());
             fw.close();
-            ValidaForm vf = new ValidaForm();
-            boolean checkForm = vf.validaForm(file);
-
-            if (checkForm == true) {
-                Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
-                return this.pedidoRepository.save(pedido);
-            } else {
-                System.out.println("Formulário inválido. Pedido não será efetuado.");
-            }
+            String metodo = Application.settings().getMetodoVerificacaoGramatica();
+			Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+            return this.pedidoRepository.save(pedido);
+            /*if (metodo.equalsIgnoreCase("visitor")) {
+                ValidaForm vf = new ValidaForm();
+                boolean checkForm = vf.validaFormVisitor(file);
+                if (checkForm == true) {
+                    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                    return this.pedidoRepository.save(pedido);
+                } else {
+                    System.out.println("Formulário inválido. Pedido não será efetuado.");
+                }
+            } else if (metodo.equalsIgnoreCase("listener")) {
+                ValidaForm vf = new ValidaForm();
+                try {
+                    vf.validaFormListener(file);
+                    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                    return this.pedidoRepository.save(pedido);
+                } catch (Exception ex) {
+                    System.out.println("Formulário inválido. Pedido não será efetuado.");
+                }
+            }*/
         } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
-        return null;
+        //return null;
     }
 
     public List<Atributo> findAtributos(Long identity) {
@@ -155,7 +171,8 @@ public class SolicitarServicoController {
         }
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade obrigatoriedade,
+    public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade
+            obrigatoriedade,
                                    String descAjuda, Formulario formulario) {
         //TipoDados tipoDados1 = Enum.valueOf(TipoDados.class, tipoDados.toUpperCase());
         //Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class, obrigatoriedade.toUpperCase());

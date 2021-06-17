@@ -111,6 +111,7 @@ public class Pedido implements AggregateRoot<String> {
     public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
         for (Atividade a : listaAtiv) {
             if (a.equals(idAtividade)) {
+                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\nAtribui, Colaborador: "+colab.toString());
                 a.adicionaColaborador(colab, idAtividade);
             }
         }

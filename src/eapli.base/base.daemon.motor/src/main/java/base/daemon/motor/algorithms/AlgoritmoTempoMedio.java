@@ -37,14 +37,17 @@ public class AlgoritmoTempoMedio implements Runnable {
     @Override
     public void run() {
 
-        double tempoMedioTotal = 0;
-        if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-            tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);
-        } else {
-            tempoMedioTotal += servicoRepository.tempoMedioResolucao(identity);
-        }
+        
         synchronized (this) {
+			double tempoMedioTotal = 0;
+			if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+				tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);
+			} else {
+				tempoMedioTotal += servicoRepository.tempoMedioResolucao(identity);
+			}
+			System.out.println("\n\n\n\n\n\n\nIncremento: "+incrementoColaboradores);
             Colaborador colab = list.get(incrementoColaboradores);
+			System.out.println("Colaborador: "+colab.toString()+"\n\n\n\n\n\n\n");
             getIncrement();
             List<Atividade> listaTarefasPendentes = pedidoRepository.getListaTarefasPendentes(colab, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
             for (Atividade atividadeList : listaTarefasPendentes) {
@@ -81,6 +84,10 @@ public class AlgoritmoTempoMedio implements Runnable {
 
     public Colaborador getColaboradorEscolhido(){
         Map.Entry<Double, Colaborador> entry = mapColaboradores.entrySet().iterator().next();
+		for(Double e : mapColaboradores.keySet()){
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: "+e+" Valor: "+mapColaboradores.get(e).toString()+"\n\n\n\n\n\n\n\n\n\n\n");
+		}
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: "+entry.getKey()+" Valor: "+entry.getValue()+"\n\n\n\n\n\n\n\n\n\n\n");
         return entry.getValue();
     }
 

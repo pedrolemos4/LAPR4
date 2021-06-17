@@ -115,7 +115,7 @@ public class ServicoBootstrapper implements Action {
 
         Set<Atividade> atividades3 = new HashSet<>();
         Formulario form3 = preencherAtributos("Formulario3",listaAtributosFormulario5);
-        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas1, form3, TipoAtividade.REALIZACAO);
+        AtividadeManual a2 = controller.novaAtividadeAprovacaoManualEquipa(listEquipas2, form3, TipoAtividade.REALIZACAO);
         atividades3.add(a2);
 
         Set<Atividade> atividades4 = new HashSet<>();
