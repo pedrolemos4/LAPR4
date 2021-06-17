@@ -1,4 +1,4 @@
-package eapli.base.app.portal.console.ajax_server;
+package eapli.base.app.backoffice.console.http;
 
 import javax.net.ssl.SSLSocket;
 import java.io.*;

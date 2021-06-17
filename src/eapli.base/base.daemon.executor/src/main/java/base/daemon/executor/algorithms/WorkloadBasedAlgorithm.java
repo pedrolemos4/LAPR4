@@ -1,5 +1,6 @@
 package base.daemon.executor.algorithms;
 
+import base.daemon.executor.ExecutorTarefaAutomaticaDaemon;
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.atividade.domain.Atividade;
 
@@ -7,12 +8,13 @@ import java.util.*;
 
 public class WorkloadBasedAlgorithm implements Runnable {
 
-    private static final Queue<ExecutorServer> instances = ExecutorServer.getAllInstances();
+    private static List<ExecutorServer> instances = new ArrayList<>();
     private static final Map<ExecutorServer, Integer> mapExecutores = new HashMap<>();
     private Atividade at;
 
-    public WorkloadBasedAlgorithm(Atividade at) {
+    public WorkloadBasedAlgorithm(Atividade at, List<ExecutorServer> instances) {
         this.at = at;
+        this.instances = instances;
     }
 
     public void run() {

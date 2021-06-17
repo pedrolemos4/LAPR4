@@ -29,6 +29,9 @@ import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * eCafeteria Booking daemon.
  *
@@ -40,6 +43,7 @@ public final class ExecutorTarefaAutomaticaDaemon {
     // TODO read port number from property file
     private static final int EXECUTOR_PORT = 32507;
     private static final Logger LOGGER = LogManager.getLogger(ExecutorTarefaAutomaticaDaemon.class);
+    private static final List<ExecutorServer> allInstances = new LinkedList<>();
 
     /**
      * Avoid instantiation of this class.
@@ -56,6 +60,12 @@ public final class ExecutorTarefaAutomaticaDaemon {
 
         LOGGER.info("Starting the server socket");
         final ExecutorServer server = new ExecutorServer();
+
+        allInstances.add( server );
+        server.addAllInstances(allInstances);
+        System.out.println("criou algo");
+        System.out.println(allInstances.size());
+
         server.main(null);
         LOGGER.info("Exiting the daemon");
         System.exit(0);

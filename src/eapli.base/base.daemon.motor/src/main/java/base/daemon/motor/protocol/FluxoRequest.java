@@ -1,6 +1,7 @@
 package base.daemon.motor.protocol;
 
 import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.executor.presentation.ExecutorServer;
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.Application;

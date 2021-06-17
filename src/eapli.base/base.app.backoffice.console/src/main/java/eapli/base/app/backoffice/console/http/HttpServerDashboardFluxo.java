@@ -1,4 +1,4 @@
-package eapli.base.app.portal.console.ajax_server;
+package eapli.base.app.backoffice.console.http;
 
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;

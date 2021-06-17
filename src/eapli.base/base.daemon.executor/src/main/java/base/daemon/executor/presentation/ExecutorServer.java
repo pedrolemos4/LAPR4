@@ -20,6 +20,7 @@
  */
 package base.daemon.executor.presentation;
 
+import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
@@ -36,7 +37,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 
 public class ExecutorServer {
@@ -44,7 +44,7 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
-    private static final String IP = "10.8.0.82";
+    private static final String IP = "10.8.0.81";
 
     private static final List<Atividade> tarefas = new ArrayList<>();
 
@@ -52,22 +52,12 @@ public class ExecutorServer {
 
     private static final WorkloadController controller = new WorkloadController();
 
+    private static List<ExecutorServer> instances = new ArrayList<>();
     //private static ServerSocket sock;
 
-    private static Queue<ExecutorServer> allInstances;
-
-    static
+    public static synchronized boolean addAllInstances(List<ExecutorServer> list)
     {
-        allInstances = new LinkedList<>();
-    }
-
-    public ExecutorServer() {
-        allInstances.add( this );
-    }
-
-    public static synchronized Queue<ExecutorServer> getAllInstances()
-    {
-        return allInstances;
+        return instances.addAll(list);
     }
 
     public static void main(String args[]) throws Exception {
@@ -99,6 +89,16 @@ public class ExecutorServer {
             //    addCli(s);
             //System.out.println(s.toString());
             new Thread(new ClientHandler(cliSock)).start();
+        }
+    }
+
+    public static void createThread(String algoritmoAuto, Atividade atividade) {
+        if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+            //algoritmo da bia
+        } else {
+            WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade, instances);
+            Thread t = new Thread(wba);
+            t.start();
         }
     }
 
