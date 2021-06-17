@@ -66,7 +66,7 @@ public class AplicacoesController {
     }
 
     public String findScriptServico(CodigoUnico cod){
-        return this.servicoRepository.findScriptServico(cod);
+        return this.servicoRepository.findCaminhoScriptServico(cod);
     }
 
     public void updatePedido(String idPedido, EstadoPedido estadoPedido){

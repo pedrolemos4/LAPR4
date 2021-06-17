@@ -1,7 +1,6 @@
 package eapli.base.pedido.application;
 
-import eapli.base.Application;
-import eapli.base.atividade.domain.Atividade;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
@@ -17,7 +16,6 @@ import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
-import eapli.base.validacoes.validaFormulario.ValidaForm;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -103,7 +101,7 @@ public class SolicitarServicoController {
             fw.write(formulario.toStringVal());
             fw.close();
             //String metodo = Application.settings().getMetodoVerificacaoGramatica();
-			Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+            Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
             Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
             return this.pedidoRepository.save(pedido);
             /*if (metodo.equalsIgnoreCase("visitor")) {
@@ -191,6 +189,24 @@ public class SolicitarServicoController {
             LOGGER.error("Something went wrong");
             return null;
         }
+    }
+
+    public Atividade createAtividadeManual(Colaborador colab, Formulario formulario, Calendar calendar1,
+                                     TipoAtividade tipoAtividade) {
+        Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
+                formulario, calendar1, tipoAtividade);
+        return at;
+    }
+
+    public Atividade createAtividadeAutomatica(Calendar calendar,TipoAtividade tipoAtividade,CodigoUnico idServico){
+        Script script = servicoRepository.findScriptServico(idServico);
+        Atividade at = new AtividadeAutomatica(calendar,EstadoAtividade.PENDENTE,tipoAtividade,script);
+        return at;
+    }
+
+
+    public Colaborador findColabResponsavel(Atividade atividade) {
+        return servicoRepository.findColabResponsavel(atividade.identity());
     }
 
     public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade

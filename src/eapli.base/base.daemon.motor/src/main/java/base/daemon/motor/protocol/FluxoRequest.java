@@ -67,6 +67,7 @@ public class FluxoRequest extends AplicacoesRequest {
             List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
             //FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             List<Atividade> atividadesList = pedidoRepository.getListaAtividades(id, EstadoAtividade.PENDENTE);
+            System.out.println("\n\n\n\n\n\n\n" + atividadesList.size() + "\n\n\n\n\n\n\n\n\n\n");
             int j = 0;
             Thread[] threads = new Thread[list.size()];
 			
@@ -85,14 +86,14 @@ public class FluxoRequest extends AplicacoesRequest {
 					System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: "+pedido.toString());
                     pedidoRepository.save(pedido);
                 } else {
-                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                  /*  if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         //algoritmo da bia
                     } else {
                         WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
                         threads[j] = new Thread(wba);
                         threads[j].start();
                         j++;
-                    }
+                    }*/
 
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
 

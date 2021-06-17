@@ -3,6 +3,7 @@ package eapli.base.pedido.repositories;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.atividade.domain.EstadoFluxo;
+import eapli.base.atividade.domain.Script;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;

@@ -29,8 +29,7 @@ public class SolicitarServicoUI extends AbstractUI {
         long idCatalogo = showCatalogos();
         CodigoUnico idServico = showServicos(idCatalogo);
         try {
-            Colaborador colab = this.controller.getUser();
-            solicitarServico(idServico, colab);
+            solicitarServico(idServico);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -57,7 +56,7 @@ public class SolicitarServicoUI extends AbstractUI {
         return theServico.identity();
     }
 
-    private void solicitarServico(CodigoUnico idServico, Colaborador colab) throws IOException, InterruptedException {
+    private void solicitarServico(CodigoUnico idServico) throws IOException, InterruptedException {
         Set<Atributo> listaAtributos = new HashSet<>();
         Formulario formulario = preencherAtributos(this.controller.findFormulario(idServico), listaAtributos);
         UrgenciaPedido urgencia = selectUrgencia();
@@ -69,8 +68,13 @@ public class SolicitarServicoUI extends AbstractUI {
         for (Atividade atividade : atividades) {
             System.out.println("Data Limite de Resolucao da Atividade(yyyy/mm/dd,hh:mm)___________________________________");
             Calendar calendar1 = setData();
-            Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
-                    formulario, calendar1, atividade.tipoAtividade());
+            Atividade at;
+            if (atividade instanceof AtividadeManual) {
+                Colaborador col = this.controller.findColabResponsavel(atividade);
+                at = this.controller.createAtividadeManual(col, formulario, calendar1, atividade.tipoAtividade());
+            } else{
+                at = this.controller.createAtividadeAutomatica(calendar1,atividade.tipoAtividade(),idServico);
+            }
             listaAtividade.add(at);
         }
         Pedido pedido = controller.efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
