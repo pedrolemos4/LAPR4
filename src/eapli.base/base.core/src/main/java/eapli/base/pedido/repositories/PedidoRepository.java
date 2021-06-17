@@ -17,6 +17,7 @@ import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
@@ -95,4 +96,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     List<Calendar> findDatas(MecanographicNumber number, String idPedido);
 
     Formulario getFormularioPedido(String idPedido);
+
+    List<Atividade> getListaAtividades(String idPedido, EstadoAtividade estadoAtividade);
 }

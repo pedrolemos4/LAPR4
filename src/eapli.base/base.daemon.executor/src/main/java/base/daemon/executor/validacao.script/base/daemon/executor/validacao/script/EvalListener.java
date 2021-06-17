@@ -7,11 +7,14 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class EvalListener extends ValidaScriptBaseListener {
     private int code;
     private final Stack<String> stack = new Stack<>();
+    private Map<String, Integer> map = new HashMap<>();
 
     public String getResult() {
         return stack.peek();
@@ -78,6 +81,106 @@ public class EvalListener extends ValidaScriptBaseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //--------------------------------REALIZAR CALCULOS--------------------------------//
+
+    public void enterAtribuir(ValidaScriptParser.AtribuirContext ctx) {
+        stack.push(ctx.nameVar().getText());
+    }
+
+    public void exitAtribuir(ValidaScriptParser.AtribuirContext ctx) {
+        String id = stack.pop();
+        int value = Integer.parseInt(stack.pop()); //ta mal
+        System.out.println("ID: " + id + " Value: " + value);
+        map.put(id, value);
+        stack.push("0");
+    }
+
+    public void enterProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
+        stack.push(ctx.INTEIRO().getText());
+    }
+
+    public void exitProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
+
+    }
+
+    public void enterVariavel(ValidaScriptParser.VariavelContext ctx) {
+        stack.push(ctx.nameVar().getText());
+    }
+
+    public void exitVariavel(ValidaScriptParser.VariavelContext ctx) {
+        String id = stack.pop();
+        if (map.containsKey(id)) {
+            stack.push(Integer.toString(map.get(id)));
+        }
+        stack.push("0");
+    }
+
+    public void enterMultiDiv(ValidaScriptParser.MultiDivContext ctx) {
+        stack.push(ctx.left.getText());
+        stack.push(ctx.right.getText());
+    }
+
+    public void exitMultiDiv(ValidaScriptParser.MultiDivContext ctx) {
+        String auxRight = stack.pop(), auxLeft = stack.pop();
+        int right, left;
+
+        if (map.containsKey(auxLeft)) {
+            left = map.get(auxLeft);
+        } else {
+            left = Integer.parseInt(auxLeft);
+        }
+
+        if (map.containsKey(auxRight)) {
+            right = map.get(auxRight);
+        } else {
+            right = Integer.parseInt(auxRight);
+        }
+        int valor;
+        if (ctx.sinal.getText().equals("/")) {
+            valor = left / right;
+            stack.push(Integer.toString(valor));
+        }
+        valor = left * right;
+        stack.push(Integer.toString(valor));
+    }
+
+    public void enterSomaSub(ValidaScriptParser.SomaSubContext ctx) {
+        stack.push(ctx.left.getText());
+        stack.push(ctx.right.getText());
+    }
+
+    public void exitSomaSub(ValidaScriptParser.SomaSubContext ctx) {
+        String auxRight = stack.pop(), auxLeft = stack.pop();
+        int right, left;
+
+        if (map.containsKey(auxLeft)) {
+            left = map.get(auxLeft);
+        } else {
+            left = Integer.parseInt(auxLeft);
+        }
+
+        if (map.containsKey(auxRight)) {
+            right = map.get(auxRight);
+        } else {
+            right = Integer.parseInt(auxRight);
+        }
+        int valor;
+        if (ctx.sinal.getText().equals("+")) {
+            valor = left + right;
+            stack.push(Integer.toString(valor));
+        }
+        valor = left - right;
+        stack.push(Integer.toString(valor));
+    }
+
+    public void enterParenteses(ValidaScriptParser.ParentesesContext ctx) {
+
+    }
+
+    public void exitParenteses(ValidaScriptParser.ParentesesContext ctx) {
+
     }
 
     public void enterProg(ValidaScriptParser.ProgContext ctx) {
