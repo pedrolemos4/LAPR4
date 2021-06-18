@@ -100,25 +100,13 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx) { }
+	@Override public void enterElse1(ValidaScriptParser.Else1Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
+	@Override public void exitElse1(ValidaScriptParser.Else1Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -131,6 +119,18 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -155,18 +155,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -215,6 +203,30 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParenteses(ValidaScriptParser.ParentesesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

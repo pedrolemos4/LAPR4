@@ -88,27 +88,15 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code calcular_preco_final}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * Enter a parse tree produced by {@link ValidaScriptParser#else1}.
 	 * @param ctx the parse tree
 	 */
-	void enterCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	void enterElse1(ValidaScriptParser.Else1Context ctx);
 	/**
-	 * Exit a parse tree produced by the {@code calcular_preco_final}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * Exit a parse tree produced by {@link ValidaScriptParser#else1}.
 	 * @param ctx the parse tree
 	 */
-	void exitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
-	 * @param ctx the parse tree
-	 */
-	void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
-	 * @param ctx the parse tree
-	 */
-	void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	void exitElse1(ValidaScriptParser.Else1Context ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#expressao_a_verificar}.
 	 * @param ctx the parse tree
@@ -119,6 +107,16 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * @param ctx the parse tree
+	 */
+	void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * @param ctx the parse tree
+	 */
+	void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#sendEmail}.
 	 * @param ctx the parse tree
@@ -139,16 +137,6 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValidaScriptParser#calcPrecoFinal}.
-	 * @param ctx the parse tree
-	 */
-	void enterCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValidaScriptParser#calcPrecoFinal}.
-	 * @param ctx the parse tree
-	 */
-	void exitCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
@@ -197,6 +185,30 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenteses(ValidaScriptParser.ParentesesContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code atribuiInteiro}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code atribuiInteiro}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code atribuiDouble}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code atribuiDouble}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code variavel}
 	 * labeled alternative in {@link ValidaScriptParser#param}.

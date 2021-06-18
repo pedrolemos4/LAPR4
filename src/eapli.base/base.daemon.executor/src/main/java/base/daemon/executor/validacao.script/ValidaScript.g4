@@ -10,14 +10,19 @@ funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_
       | sendEmail #enviarEmail
       | expressao #calcularValor
       | calcPrecoTotal #calcular_preco_total
-      | 'if ' aplicar_desconto ' then:' expressao_a_verificar 'end if;' #aplicarDesconto
-      | calcPrecoFinal #calcular_preco_final
+      | 'if ' expressao_a_verificar ' then:' aplicar_desconto temElse=else1? 'end if;' #aplicarDesconto
+      //| calcPrecoFinal #calcular_preco_final
       ;
 
-aplicar_desconto: leftPortion=param sinal=SINAL_BOOLEANO rightPortion=param
-                ;
+else1: 'else' aplicar_desconto
+     ;
 
-expressao_a_verificar: 'Aplicar Desconto->' valorDesconto=DOUBLE
+expressao_a_verificar: leftPortion=param sinal=SINAL_BOOLEANO rightPortion=param
+                     | leftPortionCat=CATEGORIA sinal=('=='|'!=') rightPortion=param
+                     ;
+
+aplicar_desconto: 'Aplicar Desconto->' valorDesconto=DOUBLE //meter
+                     //|
                      ;
 
 sendEmail: 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA PONTO_VIRGULA valorDesconto=percentagem PONTO_VIRGULA valorFinal=DOUBLE PONTO_VIRGULA
@@ -27,8 +32,8 @@ sendEmail: 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente
 calcPrecoTotal: var=nameVar '->QUANT->' quantidade=INTEIRO
              ;
 
-calcPrecoFinal: var=nameVar '->DESCONTO->' desconto=DOUBLE
-                          ;
+//calcPrecoFinal: var=nameVar '->DESCONTO->' desconto=DOUBLE
+                          //;
 
 expressao: nameVar '->' calculosMatematicos   #atribuir
          ;
@@ -36,6 +41,8 @@ expressao: nameVar '->' calculosMatematicos   #atribuir
 calculosMatematicos: left=param sinal=MULT_DIV right=param    #multiDiv
                    | left=param sinal=SOMA_SUB right=param    #somaSub
                    | '(' calculosMatematicos ')'                #parenteses
+                   | INTEIRO                                  #atribuiInteiro
+                   | DOUBLE                                   #atribuiDouble
                    ;
 
 param: nameVar  #variavel

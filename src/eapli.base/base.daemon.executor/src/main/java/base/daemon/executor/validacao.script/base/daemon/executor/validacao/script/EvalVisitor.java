@@ -25,12 +25,12 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     private Map<String, Double> map = new HashMap<>();
 
     /*@Override
-    public Integer visitFicheiro(ValidaScriptParser.FicheiroContext ctx) {
+    public Double visitFicheiro(ValidaScriptParser.FicheiroContext ctx) {
         return visitChildren(ctx);
     }
 
     @Override
-    public Integer visitPath(ValidaScriptParser.PathContext ctx) {
+    public Double visitPath(ValidaScriptParser.PathContext ctx) {
         return visitChildren(ctx);
     }*/
 
@@ -93,15 +93,15 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
             eval.setParametro(ctx.valor.getText());
             eval.setQuantidade(quant);
             eval.visit(tree);
-            setPrecoTotal(eval.getPreco(),quant);
+            setPrecoTotal(eval.getPreco(), quant);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return 0.0;
     }
 
-    private void setPrecoTotal(double preco, int quant){
-        this.precoTotal=preco*quant;
+    private void setPrecoTotal(double preco, int quant) {
+        this.precoTotal = preco * quant;
     }
 
     public void setQuantidade(int quantidade) {
@@ -198,7 +198,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         return visit(ctx.calculosMatematicos());
     }
 
-    // /*
+
     @Override
     public Double visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
         int quantidade = Integer.parseInt(ctx.quantidade.getText());
@@ -210,64 +210,82 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         }
         return 0.0;
     }
-//*/
+
 //--------------------------------APLICAR DESCONTOS--------------------------------//
 
     @Override
     public Double visitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) {
-        ValidaScriptParser.Aplicar_descontoContext aplicar_descontoContext = ctx.aplicar_desconto();
-        boolean bool = false;
-        double left, right;
-        int l = 0, r = 0;
 
-        if (map.containsKey(aplicar_descontoContext.leftPortion.getText())) {
-            left = map.get(aplicar_descontoContext.leftPortion.getText());
-        } else if (aplicar_descontoContext.leftPortion.getText().equals("#TOTAL#")) {
-            left = precoTotal;
-            l = 1;
-        } else {
-            left = Integer.parseInt(aplicar_descontoContext.leftPortion.getText());
+        if (visit(ctx.expressao_a_verificar()) == 1.0) {
+            visit(ctx.aplicar_desconto());
+        } else if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && visit(ctx.expressao_a_verificar()) == 0.0) {
+            visit(ctx.else1());
         }
-
-        if (map.containsKey(aplicar_descontoContext.rightPortion.getText())) {
-            right = map.get(aplicar_descontoContext.rightPortion.getText());
-        } else if (aplicar_descontoContext.rightPortion.getText().equals("#TOTAL#")) {
-            right = precoTotal;
-            r = 1;
-        } else {
-            right = Integer.parseInt(aplicar_descontoContext.rightPortion.getText());
-        }
-
-        if (aplicar_descontoContext.sinal.getText().equals(">") && r == 1) {
-            bool = left > right;
-        } else if (aplicar_descontoContext.sinal.getText().equals("<") && r == 1) {
-            bool = left < right;
-        } else if (aplicar_descontoContext.sinal.getText().equals("<=") && r == 1) {
-            bool = left <= right;
-        } else if (aplicar_descontoContext.sinal.getText().equals(">=") && r == 1) {
-            bool = left >= right;
-        } else if (aplicar_descontoContext.sinal.getText().equals(">") && l == 1) {
-            bool = left > right;
-        } else if (aplicar_descontoContext.sinal.getText().equals("<") && l == 1) {
-            bool = left < right;
-        } else if (aplicar_descontoContext.sinal.getText().equals("<=") && l == 1) {
-            bool = left <= right;
-        } else if (aplicar_descontoContext.sinal.getText().equals(">=") && l == 1) {
-            bool = left >= right;
-        }
-
-        if (bool) {
-            visit(ctx.expressao_a_verificar());
-        }
+        visit(ctx.expressao_a_verificar());
 
         return 0.0;
     }
 
     @Override
     public Double visitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
+        boolean bool = false;
+        double left, right;
+        int l = 0, r = 0;
+
+        if (map.containsKey(ctx.leftPortion.getText())) {
+            left = map.get(ctx.leftPortion.getText());
+        } else if (ctx.leftPortion.getText().equals("#TOTAL#")) {
+            left = precoTotal;
+            l = 1;
+        } else {
+            left = Integer.parseInt(ctx.leftPortion.getText());
+        }
+
+        if (map.containsKey(ctx.rightPortion.getText())) {
+            right = map.get(ctx.rightPortion.getText());
+        } else if (ctx.rightPortion.getText().equals("#TOTAL#")) {
+            right = precoTotal;
+            r = 1;
+        } else {
+            right = Integer.parseInt(ctx.rightPortion.getText());
+        }
+
+        if (ctx.sinal.getText().equals(">") && r == 1) {
+            bool = left > right;
+        } else if (ctx.sinal.getText().equals("<") && r == 1) {
+            bool = left < right;
+        } else if (ctx.sinal.getText().equals("<=") && r == 1) {
+            bool = left <= right;
+        } else if (ctx.sinal.getText().equals(">=") && r == 1) {
+            bool = left >= right;
+        } else if (ctx.sinal.getText().equals(">") && l == 1) {
+            bool = left > right;
+        } else if (ctx.sinal.getText().equals("<") && l == 1) {
+            bool = left < right;
+        } else if (ctx.sinal.getText().equals("<=") && l == 1) {
+            bool = left <= right;
+        } else if (ctx.sinal.getText().equals(">=") && l == 1) {
+            bool = left >= right;
+        }
+        if (bool) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitElse1(ValidaScriptParser.Else1Context ctx) {
+        return visit(ctx.aplicar_desconto());
+    }
+
+    @Override
+    public Double visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
         double desconto = Double.parseDouble(ctx.valorDesconto.getText());
+        System.out.println("Preco: " + precoTotal);
+        System.out.println("Desconto: " + desconto);
         if (1 > desconto && 0 < desconto) {
-            precoTotal = precoTotal * desconto;
+            precoTotal = precoTotal - precoTotal * desconto;
             System.out.println("Preco total após descontos: " + precoTotal);
         }
         return precoTotal;
