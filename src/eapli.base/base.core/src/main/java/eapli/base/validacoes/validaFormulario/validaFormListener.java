@@ -1,4 +1,4 @@
-// Generated from D:/2ANO/2SEMESTRE/LAPR4/LAPR4_PROJETO/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Tiago/Desktop/LAPR4/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -44,6 +44,18 @@ public interface validaFormListener extends ParseTreeListener {
 	 */
 	void exitVazio(validaFormParser.VazioContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code valido2}
+	 * labeled alternative in {@link validaFormParser#atributo}.
+	 * @param ctx the parse tree
+	 */
+	void enterValido2(validaFormParser.Valido2Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code valido2}
+	 * labeled alternative in {@link validaFormParser#atributo}.
+	 * @param ctx the parse tree
+	 */
+	void exitValido2(validaFormParser.Valido2Context ctx);
+	/**
 	 * Enter a parse tree produced by the {@code invalido2}
 	 * labeled alternative in {@link validaFormParser#atributo}.
 	 * @param ctx the parse tree
@@ -67,18 +79,6 @@ public interface validaFormListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVazio1(validaFormParser.Vazio1Context ctx);
-	/**
-	 * Enter a parse tree produced by the {@code valido2}
-	 * labeled alternative in {@link validaFormParser#atributo}.
-	 * @param ctx the parse tree
-	 */
-	void enterValido2(validaFormParser.Valido2Context ctx);
-	/**
-	 * Exit a parse tree produced by the {@code valido2}
-	 * labeled alternative in {@link validaFormParser#atributo}.
-	 * @param ctx the parse tree
-	 */
-	void exitValido2(validaFormParser.Valido2Context ctx);
 	/**
 	 * Enter a parse tree produced by the {@code validoString}
 	 * labeled alternative in {@link validaFormParser#nome}.
@@ -116,15 +116,27 @@ public interface validaFormListener extends ParseTreeListener {
 	 */
 	void exitValidoData(validaFormParser.ValidoDataContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code validoData1}
-	 * labeled alternative in {@link validaFormParser#data}.
+	 * Enter a parse tree produced by the {@code validoBoolean}
+	 * labeled alternative in {@link validaFormParser#nome}.
 	 * @param ctx the parse tree
 	 */
-	void enterValidoData1(validaFormParser.ValidoData1Context ctx);
+	void enterValidoBoolean(validaFormParser.ValidoBooleanContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code validoData1}
-	 * labeled alternative in {@link validaFormParser#data}.
+	 * Exit a parse tree produced by the {@code validoBoolean}
+	 * labeled alternative in {@link validaFormParser#nome}.
 	 * @param ctx the parse tree
 	 */
-	void exitValidoData1(validaFormParser.ValidoData1Context ctx);
+	void exitValidoBoolean(validaFormParser.ValidoBooleanContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code nomeVazio}
+	 * labeled alternative in {@link validaFormParser#nome}.
+	 * @param ctx the parse tree
+	 */
+	void enterNomeVazio(validaFormParser.NomeVazioContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code nomeVazio}
+	 * labeled alternative in {@link validaFormParser#nome}.
+	 * @param ctx the parse tree
+	 */
+	void exitNomeVazio(validaFormParser.NomeVazioContext ctx);
 }

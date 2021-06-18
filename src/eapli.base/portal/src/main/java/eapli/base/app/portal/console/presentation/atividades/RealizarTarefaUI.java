@@ -76,8 +76,8 @@ public class RealizarTarefaUI extends AbstractUI {
                         try {
                             File file = new File("formularioAtividade.txt");
                             FileWriter myWriter = new FileWriter(file);
-                            formFinal.toString().replace("[", "");
-                            formFinal.toString().replace("]", "");
+                            formFinal.toStringVal().replace("[", "");
+                            formFinal.toStringVal().replace("]", "");
                             myWriter.write(formFinal.toString());
                             String metodo = Application.settings().getMetodoVerificacaoGramatica();
                             if (metodo.equalsIgnoreCase("visitor")) {

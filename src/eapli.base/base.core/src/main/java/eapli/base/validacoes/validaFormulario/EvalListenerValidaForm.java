@@ -4,11 +4,15 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.Stack;
+
 public class EvalListenerValidaForm extends validaFormBaseListener {
+
+    private final Stack<String> stack = new Stack<>();
 
     @Override
     public void enterValido(validaFormParser.ValidoContext ctx) {
-        System.out.println("Formulário válido.");
+        //System.out.println("Formulário válido.");
     }
 
     @Override
@@ -78,111 +82,161 @@ public class EvalListenerValidaForm extends validaFormBaseListener {
      */
     @Override
     public void enterValido2(validaFormParser.Valido2Context ctx) {
+
+        if (ctx.obr.getText().equalsIgnoreCase("OBRIGATORIO")) {
+            if (ctx.var.getText().isEmpty() || ctx.var.getText() == null) {
+                System.out.println("Variável é Obrigatória!");
+                try {
+                    throw new Exception();
+                } catch (Exception e) {
+                    e.addSuppressed(e);
+                }
+            } else {
+                validaVariavel(ctx);
+            }
+        } else if (ctx.obr.getText().equalsIgnoreCase("OPCIONAL") && !ctx.var.getText().isEmpty()) {
+            validaVariavel(ctx);
+        } else {
+            stack.push("Variável vazia");
+        }
+    }
+
+    public void validaVariavel(validaFormParser.Valido2Context ctx) {
         switch (ctx.tp.getText()) {
             case "INTEGER":
                 if (!ctx.var.getText().matches("[0-9]|[1-9][0-9]+")) {
                     System.out.println("Nome de variavel nao tem formato Integer!");
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        e.addSuppressed(e);
+                    }
                 }
                 break;
             case "STRING":
                 if (!ctx.var.getText().matches("[A-Z][a-z]+")) {
                     System.out.println("Nome de variavel nao tem formato String!");
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        e.addSuppressed(e);
+                    }
                 }
                 break;
             case "DATA":
-                if (!ctx.var.getText().matches("[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1])")) {
+                if (!ctx.var.getText().matches("^\\d{4}/\\d{2}/\\d{2}$") &&
+                        !ctx.var.getText().matches("^\\d{4}/\\d{1}/\\d{1}$")
+                        && !ctx.var.getText().matches("^\\d{4}/\\d{2}/\\d{1}$")
+                        && !ctx.var.getText().matches("^\\d{4}/\\d{1}/\\d{2}$")) {
+
                     System.out.println("Nome de variavel nao tem formato Data!");
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        e.addSuppressed(e);
+                    }
                 }
                 break;
+            case "BOOLEAN":
+                if (!ctx.var.getText().equalsIgnoreCase("true") && !ctx.var.getText().equalsIgnoreCase("false")) {
+                    System.out.println("Nome de variavel nao tem formato Boolean!");
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        e.addSuppressed(e);
+                    }
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + ctx.tp.getText());
         }
+
     }
 
-        /**
-         * {@inheritDoc}
-         *
-         * <p>The default implementation does nothing.</p>
-         */
-        @Override
-        public void exitValido2 (validaFormParser.Valido2Context ctx){
-            System.out.println("Atributo válido.");
-        }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitValido2(validaFormParser.Valido2Context ctx) {
+        System.out.println(stack.pop());
+    }
 
 ///    ///
 
-        @Override
-        public void enterValidoString(validaFormParser.ValidoStringContext ctx) {
-            if (!ctx.getText().matches("[A-Z][a-z]+")) {
-                System.out.println("Nome de variavel nao tem formato String!");
-            }
+    @Override
+    public void enterValidoString(validaFormParser.ValidoStringContext ctx) {
+        if (!ctx.getText().matches("[A-Z][a-z]+")) {
+            System.out.println("Nome de variavel nao tem formato String!");
         }
-
-        @Override
-        public void exitValidoString(validaFormParser.ValidoStringContext ctx) { System.out.println("Atributo válido.");}
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void enterValidoInteger(validaFormParser.ValidoIntegerContext ctx) {
-            if (!ctx.getText().matches("[0-9]+")) {
-                System.out.println("Nome de variavel nao tem formato Integer!");
-            }
-        }
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void exitValidoInteger(validaFormParser.ValidoIntegerContext ctx) { System.out.println("Atributo válido.");}
-        /**
-        * {@inheritDoc}
-        *
-         * <p>The default implementation does nothing.</p>
-         */
-        @Override
-        public void enterValidoData(validaFormParser.ValidoDataContext ctx) {
-            if (!ctx.getText().matches("[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1])")) {
-                System.out.println("Nome de variavel nao tem formato Data!");
-            }
-        }
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void exitValidoData(validaFormParser.ValidoDataContext ctx) { System.out.println("Atributo válido.");}
-
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void enterEveryRule(ParserRuleContext ctx) { }
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void exitEveryRule(ParserRuleContext ctx) {System.out.println("Atributo válido.");}
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void visitTerminal(TerminalNode node) { }
-        /**
-        * {@inheritDoc}
-        *
-        * <p>The default implementation does nothing.</p>
-        */
-        @Override
-        public void visitErrorNode(ErrorNode node) { }
-
-
     }
+
+    @Override
+    public void enterValidoBoolean(validaFormParser.ValidoBooleanContext ctx) {
+        if (!ctx.getText().equalsIgnoreCase("true") && !ctx.getText().equalsIgnoreCase("false")) {
+            System.out.println("Nome de variavel nao tem formato Boolean!");
+        }
+    }
+
+    public void exitValidoBoolean(validaFormParser.ValidoBooleanContext ctx) {
+        stack.push("Atributo válido");
+    }
+
+    @Override
+    public void exitValidoString(validaFormParser.ValidoStringContext ctx) {
+        stack.push("Atributo válido");
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterValidoInteger(validaFormParser.ValidoIntegerContext ctx) {
+        if (!ctx.getText().matches("[0-9]+")) {
+            System.out.println("Nome de variavel nao tem formato Integer!");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitValidoInteger(validaFormParser.ValidoIntegerContext ctx) {
+        stack.push("Atributo válido.");
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterValidoData(validaFormParser.ValidoDataContext ctx) {
+        int dia = Integer.parseInt(ctx.dia.getText());
+        int mes = Integer.parseInt(ctx.mes.getText());
+        if (mes <= 0 || mes >= 13 || dia <= 0 || dia >= 32) {
+            System.out.println("Data inválida");
+            try {
+                throw new Exception();
+            } catch (Exception e) {
+                e.addSuppressed(e);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitValidoData(validaFormParser.ValidoDataContext ctx) {
+        stack.push("Atributo válido");
+    }
+
+}

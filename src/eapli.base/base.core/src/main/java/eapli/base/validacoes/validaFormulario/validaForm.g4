@@ -5,7 +5,7 @@ regra: TITULO PV atributo #valido
 | #vazio
 ;
 
-atributo: atributo var=nome? PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV obr=OBRIGATORIO #valido2
+atributo: var=nome PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV obr=OBRIGATORIO (PV atributo)* #valido2
 | STRING #invalido2
 | TIPO_DADOS #invalido2
 | OBRIGATORIO #invalido2
@@ -13,12 +13,11 @@ atributo: atributo var=nome? PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV 
 ;
 
 nome: STRING #validoString
-| INTEGER #validoInteger
-| data #validoData
+| DIGITO+ #validoInteger
+| ano=ANO BARRA mes=(DOIS_DIGITOS|DIGITO) BARRA dia=(DOIS_DIGITOS|DIGITO) #validoData
+| BOOLEAN #validoBoolean
+| #nomeVazio
 //| BOOLEAN #validoBoolean
-;
-
-data: ano=ANO BARRA mes=(DOIS_DIGITOS|DIGITO) BARRA dia=(DOIS_DIGITOS|DIGITO) #validoData1
 ;
 
 BARRA:'/';
@@ -28,6 +27,7 @@ DOIS_DIGITOS:[0-9][0-9];
 DIGITO:[0-9];
 TITULO:[A-Z][a-z]+[0-9]+;
 STRING:[A-Z][a-z]+;
+BOOLEAN:'true' | 'false';
 TIPO_DADOS:'INTEGER' | 'STRING' | 'BOOLEAN' | 'DATA';
 OBRIGATORIO:'OBRIGATORIO' | 'OPCIONAL';
 //EXPRESSAO_REGULAR:[A-Z][a-z]+{1,30};
