@@ -50,12 +50,25 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
             final List<Atividade> tarefasEtiquetaMedia = controller.getTarefaEtiqueta(user, estado, "MEDIA");
             final List<Atividade> tarefasEtiquetaElevada = controller.getTarefaEtiqueta(user, estado, "ELEVADA");
 
+            byte[] data = new byte[1000];
+            data[0] = 1;
+            data[1] = 1;
 
-            // response
-            return buildResponse(quantidadeTarefasPendentes, tarefasQueUltrapassamDataPedido, tarefasQueTerminamEmXHora,
+            String resposta = buildResponse(quantidadeTarefasPendentes, tarefasQueUltrapassamDataPedido, tarefasQueTerminamEmXHora,
                     tarefasUrgenciaReduzida, tarefasUrgenciaModerada, tarefasUrgenciaUrgente, tarefasEscala1,
                     tarefasEscala2, tarefasEscala3, tarefasEscala4, tarefasEscala5, tarefasEtiquetaBaixa,
-                    tarefasEtiquetaMedia, tarefasEtiquetaElevada).getBytes();
+                    tarefasEtiquetaMedia, tarefasEtiquetaElevada);
+
+            byte[] idArray = resposta.getBytes();
+            int size = idArray.length;
+            data[2] = (byte) size;
+            int p = 0;
+            for (int i = 1; i < idArray.length; i++) {
+                data[i + 2] = idArray[p];
+                p++;
+            }
+
+            return data;
         } catch (final IllegalArgumentException e) {
             return buildBadRequest("Unknown user name").getBytes();
         } catch (final Exception e) {
