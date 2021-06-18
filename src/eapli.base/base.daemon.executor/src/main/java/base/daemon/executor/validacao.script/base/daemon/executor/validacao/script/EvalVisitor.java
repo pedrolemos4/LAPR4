@@ -13,6 +13,11 @@ import java.util.Map;
 public class EvalVisitor extends ValidaScriptBaseVisitor<Integer> {
 
     private int code;
+
+    private int preco;
+
+    private String parametroLerFicheiro;
+
     private Map<String, Integer> map = new HashMap<>();
 
     @Override
@@ -28,22 +33,45 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Integer> {
     //--------------------------------LER FICHEIRO--------------------------------//
     @Override
     public Integer visitInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) {
-
         if (code == Integer.parseInt(ctx.codigo.getText())) {
-            System.out.println("Codigo: " + ctx.codigo.getText());
-            System.out.println("Preco: " + ctx.preco.getText());
-            System.out.println("Categoria: " + ctx.categoria.getText());
+            this.preco = Integer.parseInt(ctx.preco.getText());
+            System.out.println("Preco atr: " + preco);
+            if (parametroLerFicheiro != null) {
+                if (parametroLerFicheiro.equals("Preco")) {
+                    System.out.println("Preco: " + ctx.preco.getText());
+                    this.parametroLerFicheiro = null;
+                    return 1;
+                } else if (parametroLerFicheiro.equals("Categoria")) {
+                    System.out.println("Categoria: " + ctx.categoria.getText());
+                    this.parametroLerFicheiro = null;
+                    return 1;
+                }
+            } else {
+                System.out.println("Codigo: " + ctx.codigo.getText());
+                System.out.println("Preco: " + ctx.preco.getText());
+                System.out.println("Categoria: " + ctx.categoria.getText());
+                return 1;
+            }
         }
-        return visitChildren(ctx);
+        return 0;
     }
 
     @Override
     public Integer visitInfoCliente(ValidaScriptParser.InfoClienteContext ctx) {
         if (code == Integer.parseInt(ctx.numero.getText())) {
-            System.out.println(ctx.numero.getText());
-            System.out.println(ctx.escalao.getText());
+            if (parametroLerFicheiro != null) {
+                if (parametroLerFicheiro.equals("Escalao")) {
+                    System.out.println("Escalao: " + ctx.escalao.getText());
+                    this.parametroLerFicheiro = null;
+                    return 1;
+                }
+            } else {
+                System.out.println("Numero: " + ctx.numero.getText());
+                System.out.println("Escalao: " + ctx.escalao.getText());
+                return 1;
+            }
         }
-        return visitChildren(ctx);
+        return 0;
     }
 
     @Override
@@ -58,15 +86,27 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Integer> {
             ParseTree tree = parser.progFile(); // parse
             EvalVisitor eval = new EvalVisitor();
             eval.setCode(Integer.parseInt(ctx.possivel_id.getText()));
+            eval.setParametro(ctx.valor.getText());
             eval.visit(tree);
+            this.preco=eval.getPreco();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return 0;
     }
 
+    private int getPreco() {
+        return preco;
+    }
+
     private void setCode(int code) {
         this.code = code;
+    }
+
+    private void setParametro(String parametro) {
+        if (parametro.length() > 0) {
+            this.parametroLerFicheiro = parametro;
+        }
     }
 
     //--------------------------------REALIZAR CALCULOS--------------------------------//
@@ -108,7 +148,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Integer> {
         } else {
             right = Integer.parseInt(ctx.right.getText());
         }
-
+        int valor;
         if (ctx.sinal.getText().equals("/")) {
             return left / right;
         }
@@ -141,10 +181,21 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Integer> {
         return visit(ctx.calculosMatematicos());
     }
 
-    public void returnMap() {
-        for (String p : map.keySet()) {
-            System.out.println("Key: " + p + " Value: " + map.get(p));
+
+    @Override
+    public Integer visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
+        System.out.println("Entra com preco a: " + preco);
+        System.out.println("Quantidade: " + ctx.quantidade.getText());
+        int quantidade = Integer.parseInt(ctx.quantidade.getText());
+        if (quantidade > 0 && preco > 0) {
+            int total = preco * quantidade;
+            System.out.println("Preco total: " + total);
+            map.put(ctx.var.getText(), total);
+            return 1;
         }
+        return 0;
     }
+
+//--------------------------------APLICAR DESCONTOS--------------------------------//
 
 }

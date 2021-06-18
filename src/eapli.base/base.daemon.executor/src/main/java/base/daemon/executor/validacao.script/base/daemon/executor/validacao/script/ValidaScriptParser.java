@@ -19,38 +19,41 @@ public class ValidaScriptParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, SOMA_SUB=22, MULT_DIV=23, SOMA=24, 
-		SUBTRACAO=25, MULT=26, BARRA=27, INTEIRO=28, DOUBLE=29, PONTO_VIRGULA=30, 
-		PALAVRA=31, XML=32, WS=33;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, SOMA_SUB=23, MULT_DIV=24, 
+		SOMA=25, SUBTRACAO=26, MULT=27, BARRA=28, ESCALAO=29, PRECO=30, CATEGORIA=31, 
+		INTEIRO=32, DOUBLE=33, PONTO_VIRGULA=34, PALAVRA=35, XML=36, WS=37;
 	public static final int
-		RULE_prog = 0, RULE_start = 1, RULE_funcao = 2, RULE_expressao = 3, RULE_calculosMatematicos = 4, 
-		RULE_param = 5, RULE_nameVar = 6, RULE_ficheiro = 7, RULE_path = 8, RULE_progFile = 9, 
-		RULE_startFile = 10, RULE_infoProduto = 11, RULE_infoCliente = 12;
+		RULE_prog = 0, RULE_start = 1, RULE_funcao = 2, RULE_calcPrecoTotal = 3, 
+		RULE_expressao = 4, RULE_calculosMatematicos = 5, RULE_param = 6, RULE_valor_pretendido = 7, 
+		RULE_nameVar = 8, RULE_ficheiro = 9, RULE_path = 10, RULE_progFile = 11, 
+		RULE_startFile = 12, RULE_infoProduto = 13, RULE_infoCliente = 14;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"prog", "start", "funcao", "expressao", "calculosMatematicos", "param", 
-			"nameVar", "ficheiro", "path", "progFile", "startFile", "infoProduto", 
-			"infoCliente"
+			"prog", "start", "funcao", "calcPrecoTotal", "expressao", "calculosMatematicos", 
+			"param", "valor_pretendido", "nameVar", "ficheiro", "path", "progFile", 
+			"startFile", "infoProduto", "infoCliente"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'Ler ficheiro'", "'->'", "'('", "')'", "'#'", "'<File>'", "'</File>'", 
-			"'<Produto>'", "'</Produto>'", "'<Cliente>'", "'</Cliente>'", "'<Codigo>'", 
-			"'</Codigo>'", "'<Preco>'", "'</Preco>'", "'<Categoria>'", "'</Categoria>'", 
-			"'<Numero>'", "'</Numero>'", "'<Escalao>'", "'</Escalao>'", null, null, 
-			"'+'", "'-'", "'*'", "'/'", null, null, "';'", null, "'.xml'"
+			null, "'Ler ficheiro'", "'->QUANT->'", "'->'", "'('", "')'", "'#'", "'<File>'", 
+			"'</File>'", "'<Produto>'", "'</Produto>'", "'<Cliente>'", "'</Cliente>'", 
+			"'<Codigo>'", "'</Codigo>'", "'<Preco>'", "'</Preco>'", "'<Categoria>'", 
+			"'</Categoria>'", "'<Numero>'", "'</Numero>'", "'<Escalao>'", "'</Escalao>'", 
+			null, null, "'+'", "'-'", "'*'", "'/'", "'Escalao'", "'Preco'", "'Categoria'", 
+			null, null, "';'", null, "'.xml'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, "SOMA_SUB", 
-			"MULT_DIV", "SOMA", "SUBTRACAO", "MULT", "BARRA", "INTEIRO", "DOUBLE", 
-			"PONTO_VIRGULA", "PALAVRA", "XML", "WS"
+			null, null, null, null, null, null, null, null, null, null, null, "SOMA_SUB", 
+			"MULT_DIV", "SOMA", "SUBTRACAO", "MULT", "BARRA", "ESCALAO", "PRECO", 
+			"CATEGORIA", "INTEIRO", "DOUBLE", "PONTO_VIRGULA", "PALAVRA", "XML", 
+			"WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -133,7 +136,7 @@ public class ValidaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(26);
+			setState(30);
 			start(0);
 			}
 		}
@@ -190,11 +193,11 @@ public class ValidaScriptParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(29);
+			setState(33);
 			funcao();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(35);
+			setState(39);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -205,14 +208,14 @@ public class ValidaScriptParser extends Parser {
 					{
 					_localctx = new StartContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_start);
-					setState(31);
+					setState(35);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(32);
+					setState(36);
 					funcao();
 					}
 					} 
 				}
-				setState(37);
+				setState(41);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			}
@@ -243,6 +246,7 @@ public class ValidaScriptParser extends Parser {
 	public static class LerFicheiroContext extends FuncaoContext {
 		public Token possivel_id;
 		public FicheiroContext ficheiro_script;
+		public Valor_pretendidoContext valor;
 		public List<TerminalNode> PONTO_VIRGULA() { return getTokens(ValidaScriptParser.PONTO_VIRGULA); }
 		public TerminalNode PONTO_VIRGULA(int i) {
 			return getToken(ValidaScriptParser.PONTO_VIRGULA, i);
@@ -250,6 +254,9 @@ public class ValidaScriptParser extends Parser {
 		public TerminalNode INTEIRO() { return getToken(ValidaScriptParser.INTEIRO, 0); }
 		public FicheiroContext ficheiro() {
 			return getRuleContext(FicheiroContext.class,0);
+		}
+		public Valor_pretendidoContext valor_pretendido() {
+			return getRuleContext(Valor_pretendidoContext.class,0);
 		}
 		public LerFicheiroContext(FuncaoContext ctx) { copyFrom(ctx); }
 		@Override
@@ -285,40 +292,120 @@ public class ValidaScriptParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class Calcular_preco_totalContext extends FuncaoContext {
+		public CalcPrecoTotalContext calcPrecoTotal() {
+			return getRuleContext(CalcPrecoTotalContext.class,0);
+		}
+		public Calcular_preco_totalContext(FuncaoContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterCalcular_preco_total(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitCalcular_preco_total(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitCalcular_preco_total(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final FuncaoContext funcao() throws RecognitionException {
 		FuncaoContext _localctx = new FuncaoContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_funcao);
 		try {
-			setState(44);
+			setState(52);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__0:
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			case 1:
 				_localctx = new LerFicheiroContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(38);
-				match(T__0);
-				setState(39);
-				match(PONTO_VIRGULA);
-				setState(40);
-				((LerFicheiroContext)_localctx).possivel_id = match(INTEIRO);
-				setState(41);
-				match(PONTO_VIRGULA);
 				setState(42);
+				match(T__0);
+				setState(43);
+				match(PONTO_VIRGULA);
+				setState(44);
+				((LerFicheiroContext)_localctx).possivel_id = match(INTEIRO);
+				setState(45);
+				match(PONTO_VIRGULA);
+				setState(46);
 				((LerFicheiroContext)_localctx).ficheiro_script = ficheiro();
+				setState(47);
+				match(PONTO_VIRGULA);
+				setState(48);
+				((LerFicheiroContext)_localctx).valor = valor_pretendido();
 				}
 				break;
-			case T__4:
+			case 2:
 				_localctx = new CalcularValorContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(43);
+				setState(50);
 				expressao();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 3:
+				_localctx = new Calcular_preco_totalContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(51);
+				calcPrecoTotal();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class CalcPrecoTotalContext extends ParserRuleContext {
+		public NameVarContext var;
+		public Token quantidade;
+		public NameVarContext nameVar() {
+			return getRuleContext(NameVarContext.class,0);
+		}
+		public TerminalNode INTEIRO() { return getToken(ValidaScriptParser.INTEIRO, 0); }
+		public CalcPrecoTotalContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_calcPrecoTotal; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterCalcPrecoTotal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitCalcPrecoTotal(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitCalcPrecoTotal(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final CalcPrecoTotalContext calcPrecoTotal() throws RecognitionException {
+		CalcPrecoTotalContext _localctx = new CalcPrecoTotalContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_calcPrecoTotal);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(54);
+			((CalcPrecoTotalContext)_localctx).var = nameVar();
+			setState(55);
+			match(T__1);
+			setState(56);
+			((CalcPrecoTotalContext)_localctx).quantidade = match(INTEIRO);
 			}
 		}
 		catch (RecognitionException re) {
@@ -368,16 +455,16 @@ public class ValidaScriptParser extends Parser {
 
 	public final ExpressaoContext expressao() throws RecognitionException {
 		ExpressaoContext _localctx = new ExpressaoContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_expressao);
+		enterRule(_localctx, 8, RULE_expressao);
 		try {
 			_localctx = new AtribuirContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(58);
 			nameVar();
-			setState(47);
-			match(T__1);
-			setState(48);
+			setState(59);
+			match(T__2);
+			setState(60);
 			calculosMatematicos();
 			}
 		}
@@ -477,20 +564,20 @@ public class ValidaScriptParser extends Parser {
 
 	public final CalculosMatematicosContext calculosMatematicos() throws RecognitionException {
 		CalculosMatematicosContext _localctx = new CalculosMatematicosContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_calculosMatematicos);
+		enterRule(_localctx, 10, RULE_calculosMatematicos);
 		try {
-			setState(62);
+			setState(74);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				_localctx = new MultiDivContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(50);
+				setState(62);
 				((MultiDivContext)_localctx).left = param();
-				setState(51);
+				setState(63);
 				((MultiDivContext)_localctx).sinal = match(MULT_DIV);
-				setState(52);
+				setState(64);
 				((MultiDivContext)_localctx).right = param();
 				}
 				break;
@@ -498,11 +585,11 @@ public class ValidaScriptParser extends Parser {
 				_localctx = new SomaSubContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(54);
+				setState(66);
 				((SomaSubContext)_localctx).left = param();
-				setState(55);
+				setState(67);
 				((SomaSubContext)_localctx).sinal = match(SOMA_SUB);
-				setState(56);
+				setState(68);
 				((SomaSubContext)_localctx).right = param();
 				}
 				break;
@@ -510,12 +597,12 @@ public class ValidaScriptParser extends Parser {
 				_localctx = new ParentesesContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(58);
-				match(T__2);
-				setState(59);
-				calculosMatematicos();
-				setState(60);
+				setState(70);
 				match(T__3);
+				setState(71);
+				calculosMatematicos();
+				setState(72);
+				match(T__4);
 				}
 				break;
 			}
@@ -581,16 +668,16 @@ public class ValidaScriptParser extends Parser {
 
 	public final ParamContext param() throws RecognitionException {
 		ParamContext _localctx = new ParamContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_param);
+		enterRule(_localctx, 12, RULE_param);
 		try {
-			setState(66);
+			setState(78);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__4:
+			case T__5:
 				_localctx = new VariavelContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(64);
+				setState(76);
 				nameVar();
 				}
 				break;
@@ -598,12 +685,81 @@ public class ValidaScriptParser extends Parser {
 				_localctx = new ProprioValorContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(65);
+				setState(77);
 				match(INTEIRO);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Valor_pretendidoContext extends ParserRuleContext {
+		public TerminalNode ESCALAO() { return getToken(ValidaScriptParser.ESCALAO, 0); }
+		public TerminalNode CATEGORIA() { return getToken(ValidaScriptParser.CATEGORIA, 0); }
+		public TerminalNode PRECO() { return getToken(ValidaScriptParser.PRECO, 0); }
+		public Valor_pretendidoContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_valor_pretendido; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterValor_pretendido(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitValor_pretendido(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitValor_pretendido(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Valor_pretendidoContext valor_pretendido() throws RecognitionException {
+		Valor_pretendidoContext _localctx = new Valor_pretendidoContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_valor_pretendido);
+		try {
+			setState(84);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(80);
+				match(ESCALAO);
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(81);
+				match(CATEGORIA);
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(82);
+				match(PRECO);
+				}
+				break;
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -640,16 +796,16 @@ public class ValidaScriptParser extends Parser {
 
 	public final NameVarContext nameVar() throws RecognitionException {
 		NameVarContext _localctx = new NameVarContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_nameVar);
+		enterRule(_localctx, 16, RULE_nameVar);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68);
-			match(T__4);
-			setState(69);
+			setState(86);
+			match(T__5);
+			setState(87);
 			match(PALAVRA);
-			setState(70);
-			match(T__4);
+			setState(88);
+			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -689,13 +845,13 @@ public class ValidaScriptParser extends Parser {
 
 	public final FicheiroContext ficheiro() throws RecognitionException {
 		FicheiroContext _localctx = new FicheiroContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_ficheiro);
+		enterRule(_localctx, 18, RULE_ficheiro);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72);
+			setState(90);
 			path(0);
-			setState(73);
+			setState(91);
 			match(XML);
 			}
 		}
@@ -744,20 +900,20 @@ public class ValidaScriptParser extends Parser {
 		int _parentState = getState();
 		PathContext _localctx = new PathContext(_ctx, _parentState);
 		PathContext _prevctx = _localctx;
-		int _startState = 16;
-		enterRecursionRule(_localctx, 16, RULE_path, _p);
+		int _startState = 20;
+		enterRecursionRule(_localctx, 20, RULE_path, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(76);
+			setState(94);
 			match(PALAVRA);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(83);
+			setState(101);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -766,18 +922,18 @@ public class ValidaScriptParser extends Parser {
 					{
 					_localctx = new PathContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_path);
-					setState(78);
+					setState(96);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(79);
+					setState(97);
 					match(BARRA);
-					setState(80);
+					setState(98);
 					match(PALAVRA);
 					}
 					} 
 				}
-				setState(85);
+				setState(103);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
 			}
 		}
@@ -817,16 +973,16 @@ public class ValidaScriptParser extends Parser {
 
 	public final ProgFileContext progFile() throws RecognitionException {
 		ProgFileContext _localctx = new ProgFileContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_progFile);
+		enterRule(_localctx, 22, RULE_progFile);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
-			match(T__5);
-			setState(87);
-			startFile(0);
-			setState(88);
+			setState(104);
 			match(T__6);
+			setState(105);
+			startFile(0);
+			setState(106);
+			match(T__7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -878,8 +1034,8 @@ public class ValidaScriptParser extends Parser {
 		int _parentState = getState();
 		StartFileContext _localctx = new StartFileContext(_ctx, _parentState);
 		StartFileContext _prevctx = _localctx;
-		int _startState = 20;
-		enterRecursionRule(_localctx, 20, RULE_startFile, _p);
+		int _startState = 24;
+		enterRecursionRule(_localctx, 24, RULE_startFile, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -887,51 +1043,51 @@ public class ValidaScriptParser extends Parser {
 			{
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(103);
+			setState(121);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(101);
+					setState(119);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new StartFileContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_startFile);
-						setState(91);
+						setState(109);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(92);
-						match(T__7);
-						setState(93);
-						infoProduto();
-						setState(94);
+						setState(110);
 						match(T__8);
+						setState(111);
+						infoProduto();
+						setState(112);
+						match(T__9);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new StartFileContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_startFile);
-						setState(96);
+						setState(114);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(97);
-						match(T__9);
-						setState(98);
-						infoCliente();
-						setState(99);
+						setState(115);
 						match(T__10);
+						setState(116);
+						infoCliente();
+						setState(117);
+						match(T__11);
 						}
 						break;
 					}
 					} 
 				}
-				setState(105);
+				setState(123);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
 			}
 		}
@@ -977,55 +1133,55 @@ public class ValidaScriptParser extends Parser {
 
 	public final InfoProdutoContext infoProduto() throws RecognitionException {
 		InfoProdutoContext _localctx = new InfoProdutoContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_infoProduto);
+		enterRule(_localctx, 26, RULE_infoProduto);
 		try {
-			setState(125);
+			setState(143);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(106);
-				match(T__11);
-				setState(107);
-				((InfoProdutoContext)_localctx).codigo = match(INTEIRO);
-				setState(108);
+				setState(124);
 				match(T__12);
-				setState(109);
+				setState(125);
+				((InfoProdutoContext)_localctx).codigo = match(INTEIRO);
+				setState(126);
 				match(T__13);
-				setState(110);
-				((InfoProdutoContext)_localctx).preco = match(INTEIRO);
-				setState(111);
+				setState(127);
 				match(T__14);
-				setState(112);
+				setState(128);
+				((InfoProdutoContext)_localctx).preco = match(INTEIRO);
+				setState(129);
 				match(T__15);
-				setState(113);
-				((InfoProdutoContext)_localctx).categoria = match(PALAVRA);
-				setState(114);
+				setState(130);
 				match(T__16);
+				setState(131);
+				((InfoProdutoContext)_localctx).categoria = match(PALAVRA);
+				setState(132);
+				match(T__17);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(115);
-				match(T__11);
-				setState(116);
-				((InfoProdutoContext)_localctx).codigo = match(INTEIRO);
-				setState(117);
+				setState(133);
 				match(T__12);
-				setState(118);
+				setState(134);
+				((InfoProdutoContext)_localctx).codigo = match(INTEIRO);
+				setState(135);
 				match(T__13);
-				setState(119);
-				((InfoProdutoContext)_localctx).preco = match(DOUBLE);
-				setState(120);
+				setState(136);
 				match(T__14);
-				setState(121);
+				setState(137);
+				((InfoProdutoContext)_localctx).preco = match(DOUBLE);
+				setState(138);
 				match(T__15);
-				setState(122);
-				((InfoProdutoContext)_localctx).categoria = match(PALAVRA);
-				setState(123);
+				setState(139);
 				match(T__16);
+				setState(140);
+				((InfoProdutoContext)_localctx).categoria = match(PALAVRA);
+				setState(141);
+				match(T__17);
 				}
 				break;
 			case 3:
@@ -1072,29 +1228,29 @@ public class ValidaScriptParser extends Parser {
 
 	public final InfoClienteContext infoCliente() throws RecognitionException {
 		InfoClienteContext _localctx = new InfoClienteContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_infoCliente);
+		enterRule(_localctx, 28, RULE_infoCliente);
 		try {
-			setState(134);
+			setState(152);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__17:
+			case T__18:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(127);
-				match(T__17);
-				setState(128);
-				((InfoClienteContext)_localctx).numero = match(INTEIRO);
-				setState(129);
+				setState(145);
 				match(T__18);
-				setState(130);
+				setState(146);
+				((InfoClienteContext)_localctx).numero = match(INTEIRO);
+				setState(147);
 				match(T__19);
-				setState(131);
-				((InfoClienteContext)_localctx).escalao = match(PALAVRA);
-				setState(132);
+				setState(148);
 				match(T__20);
+				setState(149);
+				((InfoClienteContext)_localctx).escalao = match(PALAVRA);
+				setState(150);
+				match(T__21);
 				}
 				break;
-			case T__10:
+			case T__11:
 				enterOuterAlt(_localctx, 2);
 				{
 				}
@@ -1118,9 +1274,9 @@ public class ValidaScriptParser extends Parser {
 		switch (ruleIndex) {
 		case 1:
 			return start_sempred((StartContext)_localctx, predIndex);
-		case 8:
-			return path_sempred((PathContext)_localctx, predIndex);
 		case 10:
+			return path_sempred((PathContext)_localctx, predIndex);
+		case 12:
 			return startFile_sempred((StartFileContext)_localctx, predIndex);
 		}
 		return true;
@@ -1150,40 +1306,47 @@ public class ValidaScriptParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#\u008b\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\'\u009d\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\3\3\3\3\3\3\3\3\3\7\3$\n\3\f\3"+
-		"\16\3\'\13\3\3\4\3\4\3\4\3\4\3\4\3\4\5\4/\n\4\3\5\3\5\3\5\3\5\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6A\n\6\3\7\3\7\5\7E\n\7\3\b"+
-		"\3\b\3\b\3\b\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\7\nT\n\n\f\n\16\nW\13"+
-		"\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\7\f"+
-		"h\n\f\f\f\16\fk\13\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3"+
-		"\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u0080\n\r\3\16\3\16\3\16\3\16\3\16\3\16"+
-		"\3\16\5\16\u0089\n\16\3\16\2\5\4\22\26\17\2\4\6\b\n\f\16\20\22\24\26\30"+
-		"\32\2\2\2\u0088\2\34\3\2\2\2\4\36\3\2\2\2\6.\3\2\2\2\b\60\3\2\2\2\n@\3"+
-		"\2\2\2\fD\3\2\2\2\16F\3\2\2\2\20J\3\2\2\2\22M\3\2\2\2\24X\3\2\2\2\26\\"+
-		"\3\2\2\2\30\177\3\2\2\2\32\u0088\3\2\2\2\34\35\5\4\3\2\35\3\3\2\2\2\36"+
-		"\37\b\3\1\2\37 \5\6\4\2 %\3\2\2\2!\"\f\4\2\2\"$\5\6\4\2#!\3\2\2\2$\'\3"+
-		"\2\2\2%#\3\2\2\2%&\3\2\2\2&\5\3\2\2\2\'%\3\2\2\2()\7\3\2\2)*\7 \2\2*+"+
-		"\7\36\2\2+,\7 \2\2,/\5\20\t\2-/\5\b\5\2.(\3\2\2\2.-\3\2\2\2/\7\3\2\2\2"+
-		"\60\61\5\16\b\2\61\62\7\4\2\2\62\63\5\n\6\2\63\t\3\2\2\2\64\65\5\f\7\2"+
-		"\65\66\7\31\2\2\66\67\5\f\7\2\67A\3\2\2\289\5\f\7\29:\7\30\2\2:;\5\f\7"+
-		"\2;A\3\2\2\2<=\7\5\2\2=>\5\n\6\2>?\7\6\2\2?A\3\2\2\2@\64\3\2\2\2@8\3\2"+
-		"\2\2@<\3\2\2\2A\13\3\2\2\2BE\5\16\b\2CE\7\36\2\2DB\3\2\2\2DC\3\2\2\2E"+
-		"\r\3\2\2\2FG\7\7\2\2GH\7!\2\2HI\7\7\2\2I\17\3\2\2\2JK\5\22\n\2KL\7\"\2"+
-		"\2L\21\3\2\2\2MN\b\n\1\2NO\7!\2\2OU\3\2\2\2PQ\f\4\2\2QR\7\35\2\2RT\7!"+
-		"\2\2SP\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3\2\2\2V\23\3\2\2\2WU\3\2\2\2XY\7"+
-		"\b\2\2YZ\5\26\f\2Z[\7\t\2\2[\25\3\2\2\2\\i\b\f\1\2]^\f\5\2\2^_\7\n\2\2"+
-		"_`\5\30\r\2`a\7\13\2\2ah\3\2\2\2bc\f\4\2\2cd\7\f\2\2de\5\32\16\2ef\7\r"+
-		"\2\2fh\3\2\2\2g]\3\2\2\2gb\3\2\2\2hk\3\2\2\2ig\3\2\2\2ij\3\2\2\2j\27\3"+
-		"\2\2\2ki\3\2\2\2lm\7\16\2\2mn\7\36\2\2no\7\17\2\2op\7\20\2\2pq\7\36\2"+
-		"\2qr\7\21\2\2rs\7\22\2\2st\7!\2\2t\u0080\7\23\2\2uv\7\16\2\2vw\7\36\2"+
-		"\2wx\7\17\2\2xy\7\20\2\2yz\7\37\2\2z{\7\21\2\2{|\7\22\2\2|}\7!\2\2}\u0080"+
-		"\7\23\2\2~\u0080\3\2\2\2\177l\3\2\2\2\177u\3\2\2\2\177~\3\2\2\2\u0080"+
-		"\31\3\2\2\2\u0081\u0082\7\24\2\2\u0082\u0083\7\36\2\2\u0083\u0084\7\25"+
-		"\2\2\u0084\u0085\7\26\2\2\u0085\u0086\7!\2\2\u0086\u0089\7\27\2\2\u0087"+
-		"\u0089\3\2\2\2\u0088\u0081\3\2\2\2\u0088\u0087\3\2\2\2\u0089\33\3\2\2"+
-		"\2\13%.@DUgi\177\u0088";
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\3\2\3\3\3\3\3\3"+
+		"\3\3\3\3\7\3(\n\3\f\3\16\3+\13\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
+		"\4\5\4\67\n\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\3\7\3\7\3\7\3\7\5\7M\n\7\3\b\3\b\5\bQ\n\b\3\t\3\t\3\t\3\t\5\t"+
+		"W\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\7\ff\n\f"+
+		"\f\f\16\fi\13\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16"+
+		"\3\16\3\16\3\16\7\16z\n\16\f\16\16\16}\13\16\3\17\3\17\3\17\3\17\3\17"+
+		"\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17"+
+		"\5\17\u0092\n\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u009b\n\20\3"+
+		"\20\2\5\4\26\32\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\2\2\u009c"+
+		"\2 \3\2\2\2\4\"\3\2\2\2\6\66\3\2\2\2\b8\3\2\2\2\n<\3\2\2\2\fL\3\2\2\2"+
+		"\16P\3\2\2\2\20V\3\2\2\2\22X\3\2\2\2\24\\\3\2\2\2\26_\3\2\2\2\30j\3\2"+
+		"\2\2\32n\3\2\2\2\34\u0091\3\2\2\2\36\u009a\3\2\2\2 !\5\4\3\2!\3\3\2\2"+
+		"\2\"#\b\3\1\2#$\5\6\4\2$)\3\2\2\2%&\f\4\2\2&(\5\6\4\2\'%\3\2\2\2(+\3\2"+
+		"\2\2)\'\3\2\2\2)*\3\2\2\2*\5\3\2\2\2+)\3\2\2\2,-\7\3\2\2-.\7$\2\2./\7"+
+		"\"\2\2/\60\7$\2\2\60\61\5\24\13\2\61\62\7$\2\2\62\63\5\20\t\2\63\67\3"+
+		"\2\2\2\64\67\5\n\6\2\65\67\5\b\5\2\66,\3\2\2\2\66\64\3\2\2\2\66\65\3\2"+
+		"\2\2\67\7\3\2\2\289\5\22\n\29:\7\4\2\2:;\7\"\2\2;\t\3\2\2\2<=\5\22\n\2"+
+		"=>\7\5\2\2>?\5\f\7\2?\13\3\2\2\2@A\5\16\b\2AB\7\32\2\2BC\5\16\b\2CM\3"+
+		"\2\2\2DE\5\16\b\2EF\7\31\2\2FG\5\16\b\2GM\3\2\2\2HI\7\6\2\2IJ\5\f\7\2"+
+		"JK\7\7\2\2KM\3\2\2\2L@\3\2\2\2LD\3\2\2\2LH\3\2\2\2M\r\3\2\2\2NQ\5\22\n"+
+		"\2OQ\7\"\2\2PN\3\2\2\2PO\3\2\2\2Q\17\3\2\2\2RW\7\37\2\2SW\7!\2\2TW\7 "+
+		"\2\2UW\3\2\2\2VR\3\2\2\2VS\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\21\3\2\2\2XY\7"+
+		"\b\2\2YZ\7%\2\2Z[\7\b\2\2[\23\3\2\2\2\\]\5\26\f\2]^\7&\2\2^\25\3\2\2\2"+
+		"_`\b\f\1\2`a\7%\2\2ag\3\2\2\2bc\f\4\2\2cd\7\36\2\2df\7%\2\2eb\3\2\2\2"+
+		"fi\3\2\2\2ge\3\2\2\2gh\3\2\2\2h\27\3\2\2\2ig\3\2\2\2jk\7\t\2\2kl\5\32"+
+		"\16\2lm\7\n\2\2m\31\3\2\2\2n{\b\16\1\2op\f\5\2\2pq\7\13\2\2qr\5\34\17"+
+		"\2rs\7\f\2\2sz\3\2\2\2tu\f\4\2\2uv\7\r\2\2vw\5\36\20\2wx\7\16\2\2xz\3"+
+		"\2\2\2yo\3\2\2\2yt\3\2\2\2z}\3\2\2\2{y\3\2\2\2{|\3\2\2\2|\33\3\2\2\2}"+
+		"{\3\2\2\2~\177\7\17\2\2\177\u0080\7\"\2\2\u0080\u0081\7\20\2\2\u0081\u0082"+
+		"\7\21\2\2\u0082\u0083\7\"\2\2\u0083\u0084\7\22\2\2\u0084\u0085\7\23\2"+
+		"\2\u0085\u0086\7%\2\2\u0086\u0092\7\24\2\2\u0087\u0088\7\17\2\2\u0088"+
+		"\u0089\7\"\2\2\u0089\u008a\7\20\2\2\u008a\u008b\7\21\2\2\u008b\u008c\7"+
+		"#\2\2\u008c\u008d\7\22\2\2\u008d\u008e\7\23\2\2\u008e\u008f\7%\2\2\u008f"+
+		"\u0092\7\24\2\2\u0090\u0092\3\2\2\2\u0091~\3\2\2\2\u0091\u0087\3\2\2\2"+
+		"\u0091\u0090\3\2\2\2\u0092\35\3\2\2\2\u0093\u0094\7\25\2\2\u0094\u0095"+
+		"\7\"\2\2\u0095\u0096\7\26\2\2\u0096\u0097\7\27\2\2\u0097\u0098\7%\2\2"+
+		"\u0098\u009b\7\30\2\2\u0099\u009b\3\2\2\2\u009a\u0093\3\2\2\2\u009a\u0099"+
+		"\3\2\2\2\u009b\37\3\2\2\2\f)\66LPVgy{\u0091\u009a";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

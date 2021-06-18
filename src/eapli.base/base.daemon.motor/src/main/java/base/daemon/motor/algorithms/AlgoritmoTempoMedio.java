@@ -23,8 +23,6 @@ public class AlgoritmoTempoMedio implements Runnable {
 
     private CodigoUnico identity;
 
-    private int incrementoColaboradores=0;
-
     private Map<Double, Colaborador> mapColaboradores;
 
     public AlgoritmoTempoMedio(List<Colaborador> list, Atividade atividade, CodigoUnico identity) {
@@ -36,43 +34,49 @@ public class AlgoritmoTempoMedio implements Runnable {
 
     @Override
     public void run() {
+        double tempoMedioTotal = 0;
 
-        
-        synchronized (this) {
-			double tempoMedioTotal = 0;
-			if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-				tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);
-			} else {
-				tempoMedioTotal += servicoRepository.tempoMedioResolucao(identity);
-			}
-			System.out.println("\n\n\n\n\n\n\nIncremento: "+incrementoColaboradores);
-            Colaborador colab = list.get(incrementoColaboradores);
-			System.out.println("Colaborador: "+colab.toString()+"\n\n\n\n\n\n\n");
-            getIncrement();
-            List<Atividade> listaTarefasPendentes = pedidoRepository.getListaTarefasPendentes(colab, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
-            for (Atividade atividadeList : listaTarefasPendentes) {
-                if (atividadeList.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                    tempoMedioTotal += servicoRepository.tempoMedioAprovacao(identity);
-                } else {
-                    tempoMedioTotal += servicoRepository.tempoMedioResolucao(identity);
-                }
-            }
-
-            mapColaboradores.put(tempoMedioTotal,colab);
+        if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+            tempoMedioTotal += tempoMedioAprovacao();
+        } else {
+            tempoMedioTotal += tempoMedioResolucao();
         }
+
+        String[] threadName = Thread.currentThread().getName().split("-");
+        int index = Integer.parseInt(threadName[1].replaceAll("\\s+", ""));
+
+        Colaborador colab = list.get(index);
+
+        List<Atividade> listaTarefasPendentes = getListaTarefasPendentes(colab);
+        for (Atividade atividadeList : listaTarefasPendentes) {
+            if (atividadeList.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+                tempoMedioTotal += tempoMedioAprovacao();
+            } else {
+                tempoMedioTotal += tempoMedioResolucao();
+            }
+        }
+        mapColaboradores.put(tempoMedioTotal, colab);
     }
 
-    private synchronized void getIncrement(){
-        incrementoColaboradores++;
+    private synchronized List<Atividade> getListaTarefasPendentes(Colaborador colab) {
+        return pedidoRepository.getListaTarefasPendentes(colab, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
+    }
+
+    private synchronized double tempoMedioAprovacao() {
+        return servicoRepository.tempoMedioAprovacao(identity);
+    }
+
+    private synchronized double tempoMedioResolucao() {
+        return servicoRepository.tempoMedioResolucao(identity);
     }
 
     public void createThreads() {
         Thread[] threads = new Thread[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            threads[i] = new Thread(this, "Thread" + i + " do algoritmo tempo medio");
+            threads[i] = new Thread(this, "Thread -" + i + "- do algoritmo tempo medio");
             threads[i].start();
         }
-        for(Thread t : threads){
+        for (Thread t : threads) {
             t.interrupt();
             try {
                 t.join();
@@ -82,30 +86,9 @@ public class AlgoritmoTempoMedio implements Runnable {
         }
     }
 
-    public Colaborador getColaboradorEscolhido(){
+    public Colaborador getColaboradorEscolhido() {
         Map.Entry<Double, Colaborador> entry = mapColaboradores.entrySet().iterator().next();
-		for(Double e : mapColaboradores.keySet()){
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: "+e+" Valor: "+mapColaboradores.get(e).toString()+"\n\n\n\n\n\n\n\n\n\n\n");
-		}
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: "+entry.getKey()+" Valor: "+entry.getValue()+"\n\n\n\n\n\n\n\n\n\n\n");
         return entry.getValue();
     }
-
-   /* public static Map<Colaborador, Double> sortByValue(Map<Colaborador, Double> unsortMap) {
-        LinkedList<Map.Entry<Colaborador, Double>> list
-                = new LinkedList<Map.Entry<Colaborador, Double>>(unsortMap.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Colaborador, Double>>() {
-            @Override
-            public int compare(Map.Entry<Colaborador, Double> o1,
-                               Map.Entry<Colaborador, Double> o2) {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
-        Map<Colaborador, Double> sortedMap = new LinkedHashMap<Colaborador, Double>();
-        for (Map.Entry<Colaborador, Double> entry : list) {
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedMap;
-    }*/
 
 }
