@@ -380,9 +380,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public List<Calendar> findDatas(MecanographicNumber number, String idPedido) {
         final TypedQuery<Calendar> q = createQuery("SELECT p.dataSolicitacao FROM Pedido p" +
                 " JOIN p.listaAtiv la JOIN la.colab col" +
-                " WHERE p.id =:idPedido AND la.estadoAtividade =:pendente AND col.numeroMecanografico=:number", Calendar.class);
+                " WHERE la.estadoAtividade =:pendente AND col.numeroMecanografico=:number", Calendar.class);
         q.setParameter("pendente",EstadoAtividade.PENDENTE);
-        q.setParameter("idPedido", idPedido);
         q.setParameter("number", number);
         return q.getResultList();
     }

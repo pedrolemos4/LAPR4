@@ -58,7 +58,7 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
-            final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores();
+            final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores().trim();
             final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica();
 
             String id = request.trim();
@@ -70,20 +70,20 @@ public class FluxoRequest extends AplicacoesRequest {
             System.out.println("\n\n\n\n\n\n\n" + atividadesList.size() + "\n\n\n\n\n\n\n\n\n\n");
             int j = 0;
             Thread[] threads = new Thread[list.size()];
-			
-			j=0;
+
+            j = 0;
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    Colaborador escolhido=createThreads(atividade, servico, list, algoritmo,id);
-                    pedido.adicionaColaborador(escolhido,atividade);
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
+                    pedido.adicionaColaborador(escolhido, atividade);
                     pedidoRepository.save(pedido);
 
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    Colaborador escolhido = createThreads(atividade, servico, list,algoritmo, id);
-                    pedido.adicionaColaborador(escolhido,atividade);
-					System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: "+pedido.toString());
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
+                    pedido.adicionaColaborador(escolhido, atividade);
+                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: " + pedido.toString());
                     pedidoRepository.save(pedido);
                 } else {
                   /*  if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
@@ -130,8 +130,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     String caminhoScript = controller.findScriptServico(servico.identity());
                     Formulario form = pedidoRepository.getFormularioPedido(id);
                     List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
-                    String input="";
-                    for(Atributo at : atributos){
+                    String input = "";
+                    for (Atributo at : atributos) {
                         input.concat(";");
                         input.concat(formularioRepository.getVariavelDoAtributo(at.identity()).toString());
                     }
@@ -174,9 +174,9 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
                 }
-				for(j=0;j<list.size();j++){
-					System.out.println("Colaboradores: "+list.get(j).toString());
-				}
+                for (j = 0; j < list.size(); j++) {
+                    System.out.println("Colaboradores: " + list.get(j).toString());
+                }
             }
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
@@ -192,16 +192,16 @@ public class FluxoRequest extends AplicacoesRequest {
 
     public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo,
                                      String idPedido) {
-
         if (algoritmo.equalsIgnoreCase("FCFS")) {
             FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(list, atividade, idPedido);
             fcfs.createThreads();
-            return fcfs.getColaboradorEscolhido();
+            Colaborador c = fcfs.getColaboradorEscolhido();
+            return c;
         } else {
             AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
             atm.createThreads();
-			Colaborador c = atm.getColaboradorEscolhido();
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: "+c.toString()+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            Colaborador c = atm.getColaboradorEscolhido();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: " + c.toString() + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             return c;
         }
     }
