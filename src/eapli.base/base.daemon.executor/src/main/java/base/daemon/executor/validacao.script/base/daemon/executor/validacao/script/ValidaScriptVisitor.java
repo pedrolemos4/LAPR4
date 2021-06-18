@@ -44,13 +44,6 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCalcularValor(ValidaScriptParser.CalcularValorContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code calcular_preco_total}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code aplicarDesconto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
@@ -58,18 +51,18 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code calcular_preco_final}
+	 * Visit a parse tree produced by the {@code calcularDescontoEPreco}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	T visitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * Visit a parse tree produced by {@link ValidaScriptParser#else1}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	T visitElse1(ValidaScriptParser.Else1Context ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#expressao_a_verificar}.
 	 * @param ctx the parse tree
@@ -77,23 +70,17 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSendEmail(ValidaScriptParser.SendEmailContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValidaScriptParser#calcPrecoTotal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValidaScriptParser#calcPrecoFinal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
@@ -122,6 +109,20 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParenteses(ValidaScriptParser.ParentesesContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code atribuiInteiro}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code atribuiDouble}
+	 * labeled alternative in {@link ValidaScriptParser#calculosMatematicos}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code variavel}
 	 * labeled alternative in {@link ValidaScriptParser#param}.

@@ -1,11 +1,11 @@
 grammar validaForm;
 
-regra: TITULO PV atributo #valido
+regra: TITULO (PV atributo)* #valido
 | TITULO #invalido
 | #vazio
 ;
 
-atributo: var=nome PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV obr=OBRIGATORIO (PV atributo)* #valido2
+atributo: var=nome PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV obr=OBRIGATORIO #valido2
 | STRING #invalido2
 | TIPO_DADOS #invalido2
 | OBRIGATORIO #invalido2

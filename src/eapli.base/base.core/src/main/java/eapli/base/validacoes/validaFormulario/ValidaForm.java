@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class ValidaForm {
 
@@ -50,10 +49,10 @@ public class ValidaForm {
 
     public static void main(String[] args) {
         File file = new File("testForm.txt");
-        if(validaFormVisitor(file)){
-            System.out.println("ENTÃO É BOOLEAN AQUARIANO");
+        if(validaFormListener(file)){
+            System.out.println("Formulario valido");
         } else{
-            System.out.println("Lol");
+            System.out.println("Formulario Invalido");
         }
 
     }

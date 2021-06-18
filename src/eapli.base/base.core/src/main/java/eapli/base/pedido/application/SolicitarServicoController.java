@@ -194,13 +194,13 @@ public class SolicitarServicoController {
     public Atividade createAtividadeManual(Colaborador colab, Formulario formulario, Calendar calendar1,
                                      TipoAtividade tipoAtividade) {
         Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
-                formulario, calendar1, tipoAtividade);
+                formulario, calendar1, tipoAtividade, null);
         return at;
     }
 
     public Atividade createAtividadeAutomatica(Calendar calendar,TipoAtividade tipoAtividade,CodigoUnico idServico){
         Script script = servicoRepository.findScriptServico(idServico);
-        Atividade at = new AtividadeAutomatica(calendar,EstadoAtividade.PENDENTE,tipoAtividade,script);
+        Atividade at = new AtividadeAutomatica(calendar,EstadoAtividade.PENDENTE,tipoAtividade, null, script);
         return at;
     }
 

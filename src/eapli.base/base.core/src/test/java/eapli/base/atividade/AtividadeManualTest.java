@@ -60,7 +60,7 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO);
+        AtividadeManual instance = new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO, null);
 
         instance.adicionaColaborador(colab);
     }
@@ -91,7 +91,7 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO);
+        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.REALIZACAO, null);
         assertTrue(true);
     }
 
@@ -121,7 +121,7 @@ public class AtividadeManualTest extends TestCase {
 
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario2);
 
-        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.APROVACAO);
+        new AtividadeManual(EstadoAtividade.PENDENTE, listEquipas1, Decisao.APROVADO, new Comentario("comentario"), form1, dataS,TipoAtividade.APROVACAO, null);
         assertTrue(true);
     }
     

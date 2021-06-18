@@ -31,8 +31,8 @@
     <class>eapli.base.colaborador.domain.FuncaoAssignment</class>
 
     <properties>
-      <!--property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/base"/>-->
-     	 <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://10.8.0.83:9309/~/base"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/base"/>
+     	 <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://10.8.0.83:9309/~/base"/>-->
         <!-->    <property name="javax.persistence.jdbc.url" value="jdbc:h2:..\db\base;MV_STORE=FALSE;AUTO_SERVER=true;"/>-->
 
       <property name="javax.persistence.jdbc.user" value="sa"/>

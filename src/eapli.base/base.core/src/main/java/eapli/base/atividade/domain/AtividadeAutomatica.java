@@ -12,8 +12,9 @@ public class AtividadeAutomatica extends Atividade {
     @Column(name= "SCRIPT")
     private Script script;
 
-    public AtividadeAutomatica(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade, Script script) {
-        super(dataLimite, estadoAtividade, tipoAtividade);
+    public AtividadeAutomatica(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade,
+                               DuracaoAtividade duracao, Script script) {
+        super(dataLimite, estadoAtividade, tipoAtividade, duracao);
         this.script = script;
         Preconditions.ensure(tipoAtividade == TipoAtividade.REALIZACAO, "Atividade é de realização.");
     }
