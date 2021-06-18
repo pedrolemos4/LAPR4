@@ -14,29 +14,27 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
 
     private String idPedido;
 
-    private  Map<Long, Colaborador> mapColaboradores;
-
-    private static int incrementoColaboradores=0;
+    private Map<Long, Colaborador> mapColaboradores;
 
 
-    public FirstComeFirstServeAlgorithm(List<Colaborador> list, Atividade atividade,String idPedido) {
+    public FirstComeFirstServeAlgorithm(List<Colaborador> list, Atividade atividade, String idPedido) {
         this.list = list;
         this.atividade = atividade;
         this.idPedido = idPedido;
         this.mapColaboradores = new TreeMap<>(Collections.reverseOrder());
     }
 
-    public synchronized void addCol(long tempo,Colaborador col) throws Exception {
-        mapColaboradores.put(tempo,col);
+    public synchronized void addCol(long tempo, Colaborador col) throws Exception {
+        mapColaboradores.put(tempo, col);
     }
 
-    public static long time(Colaborador col,String idPedido) throws Exception{
+    public synchronized long time(Colaborador col, String idPedido) throws Exception {
         AplicacoesController controller = new AplicacoesController();
-        List<Calendar> list = controller.findDatas(col.identity(),idPedido);
+        List<Calendar> list = controller.findDatas(col.identity(), idPedido);
         long maior = 0;
-        for(Calendar calendar : list){
+        for (Calendar calendar : list) {
             long diferenca = Calendar.getInstance().getTime().getTime() - calendar.getTime().getTime();
-            if(diferenca > maior){
+            if (diferenca > maior) {
                 maior = diferenca;
             }
         }
@@ -45,24 +43,20 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
 
     @Override
     public void run() {
-        synchronized (this){
-            Colaborador colab = list.get(incrementoColaboradores);
-            getIncrement();
-            try {
-                long tempo = time(colab,this.idPedido);
-                addCol(tempo,colab);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        String[] threadName = Thread.currentThread().getName().split("-");
+        int index = Integer.parseInt(threadName[1].replaceAll("\\s+", ""));
+        Colaborador colab = list.get(index);
+        try {
+            long tempo = time(colab, this.idPedido);
+            addCol(tempo, colab);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
-    private synchronized void getIncrement(){
-        incrementoColaboradores++;
-    }
 
-    public  Colaborador getColaboradorEscolhido(){
+    public Colaborador getColaboradorEscolhido() {
         Map.Entry<Long, Colaborador> entry = mapColaboradores.entrySet().iterator().next();
         return entry.getValue();
     }
@@ -73,7 +67,7 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
             threads[i] = new Thread(this, "Thread" + i + " do fcfs");
             threads[i].start();
         }
-        for(Thread t : threads){
+        for (Thread t : threads) {
             t.interrupt();
             try {
                 t.join();
