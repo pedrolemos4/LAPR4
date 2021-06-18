@@ -76,18 +76,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,6 +83,18 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,18 +143,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSendEmail(ValidaScriptParser.SendEmailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

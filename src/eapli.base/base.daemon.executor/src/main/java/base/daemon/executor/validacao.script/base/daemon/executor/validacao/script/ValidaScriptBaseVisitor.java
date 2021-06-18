@@ -52,14 +52,14 @@ public class ValidaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -88,13 +88,6 @@ public class ValidaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitSendEmail(ValidaScriptParser.SendEmailContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

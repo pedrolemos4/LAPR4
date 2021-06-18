@@ -190,7 +190,7 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     }
 
-    public void enterCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
+    /*public void enterCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
         stack.push(ctx.quantidade.getText());
     }
 
@@ -202,7 +202,7 @@ public class EvalListener extends ValidaScriptBaseListener {
             map.put(ctx.var.getText(), total);
             stack.push(Double.toString(total));
         }
-    }
+    }*/
 
     public void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
         stack.push(ctx.valorDesconto.getText());
