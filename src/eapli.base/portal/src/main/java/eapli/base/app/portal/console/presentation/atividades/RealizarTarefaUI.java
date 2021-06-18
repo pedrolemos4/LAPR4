@@ -76,6 +76,9 @@ public class RealizarTarefaUI extends AbstractUI {
                         try {
                             File file = new File("formularioAtividade.txt");
                             FileWriter myWriter = new FileWriter(file);
+                            if(formFinal.toStringVal().contains("null")){
+                                formFinal.toStringVal().replace("null", "");
+                            }
                             formFinal.toStringVal().replace("[", "");
                             formFinal.toStringVal().replace("]", "");
                             myWriter.write(formFinal.toString());
