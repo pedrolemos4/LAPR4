@@ -1,4 +1,4 @@
-// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -76,17 +76,17 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code adicionarDesconto}
+	 * Enter a parse tree produced by the {@code aplicarDesconto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx);
+	void enterAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code adicionarDesconto}
+	 * Exit a parse tree produced by the {@code aplicarDesconto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx);
+	void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code calcular_preco_final}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
@@ -99,6 +99,26 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * @param ctx the parse tree
+	 */
+	void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * @param ctx the parse tree
+	 */
+	void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#expressao_a_verificar}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#expressao_a_verificar}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#sendEmail}.
 	 * @param ctx the parse tree

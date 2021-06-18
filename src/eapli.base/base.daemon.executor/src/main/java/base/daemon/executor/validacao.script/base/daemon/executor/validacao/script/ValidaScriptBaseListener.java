@@ -1,4 +1,4 @@
-// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -88,13 +88,13 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx) { }
+	@Override public void enterAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx) { }
+	@Override public void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -107,6 +107,30 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

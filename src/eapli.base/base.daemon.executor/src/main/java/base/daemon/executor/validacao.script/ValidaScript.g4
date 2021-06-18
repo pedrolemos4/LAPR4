@@ -10,9 +10,15 @@ funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_
       | sendEmail #enviarEmail
       | expressao #calcularValor
       | calcPrecoTotal #calcular_preco_total
-      | 'if' categoria=PALAVRA '=' var=nameVar 'then' #adicionarDesconto
+      | 'if ' aplicar_desconto ' then:' expressao_a_verificar 'end if;' #aplicarDesconto
       | calcPrecoFinal #calcular_preco_final
       ;
+
+aplicar_desconto: leftPortion=param sinal=SINAL_BOOLEANO rightPortion=param
+                ;
+
+expressao_a_verificar: 'Aplicar Desconto->' valorDesconto=DOUBLE
+                     ;
 
 sendEmail: 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA PONTO_VIRGULA valorDesconto=percentagem PONTO_VIRGULA valorFinal=DOUBLE PONTO_VIRGULA
          | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA decisao=frase PONTO_VIRGULA desconto=percentagem
@@ -80,6 +86,7 @@ SOMA_SUB: '+'
 MULT_DIV: '*'
         | '/'
         ;
+SINAL_BOOLEANO: '>'|'<'|'<='|'>='|'=';
 SOMA: '+';
 SUBTRACAO: '-';
 MULT: '*';

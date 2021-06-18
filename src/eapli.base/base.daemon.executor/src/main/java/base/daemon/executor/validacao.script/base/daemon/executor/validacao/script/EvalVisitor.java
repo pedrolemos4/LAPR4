@@ -13,29 +13,32 @@ import java.util.Map;
 public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     private int code;
-    private int preco;
-    private double desconto;
+
+    private int quantidade;
+
+    private double preco;
+
+    private double precoTotal;
 
     private String parametroLerFicheiro;
 
     private Map<String, Double> map = new HashMap<>();
 
-    @Override
-    public Double visitFicheiro(ValidaScriptParser.FicheiroContext ctx) {
+    /*@Override
+    public Integer visitFicheiro(ValidaScriptParser.FicheiroContext ctx) {
         return visitChildren(ctx);
     }
 
     @Override
-    public Double visitPath(ValidaScriptParser.PathContext ctx) {
+    public Integer visitPath(ValidaScriptParser.PathContext ctx) {
         return visitChildren(ctx);
-    }
+    }*/
 
     //--------------------------------LER FICHEIRO--------------------------------//
     @Override
     public Double visitInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) {
         if (code == Integer.parseInt(ctx.codigo.getText())) {
             this.preco = Integer.parseInt(ctx.preco.getText());
-            System.out.println("Preco atr: " + preco);
             if (parametroLerFicheiro != null) {
                 if (parametroLerFicheiro.equals("Preco")) {
                     System.out.println("Preco: " + ctx.preco.getText());
@@ -84,19 +87,33 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ValidaScriptParser parser = new ValidaScriptParser(tokens);
             ParseTree tree = parser.progFile(); // parse
+            int quant = getQuantidade();
             EvalVisitor eval = new EvalVisitor();
             eval.setCode(Integer.parseInt(ctx.possivel_id.getText()));
             eval.setParametro(ctx.valor.getText());
+            eval.setQuantidade(quant);
             eval.visit(tree);
-            this.preco=eval.getPreco();
+            setPrecoTotal(eval.getPreco(),quant);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return 0.0;
     }
 
-    private int getPreco() {
+    private void setPrecoTotal(double preco, int quant){
+        this.precoTotal=preco*quant;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    private double getPreco() {
         return preco;
+    }
+
+    private int getQuantidade() {
+        return quantidade;
     }
 
     private void setCode(int code) {
@@ -181,42 +198,79 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         return visit(ctx.calculosMatematicos());
     }
 
-
+    // /*
     @Override
     public Double visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
-        System.out.println("Entra com preco a: " + preco);
-        System.out.println("Quantidade: " + ctx.quantidade.getText());
         int quantidade = Integer.parseInt(ctx.quantidade.getText());
-        if (quantidade > 0 && preco > 0) {
-            int total = preco * quantidade;
+        if (quantidade > 0) {
+            double total = preco * quantidade;
             System.out.println("Preco total: " + total);
-            map.put(ctx.var.getText(), (double) total);
-            return (double) total;
+            map.put(ctx.var.getText(), total);
+            return total;
         }
         return 0.0;
     }
-
-    @Override
-    public Double visitAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx) {
-        if (map.containsKey(ctx.categoria.getText()) && ctx.categoria.getText().equals(ctx.var.getText())) {
-            desconto = desconto + 0.5;
-        }
-        return 0.0;
-    }
-
+//*/
 //--------------------------------APLICAR DESCONTOS--------------------------------//
 
     @Override
-    public Double visitCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx) {
-        double valorFinal, desconto, valor;
+    public Double visitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) {
+        ValidaScriptParser.Aplicar_descontoContext aplicar_descontoContext = ctx.aplicar_desconto();
+        boolean bool = false;
+        double left, right;
+        int l = 0, r = 0;
 
-        valor = Double.parseDouble(ctx.var.getText());
-        desconto = Double.parseDouble(ctx.desconto.getText());
+        if (map.containsKey(aplicar_descontoContext.leftPortion.getText())) {
+            left = map.get(aplicar_descontoContext.leftPortion.getText());
+        } else if (aplicar_descontoContext.leftPortion.getText().equals("#TOTAL#")) {
+            left = precoTotal;
+            l = 1;
+        } else {
+            left = Integer.parseInt(aplicar_descontoContext.leftPortion.getText());
+        }
 
-        valorFinal = valor - (valor * desconto);
-        System.out.println("Valor Final: " + valorFinal);
+        if (map.containsKey(aplicar_descontoContext.rightPortion.getText())) {
+            right = map.get(aplicar_descontoContext.rightPortion.getText());
+        } else if (aplicar_descontoContext.rightPortion.getText().equals("#TOTAL#")) {
+            right = precoTotal;
+            r = 1;
+        } else {
+            right = Integer.parseInt(aplicar_descontoContext.rightPortion.getText());
+        }
 
-        return valorFinal;
+        if (aplicar_descontoContext.sinal.getText().equals(">") && r == 1) {
+            bool = left > right;
+        } else if (aplicar_descontoContext.sinal.getText().equals("<") && r == 1) {
+            bool = left < right;
+        } else if (aplicar_descontoContext.sinal.getText().equals("<=") && r == 1) {
+            bool = left <= right;
+        } else if (aplicar_descontoContext.sinal.getText().equals(">=") && r == 1) {
+            bool = left >= right;
+        } else if (aplicar_descontoContext.sinal.getText().equals(">") && l == 1) {
+            bool = left > right;
+        } else if (aplicar_descontoContext.sinal.getText().equals("<") && l == 1) {
+            bool = left < right;
+        } else if (aplicar_descontoContext.sinal.getText().equals("<=") && l == 1) {
+            bool = left <= right;
+        } else if (aplicar_descontoContext.sinal.getText().equals(">=") && l == 1) {
+            bool = left >= right;
+        }
+
+        if (bool) {
+            visit(ctx.expressao_a_verificar());
+        }
+
+        return 0.0;
+    }
+
+    @Override
+    public Double visitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
+        double desconto = Double.parseDouble(ctx.valorDesconto.getText());
+        if (1 > desconto && 0 < desconto) {
+            precoTotal = precoTotal * desconto;
+            System.out.println("Preco total após descontos: " + precoTotal);
+        }
+        return precoTotal;
     }
 
 //--------------------------------ENVIAR EMAIL--------------------------------//

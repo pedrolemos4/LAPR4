@@ -17,6 +17,7 @@ public class Main {
         ValidaScriptParser parser = new ValidaScriptParser(tokens);
         ParseTree tree = parser.prog();
         EvalVisitor eval = new EvalVisitor();
+        eval.setQuantidade(Integer.parseInt(args[1]));
         eval.visit(tree);
 
         /*ParseTreeWalker walker = new ParseTreeWalker();

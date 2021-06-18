@@ -82,8 +82,8 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     }
 
     private void executarScript(final File script, final String[] variaveis) throws IOException {
-        //String de variaveis para mandar por parametro para verificar a quantidade
-        // de produtos e calcular o preco total
+        //args[0] = caminho do script
+        //args[1] = quantidade no pedido
 
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();

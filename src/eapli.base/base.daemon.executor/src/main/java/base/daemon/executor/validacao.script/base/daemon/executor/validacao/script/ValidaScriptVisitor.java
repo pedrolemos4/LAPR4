@@ -1,4 +1,4 @@
-// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -51,12 +51,12 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code adicionarDesconto}
+	 * Visit a parse tree produced by the {@code aplicarDesconto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx);
+	T visitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code calcular_preco_final}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
@@ -64,6 +64,18 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#aplicar_desconto}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#expressao_a_verificar}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
 	 * @param ctx the parse tree
