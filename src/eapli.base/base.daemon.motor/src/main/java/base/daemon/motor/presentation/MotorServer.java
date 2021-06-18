@@ -63,6 +63,7 @@ public class MotorServer {
 
         while (true) {
             cliSock = sock.accept();
+            LOGGER.info("Client connected");
             new Thread(new ClientHandler(cliSock)).start();
         }
     }
@@ -80,7 +81,6 @@ public class MotorServer {
             int i = 0;
             byte[] data = new byte[258];
             try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
                  DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 sIn.read(data, 0, 258);
                 //System.out.println("Size of info: " + data[2]);
@@ -133,7 +133,7 @@ public class MotorServer {
                 }*/
 
                 //out.write(respostaByte);
-                sOut.write(response);
+                DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
                 //out.println(response);
 
                 //System.out.println("STRING: "+response.toString());
@@ -145,7 +145,8 @@ public class MotorServer {
                 //}
             } catch (final IOException e) {
                 LOGGER.error(e);
-            } finally {
+            }/*
+            finally {
                 try {
                     myS.close();
                 } catch (final IOException e) {
@@ -191,6 +192,4 @@ public class MotorServer {
                     LOGGER.error("While closing the client socket", e);
                 }
             }*/
-
-
 }

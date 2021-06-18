@@ -32,7 +32,8 @@ public class Dashboard extends Thread {
 	static final String KEYSTORE_PASS = "forgotten";
 
 	static InetAddress serverIP;
-	private static final String IPMOTOR = "10.8.0.82";
+	//private static final String IPMOTOR = "10.8.0.82";
+	private static final String IPMOTOR = "localhost";
 
 	static private SSLSocket sock;
 	static private int serverPort;
@@ -64,11 +65,14 @@ public class Dashboard extends Thread {
 		System.setProperty("javax.net.ssl.keyStore", name + ".jks");
 		System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
+		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+
 		if(doConnection(address,porta)) {
 			if (Desktop.isDesktopSupported())
 				while (flag) {
 					//cliSock= (SSLSocket) sock.accept();
 					//HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
+					//sock.startHandshake();
 					sendTestConnection();
 					//req.start();
 				}
@@ -76,15 +80,15 @@ public class Dashboard extends Thread {
 	}
 
 	public static synchronized void sendTestConnection() throws IOException {
-		try {
+		//try {
 			Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
 			if (sendMessage(5, colab.identity().toString())) {
 				byte[] response = receiveMessage();
 				tasks = new String(response, 3, response[3]);
 			}
-		}catch (Exception e){
-			LOGGER.error("Error trying to send the protocol!");
-		}
+		//}catch (Exception e){
+			//LOGGER.error("Error trying to send the protocol!");
+		//}
 	}
 
 	private static boolean doConnection(String address, int porta) {
@@ -202,7 +206,7 @@ public class Dashboard extends Thread {
 		for (int i = 0; i < idArray.length; i++) {
 			data[i + 2] = idArray[i];
 		}
-
+		System.out.println("Data : " + data.toString());
 		sOut.write(data);
 		return true;
 	}
@@ -211,9 +215,16 @@ public class Dashboard extends Thread {
 	public static byte[] receiveMessage() throws IOException {
 		DataInputStream sIn = new DataInputStream(sock.getInputStream());
 		try {
-			byte[] answer = new byte[258];
-			sIn.read(answer);
-			return answer;
+			System.out.println(sIn);
+			byte[] data = new byte[258];
+			sIn.read(data, 2, 258);
+			//System.out.println("Size of info: " + data[2]);
+			String inputLine = new String(data, 0, (int) data[3]);
+			while(data[2]==255) {
+				data = new byte[258];
+				sIn.read(data, 2, 258);
+				inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
