@@ -7,12 +7,22 @@ start: start funcao
      ;
 
 funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro PONTO_VIRGULA valor=valor_pretendido  #lerFicheiro
+      | sendEmail #enviarEmail
       | expressao #calcularValor
       | calcPrecoTotal #calcular_preco_total
+      | 'if' categoria=PALAVRA '=' var=nameVar 'then' #adicionarDesconto
+      | calcPrecoFinal #calcular_preco_final
       ;
+
+sendEmail: 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA PONTO_VIRGULA valorDesconto=percentagem PONTO_VIRGULA valorFinal=DOUBLE PONTO_VIRGULA
+         | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA decisao=frase PONTO_VIRGULA desconto=percentagem
+;
 
 calcPrecoTotal: var=nameVar '->QUANT->' quantidade=INTEIRO
              ;
+
+calcPrecoFinal: var=nameVar '->DESCONTO->' desconto=DOUBLE
+                          ;
 
 expressao: nameVar '->' calculosMatematicos   #atribuir
          ;
@@ -31,6 +41,10 @@ valor_pretendido: ESCALAO
                 | PRECO
                 |
                 ;
+
+percentagem: DOUBLE '%';
+
+frase: (PALAVRA)+;
 
 nameVar: '#' PALAVRA '#';
 
@@ -77,5 +91,6 @@ INTEIRO: [0-9]+;
 DOUBLE: [0-9]+('.'[0-9]+)?;
 PONTO_VIRGULA: ';';
 PALAVRA: [A-Za-z0-9]+;
+EMAIL: [A-Za-z0-9]+('@gmail.com'|'@hotmail.com'|'@isep.ipp.pt');
 XML: '.xml';
 WS:[ \t\r\n]+->skip; //ignora espaços, tabs

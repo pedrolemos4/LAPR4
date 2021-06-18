@@ -1,4 +1,4 @@
-// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -30,6 +30,13 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code enviarEmail}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
@@ -44,11 +51,37 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code adicionarDesconto}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code calcular_preco_final}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSendEmail(ValidaScriptParser.SendEmailContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#calcPrecoTotal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#calcPrecoFinal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
@@ -97,6 +130,18 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValor_pretendido(ValidaScriptParser.Valor_pretendidoContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#percentagem}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPercentagem(ValidaScriptParser.PercentagemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#frase}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFrase(ValidaScriptParser.FraseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#nameVar}.
 	 * @param ctx the parse tree

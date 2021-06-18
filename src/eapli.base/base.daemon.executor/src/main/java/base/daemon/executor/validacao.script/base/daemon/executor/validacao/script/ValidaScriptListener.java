@@ -1,4 +1,4 @@
-// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -40,6 +40,18 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code enviarEmail}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code enviarEmail}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
@@ -64,6 +76,40 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code adicionarDesconto}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code adicionarDesconto}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdicionarDesconto(ValidaScriptParser.AdicionarDescontoContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code calcular_preco_final}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void enterCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code calcular_preco_final}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void exitCalcular_preco_final(ValidaScriptParser.Calcular_preco_finalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#sendEmail}.
+	 * @param ctx the parse tree
+	 */
+	void enterSendEmail(ValidaScriptParser.SendEmailContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
+	 * @param ctx the parse tree
+	 */
+	void exitSendEmail(ValidaScriptParser.SendEmailContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#calcPrecoTotal}.
 	 * @param ctx the parse tree
 	 */
@@ -73,6 +119,16 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#calcPrecoFinal}.
+	 * @param ctx the parse tree
+	 */
+	void enterCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#calcPrecoFinal}.
+	 * @param ctx the parse tree
+	 */
+	void exitCalcPrecoFinal(ValidaScriptParser.CalcPrecoFinalContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
@@ -155,6 +211,26 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValor_pretendido(ValidaScriptParser.Valor_pretendidoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#percentagem}.
+	 * @param ctx the parse tree
+	 */
+	void enterPercentagem(ValidaScriptParser.PercentagemContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#percentagem}.
+	 * @param ctx the parse tree
+	 */
+	void exitPercentagem(ValidaScriptParser.PercentagemContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ValidaScriptParser#frase}.
+	 * @param ctx the parse tree
+	 */
+	void enterFrase(ValidaScriptParser.FraseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ValidaScriptParser#frase}.
+	 * @param ctx the parse tree
+	 */
+	void exitFrase(ValidaScriptParser.FraseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#nameVar}.
 	 * @param ctx the parse tree
