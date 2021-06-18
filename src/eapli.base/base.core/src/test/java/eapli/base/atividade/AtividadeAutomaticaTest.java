@@ -32,7 +32,7 @@ public class AtividadeAutomaticaTest extends TestCase {
         System.out.println("toString");
         Calendar dataLimiteRes = Calendar.getInstance();
         dataLimiteRes.set(2021,06,03,20,0,0);
-        AtividadeAutomatica instance = new AtividadeAutomatica(dataLimiteRes, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, new Script("script.sh"));
+        AtividadeAutomatica instance = new AtividadeAutomatica(dataLimiteRes, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null, new Script("script.sh"));
         String expResult = "ID: 0, DataLimite: Sat Jul 03 20:00:00 WEST 2021, EstadoAtividade: PENDENTE, script.sh";
         String result = instance.toString();
         assertEquals(expResult, result);
@@ -45,7 +45,7 @@ public class AtividadeAutomaticaTest extends TestCase {
         dataLimiteRes.set(2021,06,03,20,0,0);
         TipoAtividade tipoAtividade = TipoAtividade.APROVACAO;
         try {
-            new AtividadeAutomatica(dataLimiteRes, EstadoAtividade.PENDENTE, tipoAtividade, new Script("script.sh"));
+            new AtividadeAutomatica(dataLimiteRes, EstadoAtividade.PENDENTE, tipoAtividade,null, new Script("script.sh"));
         } catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class AtividadeAutomaticaTest extends TestCase {
     public void ensureAtividadeAuto() {
         Calendar dataLimiteRes = Calendar.getInstance();
         dataLimiteRes.set(2021,06,03,20,0,0);
-        new AtividadeAutomatica(dataLimiteRes,EstadoAtividade.PENDENTE,TipoAtividade.REALIZACAO, new Script("script.sh"));
+        new AtividadeAutomatica(dataLimiteRes,EstadoAtividade.PENDENTE,TipoAtividade.REALIZACAO, null, new Script("script.sh"));
         assertTrue(true);
     }
     

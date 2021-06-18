@@ -1,6 +1,5 @@
 package eapli.base.atividade.domain;
 
-import eapli.base.formulario.domain.Label;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.Column;

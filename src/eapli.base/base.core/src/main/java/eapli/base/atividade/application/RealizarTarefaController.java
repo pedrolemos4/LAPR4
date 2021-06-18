@@ -74,8 +74,9 @@ public class RealizarTarefaController {
         }
     }
 
-    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at, EstadoPedido estado, EstadoAtividade estadoA) {
-        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at, estado, estadoA);
+    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at,
+                                          EstadoPedido estado, EstadoAtividade estadoA, long duracao) {
+        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at, estado, estadoA, duracao);
     }
 
     public void savePedido(Pedido pedido) {

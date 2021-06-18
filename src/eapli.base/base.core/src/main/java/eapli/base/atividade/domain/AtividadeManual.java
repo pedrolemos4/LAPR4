@@ -34,8 +34,9 @@ public class AtividadeManual extends Atividade{
     }
 
     public AtividadeManual(final EstadoAtividade estadoAtividade, final Colaborador colab, final Decisao decisao,
-                           final Comentario comentario, final Formulario formulario, final Calendar data, final TipoAtividade tipoAtividade) {
-        super(data,estadoAtividade,tipoAtividade);
+                           final Comentario comentario, final Formulario formulario, final Calendar data,
+                           final TipoAtividade tipoAtividade, final DuracaoAtividade duracao) {
+        super(data,estadoAtividade,tipoAtividade, duracao);
         this.colab = colab;
         this.decisao = decisao;
         this.comentario = comentario;
@@ -43,8 +44,9 @@ public class AtividadeManual extends Atividade{
     }
 
     public AtividadeManual(final EstadoAtividade estadoAtividade, final Set<Equipa> equipa, final Decisao decisao,
-                           final Comentario comentario, final Formulario formulario, final Calendar data, final TipoAtividade tipoAtividade) {
-        super(data,estadoAtividade,tipoAtividade);
+                           final Comentario comentario, final Formulario formulario, final Calendar data,
+                           final TipoAtividade tipoAtividade, final DuracaoAtividade duracao) {
+        super(data,estadoAtividade,tipoAtividade, duracao);
         this.equipa = equipa;
         this.decisao = decisao;
         this.comentario = comentario;

@@ -2,7 +2,6 @@ package eapli.base.atividade.domain;
 
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.ValueObject;
 
 import javax.persistence.*;
@@ -30,14 +29,19 @@ public class Atividade implements ValueObject{
     @Enumerated(EnumType.STRING)
     private TipoAtividade tipoAtividade;
 
+    @Column(name="DURAÇAO")
+    private DuracaoAtividade duracaoAtividade;
+
     /*@ManyToOne(optional = true)
     @JoinColumn(name = "pedido")
     private Pedido pedido;*/
 
-    public Atividade(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade){
+    public Atividade(Calendar dataLimite, EstadoAtividade estadoAtividade, TipoAtividade tipoAtividade,
+                     DuracaoAtividade duracaoAtividade){
         this.estadoAtividade=estadoAtividade;
         this.dataLimite=dataLimite;
         this.tipoAtividade = tipoAtividade;
+        this.duracaoAtividade = duracaoAtividade;
     }
 
     protected Atividade() {
@@ -85,5 +89,9 @@ public class Atividade implements ValueObject{
         AtividadeManual manual;
         manual = (AtividadeManual) at;
         manual.replaceFormularioAtividade(formFinal);
+    }
+
+    public void mudaDuracao(long duracao) {
+        this.duracaoAtividade = DuracaoAtividade.valueOf(duracao);
     }
 }

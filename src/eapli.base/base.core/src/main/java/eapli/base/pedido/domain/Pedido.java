@@ -134,11 +134,13 @@ public class Pedido implements AggregateRoot<String> {
         return this.servico;
     }
 
-    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoPedido estado, EstadoAtividade estadoA) {
+    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoPedido estado,
+                                          EstadoAtividade estadoA, long duracao) {
         this.estado = estado;
         for (Atividade atividade : listaAtiv) {
             if (atividade.equals(at)) {
                 at.mudaEstadoAtividade(estadoA);
+                at.mudaDuracao(duracao);
                 atividade.completaDecisaoComentario(valueOf, aprovado, at);
             }
         }

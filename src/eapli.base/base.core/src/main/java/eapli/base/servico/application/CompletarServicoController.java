@@ -83,7 +83,7 @@ public class CompletarServicoController {
         //data.set(ano,mes,dia);
         /*final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);*/
-        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo);
+        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo, null);
         return atividadeAprovacaoManualEquipa;
     }
 
@@ -94,7 +94,7 @@ public class CompletarServicoController {
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
         final Script script = new Script("script.sh");
-        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data, e, tipoAtividade, script);
+        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data, e, tipoAtividade, null, script);
         return atividadeAutomatica;
     }
 
