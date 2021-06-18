@@ -37,6 +37,19 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCalcularValor(ValidaScriptParser.CalcularValorContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code calcular_preco_total}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#calcPrecoTotal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
 	 * @param ctx the parse tree
@@ -78,6 +91,12 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProprioValor(ValidaScriptParser.ProprioValorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ValidaScriptParser#valor_pretendido}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValor_pretendido(ValidaScriptParser.Valor_pretendidoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#nameVar}.
 	 * @param ctx the parse tree

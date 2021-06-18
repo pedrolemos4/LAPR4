@@ -6,12 +6,15 @@ start: start funcao
      | funcao
      ;
 
-funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro   #lerFicheiro
+funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro PONTO_VIRGULA valor=valor_pretendido  #lerFicheiro
       | expressao #calcularValor
+      | calcPrecoTotal #calcular_preco_total
       ;
 
-expressao: //calculosMatematicos  #express
-         nameVar '->' calculosMatematicos   #atribuir
+calcPrecoTotal: var=nameVar '->QUANT->' quantidade=INTEIRO
+             ;
+
+expressao: nameVar '->' calculosMatematicos   #atribuir
          ;
 
 calculosMatematicos: left=param sinal=MULT_DIV right=param    #multiDiv
@@ -22,6 +25,12 @@ calculosMatematicos: left=param sinal=MULT_DIV right=param    #multiDiv
 param: nameVar  #variavel
      | INTEIRO  #proprioValor
      ;
+
+valor_pretendido: ESCALAO
+                | CATEGORIA
+                | PRECO
+                |
+                ;
 
 nameVar: '#' PALAVRA '#';
 
@@ -61,6 +70,9 @@ SOMA: '+';
 SUBTRACAO: '-';
 MULT: '*';
 BARRA: '/' ;
+ESCALAO: 'Escalao';
+PRECO: 'Preco';
+CATEGORIA: 'Categoria';
 INTEIRO: [0-9]+;
 DOUBLE: [0-9]+('.'[0-9]+)?;
 PONTO_VIRGULA: ';';
