@@ -42,11 +42,11 @@ public class AlgoritmoTempoMedio implements Runnable {
             tempoMedioTotal += tempoMedioResolucao();
         }
 
-        String[] threadName = Thread.currentThread().getName().split(" - ");
+        String[] threadName = Thread.currentThread().getName().split("-");
         int index = Integer.parseInt(threadName[1].replaceAll("\\s+", ""));
 
         Colaborador colab = list.get(index);
-        System.out.println("Colaborador: " + colab.toString() + "\n\n\n\n\n\n\n");
+
         List<Atividade> listaTarefasPendentes = getListaTarefasPendentes(colab);
         for (Atividade atividadeList : listaTarefasPendentes) {
             if (atividadeList.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
@@ -88,10 +88,6 @@ public class AlgoritmoTempoMedio implements Runnable {
 
     public Colaborador getColaboradorEscolhido() {
         Map.Entry<Double, Colaborador> entry = mapColaboradores.entrySet().iterator().next();
-        for (Double e : mapColaboradores.keySet()) {
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: " + e + " Valor: " + mapColaboradores.get(e).toString() + "\n\n\n\n\n\n\n\n\n\n\n");
-        }
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: " + entry.getKey() + " Valor: " + entry.getValue() + "\n\n\n\n\n\n\n\n\n\n\n");
         return entry.getValue();
     }
 
