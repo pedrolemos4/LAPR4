@@ -16,7 +16,9 @@ public class EvalListener extends ValidaScriptBaseListener {
     private int quantidade;
     private double preco;
     private double precoTotal;
+    private double desconto;
     private String parametroLerFicheiro;
+    private String categoria;
     private final Stack<String> stack = new Stack<>();
     private Map<String, Double> map = new HashMap<>();
 
@@ -48,36 +50,18 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     }
 
-    public void enterLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
-        stack.push(ctx.possivel_id.getText());
-        stack.push(ctx.valor.getText());
-    }
-
-    public void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
-        String valor = stack.pop();
-        int code = Integer.parseInt(stack.pop());
-        FileInputStream fis;
-
-        try {
-            fis = new FileInputStream("testeProdutos.xml");
-            ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            ValidaScriptParser parser = new ValidaScriptParser(tokens);
-            ParseTree tree = parser.progFile();
-            int quant = getQuantidade();
-            ParseTreeWalker walker = new ParseTreeWalker();
-            EvalListener listener = new EvalListener();
-            listener.setCode(code);
-            listener.setParametro(valor);
-            listener.setQuantidade(quant);
-            walker.walk(listener, tree);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    //--------------------------------GET E SET--------------------------------//
 
     private int getQuantidade() {
         return quantidade;
+    }
+
+    private double getPreco() {
+        return preco;
+    }
+
+    private double getDesconto() {
+        return desconto;
     }
 
     private void setQuantidade(int quantidade) {
@@ -88,6 +72,22 @@ public class EvalListener extends ValidaScriptBaseListener {
         if (parametro.length() > 0) {
             this.parametroLerFicheiro = parametro;
         }
+    }
+
+    private String getCategoria() {
+        return categoria;
+    }
+
+    private void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    private void setPrecoTotal(double preco, int quant) {
+        this.precoTotal = preco * quant;
+    }
+
+    private void setCode(int code){
+        this.code = code;
     }
 
     //--------------------------------REALIZAR CALCULOS--------------------------------//
@@ -102,6 +102,22 @@ public class EvalListener extends ValidaScriptBaseListener {
         System.out.println("ID: " + id + " Value: " + value);
         map.put(id, (double) value);
         stack.push("0");*/
+    }
+
+    public void enterAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx) {
+        stack.push(ctx.INTEIRO().getText());
+    }
+
+    public void exitAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx) {
+
+    }
+
+    public void enterAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx) {
+        stack.push(ctx.DOUBLE().getText());
+    }
+
+    public void exitAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx) {
+
     }
 
     public void enterProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
@@ -190,33 +206,21 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     }
 
-    /*public void enterCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
-        stack.push(ctx.quantidade.getText());
-    }
-
-    public void exitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
-        int quantidade = Integer.parseInt(stack.pop());
-        if (quantidade > 0) {
-            double total = preco * quantidade;
-            System.out.println("Preco total: " + total);
-            map.put(ctx.var.getText(), total);
-            stack.push(Double.toString(total));
-        }
-    }*/
-
     public void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
         stack.push(ctx.valorDesconto.getText());
     }
 
     public void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
-        double desconto = Double.parseDouble(stack.pop());
-        System.out.println("Preco: " + precoTotal);
-        System.out.println("Desconto: " + desconto);
-        if (1 > desconto && 0 < desconto) {
-            precoTotal = precoTotal - precoTotal * desconto;
-            System.out.println("Preco total após descontos: " + precoTotal);
+        String valDesconto = stack.pop();
+        double desconto = this.getDesconto();
+        if (map.containsKey(valDesconto)) {
+            desconto += map.get(valDesconto);
+        } else {
+            desconto += Double.parseDouble(valDesconto);
         }
-        stack.push(Double.toString(precoTotal));
+        System.out.println("Desconto: " + desconto);
+        this.desconto = desconto;
+        stack.push(Double.toString(desconto));
     }
 
     public void enterExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
@@ -293,6 +297,17 @@ public class EvalListener extends ValidaScriptBaseListener {
         visit(ctx.expressao_a_verificar());*/
     }
 
+    public void enterCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) {
+
+    }
+
+    public void exitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) {
+        System.out.println("Preco total: " + precoTotal);
+        this.precoTotal = precoTotal - this.getDesconto() * precoTotal;
+        System.out.println("Preco apos descontos: " + precoTotal);
+        stack.push(Double.toString(precoTotal - this.getDesconto() * precoTotal));
+    }
+
     public void enterProg(ValidaScriptParser.ProgContext ctx) {
 
     }
@@ -300,6 +315,8 @@ public class EvalListener extends ValidaScriptBaseListener {
     public void exitProg(ValidaScriptParser.ProgContext ctx) {
 
     }
+
+    //--------------------------------LER INFO PRODUTO--------------------------------//
 
     public void enterInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) {
         stack.push(ctx.categoria.getText());
@@ -357,6 +374,38 @@ public class EvalListener extends ValidaScriptBaseListener {
         stack.push("0.0");
     }
 
+    public void enterLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
+        stack.push(ctx.possivel_id.getText());
+        stack.push(ctx.valor.getText());
+    }
+
+    public void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
+        String valor = stack.pop();
+        int code = Integer.parseInt(stack.pop());
+        FileInputStream fis;
+
+        try {
+            fis = new FileInputStream("testeProdutos.xml");
+            ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            ValidaScriptParser parser = new ValidaScriptParser(tokens);
+            ParseTree tree = parser.progFile();
+            int quant = getQuantidade();
+            ParseTreeWalker walker = new ParseTreeWalker();
+            EvalListener listener = new EvalListener();
+            listener.setCode(code);
+            listener.setParametro(valor);
+            listener.setQuantidade(quant);
+            walker.walk(listener, tree);
+            setCategoria(listener.getCategoria());
+            setPrecoTotal(listener.getPreco(), quant);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //--------------------------------ENVIAR EMAIL--------------------------------//
+
     public void enterEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx) {
         stack.push(ctx.sendEmail().emailColab.getText());
         stack.push(ctx.sendEmail().tipoCliente.getText());
@@ -380,9 +429,5 @@ public class EvalListener extends ValidaScriptBaseListener {
             System.out.println("Decisao: " + decisao);
             System.out.println("Desconto: " + desconto);
         }
-    }
-
-    private void setCode(int code){
-        this.code = code;
     }
 }
