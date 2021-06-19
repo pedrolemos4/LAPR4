@@ -1,4 +1,4 @@
-// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -999,6 +999,23 @@ public class ValidaScriptParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class ValorDoubleContext extends ParamContext {
+		public TerminalNode DOUBLE() { return getToken(ValidaScriptParser.DOUBLE, 0); }
+		public ValorDoubleContext(ParamContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterValorDouble(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitValorDouble(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitValorDouble(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class VariavelContext extends ParamContext {
 		public NameVarContext nameVar() {
 			return getRuleContext(NameVarContext.class,0);
@@ -1020,7 +1037,6 @@ public class ValidaScriptParser extends Parser {
 	}
 	public static class ProprioValorContext extends ParamContext {
 		public TerminalNode INTEIRO() { return getToken(ValidaScriptParser.INTEIRO, 0); }
-		public TerminalNode DOUBLE() { return getToken(ValidaScriptParser.DOUBLE, 0); }
 		public ProprioValorContext(ParamContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1061,7 +1077,7 @@ public class ValidaScriptParser extends Parser {
 				}
 				break;
 			case DOUBLE:
-				_localctx = new ProprioValorContext(_localctx);
+				_localctx = new ValorDoubleContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(132);

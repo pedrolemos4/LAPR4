@@ -1,4 +1,4 @@
-// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -223,6 +223,18 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProprioValor(ValidaScriptParser.ProprioValorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code valorDouble}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void enterValorDouble(ValidaScriptParser.ValorDoubleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code valorDouble}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void exitValorDouble(ValidaScriptParser.ValorDoubleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#valor_pretendido}.
 	 * @param ctx the parse tree

@@ -162,9 +162,6 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     @Override
     public Double visitProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
-        if (ctx.getText().contains(".")) {
-            return Double.parseDouble(ctx.DOUBLE().getText());
-        }
         return Double.parseDouble(ctx.INTEIRO().getText());
     }
 

@@ -149,24 +149,18 @@ public class FluxoRequest extends AplicacoesRequest {
                     for (Atributo at : atributos) {
                         Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
                         Label l = formularioRepository.getLabelDoAtributo(at.identity());
-                        if(l.toString().equalsIgnoreCase("ID Produto")){
-							System.out.println("\n\n\n\n ENTRA NO ID, STRING: "+input);
-                            atributoProdutoColab = atributoProdutoColab.concat("ID:"+v.toString());
-                        }else if(l.toString().equalsIgnoreCase("Numero Colaborador")){
-                            atributoProdutoColab = atributoProdutoColab.concat("NUM:"+v.toString());
+                        if(l.toString().equalsIgnoreCase("Quantidade")){
+                            atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
                         }
                         input = input.concat(";");
                         input = input.concat(v.toString());
                     }
                     input = input.concat("/");
                     input = input.concat(caminhoScript);
-					System.out.println("\n\n\n\n STRING: "+input);
 
                     atributoProdutoColab = atributoProdutoColab.concat(input);
-					System.out.println("\n\n\n\n\n STRING ATRIBUTOS: " + atributoProdutoColab + "\n\n\n\n\n");
-                    byte[] idArray = atributoProdutoColab.getBytes();
+					byte[] idArray = atributoProdutoColab.getBytes();
                     int size = idArray.length;
-					System.out.println("\n\n\n\n\n SIZE BYTES: " + size + "\n\n\n\n\n");
                     data[0] = 0;
                     data[1] = 9;
                     data[2] = (byte) size;
@@ -201,9 +195,6 @@ public class FluxoRequest extends AplicacoesRequest {
                     sock.close();
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
-                }
-                for (j = 0; j < list.size(); j++) {
-                    System.out.println("Colaboradores: " + list.get(j).toString());
                 }
             }
         } catch (final NumberFormatException e) {

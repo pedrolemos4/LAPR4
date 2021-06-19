@@ -88,9 +88,6 @@ public class EvalListener extends ValidaScriptBaseListener {
 
 
     public void enterProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
-        if (ctx.getText().contains(".")) {
-            stack.push(Double.parseDouble(ctx.DOUBLE().getText()));
-        }
         stack.push(Double.parseDouble(ctx.INTEIRO().getText()));
     }
 
