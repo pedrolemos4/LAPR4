@@ -8,7 +8,7 @@ start: start funcao
 
 funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro PONTO_VIRGULA valor=valor_pretendido  #lerFicheiro
       | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA #enviarEmailProduto
-      | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA decisao=frase PONTO_VIRGULA desconto=percentagem #enviarEmailFormulario
+      | 'Send Email Formulario' #enviarEmailFormulario
       | expressao #calcularValor
       //| calcPrecoTotal #calcular_preco_total
       | 'if ' expressao_a_verificar ' then:' aplicar_desconto temElse=else1? 'end if;' #aplicarDesconto
