@@ -13,7 +13,7 @@ class PedidoRepository <<repository>>
 CumprimentoSlaUI --> CumprimentoSlaController
 CumprimentoSlaUI : doShow()
 
-CumprimentoSlaController : getAllPedidoConcluido()
+CumprimentoSlaController : getAllPedidoConcluido(calendar1, calendar2)
 CumprimentoSlaController : getTempoMaximoAprov(pedido)
 CumprimentoSlaController : getTempoMaximoRes(pedido)
 CumprimentoSlaController : getTarefasDoPedido(pedido)
@@ -21,7 +21,7 @@ CumprimentoSlaController : getTempoDaTarefa(atividade)
 
 CumprimentoSlaController --> PedidoRepository
 
-PedidoRepository : getAllPedidoConcluido()
+PedidoRepository : getAllPedidoConcluido(calendar1, calendar2)
 PedidoRepository : getTempoMaximoAprov(pedido)
 PedidoRepository : getTempoMaximoRes(pedido)
 PedidoRepository : getTarefasDoPedido(pedido)

@@ -25,6 +25,7 @@ public class CumprimentoSlaUI extends AbstractUI {
 
         System.out.println("Pedidos: ");
         if(!this.controller.getAllPedidoConcluido(calendar1, calendar2).isEmpty() || this.controller.getAllPedidoConcluido(calendar1, calendar2) != null) {
+            System.out.println();
             for (Pedido pedido : this.controller.getAllPedidoConcluido(calendar1, calendar2)) {
                 long tempoMaximoAprov = this.controller.getTempoMaximoAprov(pedido.identity());
                 long tempoMaximoRes = this.controller.getTempoMaximoRes(pedido.identity());
@@ -36,6 +37,7 @@ public class CumprimentoSlaUI extends AbstractUI {
                     checkAtividade(at, tempoMaximoRes, tempoMaximoAprov);
 
                 }
+                System.out.println("------------------------------------------------------------------------");
             }
         } else{
             System.out.println("Não existem pedidos concluídos no momento.");

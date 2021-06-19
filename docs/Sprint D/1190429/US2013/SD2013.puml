@@ -14,9 +14,9 @@ activate UI
 
 UI -> UI : doShow()
  note over CTRL: Para efeitos de simplificação do diagrama, não foram representadas todas as classes repository,\n a classe persistence e a classe factory, tendo sido utilizado o procedimento dos casos de uso do sprint B
-UI -> CTRL: getAllPedidoConcluido()
+UI -> CTRL: getAllPedidoConcluido(calendar1, calendar2)
     activate CTRL
-    CTRL -> PRepository: listaPedidos = getAllPedidoConcluido()
+    CTRL -> PRepository: listaPedidos = getAllPedidoConcluido(calendar1, calendar2)
       activate PRepository
       deactivate PRepository
     deactivate CTRL

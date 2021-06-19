@@ -387,8 +387,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public List<Pedido> getAllPedidoConcluido(Calendar calendar1, Calendar calendar2, EstadoPedido concluido) {
         final TypedQuery<Pedido> q = createQuery(
                 "SELECT p FROM Pedido p WHERE p.estado =:concluido AND " +
-                        "a.dataLimite >:dataI AND a.dataLimite <:dataF", Pedido.class);
+                        "p.dataResolucao >:calendar1 AND p.dataResolucao <:calendar2", Pedido.class);
         q.setParameter("concluido", concluido);
+        q.setParameter("calendar1", calendar1);
+        q.setParameter("calendar2", calendar2);
         return q.getResultList();
     }
 
@@ -484,8 +486,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public long getTempoMaximoAprov(String identity) {
         final TypedQuery<Long> q = createQuery(
-                "SELECT a FROM Pedido ob.tempoMaxAprov JOIN p.servico ser JOIN ser.catalogo c JOIN" +
-                        " c.criticidade cri JOIN cri.objetivo ob WHERE ser.codigoUnico =:identity",Long.class);
+                "SELECT ob.tempoMaxAprov FROM Pedido p JOIN p.servico ser JOIN ser.catalogo c JOIN" +
+                        " c.criticidade cri JOIN cri.objetivo ob WHERE p.Id =:identity",Long.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
     }
@@ -493,8 +495,8 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public long getTempoMaximoRes(String identity) {
         final TypedQuery<Long> q = createQuery(
-                "SELECT a FROM Pedido ob.tempoMaxRes JOIN p.servico ser JOIN ser.catalogo c JOIN" +
-                        " c.criticidade cri JOIN cri.objetivo ob WHERE ser.codigoUnico =:identity",Long.class);
+                "SELECT ob.tempoMaxRes FROM Pedido p JOIN p.servico ser JOIN ser.catalogo c JOIN" +
+                        " c.criticidade cri JOIN cri.objetivo ob WHERE p.Id =:identity",Long.class);
         q.setParameter("identity", identity);
         return q.getSingleResult();
     }
