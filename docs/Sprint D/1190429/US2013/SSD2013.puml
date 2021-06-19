@@ -1,0 +1,23 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+actor GSH as Actor
+participant System as System
+activate Actor
+Actor -> System: pretende obter uma listagem sobre o (in)cumprimento do SLA das solicitações recebidas\n e já concluídas num determinado intervalo de tempo
+activate System
+System --> Actor: solicita um intervalo de tempo para filtrar solicitações recebidas
+deactivate System
+
+Actor -> System: insere os dados solicitados
+activate System
+System --> Actor: mostra a listagem e informa sucesso da operação
+deactivate System
+deactivate Actor
+
+@enduml
