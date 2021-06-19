@@ -26,6 +26,8 @@ public class ExecutorController {
 
     public static synchronized void addAtividade(String executor){
         mapExecutor.replace(executor, mapExecutor.get(executor) + 1);
+        System.out.println("MAPA DEPOIS:: " +executor+ "VALUE:: " +mapExecutor.get(executor));
+
     }
 
     public static synchronized void removeAtividade(String executor){

@@ -90,12 +90,13 @@ public class FluxoRequest extends AplicacoesRequest {
                 } else {
                     String ipEscolhido = "";
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-                        System.out.println("BQEEKDN::::  " + ExecutorController.getListExecutores().size());
+                        System.out.println("list:: " + ExecutorController.getListExecutores().size());
                         Map<String, Integer> map = ExecutorController.getMapa();
                         List<String> listServidores = ExecutorController.getListExecutores();
 
                         for(Map.Entry<String, Integer> map1: map.entrySet()){
                             System.out.println("MAPA:: " + map1.getKey());
+                            System.out.println("MAPA VALUE " + map1.getValue());
                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         }
 
@@ -106,6 +107,7 @@ public class FluxoRequest extends AplicacoesRequest {
 
                         for(Map.Entry<String, Integer> map1: map.entrySet()){
                             System.out.println("MAPA:: " + map1.getKey());
+                            System.out.println("MAPA VALUE " + map1.getValue());
                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         }
 
