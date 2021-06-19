@@ -62,7 +62,11 @@ public class EspecificarServicoUI extends AbstractUI {
         final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos\n", catalogos, visitee -> System.out.printf("\n%-15s%-80s\n", visitee.identity(), visitee.toString()));
         System.out.println("\nSelecione o catálogo a que pertence o serviço:");
         selector.show();
-        final Catalogo theCatalogo = selector.selectedElement();
+        Catalogo theCatalogo = null;
+        while (selector.selectedElement() == null) {
+            selector.show();
+            theCatalogo = selector.selectedElement();
+        }
 
         final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
         Set<String> keywords = new HashSet<>();
@@ -98,7 +102,7 @@ public class EspecificarServicoUI extends AbstractUI {
                     Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
                     form.copyAtributos(listaAtributos1);
                     TipoAtividade tipo = TipoAtividade.REALIZACAO;
-                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,form, tipo);
+                    AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col, form, tipo);
                     listAtividades.add(atividadeManual);
                     flag = false;
                 } else {
@@ -149,7 +153,7 @@ public class EspecificarServicoUI extends AbstractUI {
                 Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
                 //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
-                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col,form, tipo);
+                AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col, form, tipo);
                 listAtividades.add(atividadeManual);
             } else {
                 Set<Equipa> listEquipas = new HashSet<>();
@@ -212,7 +216,7 @@ public class EspecificarServicoUI extends AbstractUI {
     public Formulario preencherAtributos(FormularioDataWidget formularioData, Set<Atributo> listaAtributos) {
         formularioData.show();
         Formulario formulario = theController.createFormulario(formularioData.titulo());
-        criarAtributos(formularioData,listaAtributos,formulario);
+        criarAtributos(formularioData, listaAtributos, formulario);
 
         boolean flag = true;
 
@@ -221,7 +225,7 @@ public class EspecificarServicoUI extends AbstractUI {
             resposta = Console.readLine("Deseja adicionar mais atributos ao formulário?\nResposta(S/N):");
             if (resposta.equalsIgnoreCase("Sim") || resposta.equalsIgnoreCase("S")) {
                 formularioData.atributo();
-                criarAtributos(formularioData,listaAtributos,formulario);
+                criarAtributos(formularioData, listaAtributos, formulario);
             } else {
                 flag = false;
             }
@@ -230,7 +234,7 @@ public class EspecificarServicoUI extends AbstractUI {
         return formulario;
     }
 
-    public void criarAtributos(FormularioDataWidget formularioData,Set<Atributo> listaAtributos,Formulario formulario){
+    public void criarAtributos(FormularioDataWidget formularioData, Set<Atributo> listaAtributos, Formulario formulario) {
         formularioData.atributo();
         Atributo atributo = null;
         try {
@@ -238,7 +242,7 @@ public class EspecificarServicoUI extends AbstractUI {
                     formularioData.obrigatoriedade(), formularioData.descricaoAjuda(), formularioData.expressao(), formulario);
         } catch (IllegalArgumentException ex) {
             System.out.println("Insira um tipo de dados válido");
-            criarAtributos(formularioData,listaAtributos,formulario);
+            criarAtributos(formularioData, listaAtributos, formulario);
         }
         listaAtributos.add(atributo);
     }
