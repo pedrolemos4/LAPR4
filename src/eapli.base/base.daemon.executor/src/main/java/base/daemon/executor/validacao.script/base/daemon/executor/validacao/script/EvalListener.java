@@ -41,7 +41,7 @@ public class EvalListener extends ValidaScriptBaseListener {
         return desconto;
     }
 
-    private void setQuantidade(int quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -88,6 +88,9 @@ public class EvalListener extends ValidaScriptBaseListener {
 
 
     public void enterProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
+        if (ctx.getText().contains(".")) {
+            stack.push(Double.parseDouble(ctx.DOUBLE().getText()));
+        }
         stack.push(Double.parseDouble(ctx.INTEIRO().getText()));
     }
 
@@ -271,7 +274,7 @@ public class EvalListener extends ValidaScriptBaseListener {
         FileInputStream fis;
 
         try {
-            fis = new FileInputStream("testeProdutos.xml");
+            fis = new FileInputStream("C:\\Users\\josec\\Documents\\lei20_21_s4_2di_04\\src\\eapli.base\\base.daemon.executor\\src\\main\\java\\base\\daemon\\executor\\validacao.script\\testeProdutos.xml");
             ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ValidaScriptParser parser = new ValidaScriptParser(tokens);

@@ -86,7 +86,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     public Double visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
         FileInputStream fis;
         try {
-            fis = new FileInputStream(new File("testeProdutos.xml"));
+            fis = new FileInputStream(new File("C:\\Users\\josec\\Documents\\lei20_21_s4_2di_04\\src\\eapli.base\\base.daemon.executor\\src\\main\\java\\base\\daemon\\executor\\validacao.script\\testeProdutos.xml"));
             ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ValidaScriptParser parser = new ValidaScriptParser(tokens);
@@ -162,6 +162,9 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     @Override
     public Double visitProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
+        if (ctx.getText().contains(".")) {
+            return Double.parseDouble(ctx.DOUBLE().getText());
+        }
         return Double.parseDouble(ctx.INTEIRO().getText());
     }
 
@@ -180,13 +183,13 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         if (map.containsKey(ctx.left.getText())) {
             left = map.get(ctx.left.getText());
         } else {
-            left = Integer.parseInt(ctx.left.getText());
+            left = Double.parseDouble(ctx.left.getText());
         }
 
         if (map.containsKey(ctx.right.getText())) {
             right = map.get(ctx.right.getText());
         } else {
-            right = Integer.parseInt(ctx.right.getText());
+            right = Double.parseDouble(ctx.right.getText());
         }
         int valor;
         if (ctx.sinal.getText().equals("/")) {
@@ -201,13 +204,13 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         if (map.containsKey(ctx.left.getText())) {
             left = map.get(ctx.left.getText());
         } else {
-            left = Integer.parseInt(ctx.left.getText());
+            left = Double.parseDouble(ctx.left.getText());
         }
 
         if (map.containsKey(ctx.right.getText())) {
             right = map.get(ctx.right.getText());
         } else {
-            right = Integer.parseInt(ctx.right.getText());
+            right = Double.parseDouble(ctx.right.getText());
         }
 
         if (ctx.sinal.getText().equals("+")) {
@@ -252,10 +255,14 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
         if (visit(ctx.expressao_a_verificar()) == 1.0) {
             visit(ctx.aplicar_desconto());
-        } else if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && visit(ctx.expressao_a_verificar()) == 0.0) {
-            visit(ctx.else1());
-        } else if (visit(ctx.expressao_a_verificar()) == 2.0) {
-
+        } else {
+            try {
+                if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && visit(ctx.expressao_a_verificar()) == 0.0) {
+                    visit(ctx.else1());
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Não há desconto para este tipo!");
+            }
         }
         visit(ctx.expressao_a_verificar());
 

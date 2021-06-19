@@ -48,6 +48,7 @@ calculosMatematicos: left=param sinal=MULT_DIV right=param    #multiDiv
 
 param: nameVar  #variavel
      | INTEIRO  #proprioValor
+     | DOUBLE  #proprioValor
      ;
 
 valor_pretendido: ESCALAO
