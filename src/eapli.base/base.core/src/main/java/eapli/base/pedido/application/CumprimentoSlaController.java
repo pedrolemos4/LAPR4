@@ -6,10 +6,12 @@ import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.repositories.PedidoRepository;
+import eapli.framework.application.UseCaseController;
 
 import java.util.Calendar;
 import java.util.List;
 
+@UseCaseController
 public class CumprimentoSlaController {
 
     private final PedidoRepository pRepo = PersistenceContext.repositories().pedidos();

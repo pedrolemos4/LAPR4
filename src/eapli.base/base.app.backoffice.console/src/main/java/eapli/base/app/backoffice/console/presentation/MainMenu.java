@@ -68,6 +68,7 @@ public class MainMenu extends AbstractUI {
     private static final int COMPLETAR_SERVICO = 3;
     private static final int DEFINIR_NIVEIS_CRITICIDADE = 3;
     private static final int ATRIBUIR_CRITICIDADE = 4;
+    private static final int CUMPRIMENTOSLA = 5;
 
     //responsável rrh
     private static final int CRIAR_NOVA_EQUIPA = 1;
@@ -142,7 +143,7 @@ public class MainMenu extends AbstractUI {
             mainMenu.addSubMenu(ATRIBUIR_CRITICIDADE,menuAtribuirCriticidade);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
             final Menu buildInCumprimento = buildInCumprimento();
-            mainMenu.addSubMenu(5,buildInCumprimento);
+            mainMenu.addSubMenu(CUMPRIMENTOSLA,buildInCumprimento);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         } else if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH)) {
             final Menu menuCriarEquipa = buildEquipaMenu();
