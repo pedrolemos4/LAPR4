@@ -272,8 +272,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
-                        "AND p.dataLimiteResolucao < a.dataLimite + :hours * INTERVAL '1 hour'" +
-                        "AND p.dataLimiteResolucao > a.dataLimite",
+                        "AND p.dataLimiteResolucao BETWEEN DATE(NOW()) AND DATE(NOW())-1",
                 Atividade.class);
         q.setParameter("hours", hours);
         q.setParameter("userId", userId);
@@ -299,10 +298,9 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c" +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c JOIN Servico ser" +
                         " JOIN ser.catalogo cat JOIN cat.criticidade cri" +
-                        " JOIN cri.escala es WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
-                        "AND es.value =:i",
+                        " WHERE cri.escala =:i AND c.numeroMecanografico =:userId AND a.estadoAtividade =:estado ",
                 Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
@@ -313,10 +311,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
         final TypedQuery<Atividade> q = createQuery(
-                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c JOIN ser.catalogo cat" +
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c JOIN Servico ser JOIN ser.catalogo cat" +
                         " JOIN cat.criticidade cri" +
-                        " JOIN cri.etiqueta et WHERE c.numeroMecanografico =:userId AND" +
-                        " a.estadoAtividade =:estado AND et.value =:etiqueta",
+                        " WHERE c.numeroMecanografico =:userId AND" +
+                        " a.estadoAtividade =:estado AND cri.etiqueta =:etiqueta",
                 Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
