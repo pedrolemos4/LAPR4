@@ -86,8 +86,15 @@ public class FluxoRequest extends AplicacoesRequest {
                     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: " + pedido.toString());
                     pedidoRepository.save(pedido);
                 } else {
-                  /*  if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-                        //algoritmo da bia
+                  /*String ipEscolhido;
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        List<String> listServidores = new ArrayList<>();
+                        listServidores.add(IP_EXECUTOR);
+                        listServidores.add("10.8.0.80");
+
+                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade);
+                        first.createThreads();
+                        ipEscolhido = first.getExecutorEscolhido();
                     } else {
                         WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
                         threads[j] = new Thread(wba);
