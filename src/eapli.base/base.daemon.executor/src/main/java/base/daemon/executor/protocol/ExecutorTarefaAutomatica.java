@@ -20,6 +20,7 @@
  */
 package base.daemon.executor.protocol;
 
+import base.daemon.executor.validacao.script.base.daemon.executor.validacao.script.MainValidaScript;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,11 +41,17 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         String[] caminho = request.split("/");
         String[] variaveis=caminho[0].split(";");
         File fileScript = new File(caminho[1]);
+        String id=null;
+        for(String s : variaveis){
+            if(s.contains("ID:") | s.contains("NUM")){
+                id=s;
+            }
+        }
         //ValidaScript vs = new ValidaScript();
         // boolean checkScript = vs.validaScript(fileScript);
         // if (checkScript) {
         try {
-            executarScript(fileScript,variaveis);
+            executarScript(fileScript,id);
         } catch (final Exception e) {
             LOGGER.info("Erro");
             //return buildServerError(e.getMessage());
@@ -81,10 +88,14 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         LOGGER.info("Script guardado para posterior execução");
     }
 
-    private void executarScript(final File script, final String[] variaveis) throws IOException {
+    private void executarScript(final File script, final String id) throws IOException {
         //args[0] = caminho do script
         //args[1] = quantidade no pedido
-
+        String [] args = new String[2];
+        args[0]= script.getAbsolutePath();
+        args[1]=id;
+        MainValidaScript main = new MainValidaScript();
+        main.main(args);
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script
