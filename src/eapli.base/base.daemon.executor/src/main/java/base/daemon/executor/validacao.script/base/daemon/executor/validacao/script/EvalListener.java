@@ -12,13 +12,14 @@ import java.util.Map;
 import java.util.Stack;
 
 public class EvalListener extends ValidaScriptBaseListener {
-    private int code;
+    private int code, c = 0;
     private int quantidade;
     private double preco;
     private double precoTotal;
     private double desconto;
     private boolean bool;
     private String parametroLerFicheiro;
+    private String form;
     private String categoria;
     private final Stack<Double> stack = new Stack<>();
     private Map<String, Double> map = new HashMap<>();
@@ -148,19 +149,21 @@ public class EvalListener extends ValidaScriptBaseListener {
         ctx.calculosMatematicos().enterRule(this);
     }
 
-    public void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
-        double desconto = this.getDesconto();
-        if (map.containsKey(ctx.valorDesconto.getText())) {
-            desconto += map.get(ctx.valorDesconto.getText());
-        } else {
-            desconto += Double.parseDouble(ctx.valorDesconto.getText());
+    public void enterAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
+        if (c == 0) {
+            double desconto = this.getDesconto();
+            if (map.containsKey(ctx.valorDesconto.getText())) {
+                desconto += map.get(ctx.valorDesconto.getText());
+            } else {
+                desconto += Double.parseDouble(ctx.valorDesconto.getText());
+            }
+            System.out.println("Desconto: " + desconto);
+            this.desconto = desconto;
+            c++;
         }
-        System.out.println("Desconto: " + desconto);
-        this.desconto = desconto;
-
     }
 
-    public void exitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
+    public void enterExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
         double left, right;
         int l = 0, r = 0;
 
@@ -173,7 +176,7 @@ public class EvalListener extends ValidaScriptBaseListener {
                         bool = this.getCategoria().equals(ctx.rightPortionCat.getText());
                     } catch (NullPointerException n) {
                         System.out.println("Este produto não existe.");
-                        System.exit(0);
+                        return;
                     }
 
                 } else if (ctx.sinal.getText().equals("!=")) {
@@ -231,24 +234,25 @@ public class EvalListener extends ValidaScriptBaseListener {
         }
     }
 
-    public void exitElse1(ValidaScriptParser.Else1Context ctx) {
+    public void enterElse1(ValidaScriptParser.Else1Context ctx) {
         ctx.aplicar_desconto().enterRule(this);
     }
 
-    public void enterAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) {
+    public void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) {
         ctx.expressao_a_verificar().enterRule(this);
         if (bool) {
             ctx.aplicar_desconto().enterRule(this);
         } else {
             try {
                 if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && bool == false) {
+                    System.out.println("entrou");
                     ctx.else1().enterRule(this);
                 }
             } catch (NullPointerException e) {
                 System.out.println("Não há desconto para este tipo!");
             }
         }
-        ctx.expressao_a_verificar().enterRule(this);
+        c--;
     }
 
     public void exitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) {
@@ -321,12 +325,10 @@ public class EvalListener extends ValidaScriptBaseListener {
     public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
         System.out.println("Email: " + ctx.emailColab.getText());
         System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
-                "O seu pedido foi efetuado com sucesso, o valor a pagar dos seus produto será " + precoTotal + ". Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
+                "O seu pedido foi efetuado com sucesso! O valor a pagar dos seus produtos será " + precoTotal + "€. Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
     }
 
     public void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
-        System.out.println("Email: " + ctx.emailColab.getText());
-        System.out.println("Decisao: " + ctx.decisao.getText());
-        System.out.println("Desconto: " + ctx.desconto.getText());
+        System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
     }
 }
