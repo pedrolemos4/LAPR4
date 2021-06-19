@@ -83,7 +83,7 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Double getTempoDeExecucaoTarefa(Atividade atividade);
 
-    List<Pedido> getAllPedidoConcluido(EstadoPedido concluido);
+    List<Pedido> getAllPedidoConcluido(Calendar calendar1, Calendar calendar2, EstadoPedido concluido);
 
     List<Atividade> getTarefasDoPedido(String identity);
 

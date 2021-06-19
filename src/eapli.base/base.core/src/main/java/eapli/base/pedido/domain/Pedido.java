@@ -53,6 +53,10 @@ public class Pedido implements AggregateRoot<String> {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataLimiteResolucao;
 
+    @Column(name = "dataResolucao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataResolucao;
+
     @Column(name = "estadoPedido")
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
@@ -76,7 +80,7 @@ public class Pedido implements AggregateRoot<String> {
     }
 
     public Pedido(Colaborador colaborador, Calendar dataSolicitacao, Servico servico, UrgenciaPedido urgenciaPedido,
-                  Calendar dataLimiteResolucao, Formulario formulario, Set<Atividade> atividades) {
+                  Calendar dataLimiteResolucao, Formulario formulario, Set<Atividade> atividades, Calendar dataResolucao) {
         this.colaborador = colaborador;
         this.dataSolicitacao = dataSolicitacao;
         this.servico = servico;
@@ -85,6 +89,7 @@ public class Pedido implements AggregateRoot<String> {
         this.estado = EstadoPedido.SUBMETIDO;
         this.formulario = formulario;
         this.listaAtiv = atividades;
+        this.dataResolucao = dataResolucao;
         this.grau = null;
     }
 
@@ -115,7 +120,6 @@ public class Pedido implements AggregateRoot<String> {
                 a.adicionaColaborador(colab, idAtividade);
             }
         }
-
     }
 
     public void atribuirGrau(GrauSatisfacao g) {
@@ -135,8 +139,9 @@ public class Pedido implements AggregateRoot<String> {
     }
 
     public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoPedido estado,
-                                          EstadoAtividade estadoA, long duracao) {
+                                          EstadoAtividade estadoA, long duracao, Calendar dataResolucao) {
         this.estado = estado;
+        this.dataResolucao =dataResolucao;
         for (Atividade atividade : listaAtiv) {
             if (atividade.equals(at)) {
                 at.mudaEstadoAtividade(estadoA);

@@ -6,18 +6,26 @@ import eapli.base.pedido.application.CumprimentoSlaController;
 import eapli.base.pedido.domain.Pedido;
 import eapli.framework.presentation.console.AbstractUI;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Scanner;
 
 public class CumprimentoSlaUI extends AbstractUI {
 
     private CumprimentoSlaController controller = new CumprimentoSlaController();
+    Scanner sc = new Scanner(System.in);
 
     @Override
     protected boolean doShow() {
 
+        System.out.println("Insira uma data de Inicio para filtrar os pedidos:");
+        Calendar calendar1 = setData();
+        System.out.println("Insira uma data de Fim para filtrar os pedidos:");
+        Calendar calendar2 = setData();
+
         System.out.println("Pedidos: ");
-        if(!this.controller.getAllPedidoConcluido().isEmpty() || this.controller.getAllPedidoConcluido() != null) {
-            for (Pedido pedido : this.controller.getAllPedidoConcluido()) {
+        if(!this.controller.getAllPedidoConcluido(calendar1, calendar2).isEmpty() || this.controller.getAllPedidoConcluido(calendar1, calendar2) != null) {
+            for (Pedido pedido : this.controller.getAllPedidoConcluido(calendar1, calendar2)) {
                 long tempoMaximoAprov = this.controller.getTempoMaximoAprov(pedido.identity());
                 long tempoMaximoRes = this.controller.getTempoMaximoRes(pedido.identity());
                 printPedidoObjetivos(pedido, tempoMaximoRes, tempoMaximoAprov);
@@ -63,6 +71,26 @@ public class CumprimentoSlaUI extends AbstractUI {
             }
         }
 
+    }
+
+    public Calendar setData() {
+        try {
+            String string1[] = sc.next().split(",");
+            String data1[] = string1[0].split("/");
+            String horas1[] = string1[1].split(":");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Integer.parseInt(data1[0]), Integer.parseInt(data1[1]) - 1, Integer.parseInt(data1[2]), Integer.parseInt(horas1[0]), Integer.parseInt(horas1[1]));
+            return calendar;
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Insira a data corretamente\n");
+            System.out.println("\nData (yyyy/mm/dd,hh:mm)________________________________________");
+            setData();
+        } catch (NumberFormatException ex) {
+            System.out.println("Insira a data corretamente\n");
+            System.out.println("\nData (yyyy/mm/dd,hh:mm)________________________________________");
+            setData();
+        }
+        return null;
     }
 
     @Override

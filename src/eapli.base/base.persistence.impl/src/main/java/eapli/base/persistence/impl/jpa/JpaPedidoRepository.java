@@ -384,10 +384,10 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public List<Pedido> getAllPedidoConcluido(EstadoPedido concluido) {
+    public List<Pedido> getAllPedidoConcluido(Calendar calendar1, Calendar calendar2, EstadoPedido concluido) {
         final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p" +
-                        " WHERE p.estado =:concluido", Pedido.class);
+                "SELECT p FROM Pedido p WHERE p.estado =:concluido AND " +
+                        "a.dataLimite >:dataI AND a.dataLimite <:dataF", Pedido.class);
         q.setParameter("concluido", concluido);
         return q.getResultList();
     }

@@ -102,7 +102,7 @@ public class SolicitarServicoController {
             fw.close();
             //String metodo = Application.settings().getMetodoVerificacaoGramatica();
             Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades, null);
             return this.pedidoRepository.save(pedido);
             /*if (metodo.equalsIgnoreCase("visitor")) {
                 ValidaForm vf = new ValidaForm();

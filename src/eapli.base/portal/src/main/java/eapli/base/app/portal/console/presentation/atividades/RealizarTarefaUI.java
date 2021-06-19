@@ -65,7 +65,7 @@ public class RealizarTarefaUI extends AbstractUI {
 
                     List<ExpressaoRegular> listaExpressao = this.controller.getListaExpressaoRegularDoFormulario(formFinal);
 
-                    if (listaExpressao != null || !listaExpressao.isEmpty()) {
+                    if (listaExpressao.size() != 0) {
                         System.out.println("Expressao Regular vai ser verificada localmente.");
                         for (Atributo atributo : this.controller.getAtributosDoFormulario(formFinal)) {
                             ExpressaoRegular expressao = this.controller.getExpressaoRegularDoAtributo(atributo);
@@ -75,16 +75,16 @@ public class RealizarTarefaUI extends AbstractUI {
                             }
                         }
                     } else {
-
                         try {
                             File file = new File("formularioAtividade.txt");
                             FileWriter myWriter = new FileWriter(file);
-                            if(formFinal.toStringVal().contains("null")){
-                                formFinal.toStringVal().replace("null", "");
+                            String retorno = formFinal.toStringVal();
+                            if(retorno.contains("null")){
+                                retorno = retorno.replace("null", "");
                             }
-                            formFinal.toStringVal().replace("[", "");
-                            formFinal.toStringVal().replace("]", "");
-                            myWriter.write(formFinal.toString());
+                            retorno = retorno.replace("[", "");
+                            retorno = retorno.replace("]", "");
+                            myWriter.write(retorno);
                             String metodo = Application.settings().getMetodoVerificacaoGramatica();
                             if (metodo.equalsIgnoreCase("visitor")) {
                                 // conseguir que retorne se formulario é valido ou nao
@@ -132,10 +132,10 @@ public class RealizarTarefaUI extends AbstractUI {
 
                 if (at.tipoAtividade() == TipoAtividade.REALIZACAO && flag == true) {
                     this.controller.completaDecisaoComentario(comentario, decisao, pedido, at,
-                            EstadoPedido.CONCLUIDO, estadoA, dminutes);
+                            EstadoPedido.CONCLUIDO, estadoA, dminutes, Calendar.getInstance());
                 } else {
                     this.controller.completaDecisaoComentario(comentario, decisao, pedido, at,
-                            estado, estadoA, dminutes);
+                            estado, estadoA, dminutes, null);
                 }
 
                 this.controller.savePedido(pedido);
