@@ -11,7 +11,7 @@ import java.io.IOException;
 public class MainValidaScript {
 
     public void main(String[] args) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("script_teste.txt"));
+        FileInputStream fis = new FileInputStream(args[0]);
         ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ValidaScriptParser parser = new ValidaScriptParser(tokens);

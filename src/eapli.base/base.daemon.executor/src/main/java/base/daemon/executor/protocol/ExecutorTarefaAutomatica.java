@@ -40,19 +40,23 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
     public byte[] execute() {
         String[] caminho = request.split("/");
         String[] variaveis = caminho[0].split(";");
-        File fileScript = new File(caminho[1]);
+        //File fileScript = new File(caminho[1]);
         String quantidade = null;
         for (String s : variaveis) {
             if (s.contains("Quantidade:")){// | s.contains("NUM")) {
-                quantidade = s;
+                String[] split = s.split(":");
+                quantidade = split[1];
             }
         }
+        File f = new File(caminho[1]);
+        String caminhoFinal = f.getAbsolutePath();
         //ValidaScript vs = new ValidaScript();
         // boolean checkScript = vs.validaScript(fileScript);
         // if (checkScript) {
         try {
-            executarScript(fileScript, quantidade);
-        } catch (final Exception e) {
+            executarScript(caminhoFinal, quantidade);
+        } catch (final IOException e) {
+            System.out.println(e.getMessage());
             LOGGER.info("Erro");
             //return buildServerError(e.getMessage());
         }
@@ -88,19 +92,19 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         LOGGER.info("Script guardado para posterior execução");
     }
 
-    private void executarScript(final File script, final String quantidade) throws IOException {
+    private void executarScript(final String script, final String quantidade) throws IOException {
         //args[0] = caminho do script
         //args[1] = quantidade no pedido
         String[] args = new String[2];
-        args[0] = script.getAbsolutePath();
+        args[0] = script;
         args[1] = quantidade;
         MainValidaScript main = new MainValidaScript();
         main.main(args);
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script
-        String[] cmd = {"sh", script.getName(), script.getPath()};
-        Runtime.getRuntime().exec(cmd);
+        //String[] cmd = {"sh", script.getName(), script.getPath()};
+        //Runtime.getRuntime().exec(cmd);
         LOGGER.info("A executar o script...");
     }
 
