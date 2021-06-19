@@ -139,7 +139,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
-                    String caminhoScript = controller.findScriptServico(servico.identity());
+                    Script caminhoScript1 = controller.findScriptAtividade(servico.identity());
+                    String caminhoScript = caminhoScript1.toString();
                     Formulario form = pedidoRepository.getFormularioPedido(id);
 
                     List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
@@ -149,22 +150,23 @@ public class FluxoRequest extends AplicacoesRequest {
                         Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
                         Label l = formularioRepository.getLabelDoAtributo(at.identity());
                         if(l.toString().equalsIgnoreCase("ID Produto")){
-                            atributoProdutoColab.concat("ID:"+v.toString());
-                            atributoProdutoColab.concat(";");
+							System.out.println("\n\n\n\n ENTRA NO ID, STRING: "+input);
+                            atributoProdutoColab = atributoProdutoColab.concat("ID:"+v.toString());
                         }else if(l.toString().equalsIgnoreCase("Numero Colaborador")){
-                            atributoProdutoColab.concat("NUM:"+v.toString());
-                            atributoProdutoColab.concat(";");
+                            atributoProdutoColab = atributoProdutoColab.concat("NUM:"+v.toString());
                         }
-                        input.concat(";");
-                        input.concat(v.toString());
+                        input = input.concat(";");
+                        input = input.concat(v.toString());
                     }
-                    input.concat("/");
-                    input.concat(caminhoScript);
+                    input = input.concat("/");
+                    input = input.concat(caminhoScript);
+					System.out.println("\n\n\n\n STRING: "+input);
 
-                    atributoProdutoColab.concat(input);
-
+                    atributoProdutoColab = atributoProdutoColab.concat(input);
+					System.out.println("\n\n\n\n\n STRING ATRIBUTOS: " + atributoProdutoColab + "\n\n\n\n\n");
                     byte[] idArray = atributoProdutoColab.getBytes();
                     int size = idArray.length;
+					System.out.println("\n\n\n\n\n SIZE BYTES: " + size + "\n\n\n\n\n");
                     data[0] = 0;
                     data[1] = 9;
                     data[2] = (byte) size;
