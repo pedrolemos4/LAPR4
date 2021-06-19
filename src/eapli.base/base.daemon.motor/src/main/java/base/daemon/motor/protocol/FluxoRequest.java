@@ -1,7 +1,7 @@
 package base.daemon.motor.protocol;
 
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
-import base.daemon.executor.algorithms.ExecutorController;
+import base.daemon.motor.algorithms.ExecutorController;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import base.daemon.motor.algorithms.FirstComeFirstServeExecutor;
 import eapli.base.Application;
@@ -90,6 +90,7 @@ public class FluxoRequest extends AplicacoesRequest {
                 } else {
                     String ipEscolhido = "";
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        System.out.println("BQEEKDN::::  " + ExecutorController.getListExecutores().size());
                         Map<String, Integer> map = ExecutorController.getMapa();
                         List<String> listServidores = ExecutorController.getListExecutores();
 

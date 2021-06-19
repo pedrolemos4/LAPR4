@@ -20,8 +20,8 @@
  */
 package base.daemon.executor;
 
-import base.daemon.executor.algorithms.ExecutorController;
 import base.daemon.executor.presentation.ExecutorServer;
+import base.daemon.motor.algorithms.ExecutorController;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -57,13 +57,14 @@ public final class ExecutorTarefaAutomaticaDaemon {
                 new BasePasswordPolicy(),
                 new PlainTextEncoder());
 
+        LOGGER.info("Starting the server socket");
+        final ExecutorServer server = new ExecutorServer();
+
         List<String> listServidores = new ArrayList<>();
         listServidores.add("10.8.0.81");
         listServidores.add("10.8.0.80");
-        ExecutorController c = new ExecutorController(listServidores);
 
-        LOGGER.info("Starting the server socket");
-        final ExecutorServer server = new ExecutorServer();
+        ExecutorController c = new ExecutorController(listServidores);
 
         server.main(null);
         LOGGER.info("Exiting the daemon");

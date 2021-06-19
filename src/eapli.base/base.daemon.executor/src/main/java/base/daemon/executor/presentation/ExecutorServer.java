@@ -24,6 +24,7 @@ import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
+import base.daemon.motor.algorithms.ExecutorController;
 import eapli.base.atividade.domain.Atividade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,6 +70,8 @@ public class ExecutorServer {
         // Use this certificate and private key as server certificate
         System.setProperty("javax.net.ssl.keyStore", TRUSTED_STORE);
         System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
+
+        System.out.println("AAAAAAAAAAAAAA::: " +ExecutorController.getListExecutores().size());
 
         SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
