@@ -3,14 +3,12 @@ package eapli.base.pedido.repositories;
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.atividade.domain.EstadoFluxo;
-import eapli.base.atividade.domain.Script;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Variavel;
 import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
@@ -18,7 +16,6 @@ import eapli.framework.domain.repositories.DomainRepository;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
@@ -42,11 +39,11 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId);
 
-    Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado);
+    List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado);
 
-    Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado);
+    List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado);
 
-    Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours);
+    List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours);
 
     List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida);
     

@@ -246,42 +246,42 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
-        final TypedQuery<Long> q = createQuery(
-                "SELECT count(a) FROM PEDIDO p JOIN p.listaAtiv a JOIN a.colab c " +
+    public List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM PEDIDO p JOIN p.listaAtiv a JOIN a.colab c " +
                         " WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado",
-                Long.class);
+                Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
-        return q.getSingleResult();
+        return q.getResultList();
     }
 
     // -----------------------------------------ACHO QUE NAO É ASSIM-----------------------------
     @Override
-    public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
-        final TypedQuery<Long> q = createQuery(
-                "SELECT count(a) FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
+    public List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
                         "AND p.dataLimiteResolucao > a.dataLimite",
-                Long.class);
+                Atividade.class);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
-        return q.getSingleResult();
+        return q.getResultList();
     }
 
     // -----------------------------------------ACHO QUE NAO É ASSIM-----------------------------
     @Override
-    public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
-        final TypedQuery<Long> q = createQuery(
-                "SELECT count(a) FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
+    public List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a JOIN a.colab c " +
                         "WHERE c.numeroMecanografico =:userId AND a.estadoAtividade =:estado " +
                         "AND p.dataLimiteResolucao < a.dataLimite + :hours * INTERVAL '1 hour'" +
                         "AND p.dataLimiteResolucao > a.dataLimite",
-                Long.class);
+                Atividade.class);
         q.setParameter("hours", hours);
         q.setParameter("userId", userId);
         q.setParameter("estado", estado);
-        return q.getSingleResult();
+        return q.getResultList();
     }
 
     @Override

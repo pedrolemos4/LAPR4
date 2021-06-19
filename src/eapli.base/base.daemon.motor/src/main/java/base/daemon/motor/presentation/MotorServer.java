@@ -134,6 +134,7 @@ public class MotorServer {
 
                 //out.write(respostaByte);
                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
+                sOut.write(response);
                 //out.println(response);
 
                 //System.out.println("STRING: "+response.toString());

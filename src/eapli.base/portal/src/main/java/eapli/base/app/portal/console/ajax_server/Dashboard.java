@@ -70,11 +70,9 @@ public class Dashboard extends Thread {
 		if(doConnection(address,porta)) {
 			if (Desktop.isDesktopSupported())
 				while (flag) {
-					//cliSock= (SSLSocket) sock.accept();
-					//HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
+					//SSLSocket cliSock = (SSLSocket) sock.accept();
 					//sock.startHandshake();
 					sendTestConnection();
-					//req.start();
 				}
 		}
 	}
@@ -83,8 +81,7 @@ public class Dashboard extends Thread {
 		//try {
 			Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
 			if (sendMessage(5, colab.identity().toString())) {
-				byte[] response = receiveMessage();
-				tasks = new String(response, 3, response[3]);
+				tasks = receiveMessage();
 			}
 		//}catch (Exception e){
 			//LOGGER.error("Error trying to send the protocol!");
@@ -133,11 +130,14 @@ public class Dashboard extends Thread {
 	private static void openDashboard() throws URISyntaxException, IOException {
 		if (Desktop.isDesktopSupported()) {
 			URI uri = new URI("http://localhost:" + serverPort +"/");
+			HTTPmessage req = new HTTPmessage();
+			req.setContentFromString(getDashboardDataInHTML(),"text/html");
+			req.setResponseStatus("ok");
 			Desktop.getDesktop().browse(uri); //open url for dashboard
 		}
 	}
 
-	private static String tasks;
+	private static String tasks = "0 0 0 0 0 0 0 0 0 0 0 0 0";
 	private static int accessesCounter;
 
 	private static synchronized void incAccessesCounter() {
@@ -146,7 +146,7 @@ public class Dashboard extends Thread {
 
 
 	public static synchronized String getDashboardDataInHTML() {
-		String[] dashboard = tasks.split("-");
+		String[] dashboard = tasks.split(" ");
 		String textHtml = "<hr><ul>";
 		textHtml = textHtml + "</ul><hr><p>Pending tasks: " + dashboard[0] + "</p><hr>";
 		textHtml = textHtml + "</ul><hr><p>Over Deadline Tasks: " + dashboard[1] + "</p><hr>";
@@ -158,9 +158,9 @@ public class Dashboard extends Thread {
 		textHtml = textHtml + "</ul><hr><p>Criticality 2 Tasks: " + dashboard[7] + "</p><hr>";
 		textHtml = textHtml + "</ul><hr><p>Criticality 3 Tasks: " + dashboard[8] + "</p><hr>";
 		textHtml = textHtml + "</ul><hr><p>Criticality 4 Tasks: " + dashboard[9] + "</p><hr>";
-		textHtml = textHtml + "</ul><hr><p>Criticality 5 Tasks: " + dashboard[10] + "</p><hr>";
-
-		//textHtml = textHtml + "</ul><hr><p>HTTP server accesses counter: " + accessesCounter + "</p><hr>";
+		textHtml = textHtml + "</ul><hr><p>Low Tagged Criticality Tasks: " + dashboard[10] + "</p><hr>";
+		textHtml = textHtml + "</ul><hr><p>Medium Tagged Criticality Tasks: " + dashboard[11] + "</p><hr>";
+		textHtml = textHtml + "</ul><hr><p>High Tagged Criticality Tasks: " + dashboard[12] + "</p><hr>";
 		return textHtml;
 	}
 
@@ -206,30 +206,22 @@ public class Dashboard extends Thread {
 		for (int i = 0; i < idArray.length; i++) {
 			data[i + 2] = idArray[i];
 		}
-		System.out.println("Data : " + data.toString());
 		sOut.write(data);
 		return true;
 	}
 
 
-	public static byte[] receiveMessage() throws IOException {
+	public static String receiveMessage() throws IOException {
 		DataInputStream sIn = new DataInputStream(sock.getInputStream());
 		try {
-			System.out.println(sIn);
 			byte[] data = new byte[258];
-			sIn.read(data, 2, 258);
+			sIn.read(data, 2, 255);
 			//System.out.println("Size of info: " + data[2]);
-			String inputLine = new String(data, 0, (int) data[3]);
-			while(data[2]==255) {
-				data = new byte[258];
-				sIn.read(data, 2, 258);
-				inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
-			}
+			return new String(data);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return "nao tens tarefas. Bai trabalhar.";
 		}
-		return null;
 	}
-
 }
 

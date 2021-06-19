@@ -17,6 +17,7 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,28 +34,58 @@ public class AplicacoesController {
         return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
     }
 
-    public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
-        return this.pedidoRepository.getNTarefasPendentes(userId, estado);
+    public List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+        try {
+            return this.pedidoRepository.getNTarefasPendentes(userId, estado);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
-    public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
-        return this.pedidoRepository.getTarefasQueUltrapassamDataPedido(userId, estado);
+    public List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+        try {
+            return this.pedidoRepository.getTarefasQueUltrapassamDataPedido(userId, estado);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
-    public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
-        return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
+    public List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+        try {
+            return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida) {
-        return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
+        try {
+            return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
-        return this.pedidoRepository.getTarefaEscala(userId, estado, i);
+        try {
+            return this.pedidoRepository.getTarefaEscala(userId, estado, i);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
-        return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
+        try {
+            return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public FluxoAtividade getFluxoAtividade(String idServico) {
