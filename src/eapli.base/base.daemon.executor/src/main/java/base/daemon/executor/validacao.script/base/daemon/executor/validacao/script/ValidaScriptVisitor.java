@@ -30,12 +30,19 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code enviarEmail}
+	 * Visit a parse tree produced by the {@code enviarEmailProduto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	T visitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code enviarEmailFormulario}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
@@ -75,12 +82,6 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSendEmail(ValidaScriptParser.SendEmailContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
@@ -137,6 +138,13 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProprioValor(ValidaScriptParser.ProprioValorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code valorDouble}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValorDouble(ValidaScriptParser.ValorDoubleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#valor_pretendido}.
 	 * @param ctx the parse tree

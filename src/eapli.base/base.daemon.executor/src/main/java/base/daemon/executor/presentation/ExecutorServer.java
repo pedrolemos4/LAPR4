@@ -123,7 +123,7 @@ public class ExecutorServer {
                     inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
                 }
                 int id = data[1];
-
+				System.out.println("\n\n\n\n\n STRING INPUT EXECUTOR: " + inputLine + "\n\n\n\n\n");
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 final byte[] response = request.execute();

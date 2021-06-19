@@ -32,7 +32,8 @@ public class Dashboard extends Thread {
 	static final String KEYSTORE_PASS = "forgotten";
 
 	static InetAddress serverIP;
-	private static final String IPMOTOR = "10.8.0.82";
+	//private static final String IPMOTOR = "10.8.0.82";
+	private static final String IPMOTOR = "localhost";
 
 	static private SSLSocket sock;
 	static private int serverPort;
@@ -64,13 +65,14 @@ public class Dashboard extends Thread {
 		System.setProperty("javax.net.ssl.keyStore", name + ".jks");
 		System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
+		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+
 		if(doConnection(address,porta)) {
 			if (Desktop.isDesktopSupported())
 				while (flag) {
-					//cliSock= (SSLSocket) sock.accept();
-					//HTTPDashboardRequest req = new HTTPDashboardRequest(sock, BASE_FOLDER);
+					//SSLSocket cliSock = (SSLSocket) sock.accept();
+					//sock.startHandshake();
 					sendTestConnection();
-					//req.start();
 				}
 		}
 	}
@@ -79,12 +81,29 @@ public class Dashboard extends Thread {
 		try {
 			Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
 			if (sendMessage(5, colab.identity().toString())) {
-				byte[] response = receiveMessage();
-				tasks = new String(response, 3, response[3]);
+				tasks = receiveMessage();
+				display();
 			}
-		}catch (Exception e){
-			LOGGER.error("Error trying to send the protocol!");
+		}catch (Exception e) {
+			//LOGGER.error("Error trying to send the protocol!");
 		}
+	}
+
+	private static void display() {
+		String[] dashboard = tasks.split(" ");
+		System.out.println("Pending tasks: " + dashboard[0] + "\n" +
+				"Over Deadline Tasks: " + dashboard[1] + "\n" +
+				"Almost Deadline Tasks: " + dashboard[2] + "\n" +
+				"High Urgency Tasks: " + dashboard[3] + "\n" +
+				"Medium Urgency Tasks: " + dashboard[4] + "\n" +
+				"Low Urgency Tasks: " + dashboard[5] + "\n" +
+				"Criticality 1 Tasks: " + dashboard[6] + "\n" +
+				"Criticality 2 Tasks: " + dashboard[7] + "\n" +
+				"Criticality 3 Tasks: " + dashboard[8] + "\n" +
+				"Criticality 4 Tasks: " + dashboard[9] + "\n" +
+				"Low Tagged Criticality Tasks: " + dashboard[10] + "\n" +
+				"Medium Tagged Criticality Tasks: " + dashboard[11] + "\n" +
+				"High Tagged Criticality Tasks: " + dashboard[12] + "\n" );
 	}
 
 	private static boolean doConnection(String address, int porta) {
@@ -128,12 +147,12 @@ public class Dashboard extends Thread {
 
 	private static void openDashboard() throws URISyntaxException, IOException {
 		if (Desktop.isDesktopSupported()) {
-			URI uri = new URI("http://localhost:" + serverPort +"/");
+			URI uri = new URI("https://localhost:" + serverPort +"/");
 			Desktop.getDesktop().browse(uri); //open url for dashboard
 		}
 	}
 
-	private static String tasks;
+	private static String tasks = "0 0 0 0 0 0 0 0 0 0 0 0 0";
 	private static int accessesCounter;
 
 	private static synchronized void incAccessesCounter() {
@@ -142,7 +161,7 @@ public class Dashboard extends Thread {
 
 
 	public static synchronized String getDashboardDataInHTML() {
-		String[] dashboard = tasks.split("-");
+		String[] dashboard = tasks.split(" ");
 		String textHtml = "<hr><ul>";
 		textHtml = textHtml + "</ul><hr><p>Pending tasks: " + dashboard[0] + "</p><hr>";
 		textHtml = textHtml + "</ul><hr><p>Over Deadline Tasks: " + dashboard[1] + "</p><hr>";
@@ -154,9 +173,9 @@ public class Dashboard extends Thread {
 		textHtml = textHtml + "</ul><hr><p>Criticality 2 Tasks: " + dashboard[7] + "</p><hr>";
 		textHtml = textHtml + "</ul><hr><p>Criticality 3 Tasks: " + dashboard[8] + "</p><hr>";
 		textHtml = textHtml + "</ul><hr><p>Criticality 4 Tasks: " + dashboard[9] + "</p><hr>";
-		textHtml = textHtml + "</ul><hr><p>Criticality 5 Tasks: " + dashboard[10] + "</p><hr>";
-
-		//textHtml = textHtml + "</ul><hr><p>HTTP server accesses counter: " + accessesCounter + "</p><hr>";
+		textHtml = textHtml + "</ul><hr><p>Low Tagged Criticality Tasks: " + dashboard[10] + "</p><hr>";
+		textHtml = textHtml + "</ul><hr><p>Medium Tagged Criticality Tasks: " + dashboard[11] + "</p><hr>";
+		textHtml = textHtml + "</ul><hr><p>High Tagged Criticality Tasks: " + dashboard[12] + "</p><hr>";
 		return textHtml;
 	}
 
@@ -202,23 +221,22 @@ public class Dashboard extends Thread {
 		for (int i = 0; i < idArray.length; i++) {
 			data[i + 2] = idArray[i];
 		}
-
 		sOut.write(data);
 		return true;
 	}
 
 
-	public static byte[] receiveMessage() throws IOException {
+	public static String receiveMessage() throws IOException {
 		DataInputStream sIn = new DataInputStream(sock.getInputStream());
 		try {
-			byte[] answer = new byte[258];
-			sIn.read(answer);
-			return answer;
+			byte[] data = new byte[258];
+			sIn.read(data, 2, 255);
+			//System.out.println("Size of info: " + data[2]);
+			return new String(data);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return "nao tens tarefas. Bai trabalhar.";
 		}
-		return null;
 	}
-
 }
 

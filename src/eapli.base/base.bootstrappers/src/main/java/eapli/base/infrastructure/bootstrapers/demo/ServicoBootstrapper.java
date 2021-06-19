@@ -105,7 +105,7 @@ public class ServicoBootstrapper implements Action {
 
         //Atividades
         Set<Atividade> atividades1 = new HashSet<>();
-        AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica();
+        AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica("script_teste.txt");
         Formulario form1 = preencherAtributos("Formulario1",listaAtributosFormulario2);
         AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1, form1, TipoAtividade.APROVACAO);
         atividades1.add(atividadeManual2);

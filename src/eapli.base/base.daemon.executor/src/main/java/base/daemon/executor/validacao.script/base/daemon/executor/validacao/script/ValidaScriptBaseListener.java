@@ -52,13 +52,25 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx) { }
+	@Override public void enterEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx) { }
+	@Override public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -131,18 +143,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSendEmail(ValidaScriptParser.SendEmailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSendEmail(ValidaScriptParser.SendEmailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -239,6 +239,18 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitProprioValor(ValidaScriptParser.ProprioValorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValorDouble(ValidaScriptParser.ValorDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValorDouble(ValidaScriptParser.ValorDoubleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

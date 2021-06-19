@@ -119,7 +119,9 @@ public class EspecificarServicoUI extends AbstractUI {
                 }
             } else if (tipoResolucao.equalsIgnoreCase("automatica") || tipoResolucao.equalsIgnoreCase("automática")) {
                 try {
-                    AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica();
+					String caminho = Console.readLine("Insira o caminho do script: ");
+                    AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica(caminho);
+                    //AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica();
                     listAtividades.add(atividadeAutomatica);
                     flag = false;
                 } catch (IllegalArgumentException ex) {

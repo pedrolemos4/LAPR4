@@ -209,7 +209,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
         return q.getResultList();
     }
 
-    @Override
+    /*@Override
     public String findCaminhoScriptServico(CodigoUnico cod) {
         final TypedQuery<String> q = createQuery("SELECT sas.caminhoScript FROM Servico s " +
                 "JOIN s.fluxoAtividade fa JOIN fa.listaAtividade la JOIN la.script sas " +
@@ -217,7 +217,7 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
                 "la.colab Is NuLl",String.class);
         q.setParameter("codUnico",cod);
         return q.getSingleResult();
-    }
+    }*/
 
     @Override
     public double tempoMedioAprovacao(CodigoUnico identity){

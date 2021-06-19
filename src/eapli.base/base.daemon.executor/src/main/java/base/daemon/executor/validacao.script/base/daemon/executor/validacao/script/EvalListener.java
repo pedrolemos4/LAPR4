@@ -63,7 +63,7 @@ public class EvalListener extends ValidaScriptBaseListener {
         this.precoTotal = preco * quant;
     }
 
-    private void setCode(int code){
+    private void setCode(int code) {
         this.code = code;
     }
 
@@ -72,7 +72,6 @@ public class EvalListener extends ValidaScriptBaseListener {
     public void exitAtribuir(ValidaScriptParser.AtribuirContext ctx) {
         ctx.calculosMatematicos().enterRule(this);
         double valor = stack.pop();
-        System.out.println("Valor da stack no exitAtribuir: " + valor);
 
         System.out.println("ID: " + ctx.nameVar().getText() + " Value: " + valor);
         map.put(ctx.nameVar().getText(), valor);
@@ -88,9 +87,6 @@ public class EvalListener extends ValidaScriptBaseListener {
 
 
     public void enterProprioValor(ValidaScriptParser.ProprioValorContext ctx) {
-        if (ctx.getText().contains(".")) {
-            stack.push(Double.parseDouble(ctx.DOUBLE().getText()));
-        }
         stack.push(Double.parseDouble(ctx.INTEIRO().getText()));
     }
 
@@ -106,21 +102,22 @@ public class EvalListener extends ValidaScriptBaseListener {
         if (map.containsKey(ctx.left.getText())) {
             left = map.get(ctx.left.getText());
         } else {
-            left = Integer.parseInt(ctx.left.getText());
+            left = Double.parseDouble(ctx.left.getText());
         }
 
         if (map.containsKey(ctx.right.getText())) {
             right = map.get(ctx.right.getText());
         } else {
-            right = Integer.parseInt(ctx.left.getText());
+            right = Double.parseDouble(ctx.right.getText());
         }
         double valor;
         if (ctx.sinal.getText().equals("/")) {
             valor = left / right;
             stack.push(valor);
+        } else {
+            valor = left * right;
+            stack.push(valor);
         }
-        valor = left * right;
-        stack.push(valor);
     }
 
     public void exitSomaSub(ValidaScriptParser.SomaSubContext ctx) {
@@ -129,21 +126,22 @@ public class EvalListener extends ValidaScriptBaseListener {
         if (map.containsKey(ctx.left.getText())) {
             left = map.get(ctx.left.getText());
         } else {
-            left = Integer.parseInt(ctx.left.getText());
+            left = Double.parseDouble(ctx.left.getText());
         }
 
         if (map.containsKey(ctx.right.getText())) {
             right = map.get(ctx.right.getText());
         } else {
-            right = Integer.parseInt(ctx.left.getText());
+            right = Double.parseDouble(ctx.left.getText());
         }
         double valor;
         if (ctx.sinal.getText().equals("+")) {
             valor = left + right;
             stack.push(valor);
+        } else {
+            valor = left - right;
+            stack.push(valor);
         }
-        valor = left - right;
-        stack.push(valor);
     }
 
     public void enterParenteses(ValidaScriptParser.ParentesesContext ctx) {
@@ -159,12 +157,37 @@ public class EvalListener extends ValidaScriptBaseListener {
         }
         System.out.println("Desconto: " + desconto);
         this.desconto = desconto;
+
     }
 
     public void exitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
-        boolean bool = false;
         double left, right;
         int l = 0, r = 0;
+
+        try {
+            ctx.leftPortion.getText();
+        } catch (NullPointerException e) {
+            if (ctx.leftPortionCat.getText().equals("CATEGORIA")) {
+                if (ctx.sinal.getText().equals("==")) {
+                    try {
+                        bool = this.getCategoria().equals(ctx.rightPortionCat.getText());
+                    } catch (NullPointerException n) {
+                        System.out.println("Este produto não existe.");
+                        System.exit(0);
+                    }
+
+                } else if (ctx.sinal.getText().equals("!=")) {
+                    bool = !this.getCategoria().equals(ctx.rightPortionCat.getText());
+                }
+            }
+            if (bool) {
+                stack.push(1.0);
+                return;
+            } else {
+                stack.push(0.0);
+                return;
+            }
+        }
 
         if (map.containsKey(ctx.leftPortion.getText())) {
             left = map.get(ctx.leftPortion.getText());
@@ -202,22 +225,28 @@ public class EvalListener extends ValidaScriptBaseListener {
             bool = left >= right;
         }
         if (bool) {
-            this.bool = true;
+            stack.push(1.0);
         } else {
-            this.bool = false;
+            stack.push(0.0);
         }
     }
 
-    public void enterElse1(ValidaScriptParser.Else1Context ctx) {
+    public void exitElse1(ValidaScriptParser.Else1Context ctx) {
         ctx.aplicar_desconto().enterRule(this);
     }
 
-    public void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) {
+    public void enterAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) {
         ctx.expressao_a_verificar().enterRule(this);
         if (bool) {
             ctx.aplicar_desconto().enterRule(this);
-        } else if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && bool == false) {
-            ctx.else1().enterRule(this);
+        } else {
+            try {
+                if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && bool == false) {
+                    ctx.else1().enterRule(this);
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Não há desconto para este tipo!");
+            }
         }
         ctx.expressao_a_verificar().enterRule(this);
     }
@@ -233,24 +262,21 @@ public class EvalListener extends ValidaScriptBaseListener {
     public void exitInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) {
         if (code == Integer.parseInt(ctx.codigo.getText())) {
             this.preco = Integer.parseInt(ctx.preco.getText());
+            this.categoria = ctx.categoria.getText();
             if (parametroLerFicheiro != null) {
                 if (parametroLerFicheiro.equals("Preco")) {
                     System.out.println("Preco: " + ctx.preco.getText());
                     this.parametroLerFicheiro = null;
-                    //stack.push(1.0);
                 } else if (parametroLerFicheiro.equals("Categoria")) {
                     System.out.println("Categoria: " + ctx.categoria.getText());
                     this.parametroLerFicheiro = null;
-                    //stack.push(1.0);
                 }
             } else {
                 System.out.println("Codigo: " + ctx.codigo.getText());
                 System.out.println("Preco: " + ctx.preco.getText());
                 System.out.println("Categoria: " + ctx.categoria.getText());
-                //stack.push(1.0);
             }
         }
-        //stack.push(0.0);
     }
 
     public void exitInfoCliente(ValidaScriptParser.InfoClienteContext ctx) {
@@ -259,15 +285,12 @@ public class EvalListener extends ValidaScriptBaseListener {
                 if (parametroLerFicheiro.equals("Escalao")) {
                     System.out.println("Escalao: " + ctx.escalao.getText());
                     this.parametroLerFicheiro = null;
-                    //stack.push(1.0);
                 }
             } else {
                 System.out.println("Numero: " + ctx.numero.getText());
                 System.out.println("Escalao: " + ctx.escalao.getText());
-                //stack.push(1.0);
             }
         }
-        //stack.push(0.0);
     }
 
     public void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
@@ -295,16 +318,15 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     //--------------------------------ENVIAR EMAIL--------------------------------//
 
-    public void exitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx) {
-        System.out.println("Email: " + ctx.sendEmail().emailColab.getText());
+    public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
+        System.out.println("Email: " + ctx.emailColab.getText());
+        System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
+                "O seu pedido foi efetuado com sucesso, o valor a pagar dos seus produto será " + precoTotal + ". Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
+    }
 
-        if (ctx.sendEmail().decisao.isEmpty()) {
-            System.out.println("Tipo Cliente: " + ctx.sendEmail().tipoCliente.getText());
-            System.out.println("Valor Desconto: " + ctx.sendEmail().valorDesconto.getText());
-            System.out.println("Preço Final: " + ctx.sendEmail().valorFinal.getText());
-        } else {
-            System.out.println("Decisao: " + ctx.sendEmail().decisao.getText());
-            System.out.println("Desconto: " + ctx.sendEmail().desconto.getText());
-        }
+    public void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
+        System.out.println("Email: " + ctx.emailColab.getText());
+        System.out.println("Decisao: " + ctx.decisao.getText());
+        System.out.println("Desconto: " + ctx.desconto.getText());
     }
 }

@@ -96,11 +96,11 @@ public class EspecificarServicoController {
         return atividadeAprovacaoColaborador;
     }
 
-    public AtividadeAutomatica novaAtividadeAutomatica() {
+    public AtividadeAutomatica novaAtividadeAutomatica(final String caminho) {
         final AtividadeAutomatica atividadeAutomatica;
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
-        final Script script = new Script("script.sh");
+        final Script script = new Script(caminho);
         atividadeAutomatica = new AtividadeAutomatica(null, e, tipoAtividade, null, script);
         return atividadeAutomatica;
     }

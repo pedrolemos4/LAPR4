@@ -40,17 +40,29 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code enviarEmail}
+	 * Enter a parse tree produced by the {@code enviarEmailProduto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 */
-	void enterEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	void enterEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code enviarEmail}
+	 * Exit a parse tree produced by the {@code enviarEmailProduto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 */
-	void exitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code enviarEmailFormulario}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code enviarEmailFormulario}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
@@ -117,16 +129,6 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ValidaScriptParser#sendEmail}.
-	 * @param ctx the parse tree
-	 */
-	void enterSendEmail(ValidaScriptParser.SendEmailContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
-	 * @param ctx the parse tree
-	 */
-	void exitSendEmail(ValidaScriptParser.SendEmailContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
@@ -223,6 +225,18 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProprioValor(ValidaScriptParser.ProprioValorContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code valorDouble}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void enterValorDouble(ValidaScriptParser.ValorDoubleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code valorDouble}
+	 * labeled alternative in {@link ValidaScriptParser#param}.
+	 * @param ctx the parse tree
+	 */
+	void exitValorDouble(ValidaScriptParser.ValorDoubleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#valor_pretendido}.
 	 * @param ctx the parse tree

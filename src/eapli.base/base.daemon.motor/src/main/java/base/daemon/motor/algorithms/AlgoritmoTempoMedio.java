@@ -55,6 +55,7 @@ public class AlgoritmoTempoMedio implements Runnable {
                 tempoMedioTotal += tempoMedioResolucao();
             }
         }
+		System.out.println("\n\n\n\n\n\n\n\n\n\nTempo: "+tempoMedioTotal + " Colaborador: " + colab.toString());
         mapColaboradores.put(tempoMedioTotal, colab);
     }
 

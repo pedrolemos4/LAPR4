@@ -147,7 +147,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
-                    String caminhoScript = controller.findScriptServico(servico.identity());
+                    Script caminhoScript1 = controller.findScriptAtividade(servico.identity());
+                    String caminhoScript = caminhoScript1.toString();
                     Formulario form = pedidoRepository.getFormularioPedido(id);
 
                     List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
@@ -156,22 +157,17 @@ public class FluxoRequest extends AplicacoesRequest {
                     for (Atributo at : atributos) {
                         Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
                         Label l = formularioRepository.getLabelDoAtributo(at.identity());
-                        if(l.toString().equalsIgnoreCase("ID Produto")){
-                            atributoProdutoColab.concat("ID:"+v.toString());
-                            atributoProdutoColab.concat(";");
-                        }else if(l.toString().equalsIgnoreCase("Numero Colaborador")){
-                            atributoProdutoColab.concat("NUM:"+v.toString());
-                            atributoProdutoColab.concat(";");
+                        if(l.toString().equalsIgnoreCase("Quantidade")){
+                            atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
                         }
-                        input.concat(";");
-                        input.concat(v.toString());
+                        input = input.concat(";");
+                        input = input.concat(v.toString());
                     }
-                    input.concat("/");
-                    input.concat(caminhoScript);
+                    input = input.concat("/");
+                    input = input.concat(caminhoScript);
 
-                    atributoProdutoColab.concat(input);
-
-                    byte[] idArray = atributoProdutoColab.getBytes();
+                    atributoProdutoColab = atributoProdutoColab.concat(input);
+					byte[] idArray = atributoProdutoColab.getBytes();
                     int size = idArray.length;
                     data[0] = 0;
                     data[1] = 9;
@@ -208,9 +204,6 @@ public class FluxoRequest extends AplicacoesRequest {
                     sock.close();
 
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
-                }
-                for (j = 0; j < list.size(); j++) {
-                    System.out.println("Colaboradores: " + list.get(j).toString());
                 }
             }
         } catch (final NumberFormatException e) {
