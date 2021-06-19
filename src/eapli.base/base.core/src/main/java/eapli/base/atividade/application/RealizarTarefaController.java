@@ -20,6 +20,7 @@ import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.List;
 
 @UseCaseController
@@ -65,18 +66,21 @@ public class RealizarTarefaController {
         return valida.validaFormVisitor(file);
     }
 
-    public void validaFormularioListener(File file) {
+    public boolean validaFormularioListener(File file) {
         ValidaForm valida = new ValidaForm();
+        boolean flag = true;
         try {
-            valida.validaFormListener(file);
+            flag = valida.validaFormListener(file);
         } catch (Exception e) {
             System.out.println("Erro de validação do formulário.");
         }
+        return flag;
     }
 
-    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido, Atividade at,
-                                          EstadoPedido estado, EstadoAtividade estadoA, long duracao) {
-        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at, estado, estadoA, duracao);
+    public void completaDecisaoComentario(String comentario, Decisao aprovado, Pedido pedido,
+                                          Atividade at, EstadoPedido estado, EstadoAtividade estadoA,
+                                          long duracao, Calendar dataResolucao) {
+        pedido.completaDecisaoComentario(Comentario.valueOf(comentario), aprovado, at, estado, estadoA, duracao, dataResolucao);
     }
 
     public void savePedido(Pedido pedido) {

@@ -14,10 +14,10 @@ public class ObjetivoTest extends TestCase {
     public void testTestToString() {
         Objetivo o1 = new Objetivo(10,10,10,8);
         assertEquals("Objetivo\n" +
-                "tempoMaxApro: 10.0\n" +
-                "tempoMedioAprov:10.0\n" +
-                "tempoMaxRes:10.0\n" +
-                "tempoMedioRes:8.0",o1.toString());
+                "tempoMaxApro: 10\n" +
+                "tempoMedioAprov:10\n" +
+                "tempoMaxRes:10\n" +
+                "tempoMedioRes:8",o1.toString());
     }
 
     public void testValueOf() {
@@ -26,8 +26,4 @@ public class ObjetivoTest extends TestCase {
         assertEquals(o1,o2);
     }
 
-    public void testHashCode() {
-        Objetivo o1 = new Objetivo(10,10,10,8);
-        assertEquals(-385214591,o1.hashCode());
-    }
 }

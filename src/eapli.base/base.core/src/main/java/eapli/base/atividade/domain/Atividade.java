@@ -53,6 +53,7 @@ public class Atividade implements ValueObject{
         this.estadoAtividade=atividade.estadoAtividade;
         this.dataLimite=atividade.dataLimite;
         this.tipoAtividade = atividade.tipoAtividade;
+        this.duracaoAtividade = atividade.duracaoAtividade;
     }
 
     public Long identity() {

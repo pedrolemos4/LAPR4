@@ -7,9 +7,13 @@ import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
+import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
@@ -129,15 +133,29 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     String caminhoScript = controller.findScriptServico(servico.identity());
                     Formulario form = pedidoRepository.getFormularioPedido(id);
+
                     List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
                     String input = "";
+                    String atributoProdutoColab = "";
                     for (Atributo at : atributos) {
+                        Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
+                        Label l = formularioRepository.getLabelDoAtributo(at.identity());
+                        if(l.toString().equalsIgnoreCase("ID Produto")){
+                            atributoProdutoColab.concat("ID:"+v.toString());
+                            atributoProdutoColab.concat(";");
+                        }else if(l.toString().equalsIgnoreCase("Numero Colaborador")){
+                            atributoProdutoColab.concat("NUM:"+v.toString());
+                            atributoProdutoColab.concat(";");
+                        }
                         input.concat(";");
-                        input.concat(formularioRepository.getVariavelDoAtributo(at.identity()).toString());
+                        input.concat(v.toString());
                     }
                     input.concat("/");
                     input.concat(caminhoScript);
-                    byte[] idArray = input.getBytes();
+
+                    atributoProdutoColab.concat(input);
+
+                    byte[] idArray = atributoProdutoColab.getBytes();
                     int size = idArray.length;
                     data[0] = 0;
                     data[1] = 9;

@@ -19,7 +19,7 @@ public class PedidoTest extends TestCase {
         dataAux.set(1993,4,3);
         Pedido pedido = new Pedido(new Colaborador(new MecanographicNumber(0),new ShortName("Pedro"),new FullName("Pedrao"),dataAux ,
                 new Contacto(123456789),new LocalResidencia("n sei"), EmailAddress.valueOf("pedro@qq.com"),new HashSet<>())
-        , Calendar.getInstance() ,new Servico.ServicoBuilder("1523","t1").build(),UrgenciaPedido.URGENTE,dataAux, new Formulario("t1",new HashSet<>()), new HashSet<>());
+        , Calendar.getInstance() ,new Servico.ServicoBuilder("1523","t1").build(),UrgenciaPedido.URGENTE,dataAux, new Formulario("t1",new HashSet<>()), new HashSet<>(), null);
 
         assertEquals(pedido.toString(),pedido.toString());
     }
@@ -30,7 +30,7 @@ public class PedidoTest extends TestCase {
         dataAux.set(1993,4,3);
         Pedido pedido = new Pedido(new Colaborador(new MecanographicNumber(0),new ShortName("Pedro"),new FullName("Pedrao"),dataAux ,
                 new Contacto(123456789),new LocalResidencia("n sei"), EmailAddress.valueOf("pedro@qq.com"),new HashSet<>())
-                , Calendar.getInstance() ,new Servico.ServicoBuilder("1523","t1").build(),UrgenciaPedido.URGENTE,dataAux, new Formulario("t1",new HashSet<>()), new HashSet<>());
+                , Calendar.getInstance() ,new Servico.ServicoBuilder("1523","t1").build(),UrgenciaPedido.URGENTE,dataAux, new Formulario("t1",new HashSet<>()), new HashSet<>(), null);
         pedido.atribuirGrau(new GrauSatisfacao(2));
 
         assertTrue(pedido.toString().contains("GrauSatisfacao{grau=2}"));

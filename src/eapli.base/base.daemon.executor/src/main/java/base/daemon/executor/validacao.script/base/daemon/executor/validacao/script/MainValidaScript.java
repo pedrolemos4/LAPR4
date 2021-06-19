@@ -8,9 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Main {
+public class MainValidaScript {
 
-    public static void main(String[] args) throws IOException {
+    public void main(String[] args) throws IOException {
         FileInputStream fis = new FileInputStream(new File("script_teste.txt"));
         ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
