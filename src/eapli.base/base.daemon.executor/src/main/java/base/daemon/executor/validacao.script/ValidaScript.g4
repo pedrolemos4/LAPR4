@@ -7,7 +7,8 @@ start: start funcao
      ;
 
 funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro PONTO_VIRGULA valor=valor_pretendido  #lerFicheiro
-      | sendEmail #enviarEmail
+      | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA #enviarEmailProduto
+      | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA decisao=frase PONTO_VIRGULA desconto=percentagem #enviarEmailFormulario
       | expressao #calcularValor
       //| calcPrecoTotal #calcular_preco_total
       | 'if ' expressao_a_verificar ' then:' aplicar_desconto temElse=else1? 'end if;' #aplicarDesconto
@@ -25,10 +26,6 @@ expressao_a_verificar: leftPortion=param sinal=SINAL_BOOLEANO rightPortion=param
 aplicar_desconto: 'Aplicar Desconto->' valorDesconto=param //meter
                 //| var=nameVar '->' param1=nameVar sinal=('+'|'*') param1=nameVar
                 ;
-
-sendEmail: 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA PONTO_VIRGULA valorDesconto=percentagem PONTO_VIRGULA valorFinal=DOUBLE PONTO_VIRGULA
-         | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA decisao=frase PONTO_VIRGULA desconto=percentagem
-;
 
 //calcPrecoTotal: var=nameVar '->QUANT->' quantidade=INTEIRO
 //             ;
@@ -57,9 +54,13 @@ valor_pretendido: ESCALAO
                 |
                 ;
 
-percentagem: DOUBLE '%';
+percentagem: DOUBLE '%'
+           | INTEIRO '%'
+           ;
 
-frase: (PALAVRA)+;
+frase: frase PALAVRA ' '
+    | PALAVRA
+    ;
 
 nameVar: '#' PALAVRA '#';
 

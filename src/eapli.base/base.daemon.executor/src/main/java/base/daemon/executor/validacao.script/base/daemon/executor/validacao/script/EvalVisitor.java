@@ -270,7 +270,6 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     public Double visitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
         boolean bool = false;
         double left, right;
-        String leftS, rightS;
         int l = 0, r = 0;
 
         try {
@@ -278,7 +277,13 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         } catch (NullPointerException e) {
             if (ctx.leftPortionCat.getText().equals("CATEGORIA")) {
                 if (ctx.sinal.getText().equals("==")) {
-                    bool = this.getCategoria().equals(ctx.rightPortionCat.getText());
+                    try {
+                        bool = this.getCategoria().equals(ctx.rightPortionCat.getText());
+                    } catch (NullPointerException n) {
+                        System.out.println("Este produto não existe.");
+                        System.exit(0);
+                    }
+
                 } else if (ctx.sinal.getText().equals("!=")) {
                     bool = !this.getCategoria().equals(ctx.rightPortionCat.getText());
                 }
@@ -341,17 +346,6 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     @Override
     public Double visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
         double desconto = this.getDesconto();
-        /*try{
-            ctx.valorDesconto.getText();
-        }catch(NullPointerException e){
-            if (map.containsKey(ctx.var.getText())) {
-                desconto += map.get(ctx.var.getText());
-                System.out.println("Desconto: "+desconto);
-                this.desconto = desconto;
-                return desconto;
-            }
-            return 0.0;
-        }*/
         if (map.containsKey(ctx.valorDesconto.getText())) {
             desconto += map.get(ctx.valorDesconto.getText());
         } else {
@@ -375,16 +369,18 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 //--------------------------------ENVIAR EMAIL--------------------------------//
 
     @Override
-    public Double visitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx) {
-        System.out.println("Email: " + ctx.sendEmail().emailColab.getText());
-        if (ctx.sendEmail().decisao.getText().isEmpty()) {
-            System.out.println("Tipo Cliente: " + ctx.sendEmail().tipoCliente.getText());
-            System.out.println("Valor Desconto: " + ctx.sendEmail().valorDesconto.getText());
-            System.out.println("Preço Final: " + ctx.sendEmail().valorFinal.getText());
-        } else {
-            System.out.println("Decisao: " + ctx.sendEmail().decisao.getText());
-            System.out.println("Desconto: " + ctx.sendEmail().desconto.getText());
-        }
+    public Double visitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
+        System.out.println("Email: " + ctx.emailColab.getText());
+        System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
+                "O seu pedido foi efetuado com sucesso, o valor a pagar dos seus produto será " + precoTotal + ". Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
+        return 0.0;
+    }
+
+    @Override
+    public Double visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
+        System.out.println("Email: " + ctx.emailColab.getText());
+        System.out.println("Decisao: " + ctx.decisao.getText());
+        System.out.println("Desconto: " + ctx.desconto.getText());
         return 0.0;
     }
 

@@ -1,4 +1,4 @@
-// Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
+// Generated from C:/Users/josec/Documents/lei20_21_s4_2di_04/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -30,12 +30,19 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code enviarEmail}
+	 * Visit a parse tree produced by the {@code enviarEmailProduto}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEnviarEmail(ValidaScriptParser.EnviarEmailContext ctx);
+	T visitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code enviarEmailFormulario}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
@@ -75,12 +82,6 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ValidaScriptParser#sendEmail}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSendEmail(ValidaScriptParser.SendEmailContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code atribuir}
 	 * labeled alternative in {@link ValidaScriptParser#expressao}.
