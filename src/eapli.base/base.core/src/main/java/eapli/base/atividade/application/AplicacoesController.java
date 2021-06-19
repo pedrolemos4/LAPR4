@@ -45,7 +45,8 @@ public class AplicacoesController {
 
     public List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
         try {
-            return this.pedidoRepository.getTarefasQueUltrapassamDataPedido(userId, estado);
+            //return this.pedidoRepository.getTarefasQueUltrapassamDataPedido(userId, estado);
+            return new ArrayList<>();
         }
         catch (Exception e){
             return new ArrayList<>();
@@ -54,7 +55,8 @@ public class AplicacoesController {
 
     public List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
         try {
-            return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
+            //return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
+            return new ArrayList<>();
         }
         catch (Exception e){
             return new ArrayList<>();
@@ -63,7 +65,8 @@ public class AplicacoesController {
 
     public List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida) {
         try {
-            return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
+            //return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
+            return new ArrayList<>();
         }
         catch (Exception e){
             return new ArrayList<>();
@@ -72,7 +75,8 @@ public class AplicacoesController {
 
     public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
         try {
-            return this.pedidoRepository.getTarefaEscala(userId, estado, i);
+            //return this.pedidoRepository.getTarefaEscala(userId, estado, i);
+            return new ArrayList<>();
         }
         catch (Exception e){
             return new ArrayList<>();
@@ -81,7 +85,8 @@ public class AplicacoesController {
 
     public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
         try {
-            return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
+            //return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
+            return new ArrayList<>();
         }
         catch (Exception e){
             return new ArrayList<>();

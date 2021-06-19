@@ -7,13 +7,19 @@ import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
-import java.io.*;
+import javax.net.ssl.SSLSocket;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 
 public class MotorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
+
+    static private final String BASE_FOLDER = "www";
 
     private static final Logger LOGGER = LogManager.getLogger(MotorServer.class);
 
@@ -41,7 +47,7 @@ public class MotorServer {
     public static void main(String args[]) throws Exception {
         int i;
         SSLServerSocket sock = null;
-        Socket cliSock;
+        SSLSocket cliSock;
 
         // Trust these certificates provided by authorized clients
         System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
@@ -62,9 +68,11 @@ public class MotorServer {
         }
 
         while (true) {
-            cliSock = sock.accept();
+            cliSock = (SSLSocket) sock.accept();
             LOGGER.info("Client connected");
+
             new Thread(new ClientHandler(cliSock)).start();
+
         }
     }
 

@@ -78,14 +78,32 @@ public class Dashboard extends Thread {
 	}
 
 	public static synchronized void sendTestConnection() throws IOException {
-		//try {
+		try {
 			Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
 			if (sendMessage(5, colab.identity().toString())) {
 				tasks = receiveMessage();
+				display();
 			}
-		//}catch (Exception e){
+		}catch (Exception e) {
 			//LOGGER.error("Error trying to send the protocol!");
-		//}
+		}
+	}
+
+	private static void display() {
+		String[] dashboard = tasks.split(" ");
+		System.out.println("Pending tasks: " + dashboard[0] + "\n" +
+				"Over Deadline Tasks: " + dashboard[1] + "\n" +
+				"Almost Deadline Tasks: " + dashboard[2] + "\n" +
+				"High Urgency Tasks: " + dashboard[3] + "\n" +
+				"Medium Urgency Tasks: " + dashboard[4] + "\n" +
+				"Low Urgency Tasks: " + dashboard[5] + "\n" +
+				"Criticality 1 Tasks: " + dashboard[6] + "\n" +
+				"Criticality 2 Tasks: " + dashboard[7] + "\n" +
+				"Criticality 3 Tasks: " + dashboard[8] + "\n" +
+				"Criticality 4 Tasks: " + dashboard[9] + "\n" +
+				"Low Tagged Criticality Tasks: " + dashboard[10] + "\n" +
+				"Medium Tagged Criticality Tasks: " + dashboard[11] + "\n" +
+				"High Tagged Criticality Tasks: " + dashboard[12] + "\n" );
 	}
 
 	private static boolean doConnection(String address, int porta) {
@@ -129,10 +147,7 @@ public class Dashboard extends Thread {
 
 	private static void openDashboard() throws URISyntaxException, IOException {
 		if (Desktop.isDesktopSupported()) {
-			URI uri = new URI("http://localhost:" + serverPort +"/");
-			HTTPmessage req = new HTTPmessage();
-			req.setContentFromString(getDashboardDataInHTML(),"text/html");
-			req.setResponseStatus("ok");
+			URI uri = new URI("https://localhost:" + serverPort +"/");
 			Desktop.getDesktop().browse(uri); //open url for dashboard
 		}
 	}
