@@ -10,11 +10,11 @@ public class FirstComeFirstServeExecutor implements Runnable {
 
     private Atividade atividade;
 
-    private Map<String, List<Atividade>> mapExecutor;
+    private Map<String, Integer> mapExecutor;
 
     private Map<Integer, String> mapAPreencher;
 
-    public FirstComeFirstServeExecutor(List<String> listServidores, Atividade atividade, Map<String, List<Atividade>> mapExecutor) {
+    public FirstComeFirstServeExecutor(List<String> listServidores, Atividade atividade, Map<String, Integer> mapExecutor) {
         this.list = listServidores;
         this.atividade = atividade;
         this.mapExecutor = mapExecutor;
@@ -22,9 +22,11 @@ public class FirstComeFirstServeExecutor implements Runnable {
     }
 
     public synchronized void getListAtividadesDoExecutor(String ipExecutor){
-        for(Map.Entry<String, List<Atividade>> map: mapExecutor.entrySet()){
+        for(Map.Entry<String, Integer> map: mapExecutor.entrySet()){
             if(map.getKey().equalsIgnoreCase(ipExecutor)){
-                mapAPreencher.put(map.getValue().size(),map.getKey());
+                System.out.println("map.getKey:: " + map.getKey());
+                System.out.println("map.getValue:: " + map.getValue());
+                mapAPreencher.put(map.getValue(),map.getKey());
             }
         }
     }
@@ -35,9 +37,7 @@ public class FirstComeFirstServeExecutor implements Runnable {
         int index = Integer.parseInt(threadName[1].replaceAll("\\s+", ""));
         String ipExecutor = list.get(index);
         try {
-            // isto retorna a quantidade de tarefas de cada executor
             getListAtividadesDoExecutor(ipExecutor);
-            // problema é que nao posso adicionar logo uma tarefa sem percorrer todas as threads
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +52,7 @@ public class FirstComeFirstServeExecutor implements Runnable {
     public void createThreads() {
         Thread[] threads = new Thread[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            threads[i] = new Thread(this, "Thread -" + i + " do fcfs");
+            threads[i] = new Thread(this, "Thread -" + i + "- do fcfs");
             threads[i].start();
         }
         for (Thread t : threads) {

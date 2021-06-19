@@ -1,6 +1,7 @@
 package base.daemon.motor.protocol;
 
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
+import base.daemon.executor.algorithms.ExecutorController;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import base.daemon.motor.algorithms.FirstComeFirstServeExecutor;
 import eapli.base.Application;
@@ -41,10 +42,8 @@ public class FluxoRequest extends AplicacoesRequest {
 
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
-    private static final String IP_EXECUTOR = "10.8.0.81";
     private static final int EXECUTOR_PORT = 32510;
 
-    private Map<String, List<Atividade>> mapExecutor;
 
     public FluxoRequest(final AplicacoesController controller, final String request) {
         super(controller, request);
@@ -91,15 +90,24 @@ public class FluxoRequest extends AplicacoesRequest {
                 } else {
                     String ipEscolhido = "";
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-                        List<String> listServidores = new ArrayList<>();
-                        listServidores.add(IP_EXECUTOR);
-                        listServidores.add("10.8.0.80");
-                        createMap(mapExecutor, IP_EXECUTOR, "10.8.0.80");
+                        Map<String, Integer> map = ExecutorController.getMapa();
+                        List<String> listServidores = ExecutorController.getListExecutores();
 
-                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade, mapExecutor);
+                        for(Map.Entry<String, Integer> map1: map.entrySet()){
+                            System.out.println("MAPA:: " + map1.getKey());
+                            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                        }
+
+                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade, map);
                         first.createThreads();
                         ipEscolhido = first.getExecutorEscolhido();
-                        addTarefa(atividade, ipEscolhido);
+                        ExecutorController.addAtividade(ipEscolhido);
+
+                        for(Map.Entry<String, Integer> map1: map.entrySet()){
+                            System.out.println("MAPA:: " + map1.getKey());
+                            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                        }
+
                     }/* else {
                         WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
                         threads[j] = new Thread(wba);
@@ -195,6 +203,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     }
 
                     sOut.write(data);
+                    ExecutorController.removeAtividade(ipEscolhido);
                     serverConn.join();
                     sock.close();
 
@@ -218,18 +227,6 @@ public class FluxoRequest extends AplicacoesRequest {
         return data;
     }
 
-    private void createMap(Map<String, List<Atividade>> mapExecutor, String ipExecutor, String s) {
-         if(!mapExecutor.containsKey(ipExecutor)){
-             mapExecutor.put(ipExecutor, null);
-         }
-        if(!mapExecutor.containsKey(s)){
-            mapExecutor.put(s, null);
-        }
-    }
-
-    public void addTarefa(Atividade tarefa, String ipExecutor) {
-        mapExecutor.get(ipExecutor).add(tarefa);
-    }
 
     public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo,
                                      String idPedido) {

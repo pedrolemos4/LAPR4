@@ -20,7 +20,7 @@
  */
 package base.daemon.executor;
 
-import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.executor.algorithms.ExecutorController;
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
@@ -29,7 +29,7 @@ import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,9 +57,13 @@ public final class ExecutorTarefaAutomaticaDaemon {
                 new BasePasswordPolicy(),
                 new PlainTextEncoder());
 
+        List<String> listServidores = new ArrayList<>();
+        listServidores.add("10.8.0.81");
+        listServidores.add("10.8.0.80");
+        ExecutorController c = new ExecutorController(listServidores);
+
         LOGGER.info("Starting the server socket");
         final ExecutorServer server = new ExecutorServer();
-
 
         server.main(null);
         LOGGER.info("Exiting the daemon");
