@@ -28,17 +28,21 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
         mapColaboradores.put(tempo, col);
     }
 
-    public synchronized long time(Colaborador col, String idPedido) throws Exception {
+    public synchronized void time(Colaborador col, String idPedido) throws Exception {
         AplicacoesController controller = new AplicacoesController();
         List<Calendar> list = controller.findDatas(col.identity(), idPedido);
-        long maior = 0;
-        for (Calendar calendar : list) {
-            long diferenca = Calendar.getInstance().getTime().getTime() - calendar.getTime().getTime();
-            if (diferenca > maior) {
-                maior = diferenca;
+        long maior = Long.MAX_VALUE;
+        if (list.isEmpty()) {
+            maior = Long.MAX_VALUE;
+        } else {
+            for (Calendar calendar : list) {
+                long diferenca = Calendar.getInstance().getTime().getTime() - calendar.getTime().getTime();
+                if (diferenca < maior) {
+                    maior = diferenca;
+                }
             }
         }
-        return maior;
+        addCol(maior, col);
     }
 
     @Override
@@ -47,12 +51,10 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
         int index = Integer.parseInt(threadName[1].replaceAll("\\s+", ""));
         Colaborador colab = list.get(index);
         try {
-            long tempo = time(colab, this.idPedido);
-            addCol(tempo, colab);
+            time(colab, this.idPedido);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -64,7 +66,7 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
     public void createThreads() {
         Thread[] threads = new Thread[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            threads[i] = new Thread(this, "Thread" + i + " do fcfs");
+            threads[i] = new Thread(this, "Thread -" + i + "- do fcfs");
             threads[i].start();
         }
         for (Thread t : threads) {

@@ -39,7 +39,7 @@ public class CatalogoBootstrapper implements Action {
         Set<Colaborador> setCol = new HashSet<>();
         setCol.add(c1);
         list.add(new Equipa(new CodigoUnico("e1"), new Acronimo("EQP1"), new Designacao("desig1"), new TipoEquipa(new CodigoUnico("t1"), new Designacao("tipo1"), new Cor(10, 20, 30)), setCol));
-        register("titulo1", "descricaoBreve", "icone", "descricaoCompleta", list, c1, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13.2,11,13.2,11), new Cor(13,13,13)));
+        register("titulo1", "descricaoBreve", "icone", "descricaoCompleta", list, c1, new Criticidade(new Etiqueta("Etiqueta2"), new Escala(3), new Designacao("Name2"), new Objetivo(13,11,13,11), new Cor(13,13,13)));
 
         // SEGUNDO CATALOGO
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), dataAux
@@ -48,7 +48,7 @@ public class CatalogoBootstrapper implements Action {
         setCol1.add(c2);
         Set<Equipa> list2 = new HashSet<>();
         list2.add(new Equipa(new CodigoUnico("e2"), new Acronimo("EQP2"), new Designacao("equipa2"), new TipoEquipa(new CodigoUnico("te2"), new Designacao("tipo2"), new Cor(60, 60, 80)), setCol1));
-        register("titulo2", "descricaoBreve2", "icone2", "descricaoCompleta2", list2, c2, new Criticidade(new Etiqueta("Etiqueta1"), new Escala(2), new Designacao("Name1"), new Objetivo(12.2,10,12.2,10), new Cor(12,12,12)));
+        register("titulo2", "descricaoBreve2", "icone2", "descricaoCompleta2", list2, c2, new Criticidade(new Etiqueta("Etiqueta1"), new Escala(2), new Designacao("Name1"), new Objetivo(12,10,12,10), new Cor(12,12,12)));
 
         return true;
     }

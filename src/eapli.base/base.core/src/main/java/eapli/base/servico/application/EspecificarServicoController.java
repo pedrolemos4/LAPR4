@@ -85,23 +85,23 @@ public class EspecificarServicoController {
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final Set<Equipa> equipa, final Formulario formulario, TipoAtividade tipo) {
         final AtividadeManual atividadeAprovacaoManualEquipa;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
-        atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo);
+        atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo, null);
         return atividadeAprovacaoManualEquipa;
     }
 
     public AtividadeManual novaAtividadeAprovacaoManualColaborador(final Colaborador colaborador, final Formulario formulario, final TipoAtividade tipoAtividade) {
         final AtividadeManual atividadeAprovacaoColaborador;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
-        atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, null, tipoAtividade);
+        atividadeAprovacaoColaborador = new AtividadeManual(e, colaborador, null, null, formulario, null, tipoAtividade, null);
         return atividadeAprovacaoColaborador;
     }
 
-    public AtividadeAutomatica novaAtividadeAutomatica() {
+    public AtividadeAutomatica novaAtividadeAutomatica(final String caminho) {
         final AtividadeAutomatica atividadeAutomatica;
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
-        final Script script = new Script("script.sh");
-        atividadeAutomatica = new AtividadeAutomatica(null, e, tipoAtividade, script);
+        final Script script = new Script(caminho);
+        atividadeAutomatica = new AtividadeAutomatica(null, e, tipoAtividade, null, script);
         return atividadeAutomatica;
     }
 

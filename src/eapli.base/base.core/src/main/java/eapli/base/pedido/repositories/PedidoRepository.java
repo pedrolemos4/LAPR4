@@ -1,8 +1,6 @@
 package eapli.base.pedido.repositories;
 
-import eapli.base.atividade.domain.Atividade;
-import eapli.base.atividade.domain.EstadoAtividade;
-import eapli.base.atividade.domain.EstadoFluxo;
+import eapli.base.atividade.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
@@ -85,7 +83,7 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Double getTempoDeExecucaoTarefa(Atividade atividade);
 
-    List<Pedido> getAllPedidoConcluido(EstadoPedido concluido);
+    List<Pedido> getAllPedidoConcluido(Calendar calendar1, Calendar calendar2, EstadoPedido concluido);
 
     List<Atividade> getTarefasDoPedido(String identity);
 
@@ -96,4 +94,12 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
     Formulario getFormularioPedido(String idPedido);
 
     List<Atividade> getListaAtividades(String idPedido, EstadoAtividade estadoAtividade);
+
+    long getTempoDaTarefa(Long identity);
+
+    long getTempoMaximoAprov(String identity);
+
+    long getTempoMaximoRes(String identity);
+
+    TipoAtividade getTipoAtividade(Long identity);
 }

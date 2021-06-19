@@ -42,8 +42,11 @@ public class SolicitarServicoUI extends AbstractUI {
         final List<Catalogo> catalogos = controller.displayAvailableCatalogos();
         final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos", catalogos, visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
         System.out.println("\nSelecione o catálogo a que pertence o serviço:");
-        selector.show();
-        final Catalogo theCatalogo = selector.selectedElement();
+        Catalogo theCatalogo = null;
+        while (selector.selectedElement() == null) {
+            selector.show();
+            theCatalogo = selector.selectedElement();
+        }
         return theCatalogo.identity();
     }
 
@@ -51,8 +54,11 @@ public class SolicitarServicoUI extends AbstractUI {
         Iterable<Servico> servicos = controller.getServicosCatalogo(idCatalogo);
         final SelectWidget<Servico> selector = new SelectWidget<>("Serviços", servicos, visitee -> System.out.printf("%-15s%-80s\n", visitee.identity(), visitee.toString()));
         System.out.println("\nSelecione o serviço:");
-        selector.show();
-        final Servico theServico = selector.selectedElement();
+        Servico theServico = null;
+        while(selector.selectedElement()==null){
+            selector.show();
+            theServico = selector.selectedElement();
+        }
         return theServico.identity();
     }
 

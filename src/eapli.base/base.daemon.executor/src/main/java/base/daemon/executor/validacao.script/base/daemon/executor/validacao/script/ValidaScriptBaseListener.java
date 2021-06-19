@@ -1,6 +1,5 @@
 // Generated from C:/Users/pedro/Documents/lapr4/lapr4/src/eapli.base/base.daemon.executor/src/main/java/base/daemon/executor/validacao.script\ValidaScript.g4 by ANTLR 4.9.1
 package base.daemon.executor.validacao.script.base.daemon.executor.validacao.script;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -76,18 +75,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCalcular_preco_total(ValidaScriptParser.Calcular_preco_totalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,6 +82,18 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAplicarDesconto(ValidaScriptParser.AplicarDescontoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,18 +142,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSendEmail(ValidaScriptParser.SendEmailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -251,6 +238,18 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitProprioValor(ValidaScriptParser.ProprioValorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValorDouble(ValidaScriptParser.ValorDoubleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValorDouble(ValidaScriptParser.ValorDoubleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

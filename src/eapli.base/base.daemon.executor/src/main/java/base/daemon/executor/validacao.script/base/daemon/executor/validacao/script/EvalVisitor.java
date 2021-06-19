@@ -14,7 +14,11 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     private int code;
 
+    private double desconto;
+
     private int quantidade;
+
+    private String categoria;
 
     private double preco;
 
@@ -25,12 +29,12 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     private Map<String, Double> map = new HashMap<>();
 
     /*@Override
-    public Double visitFicheiro(ValidaScriptParser.FicheiroContext ctx) {
+    public Integer visitFicheiro(ValidaScriptParser.FicheiroContext ctx) {
         return visitChildren(ctx);
     }
 
     @Override
-    public Double visitPath(ValidaScriptParser.PathContext ctx) {
+    public Integer visitPath(ValidaScriptParser.PathContext ctx) {
         return visitChildren(ctx);
     }*/
 
@@ -38,7 +42,8 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     @Override
     public Double visitInfoProduto(ValidaScriptParser.InfoProdutoContext ctx) {
         if (code == Integer.parseInt(ctx.codigo.getText())) {
-            this.preco = Integer.parseInt(ctx.preco.getText());
+            this.preco = Double.parseDouble(ctx.preco.getText());
+            this.categoria = ctx.categoria.getText();
             if (parametroLerFicheiro != null) {
                 if (parametroLerFicheiro.equals("Preco")) {
                     System.out.println("Preco: " + ctx.preco.getText());
@@ -80,9 +85,8 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     @Override
     public Double visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
         FileInputStream fis;
-
         try {
-            fis = new FileInputStream(new File("testeProdutos.xml"));
+            fis = new FileInputStream(new File("C:\\Users\\josec\\Documents\\lei20_21_s4_2di_04\\src\\eapli.base\\base.daemon.executor\\src\\main\\java\\base\\daemon\\executor\\validacao.script\\testeProdutos.xml"));
             ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ValidaScriptParser parser = new ValidaScriptParser(tokens);
@@ -93,11 +97,34 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
             eval.setParametro(ctx.valor.getText());
             eval.setQuantidade(quant);
             eval.visit(tree);
+            setCategoria(eval.getCategoria());
             setPrecoTotal(eval.getPreco(), quant);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return 0.0;
+    }
+
+    //--------------------------------SETS E GETS--------------------------------//
+
+    private double getDesconto() {
+        return desconto;
+    }
+
+    private double getPreco() {
+        return preco;
+    }
+
+    private int getQuantidade() {
+        return quantidade;
+    }
+
+    private String getCategoria() {
+        return categoria;
+    }
+
+    private void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     private void setPrecoTotal(double preco, int quant) {
@@ -108,12 +135,8 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         this.quantidade = quantidade;
     }
 
-    private double getPreco() {
-        return preco;
-    }
-
-    private int getQuantidade() {
-        return quantidade;
+    public void setDesconto(double desconto) {
+        this.desconto = desconto;
     }
 
     private void setCode(int code) {
@@ -157,13 +180,13 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         if (map.containsKey(ctx.left.getText())) {
             left = map.get(ctx.left.getText());
         } else {
-            left = Integer.parseInt(ctx.left.getText());
+            left = Double.parseDouble(ctx.left.getText());
         }
 
         if (map.containsKey(ctx.right.getText())) {
             right = map.get(ctx.right.getText());
         } else {
-            right = Integer.parseInt(ctx.right.getText());
+            right = Double.parseDouble(ctx.right.getText());
         }
         int valor;
         if (ctx.sinal.getText().equals("/")) {
@@ -178,13 +201,13 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         if (map.containsKey(ctx.left.getText())) {
             left = map.get(ctx.left.getText());
         } else {
-            left = Integer.parseInt(ctx.left.getText());
+            left = Double.parseDouble(ctx.left.getText());
         }
 
         if (map.containsKey(ctx.right.getText())) {
             right = map.get(ctx.right.getText());
         } else {
-            right = Integer.parseInt(ctx.right.getText());
+            right = Double.parseDouble(ctx.right.getText());
         }
 
         if (ctx.sinal.getText().equals("+")) {
@@ -198,19 +221,30 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         return visit(ctx.calculosMatematicos());
     }
 
-
+    /*
+   @Override
+   public Double visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
+       int quantidade = Integer.parseInt(ctx.quantidade.getText());
+       if (quantidade > 0) {
+           double total = preco * quantidade;
+           System.out.println("Preco total: " + total);
+           map.put(ctx.var.getText(), total);
+           return total;
+       }
+       return 0.0;
+   }
+*/
     @Override
-    public Double visitCalcPrecoTotal(ValidaScriptParser.CalcPrecoTotalContext ctx) {
-        int quantidade = Integer.parseInt(ctx.quantidade.getText());
-        if (quantidade > 0) {
-            double total = preco * quantidade;
-            System.out.println("Preco total: " + total);
-            map.put(ctx.var.getText(), total);
-            return total;
-        }
-        return 0.0;
+    public Double visitAtribuiInteiro(ValidaScriptParser.AtribuiInteiroContext ctx) {
+        return (double) Integer.parseInt(ctx.INTEIRO().getText());
     }
 
+
+    @Override
+    public Double visitAtribuiDouble(ValidaScriptParser.AtribuiDoubleContext ctx) {
+        return Double.parseDouble(ctx.DOUBLE().getText());
+    }
+//*/
 //--------------------------------APLICAR DESCONTOS--------------------------------//
 
     @Override
@@ -218,8 +252,14 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
         if (visit(ctx.expressao_a_verificar()) == 1.0) {
             visit(ctx.aplicar_desconto());
-        } else if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && visit(ctx.expressao_a_verificar()) == 0.0) {
-            visit(ctx.else1());
+        } else {
+            try {
+                if (ctx.temElse.getText() != null && !ctx.temElse.getText().isEmpty() && visit(ctx.expressao_a_verificar()) == 0.0) {
+                    visit(ctx.else1());
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Não há desconto para este tipo!");
+            }
         }
         visit(ctx.expressao_a_verificar());
 
@@ -230,7 +270,25 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     public Double visitExpressao_a_verificar(ValidaScriptParser.Expressao_a_verificarContext ctx) {
         boolean bool = false;
         double left, right;
+        String leftS, rightS;
         int l = 0, r = 0;
+
+        try {
+            ctx.leftPortion.getText();
+        } catch (NullPointerException e) {
+            if (ctx.leftPortionCat.getText().equals("CATEGORIA")) {
+                if (ctx.sinal.getText().equals("==")) {
+                    bool = this.getCategoria().equals(ctx.rightPortionCat.getText());
+                } else if (ctx.sinal.getText().equals("!=")) {
+                    bool = !this.getCategoria().equals(ctx.rightPortionCat.getText());
+                }
+            }
+            if (bool) {
+                return 1.0;
+            } else {
+                return 0.0;
+            }
+        }
 
         if (map.containsKey(ctx.leftPortion.getText())) {
             left = map.get(ctx.leftPortion.getText());
@@ -272,6 +330,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         } else {
             return 0.0;
         }
+
     }
 
     @Override
@@ -281,14 +340,36 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     @Override
     public Double visitAplicar_desconto(ValidaScriptParser.Aplicar_descontoContext ctx) {
-        double desconto = Double.parseDouble(ctx.valorDesconto.getText());
-        System.out.println("Preco: " + precoTotal);
-        System.out.println("Desconto: " + desconto);
-        if (1 > desconto && 0 < desconto) {
-            precoTotal = precoTotal - precoTotal * desconto;
-            System.out.println("Preco total após descontos: " + precoTotal);
+        double desconto = this.getDesconto();
+        /*try{
+            ctx.valorDesconto.getText();
+        }catch(NullPointerException e){
+            if (map.containsKey(ctx.var.getText())) {
+                desconto += map.get(ctx.var.getText());
+                System.out.println("Desconto: "+desconto);
+                this.desconto = desconto;
+                return desconto;
+            }
+            return 0.0;
+        }*/
+        if (map.containsKey(ctx.valorDesconto.getText())) {
+            desconto += map.get(ctx.valorDesconto.getText());
+        } else {
+            desconto += Double.parseDouble(ctx.valorDesconto.getText());
         }
-        return precoTotal;
+        System.out.println("Desconto: "+desconto);
+        this.desconto = desconto;
+        return desconto;
+    }
+
+    //--------------------------------CALCULAR PRECO TOTAL E DESCONTOS--------------------------------//
+
+    @Override
+    public Double visitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) {
+        System.out.println("Preco total: "+precoTotal);
+        this.precoTotal=precoTotal-this.getDesconto()*precoTotal;
+        System.out.println("Preco apos descontos: "+precoTotal);
+        return precoTotal-this.getDesconto()*precoTotal;
     }
 
 //--------------------------------ENVIAR EMAIL--------------------------------//

@@ -23,7 +23,7 @@ public class AtribuirCriticidadeController {
         return this.criticidadeRepository.findAll();
     }
 
-    public void associarObjetivo(double tempoMaximoAprov, double tempoMedioAprov,double tempoMaximoRes, double tempoMedioRes,
+    public void associarObjetivo(long tempoMaximoAprov, long tempoMedioAprov,long tempoMaximoRes, long tempoMedioRes,
                                  Catalogo catalogo){
         Objetivo objetivo = new Objetivo(tempoMaximoAprov, tempoMedioAprov,tempoMaximoRes,tempoMedioRes);
         catalogo.associarObjetivo(objetivo);

@@ -97,15 +97,15 @@ public class ServicoBootstrapper implements Action {
         listEquipas3.add(equipa2);
 
         //Catalogos
-        Catalogo catalogo1 = new Catalogo(new Titulo("Catalogo Exemplo"), c1, new DescricaoCompletaCatalogo("Descricao completa do exemplo"), new DescricaoBreve("Descricao exemplo"), new Icone("icone1"), listEquipas1, new Criticidade(new Etiqueta("MODERADA"), new Escala(3), new Designacao("Name1"), new Objetivo(13.2, 11, 13.2, 11), new Cor(18, 241, 26)));
+        Catalogo catalogo1 = new Catalogo(new Titulo("Catalogo Exemplo"), c1, new DescricaoCompletaCatalogo("Descricao completa do exemplo"), new DescricaoBreve("Descricao exemplo"), new Icone("icone1"), listEquipas1, new Criticidade(new Etiqueta("MODERADA"), new Escala(3), new Designacao("Name1"), new Objetivo(13, 11, 13, 11), new Cor(18, 241, 26)));
         catalogo1 = this.controller.saveCatalogo(catalogo1);
-        Catalogo catalogo2 = new Catalogo(new Titulo("Catalogo Teste"), c2, new DescricaoCompletaCatalogo("Descricao completa do teste"), new DescricaoBreve("Descricao teste"), new Icone("icone2"), listEquipas2, new Criticidade(new Etiqueta("MODERADA"), new Escala(3), new Designacao("Name2"), new Objetivo(18.2, 15, 11.2, 11), new Cor(13, 13, 13)));
+        Catalogo catalogo2 = new Catalogo(new Titulo("Catalogo Teste"), c2, new DescricaoCompletaCatalogo("Descricao completa do teste"), new DescricaoBreve("Descricao teste"), new Icone("icone2"), listEquipas2, new Criticidade(new Etiqueta("MODERADA"), new Escala(3), new Designacao("Name2"), new Objetivo(18, 15, 11, 11), new Cor(13, 13, 13)));
         catalogo2 = this.controller.saveCatalogo(catalogo2);
-        Catalogo catalogo3 = new Catalogo(new Titulo("Catalogo Teste2"), c3, new DescricaoCompletaCatalogo("Descricao completa do teste2"), new DescricaoBreve("Descricao teste2"), new Icone("icone3"), listEquipas3, new Criticidade(new Etiqueta("BAIXA"), new Escala(1), new Designacao("Name3"), new Objetivo(13.2, 11, 18.2, 14), new Cor(255, 255, 36)));
+        Catalogo catalogo3 = new Catalogo(new Titulo("Catalogo Teste2"), c3, new DescricaoCompletaCatalogo("Descricao completa do teste2"), new DescricaoBreve("Descricao teste2"), new Icone("icone3"), listEquipas3, new Criticidade(new Etiqueta("BAIXA"), new Escala(1), new Designacao("Name3"), new Objetivo(13, 11, 18, 14), new Cor(255, 255, 36)));
 
         //Atividades
         Set<Atividade> atividades1 = new HashSet<>();
-        AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica();
+        AtividadeAutomatica atividadeAutomatica1 = controller.novaAtividadeAutomatica("script_teste.txt");
         Formulario form1 = preencherAtributos("Formulario1",listaAtributosFormulario2);
         AtividadeManual atividadeManual2 = controller.novaAtividadeAprovacaoManualColaborador(c1, form1, TipoAtividade.APROVACAO);
         atividades1.add(atividadeManual2);

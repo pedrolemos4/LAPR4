@@ -20,6 +20,7 @@ import eapli.framework.presentation.console.SelectWidget;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,8 @@ public class RealizarTarefaUI extends AbstractUI {
                 this.controller.getListaTarefasPendentes(colab),
                 visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
         selector.show();
+
+        Calendar dataInicio = Calendar.getInstance();
 
         if (!this.controller.getListaTarefasPendentes(colab).isEmpty()) {
             // atividade correspondente
@@ -62,7 +65,7 @@ public class RealizarTarefaUI extends AbstractUI {
 
                     List<ExpressaoRegular> listaExpressao = this.controller.getListaExpressaoRegularDoFormulario(formFinal);
 
-                    if (listaExpressao != null) {
+                    if (listaExpressao.size() != 0) {
                         System.out.println("Expressao Regular vai ser verificada localmente.");
                         for (Atributo atributo : this.controller.getAtributosDoFormulario(formFinal)) {
                             ExpressaoRegular expressao = this.controller.getExpressaoRegularDoAtributo(atributo);
@@ -72,16 +75,16 @@ public class RealizarTarefaUI extends AbstractUI {
                             }
                         }
                     } else {
-
                         try {
                             File file = new File("formularioAtividade.txt");
                             FileWriter myWriter = new FileWriter(file);
-                            if(formFinal.toStringVal().contains("null")){
-                                formFinal.toStringVal().replace("null", "");
+                            String retorno = formFinal.toStringVal();
+                            if(retorno.contains("null")){
+                                retorno = retorno.replace("null", "");
                             }
-                            formFinal.toStringVal().replace("[", "");
-                            formFinal.toStringVal().replace("]", "");
-                            myWriter.write(formFinal.toString());
+                            retorno = retorno.replace("[", "");
+                            retorno = retorno.replace("]", "");
+                            myWriter.write(retorno);
                             String metodo = Application.settings().getMetodoVerificacaoGramatica();
                             if (metodo.equalsIgnoreCase("visitor")) {
                                 // conseguir que retorne se formulario é valido ou nao
@@ -111,19 +114,28 @@ public class RealizarTarefaUI extends AbstractUI {
                 Decisao decisao;
                 EstadoPedido estado;
                 EstadoAtividade estadoA;
+                long dminutes = 0;
                 if (flag == true) {
                     estado = EstadoPedido.APROVADO;
                     decisao = Decisao.APROVADO;
                     estadoA = EstadoAtividade.COMPLETO;
+                    Calendar dataFim = Calendar.getInstance();
+                    long milsecs1= dataInicio.getTimeInMillis();
+                    long milsecs2 = dataFim.getTimeInMillis();
+                    long diff = milsecs2 - milsecs1;
+                    dminutes = diff / (60 * 1000);
                 } else {
                     estado = EstadoPedido.REJEITADO;
                     decisao = Decisao.REJEITADO;
                     estadoA = EstadoAtividade.PENDENTE;
                 }
+
                 if (at.tipoAtividade() == TipoAtividade.REALIZACAO && flag == true) {
-                    this.controller.completaDecisaoComentario(comentario, decisao, pedido, at, EstadoPedido.CONCLUIDO, estadoA);
+                    this.controller.completaDecisaoComentario(comentario, decisao, pedido, at,
+                            EstadoPedido.CONCLUIDO, estadoA, dminutes, Calendar.getInstance());
                 } else {
-                    this.controller.completaDecisaoComentario(comentario, decisao, pedido, at, estado, estadoA);
+                    this.controller.completaDecisaoComentario(comentario, decisao, pedido, at,
+                            estado, estadoA, dminutes, null);
                 }
 
                 this.controller.savePedido(pedido);

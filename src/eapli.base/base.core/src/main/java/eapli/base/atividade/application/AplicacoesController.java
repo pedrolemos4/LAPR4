@@ -1,9 +1,6 @@
 package eapli.base.atividade.application;
 
-import eapli.base.atividade.domain.Atividade;
-import eapli.base.atividade.domain.EstadoAtividade;
-import eapli.base.atividade.domain.EstadoFluxo;
-import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
@@ -101,10 +98,6 @@ public class AplicacoesController {
         return this.servicoRepository.findServico(idServico);
     }
 
-    public String findScriptServico(CodigoUnico cod){
-        return this.servicoRepository.findCaminhoScriptServico(cod);
-    }
-
     public void updatePedido(String idPedido, EstadoPedido estadoPedido){
         Pedido pedido = this.pedidoRepository.findPedido(idPedido);
         pedido.alterarEstadoPedido(estadoPedido);
@@ -123,8 +116,8 @@ public class AplicacoesController {
         return this.pedidoRepository.getAtividadesAuto(EstadoPedido.valueOf("PENDENTE"));
     }
 
-    public String findScriptAtividade(Long identity) {
-        return this.pedidoRepository.findScriptAtividade(identity);
+    public Script findScriptAtividade(CodigoUnico identity) {
+        return this.servicoRepository.findScriptServico(identity);
     }
 
     public List<Calendar> findDatas(MecanographicNumber number,String idPedido){

@@ -35,7 +35,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -44,7 +43,6 @@ public class ExecutorServer {
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
-    private static final String IP = "10.8.0.81";
 
     private static final List<Atividade> tarefas = new ArrayList<>();
 
@@ -82,12 +80,10 @@ public class ExecutorServer {
             System.exit(1);
         }
 
-        System.out.println("Connected to server: " + IP + ":" + PORT);
+        System.out.println("Connected to server: " +  PORT);
 
         while (true) {
             cliSock = sockSSL.accept(); // wait for a new client connection request
-            //    addCli(s);
-            //System.out.println(s.toString());
             new Thread(new ClientHandler(cliSock)).start();
         }
     }
@@ -127,7 +123,7 @@ public class ExecutorServer {
                     inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
                 }
                 int id = data[1];
-
+				System.out.println("\n\n\n\n\n STRING INPUT EXECUTOR: " + inputLine + "\n\n\n\n\n");
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 final byte[] response = request.execute();

@@ -1,5 +1,6 @@
 package eapli.base.pedido.application;
 
+import eapli.base.Application;
 import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
@@ -16,6 +17,7 @@ import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
+import eapli.base.validacoes.validaFormulario.ValidaForm;
 import eapli.framework.application.UseCaseController;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
@@ -98,40 +100,23 @@ public class SolicitarServicoController {
             formulario.copyAtributos(atributos);
             File file = new File("testForm.txt");
             FileWriter fw = new FileWriter(file);
-            fw.write(formulario.toStringVal());
-            fw.close();
-            //String metodo = Application.settings().getMetodoVerificacaoGramatica();
-            Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-            Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
-            return this.pedidoRepository.save(pedido);
-            /*if (metodo.equalsIgnoreCase("visitor")) {
-                ValidaForm vf = new ValidaForm();
-                boolean checkForm = vf.validaFormVisitor(file);
-                if (checkForm == true) {
-                    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
-                    return this.pedidoRepository.save(pedido);
-                } else {
-                    System.out.println("Formulário inválido. Pedido não será efetuado.");
-                }
-            } else if (metodo.equalsIgnoreCase("listener")) {
-                ValidaForm vf = new ValidaForm();
-                try {
-                    vf.validaFormListener(file);
-                    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
-                    return this.pedidoRepository.save(pedido);
-                } catch (Exception ex) {
-                    System.out.println("Formulário inválido. Pedido não será efetuado.");
-                }
+            String form = formulario.toStringVal();
+            if (form.contains("null")) {
+                form.replace("null", "");
             }
-            String metodo = Application.settings().getMetodoVerificacaoGramatica();
+            form = form.replace("[", "");
+            form = form.replace("]", "");
+            System.out.println(form);
+            fw.write(form);
+
+            fw.close();
+            String metodo = Application.settings().getMetodoVerificacaoGramatica().trim();
             if (metodo.equalsIgnoreCase("visitor")) {
                 ValidaForm vf = new ValidaForm();
                 boolean checkForm = vf.validaFormVisitor(file);
                 if (checkForm == true) {
                     Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
                     return this.pedidoRepository.save(pedido);
                 } else {
                     System.out.println("Formulário inválido. Pedido não será efetuado.");
@@ -141,17 +126,17 @@ public class SolicitarServicoController {
                 try {
                     vf.validaFormListener(file);
                     Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
                     return this.pedidoRepository.save(pedido);
                 } catch (Exception ex) {
                     System.out.println("Formulário inválido. Pedido não será efetuado.");
                 }
-            }*/
+            }
         } catch (Exception e) {
             LOGGER.error("Something went wrong");
             return null;
         }
-        //return null;
+        return null;
     }
 
     public List<Atributo> findAtributos(Long identity) {
@@ -192,15 +177,15 @@ public class SolicitarServicoController {
     }
 
     public Atividade createAtividadeManual(Colaborador colab, Formulario formulario, Calendar calendar1,
-                                     TipoAtividade tipoAtividade) {
+                                           TipoAtividade tipoAtividade) {
         Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
-                formulario, calendar1, tipoAtividade);
+                formulario, calendar1, tipoAtividade, null);
         return at;
     }
 
-    public Atividade createAtividadeAutomatica(Calendar calendar,TipoAtividade tipoAtividade,CodigoUnico idServico){
+    public Atividade createAtividadeAutomatica(Calendar calendar, TipoAtividade tipoAtividade, CodigoUnico idServico) {
         Script script = servicoRepository.findScriptServico(idServico);
-        Atividade at = new AtividadeAutomatica(calendar,EstadoAtividade.PENDENTE,tipoAtividade,script);
+        Atividade at = new AtividadeAutomatica(calendar, EstadoAtividade.PENDENTE, tipoAtividade, null, script);
         return at;
     }
 

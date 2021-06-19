@@ -1,0 +1,30 @@
+@startuml
+'http://plantuml.com/skinparam.html
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+class CumprimentoSlaUI <<presentation>>
+class CumprimentoSlaController <<application>>
+class PedidoRepository <<repository>>
+
+CumprimentoSlaUI --> CumprimentoSlaController
+CumprimentoSlaUI : doShow()
+
+CumprimentoSlaController : getAllPedidoConcluido(calendar1, calendar2)
+CumprimentoSlaController : getTempoMaximoAprov(pedido)
+CumprimentoSlaController : getTempoMaximoRes(pedido)
+CumprimentoSlaController : getTarefasDoPedido(pedido)
+CumprimentoSlaController : getTempoDaTarefa(atividade)
+
+CumprimentoSlaController --> PedidoRepository
+
+PedidoRepository : getAllPedidoConcluido(calendar1, calendar2)
+PedidoRepository : getTempoMaximoAprov(pedido)
+PedidoRepository : getTempoMaximoRes(pedido)
+PedidoRepository : getTarefasDoPedido(pedido)
+PedidoRepository : getTempoDaTarefa(atividade)
+
+@enduml

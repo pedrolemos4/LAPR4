@@ -1,9 +1,6 @@
 package eapli.base.persistence.impl.jpa;
 
-import eapli.base.atividade.domain.Atividade;
-import eapli.base.atividade.domain.EstadoAtividade;
-import eapli.base.atividade.domain.EstadoFluxo;
-import eapli.base.atividade.domain.Script;
+import eapli.base.atividade.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.criticidade.domain.Escala;
@@ -380,29 +377,30 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     public List<Calendar> findDatas(MecanographicNumber number, String idPedido) {
         final TypedQuery<Calendar> q = createQuery("SELECT p.dataSolicitacao FROM Pedido p" +
                 " JOIN p.listaAtiv la JOIN la.colab col" +
-                " WHERE p.id =:idPedido AND la.estadoAtividade =:pendente AND col.numeroMecanografico=:number", Calendar.class);
+                " WHERE la.estadoAtividade =:pendente AND col.numeroMecanografico=:number", Calendar.class);
         q.setParameter("pendente",EstadoAtividade.PENDENTE);
-        q.setParameter("idPedido", idPedido);
         q.setParameter("number", number);
         return q.getResultList();
     }
 
     @Override
-    public List<Pedido> getAllPedidoConcluido(EstadoPedido concluido) {
-        /*final TypedQuery<Pedido> q = createQuery(
-                "SELECT p FROM Pedido p" +
-                        " WHERE p.estado =:concluido", Pedido.class);
-        q.setParameter("concluido", concluido);*/
-        return /*q.getResultList()*/ null;
+    public List<Pedido> getAllPedidoConcluido(Calendar calendar1, Calendar calendar2, EstadoPedido concluido) {
+        final TypedQuery<Pedido> q = createQuery(
+                "SELECT p FROM Pedido p WHERE p.estado =:concluido AND " +
+                        "p.dataResolucao >:calendar1 AND p.dataResolucao <:calendar2", Pedido.class);
+        q.setParameter("concluido", concluido);
+        q.setParameter("calendar1", calendar1);
+        q.setParameter("calendar2", calendar2);
+        return q.getResultList();
     }
 
     @Override
     public List<Atividade> getTarefasDoPedido(String identity) {
-        /*final TypedQuery<Atividade> q = createQuery(
-                "SELECT la FROM Pedido p JOIN p.servico ser JOIN ser.fluxoAtividade fl JOIN fl.listaAtividade la" +
+        final TypedQuery<Atividade> q = createQuery(
+                "SELECT a FROM Pedido p JOIN p.listaAtiv a" +
                         " WHERE p.Id =:identity", Atividade.class);
-        q.setParameter("identity", identity);*/
-        return null/*q.getResultList()*/;
+        q.setParameter("identity", identity);
+        return q.getResultList();
     }
 
     @Override
@@ -460,7 +458,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     @Override
     public Formulario getFormularioPedido(String idPedido) {
         final TypedQuery<Formulario> q = createQuery(
-                "SELECT p.formulario form FROM Pedido p WHERE p.id =:identity", Formulario.class);
+                "SELECT p.formulario FROM Pedido p WHERE p.Id =:identity", Formulario.class);
         q.setParameter("identity", idPedido);
         return q.getSingleResult();
     }
@@ -474,6 +472,42 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
         q.setParameter("idPedido",idPedido);
         q.setParameter("estadoAtividade",estadoAtividade);
         return q.getResultList();
+    }
+
+    @Override
+    public long getTempoDaTarefa(Long identity) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT dur.duracao FROM Pedido p JOIN p.listaAtiv a JOIN a.duracaoAtividade dur" +
+                        " WHERE a.id =:identity", Long.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public long getTempoMaximoAprov(String identity) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT ob.tempoMaxAprov FROM Pedido p JOIN p.servico ser JOIN ser.catalogo c JOIN" +
+                        " c.criticidade cri JOIN cri.objetivo ob WHERE p.Id =:identity",Long.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public long getTempoMaximoRes(String identity) {
+        final TypedQuery<Long> q = createQuery(
+                "SELECT ob.tempoMaxRes FROM Pedido p JOIN p.servico ser JOIN ser.catalogo c JOIN" +
+                        " c.criticidade cri JOIN cri.objetivo ob WHERE p.Id =:identity",Long.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public TipoAtividade getTipoAtividade(Long identity) {
+        final TypedQuery<TipoAtividade> q = createQuery(
+                "SELECT a.tipoAtividade FROM Pedido p JOIN p.listaAtiv a" +
+                        " WHERE a.id =:identity", TipoAtividade.class);
+        q.setParameter("identity", identity);
+        return q.getSingleResult();
     }
 
 }

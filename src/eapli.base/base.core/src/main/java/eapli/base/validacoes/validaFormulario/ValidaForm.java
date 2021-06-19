@@ -10,7 +10,7 @@ import java.io.FileInputStream;
 
 public class ValidaForm {
 
-    public static boolean validaFormVisitor(File file) {
+    public boolean validaFormVisitor(File file) {
         try {
             FileInputStream file1 = new FileInputStream(file);
             validaFormLexer lexer = new validaFormLexer((new ANTLRInputStream(file1)));
@@ -30,7 +30,7 @@ public class ValidaForm {
         return true;
     }
 
-    public static boolean validaFormListener(File file) {
+    public boolean validaFormListener(File file) {
         try {
             FileInputStream file1 = new FileInputStream(file);
             validaFormLexer lexer = new validaFormLexer((new ANTLRInputStream(file1)));
@@ -47,7 +47,7 @@ public class ValidaForm {
         }
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         File file = new File("testForm.txt");
         if(validaFormListener(file)){
             System.out.println("Formulario valido");
@@ -55,5 +55,5 @@ public class ValidaForm {
             System.out.println("Formulario Invalido");
         }
 
-    }
+    }*/
 }
