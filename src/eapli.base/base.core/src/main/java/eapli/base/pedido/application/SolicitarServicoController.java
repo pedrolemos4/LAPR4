@@ -116,7 +116,7 @@ public class SolicitarServicoController {
                 boolean checkForm = vf.validaFormVisitor(file);
                 if (checkForm == true) {
                     Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
                     return this.pedidoRepository.save(pedido);
                 } else {
                     System.out.println("Formulário inválido. Pedido não será efetuado.");
@@ -126,7 +126,7 @@ public class SolicitarServicoController {
                 try {
                     vf.validaFormListener(file);
                     Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades);
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
                     return this.pedidoRepository.save(pedido);
                 } catch (Exception ex) {
                     System.out.println("Formulário inválido. Pedido não será efetuado.");

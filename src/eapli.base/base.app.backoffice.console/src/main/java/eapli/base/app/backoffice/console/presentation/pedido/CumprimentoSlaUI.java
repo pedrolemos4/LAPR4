@@ -95,6 +95,6 @@ public class CumprimentoSlaUI extends AbstractUI {
 
     @Override
     public String headline() {
-        return "Listagem sobre o (in)cumprimento do SLA das solicitações recebidas e já concluídas num determinado intervalo de tempo";
+        return "Listagem sobre o (in)cumprimento do SLA";
     }
 }
