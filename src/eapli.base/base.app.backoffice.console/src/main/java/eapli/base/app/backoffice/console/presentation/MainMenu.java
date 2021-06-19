@@ -72,7 +72,7 @@ public class MainMenu extends AbstractUI {
 
     //responsável rrh
     private static final int CRIAR_NOVA_EQUIPA = 1;
-    private static final int REGISTAR_TIPO_EQUIPA = 2;
+    private static final int REGISTAR_TIPO_EQUIPA = 1;
     private static final int ESPECIFICAR_COLABORADOR = 3;
     private static final int ASSOCIAR_REMOVER_COLABORADOR = 4;
     private static final int ESPECIFICAR_COLABORADOR_FICHEIRO = 5;
@@ -203,7 +203,7 @@ public class MainMenu extends AbstractUI {
 
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
-        tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Equipa",()->new RegistarTipoEquipaUI().show());
+        tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Tipo de Equipa",()->new RegistarTipoEquipaUI().show());
         tipoEquipaMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return tipoEquipaMenu;
     }

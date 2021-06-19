@@ -26,6 +26,8 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     private String parametroLerFicheiro;
 
+    private String form;
+
     private Map<String, Double> map = new HashMap<>();
 
     /*@Override
@@ -372,15 +374,13 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     public Double visitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
         System.out.println("Email: " + ctx.emailColab.getText());
         System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
-                "O seu pedido foi efetuado com sucesso, o valor a pagar dos seus produto será " + precoTotal + ". Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
+                "O seu pedido foi efetuado com sucesso! O valor a pagar dos seus produtos será " + precoTotal + "€. Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
         return 0.0;
     }
 
     @Override
     public Double visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
-        System.out.println("Email: " + ctx.emailColab.getText());
-        System.out.println("Decisao: " + ctx.decisao.getText());
-        System.out.println("Desconto: " + ctx.desconto.getText());
+        System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
         return 0.0;
     }
 

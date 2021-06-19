@@ -157,11 +157,30 @@ public class FluxoRequest extends AplicacoesRequest {
                     List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
                     String input = "";
                     String atributoProdutoColab = "";
+                    String dadosForm = "";
                     for (Atributo at : atributos) {
                         Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
                         Label l = formularioRepository.getLabelDoAtributo(at.identity());
                         if(l.toString().equalsIgnoreCase("Quantidade")){
                             atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
+                        }
+                        if(l.toString().equalsIgnoreCase("Nome")){
+                            dadosForm = dadosForm.concat("Nome:"+v.toString());
+                        }
+                        if(l.toString().equalsIgnoreCase("TipoDesconto")){
+                            dadosForm = dadosForm.concat("TipoDesconto:"+v.toString());
+                        }
+                        if(l.toString().equalsIgnoreCase("PercentagemDesconto")){
+                            dadosForm = dadosForm.concat("PercentagemDesconto:"+v.toString());
+                        }
+                        if(l.toString().equalsIgnoreCase("Fatura")){
+                            dadosForm = dadosForm.concat("Fatura:"+v.toString());
+                        }
+                        if(l.toString().equalsIgnoreCase("DataLimite")){
+                            dadosForm = dadosForm.concat("DataLimite:"+v.toString());
+                        }
+                        if(l.toString().equalsIgnoreCase("Fundamentacao")){
+                            dadosForm = dadosForm.concat("Fundamentacao:"+v.toString());
                         }
                         input = input.concat(";");
                         input = input.concat(v.toString());
@@ -170,7 +189,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     input = input.concat(caminhoScript);
 
                     atributoProdutoColab = atributoProdutoColab.concat(input);
-					byte[] idArray = atributoProdutoColab.getBytes();
+                    dadosForm = dadosForm.concat(atributoProdutoColab);
+					byte[] idArray = dadosForm.getBytes();
                     int size = idArray.length;
                     data[0] = 0;
                     data[1] = 9;

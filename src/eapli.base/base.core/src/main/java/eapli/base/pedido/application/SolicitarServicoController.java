@@ -114,7 +114,7 @@ public class SolicitarServicoController {
             if (metodo.equalsIgnoreCase("visitor")) {
                 ValidaForm vf = new ValidaForm();
                 boolean checkForm = vf.validaFormVisitor(file);
-                if (checkForm == true) {
+                if (checkForm) {
                     Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
                     Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
                     return this.pedidoRepository.save(pedido);
@@ -196,8 +196,6 @@ public class SolicitarServicoController {
 
     public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade
             obrigatoriedade, String descAjuda, ExpressaoRegular expressao, Formulario formulario) {
-        //TipoDados tipoDados1 = Enum.valueOf(TipoDados.class, tipoDados.toUpperCase());
-        //Obrigatoriedade obr = Enum.valueOf(Obrigatoriedade.class, obrigatoriedade.toUpperCase());
         DescricaoAjuda descricaoAjuda = new DescricaoAjuda(descAjuda);
         final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados, obrigatoriedade,
                 descricaoAjuda, expressao, formulario);
@@ -247,46 +245,9 @@ public class SolicitarServicoController {
         DataOutputStream sOut = new DataOutputStream(sockSSL.getOutputStream());
         DataInputStream sIn = new DataInputStream(sockSSL.getInputStream());
 
-        /*
-        String frase;
-        long f,i,n,num;
-        do {
-            do {
-                num=-1;
-                while(num<0) {
-                    System.out.print("Enter a positive integer to SUM (zero to terminate): ");
-                    frase = in.readLine();
-                    try { num=Integer.parseInt(frase); }
-                    catch(NumberFormatException ex) {num=-1;}
-                    if(num<0) System.out.println("Invalid number");
-                }
-                n=num; for(i=0;i<4;i++) {sOut.write((byte)(n%256)); n=n/256; }
-            }
-            while(num!=0);
-            num=0; f=1;
-            for(i=0;i<4;i++) {num=num+f*sIn.read(); f=f*256;}
-            System.out.println("SUM RESULT = " + num);
-        }
-        while(num!=0);
-        sock.close();
-        */
-
         ///////////////////////////////
         byte[] data = new byte[258];
-        /*try {
-            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
-        } catch (UnknownHostException ex) {
-            LOGGER.error("Invalid server: " + serverIP);
-            System.exit(1);
-        }
 
-        try {
-            sock = new Socket(serverIP, 32507);
-        } catch (IOException ex) {
-            LOGGER.error("Failed to connect");
-            System.exit(1);
-        }
-        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());*/
         LOGGER.warn("Connected to server");
         Thread serverConn = new Thread(new TcpChatCliConn(sockSSL));
         serverConn.start();

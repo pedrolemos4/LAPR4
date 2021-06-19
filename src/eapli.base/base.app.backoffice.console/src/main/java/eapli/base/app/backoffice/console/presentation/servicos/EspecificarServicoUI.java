@@ -14,6 +14,7 @@ import eapli.framework.presentation.console.AbstractUI;
 import eapli.framework.presentation.console.SelectWidget;
 
 
+import javax.persistence.RollbackException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -62,12 +63,11 @@ public class EspecificarServicoUI extends AbstractUI {
         final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos\n", catalogos, visitee -> System.out.printf("\n%-15s%-80s\n", visitee.identity(), visitee.toString()));
         System.out.println("\nSelecione o catálogo a que pertence o serviço:");
         selector.show();
-        Catalogo theCatalogo = null;
-        while (selector.selectedElement() == null) {
+        Catalogo theCatalogo = selector.selectedElement();
+        while (theCatalogo == null) {
             selector.show();
             theCatalogo = selector.selectedElement();
         }
-
         final KeywordsDataWidget keywordsDataWidget = new KeywordsDataWidget();
         Set<String> keywords = new HashSet<>();
         especificarKeywords(keywordsDataWidget, keywords);
@@ -188,6 +188,8 @@ public class EspecificarServicoUI extends AbstractUI {
             }
         } catch (final IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
+        } catch (RollbackException ex){
+            System.out.println("Erro.");
         }
     }
 
