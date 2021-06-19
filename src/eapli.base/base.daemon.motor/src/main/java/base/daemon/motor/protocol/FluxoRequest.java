@@ -2,6 +2,7 @@ package base.daemon.motor.protocol;
 
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
+import base.daemon.motor.algorithms.FirstComeFirstServeExecutor;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
@@ -43,6 +44,8 @@ public class FluxoRequest extends AplicacoesRequest {
     private static final String IP_EXECUTOR = "10.8.0.81";
     private static final int EXECUTOR_PORT = 32510;
 
+    private Map<String, List<Atividade>> mapExecutor;
+
     public FluxoRequest(final AplicacoesController controller, final String request) {
         super(controller, request);
     }
@@ -59,7 +62,7 @@ public class FluxoRequest extends AplicacoesRequest {
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
             final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores().trim();
-            final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica();
+            final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica().trim();
 
             String id = request.trim();
             Pedido pedido = pedidoRepository.findPedido(id);
@@ -86,16 +89,18 @@ public class FluxoRequest extends AplicacoesRequest {
                     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: " + pedido.toString());
                     pedidoRepository.save(pedido);
                 } else {
-                  /*String ipEscolhido;
+                    String ipEscolhido = "";
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         List<String> listServidores = new ArrayList<>();
                         listServidores.add(IP_EXECUTOR);
                         listServidores.add("10.8.0.80");
+                        createMap(mapExecutor, IP_EXECUTOR, "10.8.0.80");
 
-                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade);
+                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade, mapExecutor);
                         first.createThreads();
                         ipEscolhido = first.getExecutorEscolhido();
-                    } else {
+                        addTarefa(atividade, ipEscolhido);
+                    }/* else {
                         WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
                         threads[j] = new Thread(wba);
                         threads[j].start();
@@ -109,7 +114,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
                     try {
-                        serverIP = InetAddress.getByName(IP_EXECUTOR);
+                        serverIP = InetAddress.getByName(ipEscolhido);
                     } catch (UnknownHostException ex) {
                         LOGGER.info("Invalid server: " + "endereçoIp");
                         System.exit(1);
@@ -118,12 +123,12 @@ public class FluxoRequest extends AplicacoesRequest {
                     try {
                         sock = (SSLSocket) sf.createSocket(serverIP, EXECUTOR_PORT);
                     } catch (IOException ex) {
-                        LOGGER.info("Failed to connect to: " + IP_EXECUTOR + ":" + EXECUTOR_PORT);
+                        LOGGER.info("Failed to connect to: " + ipEscolhido + ":" + EXECUTOR_PORT);
                         LOGGER.info("Application aborted.");
                         System.exit(1);
                     }
 
-                    LOGGER.info("Connected to: " + IP_EXECUTOR + ":" + EXECUTOR_PORT);
+                    LOGGER.info("Connected to: " + ipEscolhido + ":" + EXECUTOR_PORT);
 
                     sock.startHandshake();
 
@@ -203,12 +208,27 @@ public class FluxoRequest extends AplicacoesRequest {
             return buildBadRequest("Invalid servico id").getBytes();
         } catch (IOException | InterruptedException e1) {
             e1.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         byte[] data = new byte[3];
         data[0] = 1;
         data[1] = 1;
         data[2] = 0;
         return data;
+    }
+
+    private void createMap(Map<String, List<Atividade>> mapExecutor, String ipExecutor, String s) {
+         if(!mapExecutor.containsKey(ipExecutor)){
+             mapExecutor.put(ipExecutor, null);
+         }
+        if(!mapExecutor.containsKey(s)){
+            mapExecutor.put(s, null);
+        }
+    }
+
+    public void addTarefa(Atividade tarefa, String ipExecutor) {
+        mapExecutor.get(ipExecutor).add(tarefa);
     }
 
     public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo,

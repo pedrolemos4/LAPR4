@@ -3,7 +3,6 @@ package base.daemon.motor.algorithms;
 import eapli.base.atividade.domain.Atividade;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 public class FirstComeFirstServeExecutor implements Runnable {
 
@@ -13,24 +12,21 @@ public class FirstComeFirstServeExecutor implements Runnable {
 
     private Map<String, List<Atividade>> mapExecutor;
 
-    public FirstComeFirstServeExecutor(List<String> listServidores, Atividade atividade) {
+    private Map<Integer, String> mapAPreencher;
+
+    public FirstComeFirstServeExecutor(List<String> listServidores, Atividade atividade, Map<String, List<Atividade>> mapExecutor) {
         this.list = listServidores;
         this.atividade = atividade;
-        this.mapExecutor = new TreeMap<>();
+        this.mapExecutor = mapExecutor;
+        this.mapAPreencher = new TreeMap<>();
     }
 
-    public synchronized void addTarefa(Atividade tarefa, String ipExecutor) throws Exception {
-        mapExecutor.get(ipExecutor).add(tarefa);
-    }
-
-    public int getListAtividadesDoExecutor(String ipExecutor){
-        int quantidadeTarefas = 0;
+    public synchronized void getListAtividadesDoExecutor(String ipExecutor){
         for(Map.Entry<String, List<Atividade>> map: mapExecutor.entrySet()){
             if(map.getKey().equalsIgnoreCase(ipExecutor)){
-                quantidadeTarefas = map.getValue().size();
+                mapAPreencher.put(map.getValue().size(),map.getKey());
             }
         }
-        return quantidadeTarefas;
     }
 
     @Override
@@ -42,7 +38,6 @@ public class FirstComeFirstServeExecutor implements Runnable {
             // isto retorna a quantidade de tarefas de cada executor
             getListAtividadesDoExecutor(ipExecutor);
             // problema é que nao posso adicionar logo uma tarefa sem percorrer todas as threads
-            addTarefa(this.atividade, ipExecutor);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,8 +45,8 @@ public class FirstComeFirstServeExecutor implements Runnable {
     }
 
      public String getExecutorEscolhido() {
-        Entry<String, List<Atividade>> entry = mapExecutor.entrySet().iterator().next();
-        return entry.getKey();
+        Map.Entry<Integer, String> entry = mapAPreencher.entrySet().iterator().next();
+        return entry.getValue();
     }
 
     public void createThreads() {
