@@ -1,15 +1,11 @@
 package base.daemon.motor.protocol;
 
-import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
-import base.daemon.executor.presentation.ExecutorServer;
 import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
 import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
-import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.Colaborador;
-import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.formulario.domain.Atributo;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.formulario.domain.Label;
@@ -56,10 +52,10 @@ public class FluxoRequest extends AplicacoesRequest {
 
         try {
 
-            System.setProperty("javax.net.ssl.trustStore", "orgColab.jks");
+            System.setProperty("javax.net.ssl.trustStore", "motor.jks");
             System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
-            System.setProperty("javax.net.ssl.keyStore", "orgColab.jks");
+            System.setProperty("javax.net.ssl.keyStore", "motor.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
             final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores().trim();
@@ -90,8 +86,15 @@ public class FluxoRequest extends AplicacoesRequest {
                     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: " + pedido.toString());
                     pedidoRepository.save(pedido);
                 } else {
-                  /*  if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-                        //algoritmo da bia
+                  /*String ipEscolhido;
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        List<String> listServidores = new ArrayList<>();
+                        listServidores.add(IP_EXECUTOR);
+                        listServidores.add("10.8.0.80");
+
+                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade);
+                        first.createThreads();
+                        ipEscolhido = first.getExecutorEscolhido();
                     } else {
                         WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
                         threads[j] = new Thread(wba);
