@@ -21,6 +21,4 @@ public interface CatalogoRepository extends DomainRepository<Long, Catalogo> {
     Iterable<Catalogo> findTodos(String titulo, String descricaoBreve, String descricaoCompleta);
 
     Iterable<Catalogo> findCatalogoEquipa(CodigoUnico identity);
-
-    Catalogo findById(long idCatalogo);
 }

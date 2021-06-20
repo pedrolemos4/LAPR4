@@ -1,7 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.colaborador;
 
 import eapli.base.colaborador.domain.Funcao;
-import eapli.framework.infrastructure.authz.domain.model.Role;
 import eapli.framework.visitor.Visitor;
 
 public class ListFuncoesPrint  implements Visitor<Funcao> {

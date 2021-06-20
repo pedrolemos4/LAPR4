@@ -16,8 +16,6 @@ import eapli.framework.presentation.console.SelectWidget;
 
 import javax.persistence.RollbackException;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,14 +23,6 @@ import java.util.Set;
 public class EspecificarServicoUI extends AbstractUI {
 
     private final EspecificarServicoController theController = new EspecificarServicoController();
-
-    private static final int ESPECIFICAR_SERVICO = 20;
-
-    private static final int EDITAR_SERVICO = 21;
-
-
-    static InetAddress serverIP;
-    static Socket sock;
 
     @Override
     protected boolean doShow() {
@@ -121,7 +111,6 @@ public class EspecificarServicoUI extends AbstractUI {
                 try {
 					String caminho = Console.readLine("Insira o caminho do script: ");
                     AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica(caminho);
-                    //AtividadeAutomatica atividadeAutomatica = theController.novaAtividadeAutomatica();
                     listAtividades.add(atividadeAutomatica);
                     flag = false;
                 } catch (IllegalArgumentException ex) {
@@ -153,7 +142,6 @@ public class EspecificarServicoUI extends AbstractUI {
                 FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
                 Set<Atributo> listaAtributos1 = new HashSet<>();
                 Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
-                //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualColaborador(col, form, tipo);
                 listAtividades.add(atividadeManual);
@@ -163,7 +151,6 @@ public class EspecificarServicoUI extends AbstractUI {
                 FormularioDataWidget formularioDataWidget = new FormularioDataWidget();
                 Set<Atributo> listaAtributos1 = new HashSet<>();
                 Formulario form = preencherAtributos(formularioDataWidget, listaAtributos1);
-                //form.copyAtributos(listaAtributos1);
                 TipoAtividade tipo = TipoAtividade.APROVACAO;
                 AtividadeManual atividadeManual = theController.novaAtividadeAprovacaoManualEquipa(listEquipas, form, tipo);
                 listAtividades.add(atividadeManual);
@@ -178,7 +165,6 @@ public class EspecificarServicoUI extends AbstractUI {
                         keywords, theCatalogo, fluxoAtividade);
             } else {
                 try {
-                    //Formulario formulario = this.theController.createFormulario(formularioData.titulo(), listaAtributos);
                     this.theController.especificarServico(codigoUnicoData.codigoUnico(), tituloData.titulo(), descricaoBreveData.descricao(),
                             descricaoCompletaData.descricao(), formServico, keywords, theCatalogo, fluxoAtividade);
                     System.out.println("\nServiço especificado com sucesso!\n");

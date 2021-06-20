@@ -65,14 +65,6 @@ public class ConsultarTarefasController {
         return repo.ordenarDataDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarEscalaCrescente(Colaborador colab) {
-        return repo.ordenarEscalaCrescente(colab, EstadoAtividade.PENDENTE);
-    }
-
-    public List<Atividade> ordenarEscalaDecrescente(Colaborador colab) {
-        return repo.ordenarEscalaDecrescente(colab, EstadoAtividade.PENDENTE);
-    }
-
     public Pedido getPedidoByTarefa(Atividade a) {
         return repo.getPedidoByTarefa(a.identity());
     }

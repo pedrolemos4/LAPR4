@@ -1,8 +1,5 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
-import eapli.base.formulario.domain.DescricaoAjuda;
-import eapli.base.formulario.domain.Obrigatoriedade;
-import eapli.base.formulario.domain.TipoDados;
 import eapli.framework.io.util.Console;
 
 public class FormularioDataWidget {
@@ -23,7 +20,6 @@ public class FormularioDataWidget {
 
     public void show(){
         this.titulo= Console.readLine("\nTítulo do Formulario:");
-       // atributo();
     }
 
     public void atributo(){
@@ -35,16 +31,8 @@ public class FormularioDataWidget {
         this.expressaoRegular= Console.readLine("\nExpressao Regular:");
     }
 
-    public void preencherVariavel(){
-        this.nomeVariavel=Console.readLine("\nNome de variável:");
-    }
-
     public String titulo(){
         return this.titulo;
-    }
-
-    public String nomeVariavel(){
-        return this.nomeVariavel;
     }
 
     public String label(){

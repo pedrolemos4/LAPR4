@@ -19,16 +19,12 @@ public class FluxoAtividade implements DomainEntity<Long> {
     private Long id;
 
 
-    //@OneToOne (mappedBy = "fluxoAtividade")
-    //private Servico servico;
-
     @Column(name = "ESTADOFLUXO")
     @Enumerated(EnumType.STRING)
     private EstadoFluxo estadoFluxo;
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    //@JoinColumn(name= "ID_ATIVIDADE", referencedColumnName = "id")
     private Set<Atividade> listaAtividade = new HashSet<>();
 
 
@@ -38,8 +34,6 @@ public class FluxoAtividade implements DomainEntity<Long> {
     }
 
     protected FluxoAtividade() {
-        //   this.value = null;
-        //  this.listaAtividade=null;
     }
 
     @Override
@@ -75,16 +69,5 @@ public class FluxoAtividade implements DomainEntity<Long> {
                 '}';
     }
 
-    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at, EstadoAtividade estado) {
-        for (Atividade atividade : listaAtividade) {
-            if (atividade.equals(at)) {
-                at.mudaEstadoAtividade(estado);
-                atividade.completaDecisaoComentario(valueOf, aprovado, at);
-            }
-        }
-    }
 
-    public void replaceFormularioAtividade(Atividade atFinal) {
-        listaAtividade.add(atFinal);
-    }
 }

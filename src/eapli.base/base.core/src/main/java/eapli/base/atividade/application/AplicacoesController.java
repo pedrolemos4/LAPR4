@@ -89,10 +89,6 @@ public class AplicacoesController {
         }
     }
 
-    public FluxoAtividade getFluxoAtividade(String idServico) {
-        return this.servicoRepository.findFluxo(idServico);
-    }
-
     public Servico findServico(String idServico) {
         return this.servicoRepository.findServico(idServico);
     }
@@ -109,10 +105,6 @@ public class AplicacoesController {
 
     public List<Colaborador> findColaboradoresElegiveis(Long idCatalogo){
         return this.colabRepo.findColaboradoresElegiveis(idCatalogo);
-    }
-
-    public List<Atividade> getAtividadesAuto() {
-        return this.pedidoRepository.getAtividadesAuto(EstadoPedido.valueOf("PENDENTE"));
     }
 
     public Script findScriptAtividade(CodigoUnico identity) {

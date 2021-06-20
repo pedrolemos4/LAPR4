@@ -1,7 +1,5 @@
 package eapli.base.app.backoffice.console.presentation.servicos;
 
-import eapli.base.app.backoffice.console.presentation.atividades.AtividadeAprovacaoWidget;
-import eapli.base.app.backoffice.console.presentation.atividades.AtividadeResolucaoWidget;
 import eapli.base.atividade.domain.*;
 import eapli.base.draft.domain.DraftServico;
 import eapli.base.equipa.domain.Equipa;
@@ -56,8 +54,6 @@ public class CompletarServicoUI extends AbstractUI {
         FluxoAtividade fluxoAtividade = null;
         boolean flag;
         if (draftServico.fluxo() == null) {
-            final AtividadeResolucaoWidget atividadeResolucaoWidget = new AtividadeResolucaoWidget();
-            final AtividadeAprovacaoWidget atividadeAprovacaoWidget = new AtividadeAprovacaoWidget();
             System.out.println("\nEspecificação do fluxo de atividades");
 
             Set<Atividade> listAtividades = new HashSet<>();

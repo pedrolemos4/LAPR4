@@ -36,10 +36,6 @@ public class NovoCatalogoController {
         return this.equipaRepository.findAll();
     }
 
-    public Iterable<Criticidade> getCriticidades(){
-        return this.criticidadeRepository.findAll();
-    }
-
     public Iterable<Colaborador> getListaColaboradores(){
         return this.colaboradorRepository.findAll();
     }
