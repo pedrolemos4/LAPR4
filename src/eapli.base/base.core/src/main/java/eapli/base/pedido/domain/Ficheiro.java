@@ -10,10 +10,21 @@ public class Ficheiro implements ValueObject {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    File annexedFiles;
+    @Column(name = "Ficheiro")
+    File annexedFile;
 
     public Ficheiro() {
-
+        //for ORM
     }
 
+    public Ficheiro(File annexedFile) {
+        this.annexedFile = annexedFile;
+    }
+
+    @Override
+    public String toString() {
+        return "Ficheiro{" +
+                "annexedFile=" + annexedFile +
+                '}';
+    }
 }

@@ -2,7 +2,6 @@ package eapli.base.app.portal.console.presentation.pedido;
 
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.AtividadeManual;
-import eapli.base.atividade.domain.EstadoAtividade;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
@@ -87,19 +86,19 @@ public class SolicitarServicoUI extends AbstractUI {
             }
             listaAtividade.add(at);
         }
-        Pedido pedido = controller.efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
-        String option = "S";
-        while (option == "S") {
-            System.out.println("Pretende anexar ficheiros?(S/N)_____________________________________________");
-            option = sc.next();
-            if (option.toUpperCase().compareTo("S") == 0) {
-                controller.annexFile(pedido);
+        String option = Console.readLine("Pretende anexar ficheiro?(S/N)_____________________________________________");
+        if (option.toUpperCase().compareTo("S") == 0) {
+            String path = Console.readLine("Insira path");
+            Pedido pedido = controller.annexFile(path,clone,urgencia, calendar, formulario, listaAtributos, listaAtividade);
+            controller.doConnection(pedido);
             }
+        else {
+            Pedido pedido = controller.efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
+            //if(controller.submeterPedido(pedido)){
+            controller.doConnection(pedido);
+            //System.out.println("SUCESSO");
+            //}
         }
-        //if(controller.submeterPedido(pedido)){
-        controller.doConnection(pedido);
-        //System.out.println("SUCESSO");
-        //}
     }
 
     private Formulario preencherAtributos(Formulario formulario1, Set<Atributo> listaAtributos) {

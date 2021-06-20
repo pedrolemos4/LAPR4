@@ -8,7 +8,6 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
-import eapli.base.formulario.domain.Label;
 import eapli.base.formulario.domain.*;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
@@ -29,13 +28,10 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.persistence.NoResultException;
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.List;
 import java.util.*;
 
 @UseCaseController
@@ -110,6 +106,9 @@ public class SolicitarServicoController {
             fw.write(form);
 
             fw.close();
+
+
+
             String metodo = Application.settings().getMetodoVerificacaoGramatica().trim();
             if (metodo.equalsIgnoreCase("visitor")) {
                 ValidaForm vf = new ValidaForm();
@@ -129,6 +128,7 @@ public class SolicitarServicoController {
                     Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
                     return this.pedidoRepository.save(pedido);
                 } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
                     System.out.println("Formulário inválido. Pedido não será efetuado.");
                 }
             }
@@ -159,12 +159,14 @@ public class SolicitarServicoController {
         return a.descricaoAjuda().toString();
     }
 
-    public void annexFile(Pedido pedido) {
-        Button button = new Button();
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(button);
-        File file = fileChooser.getSelectedFile();
-        pedido.annexFile(file);
+    public Pedido annexFile(String path, Servico clone, UrgenciaPedido urgencia, Calendar calendar, Formulario formulario, Set<Atributo> listaAtributos, Set<Atividade> listaAtividade) {
+        try {
+            File file = new File(path);
+            return efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
+        }catch (Exception e){
+            LOGGER.error("Something went wrong");
+            return null;
+        }
     }
 
     public Formulario findFormulario(CodigoUnico idServico) {
