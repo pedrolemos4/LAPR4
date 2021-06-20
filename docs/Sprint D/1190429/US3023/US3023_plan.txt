@@ -1,0 +1,9 @@
+# Test Plan
+
+## Realizar Tarefa
+
+* Fazer o login como orgColab, password: Admin1
+* Escolher a opção Tarefas > Realizar Tarefas
+* Selecionar uma das tarefas disponíveis
+* Preencher formulário referente à tarefa
+* Introduzir um comentário
