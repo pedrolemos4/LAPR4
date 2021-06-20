@@ -96,7 +96,9 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
             int quant = getQuantidade();
             EvalVisitor eval = new EvalVisitor();
             eval.setCode(Integer.parseInt(ctx.possivel_id.getText()));
-            eval.setParametro(ctx.valor.getText());
+            if(ctx.valor!=null) {
+                eval.setParametro(ctx.valor.getText());
+            }
             eval.setQuantidade(quant);
             eval.visit(tree);
             setCategoria(eval.getCategoria());

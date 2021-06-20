@@ -1,4 +1,4 @@
-Ler ficheiro;testeProdutos.xml;Preco
+Ler ficheiro;4;testeProdutos.xml;Preco
 #VAR1#->2+5
 #VAR2#->0.05
 #VAR3#->0.3

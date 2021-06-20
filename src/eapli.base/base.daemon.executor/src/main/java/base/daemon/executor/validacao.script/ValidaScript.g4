@@ -6,7 +6,7 @@ start: start funcao
      | funcao
      ;
 
-funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro PONTO_VIRGULA valor=valor_pretendido  #lerFicheiro
+funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro (PONTO_VIRGULA valor=valor_pretendido)?  #lerFicheiro
       | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA #enviarEmailProduto
       | 'Send Email Formulario' #enviarEmailFormulario
       | expressao #calcularValor
