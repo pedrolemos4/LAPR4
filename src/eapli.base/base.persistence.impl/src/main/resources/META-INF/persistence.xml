@@ -12,7 +12,6 @@
     <class>eapli.framework.infrastructure.authz.domain.model.RoleAssignment</class>
     <class>eapli.base.colaborador.domain.Colaborador</class>
     <class>eapli.base.catalogo.domain.Catalogo</class>
-    <class>eapli.base.gestaoservicoshelpdesk.domain.Funcao</class>
     <class>eapli.base.equipa.domain.Equipa</class>
     <class>eapli.base.criticidade.domain.Criticidade</class>
     <class>eapli.base.atividade.domain.FluxoAtividade</class>
@@ -27,8 +26,6 @@
     <class>eapli.base.clientusermanagement.domain.ClientUser</class>
     <class>eapli.base.clientusermanagement.domain.SignupRequest</class>
     <class>eapli.base.pedido.domain.Pedido</class>
-    <class>eapli.base.colaborador.domain.FuncaoSet</class>
-    <class>eapli.base.colaborador.domain.FuncaoAssignment</class>
 
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/base"/>
