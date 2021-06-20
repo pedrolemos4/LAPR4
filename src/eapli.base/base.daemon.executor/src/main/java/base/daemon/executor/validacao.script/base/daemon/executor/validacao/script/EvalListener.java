@@ -19,7 +19,7 @@ public class EvalListener extends ValidaScriptBaseListener {
     private double desconto;
     private boolean bool;
     private String parametroLerFicheiro;
-    private String form;
+    private String form = "";
     private String categoria;
     private final Stack<Double> stack = new Stack<>();
     private Map<String, Double> map = new HashMap<>();
@@ -66,6 +66,10 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     private void setCode(int code) {
         this.code = code;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
     }
 
     //--------------------------------REALIZAR CALCULOS--------------------------------//
@@ -301,7 +305,7 @@ public class EvalListener extends ValidaScriptBaseListener {
         FileInputStream fis;
 
         try {
-            fis = new FileInputStream("C:\\Users\\josec\\Documents\\lei20_21_s4_2di_04\\src\\eapli.base\\base.daemon.executor\\src\\main\\java\\base\\daemon\\executor\\validacao.script\\testeProdutos.xml");
+            fis = new FileInputStream("testeProdutos.xml");
             ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ValidaScriptParser parser = new ValidaScriptParser(tokens);
@@ -329,6 +333,10 @@ public class EvalListener extends ValidaScriptBaseListener {
     }
 
     public void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
-        System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
+        if(form.isEmpty()){
+            System.out.println("Não existem dados do formulário.");
+        } else {
+            System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
+        }
     }
 }

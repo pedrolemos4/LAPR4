@@ -20,8 +20,8 @@
  */
 package base.daemon.executor.presentation;
 
-import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
-import base.daemon.executor.algorithms.WorkloadController;
+import base.daemon.motor.algorithms.WorkloadBasedAlgorithm;
+import base.daemon.motor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
 import base.daemon.motor.algorithms.ExecutorController;
@@ -88,16 +88,6 @@ public class ExecutorServer {
         while (true) {
             cliSock = sockSSL.accept(); // wait for a new client connection request
             new Thread(new ClientHandler(cliSock)).start();
-        }
-    }
-
-    public static void createThread(String algoritmoAuto, Atividade atividade) {
-        if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-            //algoritmo da bia
-        } else {
-            WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade, instances);
-            Thread t = new Thread(wba);
-            t.start();
         }
     }
 

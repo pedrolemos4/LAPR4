@@ -1,4 +1,4 @@
-package base.daemon.executor.algorithms;
+package base.daemon.motor.algorithms;
 
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.infrastructure.persistence.PersistenceContext;

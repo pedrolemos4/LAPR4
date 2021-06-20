@@ -10,10 +10,8 @@ funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_
       | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA #enviarEmailProduto
       | 'Send Email Formulario' #enviarEmailFormulario
       | expressao #calcularValor
-      //| calcPrecoTotal #calcular_preco_total
       | 'if ' expressao_a_verificar ' then:' aplicar_desconto temElse=else1? 'end if;' #aplicarDesconto
       | 'Valor total' #calcularDescontoEPreco
-      //| calcPrecoFinal #calcular_preco_final
       ;
 
 else1: 'else' aplicar_desconto
@@ -24,14 +22,7 @@ expressao_a_verificar: leftPortion=param sinal=SINAL_BOOLEANO rightPortion=param
                      ;
 
 aplicar_desconto: 'Aplicar Desconto->' valorDesconto=param //meter
-                //| var=nameVar '->' param1=nameVar sinal=('+'|'*') param1=nameVar
                 ;
-
-//calcPrecoTotal: var=nameVar '->QUANT->' quantidade=INTEIRO
-//             ;
-
-//calcPrecoFinal: var=nameVar '->DESCONTO->' desconto=DOUBLE
-                          //;
 
 expressao: nameVar '->' calculosMatematicos   #atribuir
          ;
