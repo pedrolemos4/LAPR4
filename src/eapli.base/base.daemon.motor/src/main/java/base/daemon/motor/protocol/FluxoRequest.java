@@ -1,9 +1,6 @@
 package base.daemon.motor.protocol;
 
-import base.daemon.motor.algorithms.AlgoritmoTempoMedio;
-import base.daemon.motor.algorithms.ExecutorController;
-import base.daemon.motor.algorithms.FirstComeFirstServeAlgorithm;
-import base.daemon.motor.algorithms.FirstComeFirstServeExecutor;
+import base.daemon.motor.algorithms.*;
 import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
@@ -111,12 +108,15 @@ public class FluxoRequest extends AplicacoesRequest {
                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         }
 
-                    }/* else {
-                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(atividade);
-                        threads[j] = new Thread(wba);
-                        threads[j].start();
-                        j++;
-                    }*/
+                    } else {
+                        System.out.println("list:: " + ExecutorController.getListExecutores().size());
+                        Map<String, Integer> map = ExecutorController.getMapa();
+                        List<String> listServidores = ExecutorController.getListExecutores();
+                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(listServidores, atividade, map);
+                        wba.createThreads();
+                        ipEscolhido = wba.getExecutorEscolhido();
+                        ExecutorController.addAtividade(ipEscolhido);
+                    }
 
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
 
