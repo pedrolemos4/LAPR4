@@ -86,7 +86,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     pedidoRepository.save(pedido);
                 } else {
                     String ipEscolhido = "";
-                    /*if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         System.out.println("list:: " + ExecutorController.getListExecutores().size());
                         Map<String, Integer> map = ExecutorController.getMapa();
                         List<String> listServidores = ExecutorController.getListExecutores();
@@ -125,7 +125,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
                     try {
-                        serverIP = InetAddress.getByName(/*ipEscolhido*/"10.8.0.81");
+                        serverIP = InetAddress.getByName(ipEscolhido);
                     } catch (UnknownHostException ex) {
                         LOGGER.info("Invalid server: " + "endereçoIp");
                         System.exit(1);
@@ -219,6 +219,14 @@ public class FluxoRequest extends AplicacoesRequest {
 
                     sOut.write(data);
                     ExecutorController.removeAtividade(ipEscolhido);
+
+                    Map<String, Integer> map = ExecutorController.getMapa();
+                    for(Map.Entry<String, Integer> map1: map.entrySet()){
+                        System.out.println("APOS REMOCAO:: " + map1.getKey());
+                        System.out.println("APOS REMOCAO " + map1.getValue());
+                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                    }
+
                     serverConn.join();
                     sock.close();
 

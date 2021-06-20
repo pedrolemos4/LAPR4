@@ -30,8 +30,8 @@ public final class MotorDaemon {
         LOGGER.info("Starting the server socket");
 
         List<String> listServidores = new ArrayList<>();
-        listServidores.add("10.8.0.81");
         listServidores.add("10.8.0.80");
+        listServidores.add("10.8.0.81");
 
         ExecutorController c = new ExecutorController(listServidores);
 

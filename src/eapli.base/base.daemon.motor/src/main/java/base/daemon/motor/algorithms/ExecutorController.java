@@ -19,9 +19,11 @@ public class ExecutorController {
     }
 
     public void preencherMap(Map<String, Integer> mapExecutor) {
-        for(String ip : listExecutores){
+mapExecutor.put("10.8.0.80", 5);
+mapExecutor.put("10.8.0.81", 0);        
+/*for(String ip : listExecutores){
             mapExecutor.put(ip, 0);
-        }
+        }*/
     }
 
     public static synchronized void addAtividade(String executor){
