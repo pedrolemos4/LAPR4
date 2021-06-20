@@ -1,7 +1,7 @@
 package eapli.base.infrastructure.bootstrapers;
 
 import eapli.base.colaborador.application.EspecificarColaboradorController;
-import eapli.base.colaborador.domain.FuncaoColaborador;
+import eapli.base.colaborador.domain.Funcao;
 import eapli.base.usermanagement.application.AddUserController;
 import eapli.base.usermanagement.application.ListUsersController;
 import eapli.framework.domain.repositories.ConcurrencyException;
@@ -50,7 +50,7 @@ public class UsersBootstrapperBase {
     }
 
     protected void registerColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
-                                       final String dataNascimento, final int prefix, final int contacto, final String local, final String email, Set<FuncaoColaborador> roles){
+                                       final String dataNascimento, final int prefix, final int contacto, final String local, final String email, Set<Funcao> roles){
         try{
             colabController.novoColaborador(numeroMecanografico, nomeCompleto, nomeCurto, dataNascimento, prefix, contacto, local,email,roles);
             LOGGER.debug("»»» %s", nomeCurto);

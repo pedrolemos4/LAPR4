@@ -28,8 +28,8 @@ public class FormularioDataWidget {
 
     public void atributo(){
         System.out.println("\nDados do Atributo");
-        this.tipoDados=Console.readLine("\nTipo de dados:");
-        this.obrigatoriedade=Console.readLine("\nObrigatoriedade:");
+        this.tipoDados=Console.readLine("\nTipo de dados('STRING'/'DATA'/'INTEIRO'/'BOOLEAN'):");
+        this.obrigatoriedade=Console.readLine("\nObrigatoriedade('OBRIGATORIO'/'OPCIONAL'):");
         this.label=Console.readLine("\nLabel:");
         this.descAjuda=Console.readLine("\nDescricao Ajuda:");
         this.expressaoRegular= Console.readLine("\nExpressao Regular:");

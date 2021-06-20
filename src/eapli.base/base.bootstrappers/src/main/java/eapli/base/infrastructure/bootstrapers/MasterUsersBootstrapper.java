@@ -5,8 +5,7 @@
  */
 package eapli.base.infrastructure.bootstrapers;
 
-import eapli.base.colaborador.domain.BaseRolesColaborador;
-import eapli.base.colaborador.domain.FuncaoColaborador;
+import eapli.base.colaborador.domain.Funcao;
 import eapli.base.usermanagement.domain.BaseRoles;
 import eapli.framework.actions.Action;
 import eapli.framework.infrastructure.authz.domain.model.Role;
@@ -36,9 +35,20 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     }
 
     private void initializeOrganizationOrganicStructure(){
+        Set<Funcao> setFuncao1 = new HashSet<>();
+        setFuncao1.add(Funcao.COMERCIAL);
+
+        Set<Funcao> setFuncao2 = new HashSet<>();
+        setFuncao2.add(Funcao.COMERCIAL);
+        setFuncao2.add(Funcao.DIRETOR);
+
+        Set<Funcao> setFuncao3 = new HashSet<>();
+        setFuncao3.add(Funcao.ASSISTENTE_DIRECAO);
+        setFuncao3.add(Funcao.GESTOR_CLIENTES);
+
         registerUser("orgColab","Admin1","Joao","Alves Pereira","joao@gmail.com", BaseRoles.COLABORADOR);
 
-        registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 965824578, "Penafiel", "joao@gmail.com",BaseRolesColaborador.COMERCIAL);
+        registaColaborador(119080,"Joao","Joao Alves Pereira","1984/10/25",0, 965824578, "Penafiel", "joao@gmail.com",setFuncao1);
 
         registerUser("orgRRH","Rrh1234","Paula","Castro",EMAILRRH,BaseRoles.RRH);
 
@@ -46,36 +56,36 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
 
         registerUser("orgColab1","Colab1","Afonso","Sousa","afonso@gmail.com",BaseRoles.COLABORADOR);
 
-        registaColaborador(119876,"Afonso","Afonso Sousa","1992/07/05", 351,932705057, "Bairro Alto", "afonso@gmail.com",BaseRolesColaborador.COMERCIAL);
+        registaColaborador(119876,"Afonso","Afonso Sousa","1992/07/05", 351,932705057, "Bairro Alto", "afonso@gmail.com",setFuncao1);
 
         registerUser("orgUser","Client1","Leonardo","Reis",EMAILUSER,BaseRoles.CLIENT_USER);
 
         registerUser("orgColab2","Colab2","Maria","Aires","mariaA@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(148752,"Maria","Maria Aires","1995/02/12", 351,914520048, "Algarve", "mariaA@gmail.com",BaseRolesColaborador.GESTOR_DE_CLIENTES);
+        registaColaborador(148752,"Maria","Maria Aires","1995/02/12", 351,914520048, "Algarve", "mariaA@gmail.com",setFuncao1);
 
         registerUser("orgColab3","Colab3","Rita","Oliveira","ritaO@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(157847,"Rita","Rita Oliveira","1997/10/25", 351,925412006, "Leiria", "ritaO@gmail.com",BaseRolesColaborador.GESTOR_DE_CLIENTES);
+        registaColaborador(157847,"Rita","Rita Oliveira","1997/10/25", 351,925412006, "Leiria", "ritaO@gmail.com",setFuncao1);
 
         registerUser("orgColab4","Colab4","Pedro","Santos","pedroS@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(160108,"Pedro","Pedro Santos","1996/11/11", 351,962574102, "Lisboa", "pedroS@gmail.com",BaseRolesColaborador.DIRETOR_COMERCIAL);
+        registaColaborador(160108,"Pedro","Pedro Santos","1996/11/11", 351,962574102, "Lisboa", "pedroS@gmail.com",setFuncao2);
 
         registerUser("orgColab5","Colab5","Carlos","Pinto","carlosP@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(145625,"Carlos","Carlos Pinto","1991/05/15", 351,914522755, "Porto", "carlosP@gmail.com",BaseRolesColaborador.ASSISTENTE_DE_DIRECAO);
+        registaColaborador(145625,"Carlos","Carlos Pinto","1991/05/15", 351,914522755, "Porto", "carlosP@gmail.com",setFuncao2);
 
         registerUser("orgColab6","Colab6","Carla","Anjos","carlaA@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(185526,"Carla","Carla Anjos","1986/06/17", 351,956824886, "Caminha", "carlaA@gmail.com",BaseRolesColaborador.COMERCIAL);
+        registaColaborador(185526,"Carla","Carla Anjos","1986/06/17", 351,956824886, "Caminha", "carlaA@gmail.com",setFuncao2);
 
         registerUser("orgColab7","Colab7","Henrique","Silva","henriqueS@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(105244,"Henrique","Henrique Silva","1990/01/01", 351,922563248, "Aveiro", "henriqueS@gmail.com",BaseRolesColaborador.ASSISTENTE_DE_DIRECAO);
+        registaColaborador(105244,"Henrique","Henrique Silva","1990/01/01", 351,922563248, "Aveiro", "henriqueS@gmail.com",setFuncao2);
 
         registerUser("orgColab8","Colab8","Sofia","Sousa","sofiaS@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(104875,"Sofia","Sofia Sousa","1995/01/03", 351,933659526, "Ermesinde", "sofiaS@gmail.com",BaseRolesColaborador.COMERCIAL);
+        registaColaborador(104875,"Sofia","Sofia Sousa","1995/01/03", 351,933659526, "Ermesinde", "sofiaS@gmail.com",setFuncao3);
 
         registerUser("orgColab9","Colab9","Raquel","Tavares","raquelT@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(112300,"Raquel","Raquel Tavares","1996/09/16", 351,910023358, "Espinho", "raquelT@gmail.com", BaseRolesColaborador.DIRETOR);
+        registaColaborador(112300,"Raquel","Raquel Tavares","1996/09/16", 351,910023358, "Espinho", "raquelT@gmail.com", setFuncao3);
 
         registerUser("orgColab10","Colab10","Guilherme","Lapa","guilhermeP@gmail.com", BaseRoles.COLABORADOR);
-        registaColaborador(125123,"Guilherme","Guilherme Lapa","1996/09/16", 351,925624569, "Paredes", "guilhermeP@gmail.com",BaseRolesColaborador.ASSISTENTE_DE_DIRECAO);
+        registaColaborador(125123,"Guilherme","Guilherme Lapa","1996/09/16", 351,925624569, "Paredes", "guilhermeP@gmail.com",setFuncao3);
 
     }
 
@@ -96,10 +106,8 @@ public class MasterUsersBootstrapper extends UsersBootstrapperBase implements Ac
     }
 
     private void registaColaborador(final int numeroMecanografico, final String nomeCurto, final String nomeCompleto,
-                                    final String dataNascimento, final int prefix, final int contacto, final String local, final String email, final FuncaoColaborador funcaoColaborador){
-        final Set<FuncaoColaborador> roles = new HashSet<>();
-        roles.add(funcaoColaborador);
+                                    final String dataNascimento, final int prefix, final int contacto, final String local, final String email, final Set<Funcao> funcaoColaborador){
 
-        registerColaborador(numeroMecanografico, nomeCurto, nomeCompleto, dataNascimento, prefix, contacto, local,email,roles);
+        registerColaborador(numeroMecanografico, nomeCurto, nomeCompleto, dataNascimento, prefix, contacto, local,email,funcaoColaborador);
     }
 }

@@ -120,7 +120,7 @@ public class SolicitarServicoUI extends AbstractUI {
             String data1[] = string1[0].split("/");
             String horas1[] = string1[1].split(":");
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Integer.parseInt(data1[0]), Integer.parseInt(data1[1]) - 1, Integer.parseInt(data1[2]), Integer.parseInt(horas1[0]), Integer.parseInt(horas1[1]));
+            calendar.set(Integer.parseInt(data1[0]), Integer.parseInt(data1[1]) - 1, Integer.parseInt(data1[2]), Integer.parseInt(horas1[0]), Integer.parseInt(horas1[1]),0);
             return calendar;
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("Insira a data corretamente\n");

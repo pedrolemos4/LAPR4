@@ -59,15 +59,20 @@ public class ServicoBootstrapper implements Action {
         dataAux3.set(1996, 11, 11);
 
         //Colaboradores
-        Set<FuncaoColaborador> funcao = new HashSet<>();
+        Set<Funcao> funcao = new HashSet<>();
+        funcao.add(Funcao.DIRETOR);
+        funcao.add(Funcao.GESTOR_CLIENTES);
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
                 , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"), funcao);
 
-        Set<FuncaoColaborador> funcao2 = new HashSet<>();
+        Set<Funcao> funcao2 = new HashSet<>();
+        funcao2.add(Funcao.GESTOR_CLIENTES);
         Colaborador c2 = new Colaborador(new MecanographicNumber(119876), new ShortName("Afonso"), new FullName("Afonso Sousa"), dataAux2
                 , new Contacto(932705057), new LocalResidencia("Bairro Alto"), EmailAddress.valueOf("afonso@gmail.com"), funcao2);
 
-        Set<FuncaoColaborador> funcao3 = new HashSet<>();
+        Set<Funcao> funcao3 = new HashSet<>();
+        funcao3.add(Funcao.COMERCIAL);
+        funcao3.add(Funcao.ASSISTENTE_DIRECAO);
         Colaborador c3 = new Colaborador(new MecanographicNumber(160108), new ShortName("Pedro"), new FullName("Pedro Santos"), dataAux3
                 , new Contacto(351, 962574102), new LocalResidencia("Lisboa"), EmailAddress.valueOf("pedroS@gmail.com"), funcao3);
 

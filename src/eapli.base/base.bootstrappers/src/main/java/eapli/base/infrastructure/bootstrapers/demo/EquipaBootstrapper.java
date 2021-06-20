@@ -27,8 +27,8 @@ public class EquipaBootstrapper implements Action {
 
     @Override
     public boolean execute() {
-        Set<FuncaoColaborador> funcao = new HashSet<>();
-        funcao.add(BaseRolesColaborador.DIRETOR);
+        Set<Funcao> funcao = new HashSet<>();
+        funcao.add(Funcao.DIRETOR);
         Calendar dataAux = Calendar.getInstance();
         dataAux.set(1993,4,3);
         TipoEquipa t1 = new TipoEquipa(new CodigoUnico("t1"),new Designacao("tipo1"), new Cor(10,20,30));

@@ -29,8 +29,8 @@ public class CatalogoBootstrapper implements Action {
     @Override
     public boolean execute() {
         // PRIMEIRO CATALOGO
-        Set<FuncaoColaborador> funcao = new HashSet<>();
-        funcao.add(BaseRolesColaborador.DIRETOR);
+        Set<Funcao> funcao = new HashSet<>();
+        funcao.add(Funcao.DIRETOR);
         Calendar dataAux = Calendar.getInstance();
         dataAux.set(1993,4,3);
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves"), dataAux

@@ -163,7 +163,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     for (Atributo at : atributos) {
                         Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
                         Label l = formularioRepository.getLabelDoAtributo(at.identity());
-                        if(l.toString().equalsIgnoreCase("ID Produto")){
+                        if(l.toString().equalsIgnoreCase("Quantidade")){
                             atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
                             input = input.concat(";");
                         }else if(l.toString().equalsIgnoreCase("Nome")){
