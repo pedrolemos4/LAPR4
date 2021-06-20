@@ -70,7 +70,6 @@ public class MotorServer {
         while (true) {
             cliSock = (SSLSocket) sock.accept();
             LOGGER.info("Client connected");
-
             new Thread(new ClientHandler(cliSock)).start();
 
         }

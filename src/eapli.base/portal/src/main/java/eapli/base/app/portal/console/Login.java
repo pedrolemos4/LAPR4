@@ -40,6 +40,7 @@ public final class Login extends BaseApplication {
             Thread t1 = new Thread(() -> menu.mainLoop());
             t1.start();
             new Dashboard().start();
+            //new HttpServerDashboardFluxo().start();
         }
     }
 
