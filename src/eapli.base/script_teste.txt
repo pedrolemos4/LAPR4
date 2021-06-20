@@ -1,4 +1,13 @@
-Ler ficheiro;4;testeProdutos.xml
-Ler ficheiro;6;testeProdutos.xml
-#VAR1#->6+3
-#VAR2#->#VAR1#-2
+Ler ficheiro;testeProdutos.xml;Preco
+#VAR1#->2+5
+#VAR2#->0.05
+#VAR3#->0.3
+if #TOTAL#>#VAR1# then:
+ Aplicar Desconto->#VAR3#
+else
+ Aplicar Desconto->0.1
+end if;
+if CATEGORIA==Cosmetico then:
+ Aplicar Desconto->0.1
+end if;
+Valor total

@@ -88,7 +88,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     pedidoRepository.save(pedido);
                 } else {
                     String ipEscolhido = "";
-                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                    /*if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
                         System.out.println("list:: " + ExecutorController.getListExecutores().size());
                         Map<String, Integer> map = ExecutorController.getMapa();
                         List<String> listServidores = ExecutorController.getListExecutores();
@@ -127,7 +127,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
                     try {
-                        serverIP = InetAddress.getByName(ipEscolhido);
+                        serverIP = InetAddress.getByName(/*ipEscolhido*/"10.8.0.81");
                     } catch (UnknownHostException ex) {
                         LOGGER.info("Invalid server: " + "endereçoIp");
                         System.exit(1);
@@ -163,36 +163,32 @@ public class FluxoRequest extends AplicacoesRequest {
                     for (Atributo at : atributos) {
                         Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
                         Label l = formularioRepository.getLabelDoAtributo(at.identity());
-                        if(l.toString().equalsIgnoreCase("Quantidade")){
+                        if(l.toString().equalsIgnoreCase("ID Produto")){
                             atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
-                        }
-                        if(l.toString().equalsIgnoreCase("Nome")){
+                            input = input.concat(";");
+                        }else if(l.toString().equalsIgnoreCase("Nome")){
                             dadosForm = dadosForm.concat("Nome:"+v.toString());
-                        }
-                        if(l.toString().equalsIgnoreCase("TipoDesconto")){
+                        }else if(l.toString().equalsIgnoreCase("TipoDesconto")){
                             dadosForm = dadosForm.concat("TipoDesconto:"+v.toString());
-                        }
-                        if(l.toString().equalsIgnoreCase("PercentagemDesconto")){
+                        }else if(l.toString().equalsIgnoreCase("PercentagemDesconto")){
                             dadosForm = dadosForm.concat("PercentagemDesconto:"+v.toString());
-                        }
-                        if(l.toString().equalsIgnoreCase("Fatura")){
+                        }else if(l.toString().equalsIgnoreCase("Fatura")){
                             dadosForm = dadosForm.concat("Fatura:"+v.toString());
-                        }
-                        if(l.toString().equalsIgnoreCase("DataLimite")){
+                        }else if(l.toString().equalsIgnoreCase("DataLimite")){
                             dadosForm = dadosForm.concat("DataLimite:"+v.toString());
-                        }
-                        if(l.toString().equalsIgnoreCase("Fundamentacao")){
+                        }else if(l.toString().equalsIgnoreCase("Fundamentacao")){
                             dadosForm = dadosForm.concat("Fundamentacao:"+v.toString());
+                        }else{
+                            input = input.concat(v.toString());
+                            input = input.concat(";");
                         }
-                        input = input.concat(";");
-                        input = input.concat(v.toString());
                     }
                     input = input.concat("/");
                     input = input.concat(caminhoScript);
 
                     atributoProdutoColab = atributoProdutoColab.concat(input);
-                    dadosForm = dadosForm.concat(atributoProdutoColab);
-					byte[] idArray = dadosForm.getBytes();
+                    atributoProdutoColab = atributoProdutoColab.concat(dadosForm);
+                    byte[] idArray = atributoProdutoColab.getBytes();
                     int size = idArray.length;
                     data[0] = 0;
                     data[1] = 9;

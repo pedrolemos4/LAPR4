@@ -105,7 +105,7 @@ public class EvalVisitorValidaForm extends validaFormBaseVisitor<String> {
                 }
                 break;
             case "STRING":
-                if (!variavel.matches("[A-Z][a-z]+")) {
+                if (!variavel.matches("[A-Z]?[a-z]+")) {
                     System.out.println("Nome de variavel nao tem formato String!");
                     flag = "invalido";
                 }

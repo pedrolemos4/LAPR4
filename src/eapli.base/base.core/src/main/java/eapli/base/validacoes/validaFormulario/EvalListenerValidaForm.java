@@ -110,7 +110,7 @@ public class EvalListenerValidaForm extends validaFormBaseListener {
                 }
                 break;
             case "STRING":
-                if (!ctx.var.getText().matches("[A-Z][a-z]+")) {
+                if (!ctx.var.getText().matches("[A-Z]?[a-z]+")) {
                     System.out.println("Nome de variavel nao tem formato String!");
                     try {
                         throw new Exception();
@@ -163,7 +163,7 @@ public class EvalListenerValidaForm extends validaFormBaseListener {
 
     @Override
     public void enterValidoString(validaFormParser.ValidoStringContext ctx) {
-        if (!ctx.getText().matches("[A-Z][a-z]+")) {
+        if (!ctx.getText().matches("[A-Z]?[a-z]+")) {
             System.out.println("Nome de variavel nao tem formato String!");
         }
     }
