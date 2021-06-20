@@ -28,12 +28,11 @@ public class Dashboard extends Thread {
 
 	private static final Logger LOGGER = LogManager.getLogger(Dashboard.class);
 
-	static final String TRUSTED_STORE = "server_J.jks";
 	static final String KEYSTORE_PASS = "forgotten";
 
 	static InetAddress serverIP;
-	private static final String IPMOTOR = "10.8.0.82";
-	//private static final String IPMOTOR = "localhost";
+	//private static final String IPMOTOR = "10.8.0.82";
+	private static final String IPMOTOR = "localhost";
 
 	static private SSLSocket sock;
 	static private int serverPort;
@@ -58,17 +57,16 @@ public class Dashboard extends Thread {
 		final String name = this.authz.session().get().authenticatedUser().username().toString();
 		System.out.println("Name: " + name);
 		// Trust these certificates provided by servers
-		System.setProperty("javax.net.ssl.trustStore", name + ".jks");
+		System.setProperty("javax.net.ssl.trustStore", "httpServer.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
 		// Use this certificate and private key for client certificate when requested by the server
-		System.setProperty("javax.net.ssl.keyStore", name + ".jks");
+		System.setProperty("javax.net.ssl.keyStore", "httpServer.jks");
 		System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
 		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 
 		if(doConnection(address,porta)) {
-			if (Desktop.isDesktopSupported())
 				while (flag) {
 					//SSLSocket cliSock = (SSLSocket) sock.accept();
 					//sock.startHandshake();
