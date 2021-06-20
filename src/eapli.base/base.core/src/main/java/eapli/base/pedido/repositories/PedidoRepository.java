@@ -79,10 +79,6 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     Formulario getFormularioDaAtividade(Long identity);
 
-    Atividade getTarefaByScript(String caminho);
-
-    Double getTempoDeExecucaoTarefa(Atividade atividade);
-
     List<Pedido> getAllPedidoConcluido(Calendar calendar1, Calendar calendar2, EstadoPedido concluido);
 
     List<Atividade> getTarefasDoPedido(String identity);

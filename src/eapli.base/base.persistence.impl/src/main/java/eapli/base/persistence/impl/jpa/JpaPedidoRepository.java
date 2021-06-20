@@ -352,26 +352,6 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public Atividade getTarefaByScript(String caminho) {
-        final TypedQuery<Atividade> q = createQuery(
-                "SELECT at FROM Pedido p JOIN p.listaAtiv at" +
-                        "WHERE at.script =:identity", Atividade.class);
-        q.setParameter("identity", new Script(caminho));
-        return q.getSingleResult();
-    }
-
-    @Override
-    public Double getTempoDeExecucaoTarefa(Atividade atividade) {
-        final TypedQuery<Double> q = createQuery(
-                "SELECT crit.tempoMedioAprov FROM Pedido p JOIN p.servico ser JOIN ser.catalogo cat " +
-                        "JOIN cat.criticidade crit JOIN " +
-                        "p.listaAtiv a " +
-                        "WHERE a.id =:identity", Double.class);
-        q.setParameter("identity", atividade);
-        return q.getSingleResult();
-    }
-
-    @Override
     public List<Calendar> findDatas(MecanographicNumber number, String idPedido) {
         final TypedQuery<Calendar> q = createQuery("SELECT p.dataSolicitacao FROM Pedido p" +
                 " JOIN p.listaAtiv la JOIN la.colab col" +
