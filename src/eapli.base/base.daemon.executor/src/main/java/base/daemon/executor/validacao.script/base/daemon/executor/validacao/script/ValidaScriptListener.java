@@ -40,30 +40,6 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 */
 	void exitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code enviarEmailProduto}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 */
-	void enterEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code enviarEmailProduto}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 */
-	void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code enviarEmailFormulario}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 */
-	void enterEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code enviarEmailFormulario}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 */
-	void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
@@ -99,6 +75,30 @@ public interface ValidaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code sendEmail}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void enterSendEmail(ValidaScriptParser.SendEmailContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code sendEmail}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void exitSendEmail(ValidaScriptParser.SendEmailContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code sendEmailCalculos}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void enterSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code sendEmailCalculos}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 */
+	void exitSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ValidaScriptParser#else1}.
 	 * @param ctx the parse tree

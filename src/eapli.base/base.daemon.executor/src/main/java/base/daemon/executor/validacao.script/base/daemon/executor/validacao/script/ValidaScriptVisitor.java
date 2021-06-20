@@ -30,20 +30,6 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code enviarEmailProduto}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code enviarEmailFormulario}
-	 * labeled alternative in {@link ValidaScriptParser#funcao}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code calcularValor}
 	 * labeled alternative in {@link ValidaScriptParser#funcao}.
 	 * @param ctx the parse tree
@@ -64,6 +50,20 @@ public interface ValidaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code sendEmail}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSendEmail(ValidaScriptParser.SendEmailContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code sendEmailCalculos}
+	 * labeled alternative in {@link ValidaScriptParser#funcao}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ValidaScriptParser#else1}.
 	 * @param ctx the parse tree

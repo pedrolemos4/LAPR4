@@ -43,14 +43,14 @@ public class ValidaScriptParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'Ler ficheiro'", "'Send Email'", "'Send Email Formulario'", "'if '", 
-			"' then:'", "'end if;'", "'Valor total'", "'else'", "'CATEGORIA'", "'=='", 
-			"'!='", "'Aplicar Desconto->'", "'->'", "'('", "')'", "'%'", "' '", "'#'", 
-			"'<File>'", "'</File>'", "'<Produto>'", "'</Produto>'", "'<Cliente>'", 
-			"'</Cliente>'", "'<Codigo>'", "'</Codigo>'", "'<Preco>'", "'</Preco>'", 
-			"'<Categoria>'", "'</Categoria>'", "'<Numero>'", "'</Numero>'", "'<Escalao>'", 
-			"'</Escalao>'", null, null, null, "'+'", "'-'", "'*'", "'/'", "'Escalao'", 
-			"'Preco'", "'Categoria'", null, null, "';'", null, null, "'.xml'"
+			null, "'Ler ficheiro'", "'if '", "' then:'", "'end if;'", "'Valor total'", 
+			"'Send Email to: '", "' Valor:'", "'else'", "'CATEGORIA'", "'=='", "'!='", 
+			"'Aplicar Desconto->'", "'->'", "'('", "')'", "'%'", "' '", "'#'", "'<File>'", 
+			"'</File>'", "'<Produto>'", "'</Produto>'", "'<Cliente>'", "'</Cliente>'", 
+			"'<Codigo>'", "'</Codigo>'", "'<Preco>'", "'</Preco>'", "'<Categoria>'", 
+			"'</Categoria>'", "'<Numero>'", "'</Numero>'", "'<Escalao>'", "'</Escalao>'", 
+			null, null, null, "'+'", "'-'", "'*'", "'/'", "'Escalao'", "'Preco'", 
+			"'Categoria'", null, null, "';'", null, null, "'.xml'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -251,6 +251,24 @@ public class ValidaScriptParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class SendEmailContext extends FuncaoContext {
+		public Token email;
+		public TerminalNode EMAIL() { return getToken(ValidaScriptParser.EMAIL, 0); }
+		public SendEmailContext(FuncaoContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterSendEmail(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitSendEmail(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitSendEmail(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class AplicarDescontoContext extends FuncaoContext {
 		public Else1Context temElse;
 		public Expressao_a_verificarContext expressao_a_verificar() {
@@ -274,6 +292,28 @@ public class ValidaScriptParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitAplicarDesconto(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SendEmailCalculosContext extends FuncaoContext {
+		public Token email;
+		public NameVarContext varValor;
+		public TerminalNode EMAIL() { return getToken(ValidaScriptParser.EMAIL, 0); }
+		public NameVarContext nameVar() {
+			return getRuleContext(NameVarContext.class,0);
+		}
+		public SendEmailCalculosContext(FuncaoContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterSendEmailCalculos(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitSendEmailCalculos(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitSendEmailCalculos(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -342,46 +382,6 @@ public class ValidaScriptParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class EnviarEmailFormularioContext extends FuncaoContext {
-		public EnviarEmailFormularioContext(FuncaoContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterEnviarEmailFormulario(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitEnviarEmailFormulario(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitEnviarEmailFormulario(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class EnviarEmailProdutoContext extends FuncaoContext {
-		public Token emailColab;
-		public Token tipoCliente;
-		public List<TerminalNode> PONTO_VIRGULA() { return getTokens(ValidaScriptParser.PONTO_VIRGULA); }
-		public TerminalNode PONTO_VIRGULA(int i) {
-			return getToken(ValidaScriptParser.PONTO_VIRGULA, i);
-		}
-		public TerminalNode EMAIL() { return getToken(ValidaScriptParser.EMAIL, 0); }
-		public TerminalNode PALAVRA() { return getToken(ValidaScriptParser.PALAVRA, 0); }
-		public EnviarEmailProdutoContext(FuncaoContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).enterEnviarEmailProduto(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ValidaScriptListener ) ((ValidaScriptListener)listener).exitEnviarEmailProduto(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ValidaScriptVisitor ) return ((ValidaScriptVisitor<? extends T>)visitor).visitEnviarEmailProduto(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final FuncaoContext funcao() throws RecognitionException {
 		FuncaoContext _localctx = new FuncaoContext(_ctx, getState());
@@ -390,8 +390,8 @@ public class ValidaScriptParser extends Parser {
 		try {
 			setState(76);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__0:
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
 				_localctx = new LerFicheiroContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
@@ -419,74 +419,72 @@ public class ValidaScriptParser extends Parser {
 				}
 				}
 				break;
-			case T__1:
-				_localctx = new EnviarEmailProdutoContext(_localctx);
+			case 2:
+				_localctx = new CalcularValorContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(59);
-				match(T__1);
-				setState(60);
-				match(PONTO_VIRGULA);
-				setState(61);
-				((EnviarEmailProdutoContext)_localctx).emailColab = match(EMAIL);
-				setState(62);
-				match(PONTO_VIRGULA);
-				setState(63);
-				((EnviarEmailProdutoContext)_localctx).tipoCliente = match(PALAVRA);
-				}
-				break;
-			case T__2:
-				_localctx = new EnviarEmailFormularioContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(64);
-				match(T__2);
-				}
-				break;
-			case T__17:
-				_localctx = new CalcularValorContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(65);
 				expressao();
 				}
 				break;
-			case T__3:
+			case 3:
 				_localctx = new AplicarDescontoContext(_localctx);
-				enterOuterAlt(_localctx, 5);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(66);
-				match(T__3);
-				setState(67);
+				setState(60);
+				match(T__1);
+				setState(61);
 				expressao_a_verificar();
-				setState(68);
-				match(T__4);
-				setState(69);
+				setState(62);
+				match(T__2);
+				setState(63);
 				aplicar_desconto();
-				setState(71);
+				setState(65);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__7) {
 					{
-					setState(70);
+					setState(64);
 					((AplicarDescontoContext)_localctx).temElse = else1();
 					}
 				}
 
-				setState(73);
-				match(T__5);
+				setState(67);
+				match(T__3);
 				}
 				break;
-			case T__6:
+			case 4:
 				_localctx = new CalcularDescontoEPrecoContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(69);
+				match(T__4);
+				}
+				break;
+			case 5:
+				_localctx = new SendEmailContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(70);
+				match(T__5);
+				setState(71);
+				((SendEmailContext)_localctx).email = match(EMAIL);
+				}
+				break;
+			case 6:
+				_localctx = new SendEmailCalculosContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(75);
+				setState(72);
+				match(T__5);
+				setState(73);
+				((SendEmailCalculosContext)_localctx).email = match(EMAIL);
+				setState(74);
 				match(T__6);
+				setState(75);
+				((SendEmailCalculosContext)_localctx).varValor = nameVar();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1800,8 +1798,8 @@ public class ValidaScriptParser extends Parser {
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\3\2\3\2\3\3\3\3\3\3\3\3\3\3\7\3\60\n\3\f\3\16\3\63"+
-		"\13\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4<\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\5\4J\n\4\3\4\3\4\3\4\5\4O\n\4\3\5\3\5\3\5\3\6\3\6"+
+		"\13\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4<\n\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4"+
+		"D\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4O\n\4\3\5\3\5\3\5\3\6\3\6"+
 		"\3\6\3\6\3\6\3\6\3\6\5\6[\n\6\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t"+
 		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tr\n\t\3\n\3\n\3\n\5\n"+
 		"w\n\n\3\13\3\13\3\13\3\13\5\13}\n\13\3\f\3\f\3\f\3\f\5\f\u0083\n\f\3\r"+
@@ -1820,10 +1818,10 @@ public class ValidaScriptParser extends Parser {
 		".\f\4\2\2.\60\5\6\4\2/-\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2"+
 		"\2\62\5\3\2\2\2\63\61\3\2\2\2\64\65\7\3\2\2\65\66\7\61\2\2\66\67\7/\2"+
 		"\2\678\7\61\2\28;\5\34\17\29:\7\61\2\2:<\5\24\13\2;9\3\2\2\2;<\3\2\2\2"+
-		"<O\3\2\2\2=>\7\4\2\2>?\7\61\2\2?@\7\63\2\2@A\7\61\2\2AO\7\62\2\2BO\7\5"+
-		"\2\2CO\5\16\b\2DE\7\6\2\2EF\5\n\6\2FG\7\7\2\2GI\5\f\7\2HJ\5\b\5\2IH\3"+
-		"\2\2\2IJ\3\2\2\2JK\3\2\2\2KL\7\b\2\2LO\3\2\2\2MO\7\t\2\2N\64\3\2\2\2N"+
-		"=\3\2\2\2NB\3\2\2\2NC\3\2\2\2ND\3\2\2\2NM\3\2\2\2O\7\3\2\2\2PQ\7\n\2\2"+
+		"<O\3\2\2\2=O\5\16\b\2>?\7\4\2\2?@\5\n\6\2@A\7\5\2\2AC\5\f\7\2BD\5\b\5"+
+		"\2CB\3\2\2\2CD\3\2\2\2DE\3\2\2\2EF\7\6\2\2FO\3\2\2\2GO\7\7\2\2HI\7\b\2"+
+		"\2IO\7\63\2\2JK\7\b\2\2KL\7\63\2\2LM\7\t\2\2MO\5\32\16\2N\64\3\2\2\2N"+
+		"=\3\2\2\2N>\3\2\2\2NG\3\2\2\2NH\3\2\2\2NJ\3\2\2\2O\7\3\2\2\2PQ\7\n\2\2"+
 		"QR\5\f\7\2R\t\3\2\2\2ST\5\22\n\2TU\7\'\2\2UV\5\22\n\2V[\3\2\2\2WX\7\13"+
 		"\2\2XY\t\2\2\2Y[\7\62\2\2ZS\3\2\2\2ZW\3\2\2\2[\13\3\2\2\2\\]\7\16\2\2"+
 		"]^\5\22\n\2^\r\3\2\2\2_`\5\32\16\2`a\7\17\2\2ab\5\20\t\2b\17\3\2\2\2c"+
@@ -1858,7 +1856,7 @@ public class ValidaScriptParser extends Parser {
 		"\3\2\2\2\u00c8\u00c7\3\2\2\2\u00c9%\3\2\2\2\u00ca\u00cb\7!\2\2\u00cb\u00cc"+
 		"\7/\2\2\u00cc\u00cd\7\"\2\2\u00cd\u00ce\7#\2\2\u00ce\u00cf\7\62\2\2\u00cf"+
 		"\u00d2\7$\2\2\u00d0\u00d2\3\2\2\2\u00d1\u00ca\3\2\2\2\u00d1\u00d0\3\2"+
-		"\2\2\u00d2\'\3\2\2\2\21\61;INZqv|\u0082\u008c\u009e\u00b0\u00b2\u00c8"+
+		"\2\2\u00d2\'\3\2\2\2\21\61;CNZqv|\u0082\u008c\u009e\u00b0\u00b2\u00c8"+
 		"\u00d1";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

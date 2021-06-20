@@ -326,7 +326,7 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     //--------------------------------ENVIAR EMAIL--------------------------------//
 
-    public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
+    /*public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
         System.out.println("Email: " + ctx.emailColab.getText());
         System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
                 "O seu pedido foi efetuado com sucesso! O valor a pagar dos seus produtos será " + precoTotal + "€. Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
@@ -338,5 +338,5 @@ public class EvalListener extends ValidaScriptBaseListener {
         } else {
             System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
         }
-    }
+    }*/
 }

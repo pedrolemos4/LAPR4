@@ -166,18 +166,6 @@ public class FluxoRequest extends AplicacoesRequest {
                         if(l.toString().equalsIgnoreCase("Quantidade")){
                             atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
                             input = input.concat(";");
-                        }else if(l.toString().equalsIgnoreCase("Nome")){
-                            dadosForm = dadosForm.concat("Nome:"+v.toString());
-                        }else if(l.toString().equalsIgnoreCase("TipoDesconto")){
-                            dadosForm = dadosForm.concat("TipoDesconto:"+v.toString());
-                        }else if(l.toString().equalsIgnoreCase("PercentagemDesconto")){
-                            dadosForm = dadosForm.concat("PercentagemDesconto:"+v.toString());
-                        }else if(l.toString().equalsIgnoreCase("Fatura")){
-                            dadosForm = dadosForm.concat("Fatura:"+v.toString());
-                        }else if(l.toString().equalsIgnoreCase("DataLimite")){
-                            dadosForm = dadosForm.concat("DataLimite:"+v.toString());
-                        }else if(l.toString().equalsIgnoreCase("Fundamentacao")){
-                            dadosForm = dadosForm.concat("Fundamentacao:"+v.toString());
                         }else{
                             input = input.concat(v.toString());
                             input = input.concat(";");
@@ -187,7 +175,6 @@ public class FluxoRequest extends AplicacoesRequest {
                     input = input.concat(caminhoScript);
 
                     atributoProdutoColab = atributoProdutoColab.concat(input);
-                    atributoProdutoColab = atributoProdutoColab.concat(dadosForm);
                     byte[] idArray = atributoProdutoColab.getBytes();
                     int size = idArray.length;
                     data[0] = 0;
