@@ -26,7 +26,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     private String parametroLerFicheiro;
 
-    private String form;
+    private String form = "";
 
     private Map<String, Double> map = new HashMap<>();
 
@@ -143,6 +143,10 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     private void setCode(int code) {
         this.code = code;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
     }
 
     private void setParametro(String parametro) {
@@ -380,7 +384,11 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     @Override
     public Double visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
-        System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
+        if(form.isEmpty()){
+            System.out.println("Não existem dados do formulário.");
+        } else {
+            System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
+        }
         return 0.0;
     }
 
