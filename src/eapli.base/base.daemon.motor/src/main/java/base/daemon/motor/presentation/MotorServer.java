@@ -154,7 +154,7 @@ public class MotorServer {
                 //}
             } catch (final IOException e) {
                 LOGGER.error(e);
-            }/*
+            }
             finally {
                 try {
                     myS.close();

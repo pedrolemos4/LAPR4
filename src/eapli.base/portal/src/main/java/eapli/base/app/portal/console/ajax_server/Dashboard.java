@@ -32,8 +32,8 @@ public class Dashboard extends Thread {
 	static final String KEYSTORE_PASS = "forgotten";
 
 	static InetAddress serverIP;
-	//private static final String IPMOTOR = "10.8.0.82";
-	private static final String IPMOTOR = "localhost";
+	private static final String IPMOTOR = "10.8.0.82";
+	//private static final String IPMOTOR = "localhost";
 
 	static private SSLSocket sock;
 	static private int serverPort;
@@ -235,7 +235,7 @@ public class Dashboard extends Thread {
 			return new String(data);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "nao tens tarefas. Bai trabalhar.";
+			return tasks;
 		}
 	}
 }
