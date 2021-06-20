@@ -352,7 +352,7 @@ public class JpaPedidoRepository extends BasepaRepositoryBase<Pedido, Long, Stri
     }
 
     @Override
-    public List<Calendar> findDatas(MecanographicNumber number, String idPedido) {
+    public List<Calendar> findDatas(MecanographicNumber number) {
         final TypedQuery<Calendar> q = createQuery("SELECT p.dataSolicitacao FROM Pedido p" +
                 " JOIN p.listaAtiv la JOIN la.colab col" +
                 " WHERE la.estadoAtividade =:pendente AND col.numeroMecanografico=:number", Calendar.class);

@@ -57,19 +57,10 @@ public class ExecutorProtocolMessageParser {
     }
 
     private static ExecutorProtocolRequest TarefaAutomatica(final String inputLine) {
-        /*if (tokens.length != 4) {
-            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
-        } else if (isStringParam(tokens[1])) {
-            request = new ErrorInRequest(inputLine, "meal id must not be inside quotes");
-        } else if (!isStringParam(tokens[2])) {
-            request = new ErrorInRequest(inputLine, "user id must be inside quotes");
-        } else {*/
+
         ExecutorProtocolRequest request = new ExecutorTarefaAutomatica(inputLine);
-        //}
+
         return request;
     }
 
-    /*private static boolean isStringParam(final String string) {
-        return string.length() >= 2 && string.charAt(0) == '"' && string.charAt(string.length() - 1) == '"';
-    }*/
 }

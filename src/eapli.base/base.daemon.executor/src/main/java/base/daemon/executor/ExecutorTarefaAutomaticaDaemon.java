@@ -21,7 +21,6 @@
 package base.daemon.executor;
 
 import base.daemon.executor.presentation.ExecutorServer;
-import base.daemon.motor.algorithms.ExecutorController;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
@@ -29,8 +28,6 @@ import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * eCafeteria Booking daemon.

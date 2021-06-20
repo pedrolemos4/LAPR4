@@ -15,8 +15,6 @@ import java.util.List;
 
 public final class MotorDaemon {
 
-    private static final int PORT = 32507;
-
     private static final Logger LOGGER = LogManager.getLogger(MotorDaemon.class);
 
     private MotorDaemon() {
@@ -37,7 +35,6 @@ public final class MotorDaemon {
 
         final MotorServer server  = new MotorServer();
         MotorServer.main(null);
-        //server.start(PORT,true);
         LOGGER.info("Exiting the daemon");
         System.exit(0);
     }

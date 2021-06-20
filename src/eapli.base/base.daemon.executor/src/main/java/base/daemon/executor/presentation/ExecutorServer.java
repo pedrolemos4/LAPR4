@@ -22,7 +22,6 @@ package base.daemon.executor.presentation;
 
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
-import eapli.base.atividade.domain.Atividade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +31,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
 
 
 public class ExecutorServer {
@@ -43,7 +41,6 @@ public class ExecutorServer {
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
 
-    //private static ServerSocket sock;
 
     public static void main(String args[]) throws Exception {
         SSLServerSocket sockSSL = null;
@@ -103,33 +100,11 @@ public class ExecutorServer {
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
                 final byte[] response = request.execute();
-                //depois disto em principio terminou a tarefa
-                /*if(tarefas.contains(controller.getTarefaByScript(inputLine))){
-                    final byte[] response = request.execute();
-                    tarefas.remove(controller.getTarefaByScript(inputLine));
-                    LOGGER.info("Executor vai mandar mensagem");
-                    sOut.write(response);
-                }*/
 
-                /*byte[] respostaByte = new byte[258];
-                respostaByte[0] = 0;
-                respostaByte[1] = 1;
-                byte[] respostaByteAux = request.toString().getBytes();
-                respostaByte[2] = (byte) respostaByteAux.length;
-
-                for (i = 0; i < respostaByteAux.length; i++) {
-                    respostaByte[i + 2] = respostaByteAux[i];
-                }*/
                 LOGGER.info("Executor vai mandar mensagem");
-                //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, null, ex);
                 sOut.write(response);
 
-                /*LOGGER.trace("Sent message:----\n{}\n----", response);
 
-                if (request.isGoodbye()) {
-                    //  break;
-                    //  }
-                }*/
             } catch (IOException e) {
                 LOGGER.error(e);
             } finally {
@@ -139,15 +114,6 @@ public class ExecutorServer {
                     LOGGER.error("While closing the client socket", e);
                 }
             }
-            //if(nChars==0) break; // empty line means client wants to exit
-            //TcpChatSrv.sendToAll(nChars,data);
-            //}
-            // the client wants to exit
-            //TcpChatSrv.remCli(myS);
-            /*} catch (
-                    Exception ex) {
-                System.out.println("Error");
-            }*/
         }
     }
 

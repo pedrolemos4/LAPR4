@@ -119,7 +119,7 @@ public class AplicacoesController {
         return this.servicoRepository.findScriptServico(identity);
     }
 
-    public List<Calendar> findDatas(MecanographicNumber number,String idPedido){
-        return this.pedidoRepository.findDatas(number,idPedido);
+    public List<Calendar> findDatas(MecanographicNumber number){
+        return this.pedidoRepository.findDatas(number);
     }
 }

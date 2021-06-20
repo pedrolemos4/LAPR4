@@ -12,10 +12,6 @@ public class ExecutorController {
     public ExecutorController(List<String> listServidores) {
         this.listExecutores = listServidores;
         preencherMap(mapExecutor);
-        for(Map.Entry<String, Integer> map: mapExecutor.entrySet()){
-            System.out.println("map.getKey:: " + map.getKey());
-            System.out.println("map.getValue:: " + map.getValue());
-        }
     }
 
     public void preencherMap(Map<String, Integer> mapExecutor) {
@@ -26,8 +22,6 @@ public class ExecutorController {
 
     public static synchronized void addAtividade(String executor){
         mapExecutor.replace(executor, mapExecutor.get(executor) + 1);
-        System.out.println("MAPA DEPOIS:: " +executor+ "VALUE:: " +mapExecutor.get(executor));
-
     }
 
     public static synchronized void removeAtividade(String executor){
