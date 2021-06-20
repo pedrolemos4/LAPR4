@@ -1,23 +1,3 @@
-/*
- * Copyright (c) 2013-2020 the original author or authors.
- *
- * MIT License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
- * associated documentation files (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge, publish, distribute,
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
 package base.daemon.executor.protocol;
 
 import base.daemon.executor.validacao.script.base.daemon.executor.validacao.script.MainValidaScript;
@@ -47,34 +27,28 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
             if (s.contains("Quantidade:")){// | s.contains("NUM")) {
                 String[] split = s.split(":");
                 quantidade = split[1];
-            }
-            if (s.contains("Nome:")){// | s.contains("NUM")) {
+            }else if (s.contains("Nome:")){// | s.contains("NUM")) {
                 form = form.concat(s + " ");
-            }
-            if (s.contains("TipoDesconto:")){// | s.contains("NUM")) {
+            }else if (s.contains("TipoDesconto:")){// | s.contains("NUM")) {
                 form = form.concat(s + " ");
-            }
-            if (s.contains("PercentagemDesconto:")){// | s.contains("NUM")) {
+            }else if (s.contains("PercentagemDesconto:")){// | s.contains("NUM")) {
                 form = form.concat(s + " ");
-            }
-            if (s.contains("Fatura:")){// | s.contains("NUM")) {
+            }else if (s.contains("Fatura:")){// | s.contains("NUM")) {
                 form = form.concat(s + " ");
-            }
-            if (s.contains("DataLimite:")){// | s.contains("NUM")) {
+            }else if (s.contains("DataLimite:")){// | s.contains("NUM")) {
                 form = form.concat(s + " ");
-            }
-            if (s.contains("Fundamentacao:")){// | s.contains("NUM")) {
+            }else if (s.contains("Fundamentacao:")){// | s.contains("NUM")) {
                 form = form.concat(s + " ");
             }
         }
         System.out.println("FORM\n"+form);
         File f = new File(caminho[1]);
-        String caminhoFinal = f.getAbsolutePath();
+        //String caminhoFinal = f.getAbsolutePath();
         //ValidaScript vs = new ValidaScript();
         // boolean checkScript = vs.validaScript(fileScript);
         // if (checkScript) {
         try {
-            executarScript(caminhoFinal, quantidade, form);
+            executarScript(f, quantidade, form);
         } catch (final IOException e) {
             System.out.println(e.getMessage());
             LOGGER.info("Erro");
@@ -112,21 +86,18 @@ public class ExecutorTarefaAutomatica extends ExecutorProtocolRequest {
         LOGGER.info("Script guardado para posterior execução");
     }
 
-    private void executarScript(final String script, final String quantidade, final String form) throws IOException {
-        //args[0] = caminho do script
-        //args[1] = quantidade no pedido
+    private void executarScript(File script, String quantidade, String form) throws IOException {
         String[] args = new String[2];
-        args[0] = script;
-        args[1] = quantidade;
-        args[2] = form;
+        args[0] = quantidade;
+        args[1] = form;
         MainValidaScript main = new MainValidaScript();
-        main.main(args);
+        main.main(args, script);
         //Scanner ler = new Scanner(new File(input));
         //ler.nextLine();
         //executa o script
         //String[] cmd = {"sh", script.getName(), script.getPath()};
         //Runtime.getRuntime().exec(cmd);
-        LOGGER.info("A executar o script...");
+        //LOGGER.info("A executar o script...");
     }
 
 }
