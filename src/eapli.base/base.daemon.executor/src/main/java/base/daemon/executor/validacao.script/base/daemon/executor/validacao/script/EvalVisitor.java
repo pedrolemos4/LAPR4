@@ -88,7 +88,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
     public Double visitLerFicheiro(ValidaScriptParser.LerFicheiroContext ctx) {
         FileInputStream fis;
         try {
-            fis = new FileInputStream(new File("C:\\Users\\josec\\Documents\\lei20_21_s4_2di_04\\src\\eapli.base\\base.daemon.executor\\src\\main\\java\\base\\daemon\\executor\\validacao.script\\testeProdutos.xml"));
+            fis = new FileInputStream(new File("testeProdutos.xml"));
             ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             ValidaScriptParser parser = new ValidaScriptParser(tokens);

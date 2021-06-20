@@ -11,24 +11,28 @@ import java.io.IOException;
 public class MainValidaScript {
 
     public static void main(String[] args) throws IOException {
-        FileInputStream fis = new FileInputStream(args[0]);
-        ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ValidaScriptParser parser = new ValidaScriptParser(tokens);
-        ParseTree tree = parser.prog();
+        try {
+            FileInputStream fis = new FileInputStream(args[0]);
+            ValidaScriptLexer lexer = new ValidaScriptLexer(new ANTLRInputStream(fis));
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            ValidaScriptParser parser = new ValidaScriptParser(tokens);
+            ParseTree tree = parser.prog();
 
-        System.out.println("VISITOR: ");
-        EvalVisitor eval = new EvalVisitor();
-        eval.setQuantidade(Integer.parseInt(args[1]));
-        eval.setForm(args[2]);
-        eval.visit(tree);
+            System.out.println("VISITOR: ");
+            EvalVisitor eval = new EvalVisitor();
+            eval.setQuantidade(Integer.parseInt(args[1]));
+            eval.setForm(args[2]);
+            eval.visit(tree);
 
-        System.out.println("\nLISTENER: ");
-        ParseTreeWalker walker = new ParseTreeWalker();
-        EvalListener listener = new EvalListener();
-        listener.setQuantidade(Integer.parseInt(args[1]));
-        listener.setForm(args[2]);
-        walker.walk(listener, tree);
+            System.out.println("\nLISTENER: ");
+            ParseTreeWalker walker = new ParseTreeWalker();
+            EvalListener listener = new EvalListener();
+            listener.setQuantidade(Integer.parseInt(args[1]));
+            listener.setForm(args[2]);
+            walker.walk(listener, tree);
+        } catch (Exception e) {
+            System.out.println("Erro a executar o script! Script inválido.");
+        }
     }
 
 }
