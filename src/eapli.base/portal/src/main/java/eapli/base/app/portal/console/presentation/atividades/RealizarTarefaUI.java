@@ -74,7 +74,9 @@ public class RealizarTarefaUI extends AbstractUI {
                                 counterFormularioInvalido++;
                             }
                         }
-                    } else {
+                    }
+
+                    if(counterFormularioInvalido == 0){
                         try {
                             File file = new File("formularioAtividade.txt");
                             FileWriter myWriter = new FileWriter(file);
@@ -98,9 +100,7 @@ public class RealizarTarefaUI extends AbstractUI {
                             System.out.println("An error occurred.");
                             e.printStackTrace();
                         }
-                    }
-
-                    if(counterFormularioInvalido > 0){
+                    } else {
                         flag = false;
                         System.out.println("Validação Rejeitada.");
                     }
