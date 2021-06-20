@@ -52,30 +52,6 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCalcularValor(ValidaScriptParser.CalcularValorContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -107,6 +83,30 @@ public class ValidaScriptBaseListener implements ValidaScriptListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSendEmail(ValidaScriptParser.SendEmailContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSendEmail(ValidaScriptParser.SendEmailContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

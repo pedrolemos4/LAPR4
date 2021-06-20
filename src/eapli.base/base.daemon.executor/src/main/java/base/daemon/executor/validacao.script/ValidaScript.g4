@@ -7,11 +7,11 @@ start: start funcao
      ;
 
 funcao: 'Ler ficheiro' PONTO_VIRGULA possivel_id=INTEIRO PONTO_VIRGULA ficheiro_script=ficheiro (PONTO_VIRGULA valor=valor_pretendido)?  #lerFicheiro
-      | 'Send Email' PONTO_VIRGULA emailColab=EMAIL PONTO_VIRGULA tipoCliente=PALAVRA #enviarEmailProduto
-      | 'Send Email Formulario' #enviarEmailFormulario
       | expressao #calcularValor
       | 'if ' expressao_a_verificar ' then:' aplicar_desconto temElse=else1? 'end if;' #aplicarDesconto
       | 'Valor total' #calcularDescontoEPreco
+      | 'Send Email to: ' email=EMAIL #sendEmail
+      | 'Send Email to: ' email=EMAIL ' Valor:' varValor=nameVar #sendEmailCalculos
       ;
 
 else1: 'else' aplicar_desconto

@@ -96,7 +96,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
             int quant = getQuantidade();
             EvalVisitor eval = new EvalVisitor();
             eval.setCode(Integer.parseInt(ctx.possivel_id.getText()));
-            if(ctx.valor!=null) {
+            if (ctx.valor != null) {
                 eval.setParametro(ctx.valor.getText());
             }
             eval.setQuantidade(quant);
@@ -359,7 +359,7 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
         } else {
             desconto += Double.parseDouble(ctx.valorDesconto.getText());
         }
-        System.out.println("Desconto: "+desconto);
+        System.out.println("Desconto: " + desconto);
         this.desconto = desconto;
         return desconto;
     }
@@ -368,28 +368,26 @@ public class EvalVisitor extends ValidaScriptBaseVisitor<Double> {
 
     @Override
     public Double visitCalcularDescontoEPreco(ValidaScriptParser.CalcularDescontoEPrecoContext ctx) {
-        System.out.println("Preco total: "+precoTotal);
-        this.precoTotal=precoTotal-this.getDesconto()*precoTotal;
-        System.out.println("Preco apos descontos: "+precoTotal);
-        return precoTotal-this.getDesconto()*precoTotal;
+        System.out.println("Preco total: " + precoTotal);
+        this.precoTotal = precoTotal - this.getDesconto() * precoTotal;
+        System.out.println("Preco apos descontos: " + precoTotal);
+        return precoTotal - this.getDesconto() * precoTotal;
     }
 
 //--------------------------------ENVIAR EMAIL--------------------------------//
 
     @Override
-    public Double visitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
-        System.out.println("Email: " + ctx.emailColab.getText());
-        System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
-                "O seu pedido foi efetuado com sucesso! O valor a pagar dos seus produtos será " + precoTotal + "€. Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
+    public Double visitSendEmail(ValidaScriptParser.SendEmailContext ctx) {
+        System.out.println("Enviar email a " + ctx.email.getText()+ " com desconto de: " + desconto);
         return 0.0;
     }
 
     @Override
-    public Double visitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
-        if(form.isEmpty()){
-            System.out.println("Não existem dados do formulário.");
-        } else {
-            System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
+    public Double visitSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx) {
+        if(map.containsKey(ctx.varValor.getText())){
+            System.out.println("Enviar email a " +ctx.email.getText()+" com desconto de: " + desconto+" com um preco de: "+map.get(ctx.varValor.getText()));
+        }else{
+            System.out.println("Nao existe essa variavel");
         }
         return 0.0;
     }

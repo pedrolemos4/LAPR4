@@ -326,17 +326,15 @@ public class EvalListener extends ValidaScriptBaseListener {
 
     //--------------------------------ENVIAR EMAIL--------------------------------//
 
-    public void exitEnviarEmailProduto(ValidaScriptParser.EnviarEmailProdutoContext ctx) {
-        System.out.println("Email: " + ctx.emailColab.getText());
-        System.out.println("Caro " + ctx.tipoCliente.getText() + ",\n" +
-                "O seu pedido foi efetuado com sucesso! O valor a pagar dos seus produtos será " + precoTotal + "€. Este valor foi obtido após aplicar o desconto de " + (desconto * 100) + "%");
+    public void exitSendEmail(ValidaScriptParser.SendEmailContext ctx) {
+        System.out.println("Enviar email a " + ctx.email.getText()+ " com desconto de: " + desconto);
     }
 
-    public void exitEnviarEmailFormulario(ValidaScriptParser.EnviarEmailFormularioContext ctx) {
-        if(form.isEmpty()){
-            System.out.println("Não existem dados do formulário.");
-        } else {
-            System.out.println("Caro colaborador, aqui tem os dados do formulário que preencheu:\n" + form);
+    public void exitSendEmailCalculos(ValidaScriptParser.SendEmailCalculosContext ctx) {
+        if(map.containsKey(ctx.varValor.getText())){
+            System.out.println("Enviar email a " +ctx.email.getText()+" com desconto de: " + desconto+" com um preco de: "+map.get(ctx.varValor.getText()));
+        }else{
+            System.out.println("Nao existe essa variavel");
         }
     }
 }
