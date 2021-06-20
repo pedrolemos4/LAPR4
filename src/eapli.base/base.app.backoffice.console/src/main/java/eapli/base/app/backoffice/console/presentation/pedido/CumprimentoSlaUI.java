@@ -33,6 +33,7 @@ public class CumprimentoSlaUI extends AbstractUI {
 
                 List<Atividade> listAtividades = this.controller.getTarefasDoPedido(pedido.identity());
                 for (Atividade at : listAtividades) {
+                    System.out.println("Atividade: " + at.toString());
                     System.out.println("Tempo decorrido na Atividade: " + this.controller.getTempoDaTarefa(at.identity()));
                     checkAtividade(at, tempoMaximoRes, tempoMaximoAprov);
 

@@ -108,7 +108,7 @@ public class Pedido implements AggregateRoot<String> {
 
     @Override
     public String toString() {
-        return "Pedido: " +
+        return "Pedido: " + Id +" "+
                 colaborador +
                 ", UrgenciaPedido: " + urgenciaPedido +
                 ", DataLimiteResolucao: " + dataLimiteResolucao.getTime() + " Grau Satisfação: " + grau +

@@ -48,8 +48,6 @@ public class RealizarTarefaUI extends AbstractUI {
 
                 Pedido pedido = this.controller.getPedidoByTarefa(at);
 
-                //System.out.println("PEDIDO:: " + pedido.identity());
-
                 Formulario form = this.controller.getFormularioDaAtividade(at);
 
                 if (form != null) {
@@ -58,7 +56,6 @@ public class RealizarTarefaUI extends AbstractUI {
                     Formulario formFinal = preencherAtributos(form, listaAtributos);
                     formFinal.copyAtributos(listaAtributos);
 
-                    //this.controller.savePedido(pedido);
                     this.controller.replaceFormularioAtividade(pedido, at, formFinal);
 
                     int counterFormularioInvalido = 0;
@@ -106,8 +103,6 @@ public class RealizarTarefaUI extends AbstractUI {
                     }
 
                 }
-
-                //this.controller.savePedido(pedido);
 
                 String comentario = Console.readLine("Introduza um comentario:");
 

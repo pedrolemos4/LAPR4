@@ -17,7 +17,6 @@ nome: STRING #validoString
 | ano=ANO BARRA mes=(DOIS_DIGITOS|DIGITO) BARRA dia=(DOIS_DIGITOS|DIGITO) #validoData
 | BOOLEAN #validoBoolean
 | #nomeVazio
-//| BOOLEAN #validoBoolean
 ;
 
 BARRA:'/';
@@ -30,6 +29,5 @@ STRING:[A-Z]?[a-z]+;
 BOOLEAN:'true' | 'false';
 TIPO_DADOS:'INTEGER' | 'STRING' | 'BOOLEAN' | 'DATA';
 OBRIGATORIO:'OBRIGATORIO' | 'OPCIONAL';
-//EXPRESSAO_REGULAR:[A-Z][a-z]+{1,30};
 
 WS:[ \t\r\n]+->skip; //ignora espaços, tabs e mudanças de linha
