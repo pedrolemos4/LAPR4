@@ -143,6 +143,12 @@ public class Pedido implements AggregateRoot<String> {
         this.estado = estadoPedido;
     }
 
+    public void alterarEstadoAtividade(EstadoAtividade estadoAtividade){
+        for(Atividade atividade: this.listaAtiv){
+            atividade.mudaEstadoAtividade(estadoAtividade);
+        }
+    }
+
     public void annexFile(File file) {
         //   this.annexedFiles.add(file);
     }

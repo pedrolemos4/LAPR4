@@ -83,6 +83,8 @@ public class FluxoRequest extends AplicacoesRequest {
                     Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
                     pedido.adicionaColaborador(escolhido, atividade);
                     System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: " + pedido.toString());
+                    pedido.alterarEstadoAtividade(EstadoAtividade.COMPLETO);
+                    controller.updatePedido(id,EstadoPedido.CONCLUIDO);
                     pedidoRepository.save(pedido);
                 } else {
                     String ipEscolhido = "";
@@ -230,6 +232,7 @@ public class FluxoRequest extends AplicacoesRequest {
                     serverConn.join();
                     sock.close();
 
+                    pedido.alterarEstadoAtividade(EstadoAtividade.COMPLETO);
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
                 }
             }
