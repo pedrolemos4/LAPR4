@@ -31,7 +31,7 @@ public class EstadoFluxoRequest extends AplicacoesRequest {
         byte[] data = new byte[258];
         data[0] = 0;
         data[1] = 1;
-        byte[] idArray = token.toString().getBytes();//pedido.servico().identity().toString().getBytes();
+        byte[] idArray = token.toString().getBytes();
         data[2] = (byte) idArray.length;
         for (int i = 0; i < idArray.length; i++) {
             data[i] = idArray[i];
@@ -44,7 +44,7 @@ public class EstadoFluxoRequest extends AplicacoesRequest {
         byte[] data = new byte[258];
         data[0] = 0;
         data[1] = 1;
-        byte[] idArray = resposta.getBytes();//pedido.servico().identity().toString().getBytes();
+        byte[] idArray = resposta.getBytes();
         data[2] = (byte) idArray.length;
         for (int i = 0; i < idArray.length; i++) {
             data[i] = idArray[i];

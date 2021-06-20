@@ -64,54 +64,35 @@ public class FluxoRequest extends AplicacoesRequest {
             Pedido pedido = pedidoRepository.findPedido(id);
             Servico servico = controller.findServico(id);
             List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
-            //FluxoAtividade fluxo = controller.getFluxoAtividade(id);
             List<Atividade> atividadesList = pedidoRepository.getListaAtividades(id, EstadoAtividade.PENDENTE);
-            System.out.println("\n\n\n\n\n\n\n" + atividadesList.size() + "\n\n\n\n\n\n\n\n\n\n");
-            int j = 0;
-            Thread[] threads = new Thread[list.size()];
 
-            j = 0;
             for (Atividade atividade : atividadesList) {
                 if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo);
                     pedido.adicionaColaborador(escolhido, atividade);
                     pedidoRepository.save(pedido);
 
                 } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo, id);
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo);
                     pedido.adicionaColaborador(escolhido, atividade);
-                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPedido: " + pedido.toString());
                     pedido.alterarEstadoAtividade(EstadoAtividade.COMPLETO);
                     controller.updatePedido(id,EstadoPedido.CONCLUIDO);
                     pedidoRepository.save(pedido);
                 } else {
                     String ipEscolhido = "";
                     if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
-                        System.out.println("list:: " + ExecutorController.getListExecutores().size());
                         Map<String, Integer> map = ExecutorController.getMapa();
                         List<String> listServidores = ExecutorController.getListExecutores();
-
-                        for(Map.Entry<String, Integer> map1: map.entrySet()){
-                            System.out.println("MAPA:: " + map1.getKey());
-                            System.out.println("MAPA VALUE " + map1.getValue());
-                            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                        }
 
                         FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade, map);
                         first.createThreads();
                         ipEscolhido = first.getExecutorEscolhido();
                         ExecutorController.addAtividade(ipEscolhido);
 
-                        for(Map.Entry<String, Integer> map1: map.entrySet()){
-                            System.out.println("MAPA:: " + map1.getKey());
-                            System.out.println("MAPA VALUE " + map1.getValue());
-                            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                        }
 
                     } else {
-                        System.out.println("list:: " + ExecutorController.getListExecutores().size());
                         Map<String, Integer> map = ExecutorController.getMapa();
                         List<String> listServidores = ExecutorController.getListExecutores();
                         WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(listServidores, atividade, map);
@@ -209,13 +190,6 @@ public class FluxoRequest extends AplicacoesRequest {
                     sOut.write(data);
                     ExecutorController.removeAtividade(ipEscolhido);
 
-                    Map<String, Integer> map = ExecutorController.getMapa();
-                    for(Map.Entry<String, Integer> map1: map.entrySet()){
-                        System.out.println("APOS REMOCAO:: " + map1.getKey());
-                        System.out.println("APOS REMOCAO " + map1.getValue());
-                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                    }
-
                     serverConn.join();
                     sock.close();
 
@@ -238,10 +212,9 @@ public class FluxoRequest extends AplicacoesRequest {
     }
 
 
-    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo,
-                                     String idPedido) {
+    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo) {
         if (algoritmo.equalsIgnoreCase("FCFS")) {
-            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(list, atividade, idPedido);
+            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(list, atividade);
             fcfs.createThreads();
             Colaborador c = fcfs.getColaboradorEscolhido();
             return c;
@@ -249,7 +222,6 @@ public class FluxoRequest extends AplicacoesRequest {
             AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
             atm.createThreads();
             Colaborador c = atm.getColaboradorEscolhido();
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Colaborador: " + c.toString() + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             return c;
         }
     }

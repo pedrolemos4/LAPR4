@@ -12,15 +12,12 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
 
     private Atividade atividade;
 
-    private String idPedido;
-
     private Map<Long, Colaborador> mapColaboradores;
 
 
-    public FirstComeFirstServeAlgorithm(List<Colaborador> list, Atividade atividade, String idPedido) {
+    public FirstComeFirstServeAlgorithm(List<Colaborador> list, Atividade atividade) {
         this.list = list;
         this.atividade = atividade;
-        this.idPedido = idPedido;
         this.mapColaboradores = new TreeMap<>(Collections.reverseOrder());
     }
 
@@ -28,9 +25,9 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
         mapColaboradores.put(tempo, col);
     }
 
-    public synchronized void time(Colaborador col, String idPedido) throws Exception {
+    public synchronized void time(Colaborador col) throws Exception {
         AplicacoesController controller = new AplicacoesController();
-        List<Calendar> list = controller.findDatas(col.identity(), idPedido);
+        List<Calendar> list = controller.findDatas(col.identity());
         long maior = Long.MAX_VALUE;
         if (list.isEmpty()) {
             maior = Long.MAX_VALUE;
@@ -51,7 +48,7 @@ public class FirstComeFirstServeAlgorithm implements Runnable {
         int index = Integer.parseInt(threadName[1].replaceAll("\\s+", ""));
         Colaborador colab = list.get(index);
         try {
-            time(colab, this.idPedido);
+            time(colab);
         } catch (Exception e) {
             e.printStackTrace();
         }

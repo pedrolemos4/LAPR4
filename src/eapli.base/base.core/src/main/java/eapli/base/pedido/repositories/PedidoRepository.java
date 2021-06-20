@@ -85,7 +85,7 @@ public interface PedidoRepository extends DomainRepository<String, Pedido> {
 
     List<Atividade> getListaTarefasPendentes(Colaborador identity, EstadoAtividade pendente, EstadoPedido concluido);
 
-    List<Calendar> findDatas(MecanographicNumber number, String idPedido);
+    List<Calendar> findDatas(MecanographicNumber number);
 
     Formulario getFormularioPedido(String idPedido);
 

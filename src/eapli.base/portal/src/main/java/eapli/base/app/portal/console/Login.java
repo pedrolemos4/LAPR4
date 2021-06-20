@@ -36,7 +36,6 @@ public final class Login extends BaseApplication {
             // go to main menu
             final var menu = new MenuPortal();
 
-            //menu.mainLoop();
             Thread t1 = new Thread(() -> menu.mainLoop());
             t1.start();
             new Dashboard().start();

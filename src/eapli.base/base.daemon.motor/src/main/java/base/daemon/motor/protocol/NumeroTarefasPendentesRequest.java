@@ -66,12 +66,8 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
                     tarefasEtiquetaMedia, tarefasEtiquetaElevada);
             System.out.println(resposta);
             byte[] idArray = resposta.getBytes();
-            //int size = idArray.length;
-            //data[2] = (byte) size;
-            //int p = 0;
             for (int i = 0; i < idArray.length; i++) {
                 data[i] = idArray[i];
-              //  p++;
             }
             return data;
         } catch (final IllegalArgumentException e) {
@@ -94,21 +90,6 @@ public class NumeroTarefasPendentesRequest extends AplicacoesRequest {
                 tarefasEscala2.size(), tarefasEscala3.size(), tarefasEscala4.size(), tarefasEscala5.size(), tarefasEtiquetaBaixa.size(),
                 tarefasEtiquetaMedia.size(), tarefasEtiquetaElevada.size());
     }
-    /*
-    "Quantidade de Tarefas Pendentes: \"" + token + "\"\n" +
-                "Quantidade de Tarefas Pendentes que ultrapassam a data de resolução estabelecida no pedido: \"" + tarefasQueUltrapassamDataPedido + "\"\n" +
-                "Quantidade de Tarefas Pendentes que terminam em 1 hora: \"" + tarefasQueTerminamEmXHora + "\"\n" +
-                "Tarefas Pendentes com Urgência Reduzida: \"" + String.join("\n",tarefasUrgenciaReduzida.toString()) + "\"\n" +
-                "Tarefas Pendentes com Urgência Moderada: \"" + String.join("\n",tarefasUrgenciaModerada.toString()) + "\"\n" +
-                "Tarefas Pendentes com Urgência Urgente: \"" + String.join("\n",tarefasUrgenciaUrgente.toString()) + "\"\n" +
-                "Tarefas Pendentes com Escala 1 de Criticidade: \"" + String.join("\n",tarefasEscala1.toString()) + "\"\n" +
-                "Tarefas Pendentes com Escala 2 de Criticidade: \"" + String.join("\n",tarefasEscala2.toString()) + "\"\n" +
-                "Tarefas Pendentes com Escala 3 de Criticidade: \"" + String.join("\n",tarefasEscala3.toString()) + "\"\n" +
-                "Tarefas Pendentes com Escala 4 de Criticidade: \"" + String.join("\n",tarefasEscala4.toString()) + "\"\n" +
-                "Tarefas Pendentes com Escala 5 de Criticidade: \"" + String.join("\n",tarefasEscala5.toString()) + "\"\n" +
-                "Tarefas Pendentes com Etiqueta Baixa de Criticidade: \"" + String.join("\n",tarefasEtiquetaBaixa.toString()) + "\"\n" +
-                "Tarefas Pendentes com Etiqueta Media de Criticidade: \"" + String.join("\n",tarefasEtiquetaMedia.toString()) + "\"\n" +
-                "Tarefas Pendentes com Etiqueta Elevada de Criticidade: \"" + String.join("\n",tarefasEtiquetaElevada.toString()) + "\"\n"
-     */
+
 
 }
