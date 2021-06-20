@@ -20,11 +20,8 @@
  */
 package base.daemon.executor.presentation;
 
-import base.daemon.motor.algorithms.WorkloadBasedAlgorithm;
-import base.daemon.motor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
-import base.daemon.motor.algorithms.ExecutorController;
 import eapli.base.atividade.domain.Atividade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +32,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,19 +41,9 @@ public class ExecutorServer {
     static final String KEYSTORE_PASS = "forgotten";
     private static final int PORT = 32510;
 
-    private static final List<Atividade> tarefas = new ArrayList<>();
-
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
 
-    private static final WorkloadController controller = new WorkloadController();
-
-    private static List<ExecutorServer> instances = new ArrayList<>();
     //private static ServerSocket sock;
-
-    public static synchronized boolean addAllInstances(List<ExecutorServer> list)
-    {
-        return instances.addAll(list);
-    }
 
     public static void main(String args[]) throws Exception {
         SSLServerSocket sockSSL = null;
@@ -70,8 +56,6 @@ public class ExecutorServer {
         // Use this certificate and private key as server certificate
         System.setProperty("javax.net.ssl.keyStore", TRUSTED_STORE);
         System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
-
-        System.out.println("AAAAAAAAAAAAAA::: " +ExecutorController.getListExecutores().size());
 
         SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
@@ -108,7 +92,6 @@ public class ExecutorServer {
                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
 
                 sIn.read(data, 0, 258);
-                //System.out.println("Size of info: " + data[2]);
                 String inputLine = new String(data, 2, (int) data[3]);
                 while(data[2]==255){
                     data=new byte[258];
@@ -166,15 +149,6 @@ public class ExecutorServer {
                 System.out.println("Error");
             }*/
         }
-    }
-
-
-    public List<Atividade> tarefas(){
-        return this.tarefas;
-    }
-
-    public boolean addTarefa(Atividade at){
-        return tarefas.add(at);
     }
 
 }

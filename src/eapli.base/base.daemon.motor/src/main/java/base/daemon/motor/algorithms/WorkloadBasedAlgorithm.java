@@ -12,6 +12,8 @@ public class WorkloadBasedAlgorithm implements Runnable {
 
     private Map<String, Integer> mapExecutor;
 
+    private Map<Integer, String> sortedMap = new TreeMap<>();
+
 
     public WorkloadBasedAlgorithm(List<String> listServidores, Atividade atividade, Map<String, Integer> mapExecutor) {
         this.list = listServidores;
@@ -22,6 +24,7 @@ public class WorkloadBasedAlgorithm implements Runnable {
     public synchronized void getListAtividadesDoExecutor(String ipExecutor) {
         for (Map.Entry<String, Integer> map : mapExecutor.entrySet()) {
             if (map.getKey().equalsIgnoreCase(ipExecutor)) {
+                sortedMap.put(map.getValue(), map.getKey());
                 System.out.println("Executor: " + map.getKey() + " Workload: " + map.getValue());
             }
         }
@@ -41,10 +44,9 @@ public class WorkloadBasedAlgorithm implements Runnable {
     }
 
     public String getExecutorEscolhido() {
-        entriesSortedByValues(mapExecutor);
-        Map.Entry<String, Integer> entry = mapExecutor.entrySet().iterator().next();
-        System.out.println("Executor com menor workload: " + entry.getKey() + " Workload: " + entry.getValue());
-        return entry.getKey();
+        Map.Entry<Integer, String> entry = sortedMap.entrySet().iterator().next();
+        System.out.println("Executor com menor workload: " + entry.getValue() + " Workload: " + entry.getKey());
+        return entry.getValue();
     }
 
     public void createThreads() {
@@ -61,17 +63,6 @@ public class WorkloadBasedAlgorithm implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
-
-    static <K, V extends Comparable<? super V>>
-    SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
-        SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<>((e1, e2) -> {
-            int res = e1.getValue().compareTo(e2.getValue());
-            return res != 0 ? res : 1;
-        }
-        );
-        sortedEntries.addAll(map.entrySet());
-        return sortedEntries;
     }
 }
 
