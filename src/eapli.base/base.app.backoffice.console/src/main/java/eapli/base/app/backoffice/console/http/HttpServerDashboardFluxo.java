@@ -1,11 +1,16 @@
 package eapli.base.app.backoffice.console.http;
 
+import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.colaborador.repositories.ColaboradorRepository;
+import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,89 +18,107 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class HttpServerDashboardFluxo extends Thread {
-    static InetAddress serverIP;
-    static final String KEYSTORE_PASS = "forgotten";
-    static private SSLServerSocket sock;
-    static private SSLSocket clisock;
-    static private boolean flag = true;
-    static private final String BASE_FOLDER = "www";
-    private static final int MOTOR_PORT = 32508;
+    private static final Logger LOGGER = LogManager.getLogger(HttpServerDashboardFluxo.class);
 
-    private static final String IPMOTOR = "10.8.0.82";
+    static final String TRUSTED_STORE = "server_J.jks";
+    static final String KEYSTORE_PASS = "forgotten";
+
+    static InetAddress serverIP;
+    //private static final String IPMOTOR = "10.8.0.82";
+    private static final String IPMOTOR = "localhost";
+
+    static private SSLSocket sock;
+    static private int serverPort;
+    static private String estado;
+
+    static private final String BASE_FOLDER = "www";
+    static private boolean flag = true;
+
     static final AuthorizationService authz = AuthzRegistry.authorizationService();
+    static ColaboradorRepository repo = PersistenceContext.repositories().colaborador();
 
     @Override
     public void start() {
         try {
-            sendTestConnection();
-        } catch (IOException e) {
+            execute(IPMOTOR,32508);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        while (flag) {
-            try {
-                clisock = (SSLSocket) sock.accept();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            HttpEstadoFluxoRequest req = new HttpEstadoFluxoRequest(clisock, BASE_FOLDER);
-            req.start();
-        }
-
     }
-    // DATA ACCESSED BY THREADS - LOCKING REQUIRED
 
-    private static String estado;
+    public void execute(String address,int porta) throws IOException {
+
+        final String name = this.authz.session().get().authenticatedUser().username().toString();
+        System.out.println("Name: " + name);
+        // Trust these certificates provided by servers
+        System.setProperty("javax.net.ssl.trustStore", name + ".jks");
+        System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
+
+        // Use this certificate and private key for client certificate when requested by the server
+        System.setProperty("javax.net.ssl.keyStore", name + ".jks");
+        System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
+
+        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+
+        if(doConnection(address,porta)) {
+            if (Desktop.isDesktopSupported())
+                while (flag) {
+                    //SSLSocket cliSock = (SSLSocket) sock.accept();
+                    //sock.startHandshake();
+                    sendTestConnection();
+                    //HttpEstadoFluxoRequest request = new HttpEstadoFluxoRequest(sock, BASE_FOLDER);
+                    //request.start();
+                }
+        }
+    }
 
     public static synchronized void sendTestConnection() throws IOException {
-        String username = authz.session().get().authenticatedUser().username().toString();
-        if (doConnection()) {
-            if (sendMessage(4, username)) {
-                byte[] response = receiveMessage();
-                estado = new String(response, 3, response[3]);
-            } else {
-                System.out.println("Error trying to send the protocol!");
+        try {
+            Colaborador colab = repo.findEmailColaborador(authz.session().get().authenticatedUser().email());
+            if (sendMessage(4, colab.identity().toString())) {
+                estado = receiveMessage();
+                System.out.println("Estado: " + estado);
             }
-        } else {
-            System.out.println("Error trying to connect to the server!");
+        }catch (Exception e) {
+            //LOGGER.error("Error trying to send the protocol!");
         }
     }
 
-    public static boolean doConnection() throws IOException {
-        final String userName = authz.session().get().authenticatedUser().username().toString();
-        // Trust these certificates provided by authorized clients
-        System.setProperty("javax.net.ssl.trustStore", userName + ".jks");
-        System.setProperty("javax.net.ssl.trustStorePassword",KEYSTORE_PASS);
+    private static boolean doConnection(String address, int porta) {
 
-        // Use this certificate and private key as server certificate
-        System.setProperty("javax.net.ssl.keyStore", userName + ".jks");
-        System.setProperty("javax.net.ssl.keyStorePassword",KEYSTORE_PASS);
-
-        SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        SSLSocketFactory sslF = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
         try {
-            serverIP = InetAddress.getByName(IPMOTOR);
-        } catch (UnknownHostException ex) {
+            serverIP = InetAddress.getByName(address);
+            try {
+                serverPort = porta;
+
+                LOGGER.info("Connecting to https://"+ IPMOTOR + ":" + serverPort + "/");
+
+                try{
+                    sock = (SSLSocket) sslF.createSocket(serverIP,serverPort);
+                    LOGGER.info("Connected to https://"+ IPMOTOR + ":" + serverPort + "/");
+
+                }catch (IOException e) {
+                    LOGGER.error("Failed to connect to https://"+ IPMOTOR + ":" + serverPort + "/");
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            catch(NumberFormatException ex) {
+                System.out.println("Invalid SERVER-PORT.");
+                return false;
+            }
+        }
+        catch(UnknownHostException ex) {
             System.out.println("Invalid server specified: " + IPMOTOR);
-            System.exit(1);
+            return false;
         }
-
-        try {
-            clisock = (SSLSocket) sf.createSocket(serverIP, MOTOR_PORT);
-        } catch (IOException ex) {
-            System.out.println("Failed to connect to: " + IPMOTOR + ":" + MOTOR_PORT);
-            System.out.println("Application aborted.");
-            System.exit(1);
-        }
-
-        System.out.println("Connected to: " + IPMOTOR + ":" + MOTOR_PORT);
-
-        clisock.startHandshake();
         return true;
     }
 
     public static synchronized boolean sendMessage(int num, String input) throws IOException {
-        DataOutputStream sOut = new DataOutputStream(clisock.getOutputStream());
+        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
         byte[] data = new byte[258];
 
         data[0] = 0;
@@ -134,16 +157,16 @@ public class HttpServerDashboardFluxo extends Thread {
         return true;
     }
 
-    public static byte[] receiveMessage() throws IOException {
-        DataInputStream sIn = new DataInputStream(clisock.getInputStream());
+    public static String receiveMessage() throws IOException {
+        DataInputStream sIn = new DataInputStream(sock.getInputStream());
         try {
-            byte[] answer = new byte[258];
-            sIn.read(answer);
-            return answer;
+            byte[] data = new byte[258];
+            sIn.read(data, 2, 255);
+            return new String(data);
         } catch (IOException e) {
             e.printStackTrace();
+            return "Não foi possivel obter o estado do fluxo.";
         }
-        return null;
     }
 
     public static synchronized String getDashboardDataInHTML() {

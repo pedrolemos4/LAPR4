@@ -28,7 +28,11 @@ public class AplicacoesController {
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
 
     public EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId) {
-        return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
+        try {
+            return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {

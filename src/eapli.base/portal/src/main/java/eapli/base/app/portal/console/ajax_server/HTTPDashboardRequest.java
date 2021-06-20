@@ -41,7 +41,6 @@ public class HTTPDashboardRequest extends Thread {
 			System.out.println("Thread error on data streams creation");
 		}
 		try {
-			System.out.println("WTF");
 			HTTPmessage request = new HTTPmessage(inS);
 			HTTPmessage response = new HTTPmessage();
 			if (request.getMethod().equals("GET")) {
