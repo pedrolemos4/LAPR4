@@ -1,4 +1,4 @@
-// Generated from D:/2ANO/2SEMESTRE/LAPR4/LAPR4_PROJETO/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Tiago/Desktop/LAPR4/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -262,12 +262,12 @@ public class validaFormParser extends Parser {
 		public NomeContext nome() {
 			return getRuleContext(NomeContext.class,0);
 		}
+		public TerminalNode TIPO_DADOS() { return getToken(validaFormParser.TIPO_DADOS, 0); }
+		public TerminalNode OBRIGATORIO() { return getToken(validaFormParser.OBRIGATORIO, 0); }
 		public List<TerminalNode> STRING() { return getTokens(validaFormParser.STRING); }
 		public TerminalNode STRING(int i) {
 			return getToken(validaFormParser.STRING, i);
 		}
-		public TerminalNode TIPO_DADOS() { return getToken(validaFormParser.TIPO_DADOS, 0); }
-		public TerminalNode OBRIGATORIO() { return getToken(validaFormParser.OBRIGATORIO, 0); }
 		public Valido2Context(AtributoContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -305,9 +305,9 @@ public class validaFormParser extends Parser {
 		enterRule(_localctx, 2, RULE_atributo);
 		int _la;
 		try {
-			setState(37);
+			setState(44);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				_localctx = new Valido2Context(_localctx);
 				enterOuterAlt(_localctx, 1);
@@ -316,31 +316,51 @@ public class validaFormParser extends Parser {
 				((Valido2Context)_localctx).var = nome();
 				setState(19);
 				match(PV);
-				setState(20);
-				((Valido2Context)_localctx).label = match(STRING);
-				setState(21);
-				match(PV);
-				setState(25);
+				setState(23);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==STRING) {
 					{
 					{
-					setState(22);
-					((Valido2Context)_localctx).des = match(STRING);
+					setState(20);
+					((Valido2Context)_localctx).label = match(STRING);
 					}
 					}
-					setState(27);
+					setState(25);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(28);
+				setState(26);
 				match(PV);
-				setState(29);
+				setState(34);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==PV || _la==STRING) {
+					{
+					setState(30);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					while (_la==STRING) {
+						{
+						{
+						setState(27);
+						((Valido2Context)_localctx).des = match(STRING);
+						}
+						}
+						setState(32);
+						_errHandler.sync(this);
+						_la = _input.LA(1);
+					}
+					setState(33);
+					match(PV);
+					}
+				}
+
+				setState(36);
 				((Valido2Context)_localctx).tp = match(TIPO_DADOS);
-				setState(30);
+				setState(37);
 				match(PV);
-				setState(31);
+				setState(38);
 				((Valido2Context)_localctx).obr = match(OBRIGATORIO);
 				}
 				break;
@@ -348,7 +368,7 @@ public class validaFormParser extends Parser {
 				_localctx = new Invalido2Context(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(33);
+				setState(40);
 				match(STRING);
 				}
 				break;
@@ -356,7 +376,7 @@ public class validaFormParser extends Parser {
 				_localctx = new Invalido2Context(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(34);
+				setState(41);
 				match(TIPO_DADOS);
 				}
 				break;
@@ -364,7 +384,7 @@ public class validaFormParser extends Parser {
 				_localctx = new Invalido2Context(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(35);
+				setState(42);
 				match(OBRIGATORIO);
 				}
 				break;
@@ -506,14 +526,14 @@ public class validaFormParser extends Parser {
 		enterRule(_localctx, 4, RULE_nome);
 		int _la;
 		try {
-			setState(52);
+			setState(59);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case STRING:
 				_localctx = new ValidoStringContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(39);
+				setState(46);
 				match(STRING);
 				}
 				break;
@@ -521,17 +541,17 @@ public class validaFormParser extends Parser {
 				_localctx = new ValidoIntegerContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(41); 
+				setState(48); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(40);
+					setState(47);
 					match(DIGITO);
 					}
 					}
-					setState(43); 
+					setState(50); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==DIGITO );
@@ -541,11 +561,11 @@ public class validaFormParser extends Parser {
 				_localctx = new ValidoDataContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(45);
+				setState(52);
 				((ValidoDataContext)_localctx).ano = match(ANO);
-				setState(46);
+				setState(53);
 				match(BARRA);
-				setState(47);
+				setState(54);
 				((ValidoDataContext)_localctx).mes = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==DOIS_DIGITOS || _la==DIGITO) ) {
@@ -556,9 +576,9 @@ public class validaFormParser extends Parser {
 					_errHandler.reportMatch(this);
 					consume();
 				}
-				setState(48);
+				setState(55);
 				match(BARRA);
-				setState(49);
+				setState(56);
 				((ValidoDataContext)_localctx).dia = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==DOIS_DIGITOS || _la==DIGITO) ) {
@@ -575,7 +595,7 @@ public class validaFormParser extends Parser {
 				_localctx = new ValidoBooleanContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(50);
+				setState(57);
 				match(BOOLEAN);
 				}
 				break;
@@ -601,23 +621,25 @@ public class validaFormParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r9\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r@\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\2\3\2\5\2\23\n\2\3"+
-		"\3\3\3\3\3\3\3\3\3\7\3\32\n\3\f\3\16\3\35\13\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\5\3(\n\3\3\4\3\4\6\4,\n\4\r\4\16\4-\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\5\4\67\n\4\3\4\2\2\5\2\4\6\2\3\3\2\6\7\2B\2\22\3\2\2\2\4\'\3\2"+
-		"\2\2\6\66\3\2\2\2\b\r\7\b\2\2\t\n\7\4\2\2\n\f\5\4\3\2\13\t\3\2\2\2\f\17"+
-		"\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\23\3\2\2\2\17\r\3\2\2\2\20\23\7"+
-		"\b\2\2\21\23\3\2\2\2\22\b\3\2\2\2\22\20\3\2\2\2\22\21\3\2\2\2\23\3\3\2"+
-		"\2\2\24\25\5\6\4\2\25\26\7\4\2\2\26\27\7\t\2\2\27\33\7\4\2\2\30\32\7\t"+
-		"\2\2\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\36\3\2"+
-		"\2\2\35\33\3\2\2\2\36\37\7\4\2\2\37 \7\13\2\2 !\7\4\2\2!\"\7\f\2\2\"("+
-		"\3\2\2\2#(\7\t\2\2$(\7\13\2\2%(\7\f\2\2&(\3\2\2\2\'\24\3\2\2\2\'#\3\2"+
-		"\2\2\'$\3\2\2\2\'%\3\2\2\2\'&\3\2\2\2(\5\3\2\2\2)\67\7\t\2\2*,\7\7\2\2"+
-		"+*\3\2\2\2,-\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\67\3\2\2\2/\60\7\5\2\2\60\61"+
-		"\7\3\2\2\61\62\t\2\2\2\62\63\7\3\2\2\63\67\t\2\2\2\64\67\7\n\2\2\65\67"+
-		"\3\2\2\2\66)\3\2\2\2\66+\3\2\2\2\66/\3\2\2\2\66\64\3\2\2\2\66\65\3\2\2"+
-		"\2\67\7\3\2\2\2\b\r\22\33\'-\66";
+		"\3\3\3\3\3\7\3\30\n\3\f\3\16\3\33\13\3\3\3\3\3\7\3\37\n\3\f\3\16\3\"\13"+
+		"\3\3\3\5\3%\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3/\n\3\3\4\3\4\6\4\63"+
+		"\n\4\r\4\16\4\64\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4>\n\4\3\4\2\2\5\2\4\6"+
+		"\2\3\3\2\6\7\2K\2\22\3\2\2\2\4.\3\2\2\2\6=\3\2\2\2\b\r\7\b\2\2\t\n\7\4"+
+		"\2\2\n\f\5\4\3\2\13\t\3\2\2\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16"+
+		"\23\3\2\2\2\17\r\3\2\2\2\20\23\7\b\2\2\21\23\3\2\2\2\22\b\3\2\2\2\22\20"+
+		"\3\2\2\2\22\21\3\2\2\2\23\3\3\2\2\2\24\25\5\6\4\2\25\31\7\4\2\2\26\30"+
+		"\7\t\2\2\27\26\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2\2\32\34"+
+		"\3\2\2\2\33\31\3\2\2\2\34$\7\4\2\2\35\37\7\t\2\2\36\35\3\2\2\2\37\"\3"+
+		"\2\2\2 \36\3\2\2\2 !\3\2\2\2!#\3\2\2\2\" \3\2\2\2#%\7\4\2\2$ \3\2\2\2"+
+		"$%\3\2\2\2%&\3\2\2\2&\'\7\13\2\2\'(\7\4\2\2()\7\f\2\2)/\3\2\2\2*/\7\t"+
+		"\2\2+/\7\13\2\2,/\7\f\2\2-/\3\2\2\2.\24\3\2\2\2.*\3\2\2\2.+\3\2\2\2.,"+
+		"\3\2\2\2.-\3\2\2\2/\5\3\2\2\2\60>\7\t\2\2\61\63\7\7\2\2\62\61\3\2\2\2"+
+		"\63\64\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2\2\65>\3\2\2\2\66\67\7\5\2\2\67"+
+		"8\7\3\2\289\t\2\2\29:\7\3\2\2:>\t\2\2\2;>\7\n\2\2<>\3\2\2\2=\60\3\2\2"+
+		"\2=\62\3\2\2\2=\66\3\2\2\2=;\3\2\2\2=<\3\2\2\2>\7\3\2\2\2\n\r\22\31 $"+
+		".\64=";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
