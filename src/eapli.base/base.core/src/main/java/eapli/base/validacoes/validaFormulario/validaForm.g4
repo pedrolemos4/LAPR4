@@ -5,7 +5,7 @@ regra: TITULO (PV atributo)* #valido
 | #vazio
 ;
 
-atributo: var=nome PV label=STRING PV des=STRING* PV tp=TIPO_DADOS PV obr=OBRIGATORIO #valido2
+atributo: var=nome PV label=STRING* PV (des=STRING* PV)? tp=TIPO_DADOS PV obr=OBRIGATORIO #valido2
 | STRING #invalido2
 | TIPO_DADOS #invalido2
 | OBRIGATORIO #invalido2
@@ -26,7 +26,7 @@ ANO:[0-9][0-9][0-9][0-9];
 DOIS_DIGITOS:[0-9][0-9];
 DIGITO:[0-9];
 TITULO:[A-Z][a-z]+[0-9]+;
-STRING:[A-Z][a-z]+;
+STRING:[A-Z]?[a-z]+;
 BOOLEAN:'true' | 'false';
 TIPO_DADOS:'INTEGER' | 'STRING' | 'BOOLEAN' | 'DATA';
 OBRIGATORIO:'OBRIGATORIO' | 'OPCIONAL';
