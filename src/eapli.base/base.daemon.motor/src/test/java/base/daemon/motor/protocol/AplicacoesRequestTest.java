@@ -115,12 +115,6 @@ public abstract class AplicacoesRequestTest {
                 throw new IllegalArgumentException("Unknown");
             }
 
-            @Override
-            public FluxoAtividade getFluxoAtividade(String idServico) {
-                throw new IllegalArgumentException("Unknown");
-            }
-
-
         });
     }
 
@@ -161,11 +155,6 @@ public abstract class AplicacoesRequestTest {
 
             @Override
             public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
-                throw new IllegalStateException(NOT_IMPLEMENTED_YET);
-            }
-
-            @Override
-            public FluxoAtividade getFluxoAtividade(String idServico) {
                 throw new IllegalStateException(NOT_IMPLEMENTED_YET);
             }
 
