@@ -17,14 +17,16 @@ RealizarTarefaUI --> RealizarTarefaController
 RealizarTarefaUI : doShow()
 
 RealizarTarefaController : getUser()
-RealizarTarefaController : getTarefasPendentes(colab)
-RealizarTarefaController : getPedidoByAtividade(atividade)
+RealizarTarefaController : getListaTarefasPendentes(colab)
+RealizarTarefaController : getPedidoByTarefa(atividade)
 RealizarTarefaController : getFormularioDaAtividade(atividade)
+RealizarTarefaController : replaceFormularioAtividade(pedido, atividade, formulario)
+RealizarTarefaController : getListaExpressaoRegularDoFormulario(formulario)
 RealizarTarefaController : getAtributosDoFormulario(formulario)
-RealizarTarefaController : getLabelDoAtributo(atividade)
-RealizarTarefaController : completaFormulario(formulario,variavel,atibuto)
+RealizarTarefaController : getExpressaoRegularDoAtributo(atributo)
+RealizarTarefaController : getVariavelDoAtributo(atributo)
 RealizarTarefaController : validaFormulario(formulario)
-RealizarTarefaController : completaDecisaoComentario(comentario,decisao,pedido,atividade)
+RealizarTarefaController : completaDecisaoComentario(comentario, decisao, pedido, atividade,estadoPedido, estadoAtividade, duracao, dataResolucao)
 RealizarTarefaController : savePedido(pedido)
 
 Pedido : completaFormulario(formulario,variavel,atibuto)
@@ -33,17 +35,22 @@ Pedido : completaDecisaoComentario(comentario,decisao,pedido,atividade)
 ValidaForm : validaFormulario(formulario)
 
 RealizarTarefaController --> PedidoRepository
+RealizarTarefaController --> FormularioRepository
 RealizarTarefaController --> ColaboradorRepository
 RealizarTarefaController --> Pedido
 RealizarTarefaController --> ValidaForm
 
 ColaboradorRepository : getUser()
 
-PedidoRepository : getTarefasPendentes(colab)
-PedidoRepository : getPedidoByAtividade(atividade)
+PedidoRepository : getListaTarefasPendentes(colab)
+PedidoRepository : getPedidoByTarefa(atividade)
 PedidoRepository : getFormularioDaAtividade(atividade)
-PedidoRepository : getAtributosDoFormulario(formulario)
-PedidoRepository : getLabelDoAtributo(atividade)
+PedidoRepository : replaceFormularioAtividade(pedido, atividade, formulario)
+PedidoRepository : getListaExpressaoRegularDoFormulario(formulario)
 PedidoRepository : savePedido(pedido)
+
+FormularioRepository : getAtributosDoFormulario(formulario)
+FormularioRepository : getExpressaoRegularDoAtributo(atributo)
+FormularioRepository : getVariavelDoAtributo(atributo)
 
 @enduml

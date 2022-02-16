@@ -90,14 +90,4 @@ public class JpaCatalogoRepository extends BasepaRepositoryBase<Catalogo, Long, 
         return q.getResultList();
     }
 
-    @Override
-    public Catalogo findById(long idCatalogo) {
-        final TypedQuery<Catalogo> q = createQuery(
-                "SELECT e FROM Catalogo e WHERE e.id =: id",
-                Catalogo.class);
-        q.setParameter("id", idCatalogo);
-        return q.getSingleResult();
-    }
-
-
 }

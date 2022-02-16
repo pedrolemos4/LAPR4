@@ -22,6 +22,8 @@ package base.daemon.executor.protocol;
 
 import eapli.framework.csv.CsvRecord;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  *
  * @author Paulo Gandra Sousa 03/06/2020
@@ -42,9 +44,9 @@ public abstract class BaseErrorRequest extends ExecutorProtocolRequest {
     }
 
     @Override
-    public String execute() {
+    public byte[] execute() {
         // nothing to do, just build the response
-        return buildResponse();
+        return buildResponse().getBytes();
     }
 
     protected String buildResponse() {

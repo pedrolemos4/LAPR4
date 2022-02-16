@@ -44,12 +44,17 @@ public class Formulario implements AggregateRoot<Long> {
 
     @Override
     public String toString() {
-        return "Formulario{" +
-                "pk=" + pk +
-                ", version=" + version +
-                ", titulo=" + titulo +
-                ", atributos=" + atributos.size() +
-                '}';
+        return pk +
+                "; " + titulo +
+                "; " + atributos;
+    }
+
+    public String toStringVal(){
+        return titulo + "; " + atributos;
+    }
+
+    public Formulario(final String titulo){
+        this.titulo = new Titulo(titulo);
     }
 
     public Formulario(final String titulo, final Set<Atributo> listaAtributos) {
@@ -61,8 +66,8 @@ public class Formulario implements AggregateRoot<Long> {
 
     public Formulario(Formulario formulario){
         this.titulo=formulario.titulo;
-        Preconditions.nonNull(formulario.atributos);
-        copyAtributos(formulario.atributos);
+        //Preconditions.nonNull(formulario.atributos);
+        //copyAtributos(formulario.atributos);
     }
 
     public void copyAtributos(final Set<Atributo> atributos) {
@@ -85,11 +90,4 @@ public class Formulario implements AggregateRoot<Long> {
         return pk;
     }
 
-    public void completaFormulario(Variavel variavel, Atributo atributo) {
-        for(Atributo a : this.atributos){
-            if (a.equals(atributo)) {
-                a.completaFormulario(variavel);
-            }
-        }
-    }
 }

@@ -7,8 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 @Utility
 public class AplicacoesMessageParser {
-    // obtem o estado do server e estatisticas
-    private static final Logger LOGGER = LogManager.getLogger(AplicacoesMessageParser.class);
 
     private static AplicacoesController controller;
 
@@ -65,19 +63,9 @@ public class AplicacoesMessageParser {
 
     private static AplicacoesRequest parseControlFluxo(String inputLine) {
         AplicacoesRequest request;
-        /*int numberOfData = Integer.parseInt(tokens[2]);
-        if (numberOfData != 0) {
-            if (tokens.length != 4) {
-                request = new ErrorInRequest(inputLine, "Wrong number of parameters");
-            } else {
-                request = new EstadoFluxoRequest(getController(), inputLine, CsvLineMarshaler.unquote(tokens[3]));
-            }
-            } else {*/
+
         request = new FluxoRequest(getController(), inputLine);
-            /*}
-        } else {
-            request = new ErrorInRequest(inputLine, "Wrong number of parameters");
-        }*/
+
         return request;
     }
 

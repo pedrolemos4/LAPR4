@@ -1,20 +1,15 @@
 package eapli.base.servico.domain;
 
-import eapli.base.atividade.domain.Atividade;
-import eapli.base.atividade.domain.Comentario;
-import eapli.base.atividade.domain.Decisao;
-import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.domain.DescricaoBreve;
 import eapli.base.catalogo.domain.Titulo;
-import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.formulario.domain.Formulario;
 import eapli.base.pedido.domain.Pedido;
 import eapli.framework.domain.model.AggregateRoot;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -108,6 +103,10 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         return codigoUnico;
     }
 
+    public Long idCatalogo(){
+        return this.catalogo.identity();
+    }
+
     public DescricaoBreve descricaoBreve() {
         return descricaoBreve;
     }
@@ -132,20 +131,8 @@ public class Servico implements AggregateRoot<CodigoUnico> {
         return estado() == EstadoServico.INDISPONIVEL;
     }
 
-    public void adicionaColaborador(Colaborador colab, Atividade idAtividade) {
-        this.fluxoAtividade.adicionaColaborador(colab, idAtividade);
-    }
-
     public void alterarEstadoFluxo(FluxoAtividade fluxoAtividade){
         this.fluxoAtividade=fluxoAtividade;
-    }
-
-    public void atualizarDataAtividade(Atividade atividade, Calendar dataLimiteRes) {
-        this.fluxoAtividade.atualizarDataAtividade(atividade,dataLimiteRes);
-    }
-
-    public void completaDecisaoComentario(Comentario valueOf, Decisao aprovado, Atividade at) {
-        this.fluxoAtividade.completaDecisaoComentario(valueOf,aprovado,at);
     }
 
     public static class ServicoBuilder {

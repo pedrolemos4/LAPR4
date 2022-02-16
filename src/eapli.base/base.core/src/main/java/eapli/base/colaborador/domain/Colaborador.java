@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,16 +49,14 @@ public class Colaborador implements AggregateRoot<MecanographicNumber>{
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Pedido> pediddosEfetuados;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private FuncaoSet funcoes;
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<Funcao> funcoes;
 
     public Colaborador(MecanographicNumber numeroMecanografico, ShortName shortName, FullName fullName, Calendar dataNasc, Contacto contacto,
-                        LocalResidencia localResidencia, EmailAddress endereco, final Set<FuncaoColaborador> roles){
+                        LocalResidencia localResidencia, EmailAddress endereco, final Set<Funcao> roles){
         try {
-            funcoes = new FuncaoSet();
-            funcoes.addAll(roles.stream().map(rt -> new FuncaoAssignment(rt, Calendars.now()))
-                    .collect(Collectors.toList()));
-
+            this.funcoes = new HashSet<>(roles);
             this.numeroMecanografico = numeroMecanografico;
             this.shortName = shortName;
             this.fullName = fullName;

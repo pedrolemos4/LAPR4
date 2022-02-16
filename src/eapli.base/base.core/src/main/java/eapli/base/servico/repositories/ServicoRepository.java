@@ -2,6 +2,8 @@ package eapli.base.servico.repositories;
 
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.Script;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.framework.domain.repositories.DomainRepository;
@@ -48,7 +50,15 @@ public interface ServicoRepository extends DomainRepository<CodigoUnico, Servico
 
     Servico findServico(String cod);
 
-    List<Atividade> findListAtividades(String idServico);
+    List<Atividade> findListAtividades(CodigoUnico idServico);
 
-    String findScriptServico(CodigoUnico cod);
+    //String findCaminhoScriptServico(CodigoUnico cod);
+
+    Script findScriptServico(CodigoUnico cod);
+
+    double tempoMedioResolucao(CodigoUnico identity);
+
+    double tempoMedioAprovacao(CodigoUnico identity);
+
+    Colaborador findColabResponsavel(Long identity);
 }

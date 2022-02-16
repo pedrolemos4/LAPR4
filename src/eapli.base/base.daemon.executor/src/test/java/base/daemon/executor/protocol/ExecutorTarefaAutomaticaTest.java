@@ -22,22 +22,22 @@ import static org.junit.Assert.*;
  * @author pedro
  */
 public class ExecutorTarefaAutomaticaTest {
-    
+
     public ExecutorTarefaAutomaticaTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -47,18 +47,18 @@ public class ExecutorTarefaAutomaticaTest {
     // semantic error
     private static final String[] SEMANTIC_ERROR_FIXTURES = {
             // empty dados
-            "0, 10, 0, ,",
+            "0, 9, 0, ,",
 
     };
 
-    @Test
+    /*@Test
     public void ensureOkReturnsEstadoFluxo() throws ParseException {
 
         final ExecutorProtocolRequest request = ExecutorProtocolMessageParser
-                .parse("cod007",10);
+                .parse("cod007",9);
 
-        final String result = request.execute();
-        LOGGER.info("{} -> {}", 10, result);
+        final byte[] result = request.execute();
+        LOGGER.info("{} -> {}", 9, result);
 
         /*final String[] lines = result.split("\n");
         assertEquals(1, lines.length);
@@ -66,6 +66,6 @@ public class ExecutorTarefaAutomaticaTest {
         final String[] tokens = CsvLineMarshaler.tokenize(lines[0]).toArray(new String[0]);
         assertEquals(2, tokens.length);
         assertEquals('\n', result.charAt(result.length() - 1));*/
-    }
+    //}
 
 }

@@ -6,6 +6,7 @@ import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.criticidade.domain.Escala;
 import eapli.base.criticidade.domain.Etiqueta;
+import eapli.base.pedido.domain.EstadoPedido;
 import eapli.base.pedido.domain.Pedido;
 import eapli.base.pedido.domain.UrgenciaPedido;
 import eapli.base.pedido.repositories.PedidoRepository;
@@ -37,7 +38,7 @@ public class ConsultarTarefasController {
     }
 
     public List<Atividade> tarefasPendentes(Colaborador colab) {
-        return repo.findTarefasServico(colab, EstadoAtividade.PENDENTE);
+        return repo.findTarefasServico(colab, EstadoAtividade.PENDENTE, EstadoPedido.CONCLUIDO);
     }
 
     public List<Atividade> filtrarUrgencia(Colaborador colab, UrgenciaPedido urgencia) {
@@ -64,15 +65,7 @@ public class ConsultarTarefasController {
         return repo.ordenarDataDecrescente(colab, EstadoAtividade.PENDENTE);
     }
 
-    public List<Atividade> ordenarEscalaCrescente(Colaborador colab) {
-        return repo.ordenarEscalaCrescente(colab, EstadoAtividade.PENDENTE);
-    }
-
-    public List<Atividade> ordenarEscalaDecrescente(Colaborador colab) {
-        return repo.ordenarEscalaDecrescente(colab, EstadoAtividade.PENDENTE);
-    }
-
-    public Pedido getPedidoByAtividade(Atividade a) {
-        return repo.getPedidoByAtividade(a.identity());
+    public Pedido getPedidoByTarefa(Atividade a) {
+        return repo.getPedidoByTarefa(a.identity());
     }
 }

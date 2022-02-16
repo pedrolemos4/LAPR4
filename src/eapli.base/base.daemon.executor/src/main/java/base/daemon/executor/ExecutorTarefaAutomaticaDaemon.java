@@ -20,7 +20,6 @@
  */
 package base.daemon.executor;
 
-import base.daemon.executor.algorithms.WorkloadBasedAlgorithm;
 import base.daemon.executor.presentation.ExecutorServer;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.usermanagement.domain.BasePasswordPolicy;
@@ -28,6 +27,7 @@ import eapli.framework.infrastructure.authz.application.AuthzRegistry;
 import eapli.framework.infrastructure.authz.domain.model.PlainTextEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 
 /**
  * eCafeteria Booking daemon.
@@ -40,7 +40,6 @@ public final class ExecutorTarefaAutomaticaDaemon {
     // TODO read port number from property file
     private static final int EXECUTOR_PORT = 32507;
     private static final Logger LOGGER = LogManager.getLogger(ExecutorTarefaAutomaticaDaemon.class);
-    private static WorkloadBasedAlgorithm workloadBasedAlgorithm = new WorkloadBasedAlgorithm();
 
     /**
      * Avoid instantiation of this class.
@@ -57,7 +56,7 @@ public final class ExecutorTarefaAutomaticaDaemon {
 
         LOGGER.info("Starting the server socket");
         final ExecutorServer server = new ExecutorServer();
-        workloadBasedAlgorithm.addInstance(server);
+
         server.main(null);
         LOGGER.info("Exiting the daemon");
         System.exit(0);

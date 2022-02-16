@@ -22,7 +22,7 @@ public class EspecificarColaboradorController {
     private final RandomRawPassword randomPassword = new RandomRawPassword();
 
     public void novoColaborador(final int numeroMecanografico, final String nomeCompleto, final String nomeCurto,
-                                final String dataNascimento, final int prefix, final int contacto, final String local, final String email, Set<FuncaoColaborador> roles) {
+                                final String dataNascimento, final int prefix, final int contacto, final String local, final String email, Set<Funcao> roles) {
         authz.ensureAuthenticatedUserHasAnyOf(BaseRoles.POWER_USER, BaseRoles.RRH);
         MecanographicNumber mecanographicNumber = new MecanographicNumber(numeroMecanografico);
         ShortName shortName = new ShortName(nomeCurto);

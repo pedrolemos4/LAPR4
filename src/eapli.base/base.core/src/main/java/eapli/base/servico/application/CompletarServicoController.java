@@ -32,7 +32,7 @@ public class CompletarServicoController {
 
     public void especificarServico(final String codigoUnico, final String titulo, final String descricaoBreve,
                                    final String descricaoCompleta, Formulario formulario, Set<String> keywords,
-                                   Catalogo catalogo,final FluxoAtividade fluxoAtividade) {
+                                   Catalogo catalogo, final FluxoAtividade fluxoAtividade) {
         final Servico servico = new Servico.ServicoBuilder(codigoUnico, titulo)
                 .withDescricaoBreve(descricaoBreve)
                 .withDescricaoCompleta(descricaoCompleta)
@@ -45,7 +45,7 @@ public class CompletarServicoController {
         this.servicoRepository.save(servico);
     }
 
-    public void removeDraft(DraftServico draftServico){
+    public void removeDraft(DraftServico draftServico) {
         this.draftServicoRepository.delete(draftServico);
     }
 
@@ -54,14 +54,14 @@ public class CompletarServicoController {
         return ld;
     }
 
-    public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos){
+    public Formulario createFormulario(final String titulo, Set<Atributo> listaAtributos) {
         final Formulario formulario = new Formulario(titulo, listaAtributos);
         //System.out.println(formulario.toString());
         this.formularioRepository.save(formulario);
         return formulario;
     }
 
-    public Iterable<Criticidade> listCriticidades(){
+    public Iterable<Criticidade> listCriticidades() {
         final Iterable<Criticidade> lc = criticidadeRepository.findAll();
         return lc;
     }
@@ -71,32 +71,30 @@ public class CompletarServicoController {
         return this.equipaRepo.findEquipaDoCatalogo(identity);
     }
 
-    public FluxoAtividade createFluxo (Set<Atividade> atividades){//, AtividadeRealizacao atividadeRealizacao)
+    public FluxoAtividade createFluxo(Set<Atividade> atividades) {//, AtividadeRealizacao atividadeRealizacao)
         Set<Atividade> listAtividades = new HashSet<>(atividades);
         FluxoAtividade fluxoAtividade = new FluxoAtividade(listAtividades);
         return fluxoAtividade;
     }
 
     public AtividadeManual novaAtividadeAprovacaoManualEquipa(final EstadoAtividade e, final Set<Equipa> equipa,
-                                                              /*final String decisao, final String comentario,*/
-                                                              final int ano, final int mes, final int dia,
-                                                              final Formulario formulario, TipoAtividade tipo){
-        final Calendar data = Calendar.getInstance();
-        data.set(ano,mes,dia);
+                                                              final Formulario formulario, TipoAtividade tipo) {
+        //  final Calendar data = Calendar.getInstance();
+        //data.set(ano,mes,dia);
         /*final Decisao des = new Decisao(decisao);
         final Comentario com = new Comentario(comentario);*/
-        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e,equipa,null,null,formulario,data,tipo);
+        final AtividadeManual atividadeAprovacaoManualEquipa = new AtividadeManual(e, equipa, null, null, formulario, null, tipo, null);
         return atividadeAprovacaoManualEquipa;
     }
 
-    public AtividadeAutomatica novaAtividadeAutomatica(final int ano, final int mes, final int dia){
+    public AtividadeAutomatica novaAtividadeAutomatica(final int ano, final int mes, final int dia) {
 
         final Calendar data = Calendar.getInstance();
-        data.set(ano,mes,dia);
+        data.set(ano, mes, dia);
         final TipoAtividade tipoAtividade = TipoAtividade.REALIZACAO;
         final EstadoAtividade e = EstadoAtividade.PENDENTE;
         final Script script = new Script("script.sh");
-        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data,e,tipoAtividade, script);
+        final AtividadeAutomatica atividadeAutomatica = new AtividadeAutomatica(data, e, tipoAtividade, null, script);
         return atividadeAutomatica;
     }
 

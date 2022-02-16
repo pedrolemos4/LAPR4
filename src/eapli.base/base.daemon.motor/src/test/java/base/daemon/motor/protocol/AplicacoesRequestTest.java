@@ -44,17 +44,17 @@ public abstract class AplicacoesRequestTest {
 
         AplicacoesMessageParser.injectController(new AplicacoesController() {
         @Override
-        public Long getNTarefasPendentes (MecanographicNumber userId, EstadoAtividade estado){
-            return Long.valueOf(0);
+        public List<Atividade> getNTarefasPendentes (MecanographicNumber userId, EstadoAtividade estado){
+            return new ArrayList<>();
         }
 
         @Override
-        public Long getTarefasQueUltrapassamDataPedido (MecanographicNumber userId, EstadoAtividade estado){
-            return Long.valueOf(0);
+        public List<Atividade> getTarefasQueUltrapassamDataPedido (MecanographicNumber userId, EstadoAtividade estado){
+            return new ArrayList<>();
         }
 
-        public Long getTarefasQueTerminamEm1Hora (MecanographicNumber userId, EstadoAtividade estado,int hours){
-            return Long.valueOf(0);
+        public List<Atividade> getTarefasQueTerminamEm1Hora (MecanographicNumber userId, EstadoAtividade estado,int hours){
+            return new ArrayList<>();
         }
 
         public List<Atividade> getTarefasUrgencia (MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido
@@ -86,17 +86,17 @@ public abstract class AplicacoesRequestTest {
             }
 
             @Override
-            public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+            public List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
                 throw new IllegalArgumentException("Unknown");
             }
 
             @Override
-            public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+            public List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
                 throw new IllegalArgumentException("Unknown");
             }
 
             @Override
-            public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+            public List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
                 throw new IllegalArgumentException("Unknown");
             }
 
@@ -114,12 +114,6 @@ public abstract class AplicacoesRequestTest {
             public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
                 throw new IllegalArgumentException("Unknown");
             }
-
-            @Override
-            public FluxoAtividade getFluxoAtividade(String idServico) {
-                throw new IllegalArgumentException("Unknown");
-            }
-
 
         });
     }
@@ -135,17 +129,17 @@ public abstract class AplicacoesRequestTest {
             }
 
             @Override
-            public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+            public List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
                 throw new IllegalStateException(NOT_IMPLEMENTED_YET);
             }
 
             @Override
-            public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+            public List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
                 throw new IllegalStateException(NOT_IMPLEMENTED_YET);
             }
 
             @Override
-            public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+            public List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
                 throw new IllegalStateException(NOT_IMPLEMENTED_YET);
             }
 
@@ -161,11 +155,6 @@ public abstract class AplicacoesRequestTest {
 
             @Override
             public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
-                throw new IllegalStateException(NOT_IMPLEMENTED_YET);
-            }
-
-            @Override
-            public FluxoAtividade getFluxoAtividade(String idServico) {
                 throw new IllegalStateException(NOT_IMPLEMENTED_YET);
             }
 

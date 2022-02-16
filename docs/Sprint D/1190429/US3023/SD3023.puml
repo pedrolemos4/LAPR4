@@ -9,6 +9,7 @@ skinparam shadowing false
 participant RealizarTarefaUI as UI <<presentation>>
 control RealizarTarefaController as CTRL <<application>>
 database PedidoRepository as PRepository <<repository>>
+database FormularioRepository as FRepository <<repository>>
 database ColaboradorRepository as CRepository <<repository>>
 participant Pedido as P <<domain>>
 participant ValidaForm as Valida <<domain>>
@@ -24,16 +25,16 @@ UI -> CTRL: getUser()
       deactivate CRepository
     deactivate CTRL
     
-UI -> CTRL: getTarefasPendentes(colab)
+UI -> CTRL: getListaTarefasPendentes(colab)
     activate CTRL
-      CTRL -> PRepository: getTarefasPendentes(colab)
+      CTRL -> PRepository: getListaTarefasPendentes(colab)
       activate PRepository
       deactivate PRepository
     deactivate CTRL
 
-UI -> CTRL: getPedidoByAtividade(atividade)
+UI -> CTRL: getPedidoByTarefa(atividade)
     activate CTRL
-    CTRL -> PRepository: pedido = getPedidoByAtividade(atividade)
+    CTRL -> PRepository: pedido = getPedidoByTarefa(atividade)
       activate PRepository
       deactivate PRepository
     deactivate CTRL
@@ -46,28 +47,44 @@ UI -> CTRL: getFormularioDaAtividade(atividade)
       deactivate PRepository
     deactivate CTRL
 
+UI -> CTRL: replaceFormularioAtividade(pedido, atividade, formulario)
+    activate CTRL
+    CTRL -> PRepository: replaceFormularioAtividade(pedido, atividade, formulario)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+
+UI -> CTRL: getListaExpressaoRegularDoFormulario(formulario)
+    activate CTRL
+    CTRL -> PRepository: listaExpressao = getListaExpressaoRegularDoFormulario(formulario)
+      activate PRepository
+      deactivate PRepository
+    deactivate CTRL
+
+opt verificação local
 UI -> CTRL: getAtributosDoFormulario(formulario)
     activate CTRL
-    CTRL -> PRepository: listaAtributos = getAtributosDoFormulario(formulario)
-      activate PRepository
-      deactivate PRepository
+    CTRL -> FRepository: listaAtr = getAtributosDoFormulario(formulario)
+      activate FRepository
+      deactivate FRepository
     deactivate CTRL
+loop percorre listaAtr para obter cada atibuto do formulario
 
-loop para preencher todos os atributos do formulario, percorre listaAtributos 
-UI -> CTRL: getLabelDoAtributo(atividade)
+UI -> CTRL: getExpressaoRegularDoAtributo(atributo)
     activate CTRL
-    CTRL -> PRepository: label = getLabelDoAtributo(atividade)
-      activate PRepository
-      deactivate PRepository
+    CTRL -> FRepository: listaAtr = getExpressaoRegularDoAtributo(atributo)
+      activate FRepository
+      deactivate FRepository
     deactivate CTRL
 
-
-UI -> CTRL: completaFormulario(formulario,variavel,atibuto)
+UI -> CTRL: getVariavelDoAtributo(atributo)
     activate CTRL
-    CTRL -> P: completaFormulario(formulario,variavel,atibuto)
-      activate P
-      deactivate P
+    CTRL -> FRepository: listaAtr = getVariavelDoAtributo(atributo)
+      activate FRepository
+      deactivate FRepository
     deactivate CTRL
+
+end
 end
 
 UI -> CTRL: validaFormulario(formulario)
@@ -78,9 +95,9 @@ UI -> CTRL: validaFormulario(formulario)
     deactivate CTRL
 end
 
-UI -> CTRL: completaDecisaoComentario(comentario,decisao,pedido,atividade)
+UI -> CTRL: completaDecisaoComentario(comentario, decisao, pedido, atividade,estadoPedido, estadoAtividade, duracao, dataResolucao)
     activate CTRL
-    CTRL -> P: completaDecisaoComentario(comentario,decisao,pedido,atividade)
+    CTRL -> P: completaDecisaoComentario(comentario, decisao, pedido, atividade,estadoPedido, estadoAtividade, duracao, dataResolucao)
       activate P
       deactivate P
     deactivate CTRL

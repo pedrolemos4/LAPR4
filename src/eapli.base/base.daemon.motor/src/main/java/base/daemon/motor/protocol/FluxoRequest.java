@@ -1,159 +1,229 @@
 package base.daemon.motor.protocol;
 
+import base.daemon.motor.algorithms.*;
+import eapli.base.Application;
 import eapli.base.atividade.application.AplicacoesController;
 import eapli.base.atividade.domain.*;
+import eapli.base.colaborador.domain.Colaborador;
+import eapli.base.formulario.domain.Atributo;
+import eapli.base.formulario.domain.Formulario;
+import eapli.base.formulario.domain.Label;
+import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.repositories.FormularioRepository;
+import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.EstadoPedido;
+import eapli.base.pedido.domain.Pedido;
+import eapli.base.pedido.repositories.PedidoRepository;
 import eapli.base.servico.domain.Servico;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
-import eapli.framework.infrastructure.authz.application.AuthorizationService;
-import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
+import java.util.*;
 
 public class FluxoRequest extends AplicacoesRequest {
-    //private final String servicoId;
 
-    private AuthorizationService authz = AuthzRegistry.authorizationService();
     static final String KEYSTORE_PASS = "forgotten";
-    private static final int CODIGO_MOTOR = 10;
     static InetAddress serverIP;
     static SSLSocket sock;
 
-    private static final String IPMOTOR = "10.8.0.82";
-    private static final int MOTOR_PORT = 32145;
+    private final PedidoRepository pedidoRepository = PersistenceContext.repositories().pedidos();
+    private final FormularioRepository formularioRepository = PersistenceContext.repositories().formularios();
 
-    public FluxoRequest(final AplicacoesController controller, final String request/*, final String servicoId*/) {
+    private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
+
+    private static final int EXECUTOR_PORT = 32510;
+
+
+    public FluxoRequest(final AplicacoesController controller, final String request) {
         super(controller, request);
-        //  this.servicoId = servicoId;
     }
 
     @Override
     public byte[] execute() {
+
         try {
 
-            final String name = this.authz.session().get().authenticatedUser().username().toString();
-            System.out.println("Name: "+name);
-            // Trust these certificates provided by servers
-            System.setProperty("javax.net.ssl.trustStore", name + ".jks");
+            System.setProperty("javax.net.ssl.trustStore", "motor.jks");
             System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
 
-            // Use this certificate and private key for client certificate when requested by the server
-            System.setProperty("javax.net.ssl.keyStore", name + ".jks");
+            System.setProperty("javax.net.ssl.keyStore", "motor.jks");
             System.setProperty("javax.net.ssl.keyStorePassword", KEYSTORE_PASS);
 
+            final String algoritmo = Application.settings().getAlgoritmoAtribuirColaboradores().trim();
+            final String algoritmoAuto = Application.settings().getAlgoritmoAtribuirTarefaAutomatica().trim();
 
             String id = request.trim();
-            System.out.println("Id: " + id);
+            Pedido pedido = pedidoRepository.findPedido(id);
             Servico servico = controller.findServico(id);
-            FluxoAtividade fluxo = controller.getFluxoAtividade(id);
-            for (Atividade atividade : fluxo.atividades()) {
-                if (atividade instanceof AtividadeManual) {
-                    if (atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
-                        controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
-                    } else {
-                        controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                        //fazer atividade resolução
-                    }
-                } else {
+            List<Colaborador> list = controller.findColaboradoresElegiveis(servico.idCatalogo());
+            List<Atividade> atividadesList = pedidoRepository.getListaAtividades(id, EstadoAtividade.PENDENTE);
+
+            for (Atividade atividade : atividadesList) {
+                if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.APROVACAO)) {
+                    controller.updatePedido(id, EstadoPedido.EM_APROVACAO);
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo);
+                    pedido.adicionaColaborador(escolhido, atividade);
+                    pedidoRepository.save(pedido);
+
+                } else if (atividade instanceof AtividadeManual && atividade.tipoAtividade().equals(TipoAtividade.REALIZACAO)) {
                     controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
-                    //mandar para o executor
+                    Colaborador escolhido = createThreads(atividade, servico, list, algoritmo);
+                    pedido.adicionaColaborador(escolhido, atividade);
+                    pedido.alterarEstadoAtividade(EstadoAtividade.COMPLETO);
+                    controller.updatePedido(id,EstadoPedido.CONCLUIDO);
+                    pedidoRepository.save(pedido);
+                } else {
+                    String ipEscolhido = "";
+                    if (algoritmoAuto.equalsIgnoreCase("FCFS")) {
+                        Map<String, Integer> map = ExecutorController.getMapa();
+                        List<String> listServidores = ExecutorController.getListExecutores();
+
+                        FirstComeFirstServeExecutor first = new FirstComeFirstServeExecutor(listServidores, atividade, map);
+                        first.createThreads();
+                        ipEscolhido = first.getExecutorEscolhido();
+                        ExecutorController.addAtividade(ipEscolhido);
+
+
+                    } else {
+                        Map<String, Integer> map = ExecutorController.getMapa();
+                        List<String> listServidores = ExecutorController.getListExecutores();
+                        WorkloadBasedAlgorithm wba = new WorkloadBasedAlgorithm(listServidores, atividade, map);
+                        wba.createThreads();
+                        ipEscolhido = wba.getExecutorEscolhido();
+                        ExecutorController.addAtividade(ipEscolhido);
+                    }
+
+                    controller.updatePedido(id, EstadoPedido.EM_RESOLUCAO);
+
                     byte[] data = new byte[258];
 
                     SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
                     try {
-                        serverIP = InetAddress.getByName(IPMOTOR);
+                        serverIP = InetAddress.getByName(ipEscolhido);
                     } catch (UnknownHostException ex) {
-                        System.out.println("Invalid server: " + "endereçoIp");
+                        LOGGER.info("Invalid server: " + "endereçoIp");
                         System.exit(1);
                     }
 
                     try {
-                        sock = (SSLSocket) sf.createSocket(serverIP, MOTOR_PORT);
+                        sock = (SSLSocket) sf.createSocket(serverIP, EXECUTOR_PORT);
                     } catch (IOException ex) {
-                        System.out.println("Failed to connect to: " + IPMOTOR + ":" + MOTOR_PORT);
-                        System.out.println("Application aborted.");
+                        LOGGER.info("Failed to connect to: " + ipEscolhido + ":" + EXECUTOR_PORT);
+                        LOGGER.info("Application aborted.");
                         System.exit(1);
                     }
 
-                    System.out.println("Connected to: " + IPMOTOR + ":" + MOTOR_PORT);
+                    LOGGER.info("Connected to: " + ipEscolhido + ":" + EXECUTOR_PORT);
 
                     sock.startHandshake();
 
                     DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());
 
-                    /*ArrayList<Thread> threads = new ArrayList<>();
-                    List<Atividade> atividades = controller.getAtividadesAuto();
-                    for (Atividade at : atividades){
-                        System.out.println("Connected to server");
-                        Thread serverConn = new Thread(new TcpChatCliConn(at, sOut));
-                        threads.add(serverConn);
-                        serverConn.start();
-                    }*/
+                    LOGGER.info("Connected to server");
 
-                    System.out.println("Connected to server");
                     Thread serverConn = new Thread(new TcpChatCliConn(sock));
                     serverConn.start();
 
-                    //CodigoUnico cod = new CodigoUnico(id);
-                    String caminhoScript = controller.findScriptServico(servico.identity());
-                    byte[] idArray = caminhoScript.getBytes();
-                    int size = idArray.length;
-                    data[2] = (byte) size;
-                    data[0] = 0;
-                    data[1] = CODIGO_MOTOR;
+                    Script caminhoScript1 = controller.findScriptAtividade(servico.identity());
+                    String caminhoScript = caminhoScript1.toString();
+                    Formulario form = pedidoRepository.getFormularioPedido(id);
 
-                    int amount_of_times = size % 255;
+                    List<Atributo> atributos = formularioRepository.findAtributos(form.identity());
+                    String input = "";
+                    String atributoProdutoColab = "";
+                    String dadosForm = "";
+                    for (Atributo at : atributos) {
+                        Variavel v = formularioRepository.getVariavelDoAtributo(at.identity());
+                        Label l = formularioRepository.getLabelDoAtributo(at.identity());
+                        if(l.toString().equalsIgnoreCase("Quantidade")){
+                            atributoProdutoColab = atributoProdutoColab.concat("Quantidade:"+v.toString());
+                            input = input.concat(";");
+                        }else{
+                            input = input.concat(v.toString());
+                            input = input.concat(";");
+                        }
+                    }
+                    input = input.concat("/");
+                    input = input.concat(caminhoScript);
+
+                    atributoProdutoColab = atributoProdutoColab.concat(input);
+                    byte[] idArray = atributoProdutoColab.getBytes();
+                    int size = idArray.length;
+                    data[0] = 0;
+                    data[1] = 9;
+                    data[2] = (byte) size;
+                    double amount_of_times = size / 255;
+                    int p = 0;
 
                     while (amount_of_times > 1) {
+
                         byte[] info = new byte[258];
                         info[0] = 0;
-                        info[1] = (byte) 255;
+                        info[1] = 10;
                         for (int k = 0; k < 255; k++) {
-                            info[k + 2] = idArray[k];
+                            if (p < size) {
+                                info[k + 2] = idArray[p];
+                                p++;
+                            } else {
+                                k = 255;
+                            }
                         }
                         sOut.write(info);
                         size -= 255;
                         amount_of_times--;
                     }
 
-                    for (int i = 0; i < size; i++) {
-                        data[i + 2] = idArray[i];
+                    for (int i = 0; i < idArray.length; i++) {
+                        data[i + 2] = idArray[p];
+                        p++;
                     }
 
                     sOut.write(data);
+                    ExecutorController.removeAtividade(ipEscolhido);
+
                     serverConn.join();
                     sock.close();
 
-                    /*for (Thread thread : threads) {
-                        try {
-                            //sOut.write(data); ????????????
-                            thread.join();
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }*/
-
+                    pedido.alterarEstadoAtividade(EstadoAtividade.COMPLETO);
                     controller.updatePedido(id, EstadoPedido.CONCLUIDO);
                 }
             }
-            // controller.saveServico(servico);
         } catch (final NumberFormatException e) {
             return buildBadRequest("Invalid servico id").getBytes();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        byte[] data = new byte[3];
+        data[0] = 1;
+        data[1] = 1;
+        data[2] = 0;
+        return data;
+    }
+
+
+    public Colaborador createThreads(Atividade atividade, Servico servico, List<Colaborador> list, String algoritmo) {
+        if (algoritmo.equalsIgnoreCase("FCFS")) {
+            FirstComeFirstServeAlgorithm fcfs = new FirstComeFirstServeAlgorithm(list, atividade);
+            fcfs.createThreads();
+            Colaborador c = fcfs.getColaboradorEscolhido();
+            return c;
+        } else {
+            AlgoritmoTempoMedio atm = new AlgoritmoTempoMedio(list, atividade, servico.identity());
+            atm.createThreads();
+            Colaborador c = atm.getColaboradorEscolhido();
+            return c;
+        }
     }
 
 }
@@ -164,62 +234,25 @@ class TcpChatCliConn implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger(FluxoRequest.class);
 
     private Socket s;
-    //private Atividade a;
     private DataInputStream sIn;
-    //private DataOutputStream sout;
 
     public TcpChatCliConn(Socket tcp_s) {
         s = tcp_s;
     }
 
-    /*public TcpChatCliConn(Atividade atividade, DataOutputStream out) {
-        a = atividade;
-        sout = out;
-    }*/
-
-
     public void run() {
-        byte[] data = new byte[258]; /// TIAGO FEIO
+        byte[] data = new byte[258];
 
         try {
-            /*//String caminhoScript = controller.findScriptServico(servico.identity());
-            String caminhoScript = controller.findScriptAtividade(a.identity());
-            byte[] idArray = caminhoScript.getBytes();
-            int size = idArray.length;
-            data[2] = (byte) size;
-            data[0] = 0;
-            data[1] = 10;
-
-            int amount_of_times = size % 255;
-
-            while (amount_of_times > 1) {
-                byte[] info = new byte[255];
-                info[0] = 0;
-                info[1] = 10;
-                for (int k = 0; k < 255; k++) {
-                    info[k + 2] = idArray[k];
-                }
-                sout.write(info);
-                size -= 255;
-                amount_of_times--;
-            }
-
-            for (int i = 0; i < size; i++) {
-                data[i + 2] = idArray[i];
-            }
-*/
             sIn = new DataInputStream(s.getInputStream());
             sIn.read(data);
-            LOGGER.trace("Received message:----\n{}\n----", data);
-            //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, "Received message:----\n{}\n----", data);
-            String inputLine = new String(data, 2, (int) data[3]);
-            int id = (int) data[1];
-            System.out.println("Input line: " + inputLine + " Id: " + id);
-            //sout.write(data); // TALVEZ AQUI
+
+            if (data[1] == 1) {
+                LOGGER.info("Mensagem recebida com sucesso");
+                LOGGER.info("Fim da operação");
+            }
         } catch (IOException ex) {
-            System.out.println("Client disconnected.");
+            LOGGER.info("Client disconnected.");
         }
     }
 }
-
-

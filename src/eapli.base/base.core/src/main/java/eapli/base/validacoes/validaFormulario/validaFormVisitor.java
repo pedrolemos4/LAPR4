@@ -1,4 +1,4 @@
-// Generated from D:/2ANO/2SEMESTRE/LAPR4/LAPR4_PROJETO/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/valida\validaForm.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Tiago/Desktop/LAPR4/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -32,6 +32,13 @@ public interface validaFormVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVazio(validaFormParser.VazioContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code valido2}
+	 * labeled alternative in {@link validaFormParser#atributo}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValido2(validaFormParser.Valido2Context ctx);
+	/**
 	 * Visit a parse tree produced by the {@code invalido2}
 	 * labeled alternative in {@link validaFormParser#atributo}.
 	 * @param ctx the parse tree
@@ -45,13 +52,6 @@ public interface validaFormVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVazio1(validaFormParser.Vazio1Context ctx);
-	/**
-	 * Visit a parse tree produced by the {@code valido2}
-	 * labeled alternative in {@link validaFormParser#atributo}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitValido2(validaFormParser.Valido2Context ctx);
 	/**
 	 * Visit a parse tree produced by the {@code validoString}
 	 * labeled alternative in {@link validaFormParser#nome}.
@@ -74,10 +74,17 @@ public interface validaFormVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValidoData(validaFormParser.ValidoDataContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code vazio2}
+	 * Visit a parse tree produced by the {@code validoBoolean}
 	 * labeled alternative in {@link validaFormParser#nome}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVazio2(validaFormParser.Vazio2Context ctx);
+	T visitValidoBoolean(validaFormParser.ValidoBooleanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code nomeVazio}
+	 * labeled alternative in {@link validaFormParser#nome}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNomeVazio(validaFormParser.NomeVazioContext ctx);
 }

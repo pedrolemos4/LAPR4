@@ -1,94 +1,141 @@
 package eapli.base.validacoes.validaFormulario;
 
-public class EvalVisitorValidaForm extends validaFormBaseVisitor {
+public class EvalVisitorValidaForm extends validaFormBaseVisitor<String> {
 
     @Override
-    public Integer visitValido(validaFormParser.ValidoContext ctx) {
-        System.out.println("Formulário Válido!");
-        return /*visitChildren(ctx)*/ 0;
+    public String visitValido(validaFormParser.ValidoContext ctx) {
+        System.out.println("Formulario: " + ctx.getText());
+        int i, contador = 0;
+        for (i = 0; i < ctx.atributo().size(); i++) {
+            if (visit(ctx.atributo(i)) == "invalido") {
+                contador++;
+            }
+        }
+
+        if (contador > 0) {
+            return "invalido";
+        }
+        return "valido";
     }
 
     @Override
-    public Object visitInvalido(validaFormParser.InvalidoContext ctx) {
-        return /*visitChildren(ctx)*/ 1;
+    public String visitInvalido(validaFormParser.InvalidoContext ctx) {
+        System.out.println("Invalido");
+        return ctx.getText();
     }
 
     @Override
-    public Object visitVazio(validaFormParser.VazioContext ctx) {
-        return /*visitChildren(ctx)*/ 1;
+    public String visitVazio(validaFormParser.VazioContext ctx) {
+        System.out.println("Vazio");
+        return ctx.getText();
     }
 
     @Override
-    public Object visitInvalido2(validaFormParser.Invalido2Context ctx) {
-        return /*visitChildren(ctx)*/ 1;
+    public String visitVazio1(validaFormParser.Vazio1Context ctx) {
+        System.out.println("Vazio1");
+        return ctx.getText();
     }
 
     @Override
-    public Object visitVazio2(validaFormParser.Vazio2Context ctx) {
-        return /*visitChildren(ctx)*/ 1;
+    public String visitInvalido2(validaFormParser.Invalido2Context ctx) {
+        System.out.println("Invalido");
+        return ctx.getText();
     }
 
     @Override
     public String visitValidoString(validaFormParser.ValidoStringContext ctx) {
+        String value = ctx.getText();
+        System.out.println("Variavel String: " + value);
+        return value;
+    }
+
+
+    @Override
+    public String visitValidoInteger(validaFormParser.ValidoIntegerContext ctx) {
+        int value = Integer.parseInt(ctx.getText());
+        System.out.println("Variavel Integer: " + value);
         return ctx.getText();
     }
 
     @Override
     public String visitValidoData(validaFormParser.ValidoDataContext ctx) {
+        String retorno = "Data inválida";
+        System.out.println("Variavel Data: " + ctx.getText());
+        int dia = Integer.parseInt(ctx.dia.getText());
+        int mes = Integer.parseInt(ctx.mes.getText());
+        if (0 < mes && mes < 13 && 0 < dia && dia < 32) {
+            retorno = "Data válida!";
+        }
+        return retorno;
+    }
+
+    @Override
+    public String visitValidoBoolean(validaFormParser.ValidoBooleanContext ctx) {
+        String value = ctx.getText();
+        System.out.println("Variavel Boolean: " + value);
         return ctx.getText();
     }
 
     @Override
-    public Integer visitValidoInteger(validaFormParser.ValidoIntegerContext ctx) {
-        return Integer.parseInt(ctx.getText());
-    }
-
-    /*@Override
-    public Object visitValidoBoolean(validaFormParser.ValidoBooleanContext ctx) {
-        return Boolean.parseBoolean(ctx.getText());
-    }*/
-
-    @Override
-    public Integer visitValido2(validaFormParser.Valido2Context ctx) {
-        switch (ctx.tp.getText()) {
-            case "INTEGER":
-                if (!ctx.var.getText().matches("[0-9]|[1-9][0-9]+")) {
-                    System.out.println("Nome de variavel nao tem formato Integer!");
-                    return 1;
-                }
-                ;
-            case "STRING":
-                if (!ctx.var.getText().matches("[A-Z][a-z]+")) {
-                    System.out.println("Nome de variavel nao tem formato String!");
-                    return 1;
-                }
-                ;
-            case "DATA":
-                if (!ctx.var.getText().matches("[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1])")) {
-                    System.out.println("Nome de variavel nao tem formato Data!");
-                    return 1;
-                }
-                ;
-            /*case "BOOLEAN" :
-                if(!ctx.var.getText().matches("[0-9][0-9][0-9][0-9]'/'('0'[1-9]|'1'[0-2])'/'('0'[1-9]|[1-2][0-9]|'3'[0-1])")){
-                    System.out.println("Nome de variavel nao tem formato Data!");
-                };*/
-
-        }
-
-        // checkar apenas se for campo obrigatorio nada pode estar a null
+    public String visitValido2(validaFormParser.Valido2Context ctx) {
+        String flag = "valido";
         if (ctx.obr.getText().equalsIgnoreCase("OBRIGATORIO")) {
             if (ctx.var.getText().isEmpty() || ctx.var.getText() == null) {
-                System.out.println("Nome da variável é Obrigatória!");
-                return 1;
-            } else if (ctx.des.getText().isEmpty() || ctx.des.getText() == null) {
-                System.out.println("Descrição Ajuda é Obrigatória!");
-                return 1;
-            } else if (ctx.label.getText().isEmpty() || ctx.label.getText() == null) {
-                System.out.println("Label é Obrigatória!");
-                return 1;
+                System.out.println("Variável é Obrigatória!");
+                return "invalido";
+            } else {
+                flag = validaVariavel(ctx);
             }
+        } else if (ctx.obr.getText().equalsIgnoreCase("OPCIONAL") && !ctx.var.getText().isEmpty()) {
+            flag = validaVariavel(ctx);
         }
-        return 0;
+        return flag;
+    }
+
+    public String validaVariavel(validaFormParser.Valido2Context ctx) {
+        String flag = "valido";
+        String variavel = visit(ctx.var);
+
+        switch (ctx.tp.getText()) {
+            case "INTEGER":
+                if (!variavel.matches("[0-9]+")) {
+                    System.out.println("cc");
+                    System.out.println("Nome de variavel nao tem formato Integer!");
+                    flag = "invalido";
+                }
+                break;
+            case "STRING":
+                if (!variavel.matches("[A-Z]?[a-z]+")) {
+                    System.out.println("Nome de variavel nao tem formato String!");
+                    flag = "invalido";
+                }
+                break;
+            case "DATA":
+                if (variavel.equalsIgnoreCase("Data válida!")) {
+                    if (!ctx.var.getText().matches("^\\d{4}/\\d{2}/\\d{2}$") &&
+                            !ctx.var.getText().matches("^\\d{4}/\\d{1}/\\d{1}$")
+                            && !ctx.var.getText().matches("^\\d{4}/\\d{2}/\\d{1}$")
+                            && !ctx.var.getText().matches("^\\d{4}/\\d{1}/\\d{2}$")) {
+                        System.out.println("Nome de variavel nao tem formato Data!");
+                        flag = "invalido";
+                    }
+                } else{
+                    flag = "invalido";
+                }
+                break;
+            case "BOOLEAN":
+                if (!variavel.equalsIgnoreCase("true") && !variavel.equalsIgnoreCase("false")) {
+                    System.out.println("Nome de variavel nao tem formato Boolean!");
+                    flag = "invalido";
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + ctx.tp.getText());
+        }
+
+        System.out.println("Atributo " + flag);
+        return flag;
     }
 }
+

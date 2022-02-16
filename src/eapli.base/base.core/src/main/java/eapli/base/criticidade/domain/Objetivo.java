@@ -12,18 +12,18 @@ public class Objetivo implements ValueObject {
     private static final long serialVersionUID = 1L;
 
     @Column(name="TempoMaximoAprov")
-    private final double tempoMaxAprov;
+    private final long tempoMaxAprov;
 
     @Column(name="TempoMedioAprov")
-    private final double tempoMedioAprov;
+    private final long tempoMedioAprov;
 
     @Column(name="TempoMaximoRes")
-    private final double tempoMaxRes;
+    private final long tempoMaxRes;
 
     @Column(name="TempoMedioRes")
-    private final double tempoMedioRes;
+    private final long tempoMedioRes;
 
-    public Objetivo(final double tempoMaxAprov, final double tempoMedioAprov, final double tempoMaxRes,final double tempoMedioRes) {
+    public Objetivo(final long tempoMaxAprov, final long tempoMedioAprov, final long tempoMaxRes,final long tempoMedioRes) {
         Preconditions.ensure(tempoMaxAprov >= 0, "tempoMaxAprov can't be negative");
         Preconditions.ensure(tempoMedioAprov >= 0, "tempoMedioAprov can't be negative");
         Preconditions.ensure(tempoMaxRes >= 0, "tempoMaxRes can't be negative");
@@ -41,7 +41,7 @@ public class Objetivo implements ValueObject {
         this.tempoMaxRes = -1;
     }
 
-    public static Objetivo valueOf (final double tempoMaxAprov, final double tempoMedioAprov, final double tempoMaxRes,final double tempoMedioRes) {
+    public static Objetivo valueOf (final long tempoMaxAprov, final long tempoMedioAprov, final long tempoMaxRes,final long tempoMedioRes) {
         return new Objetivo(tempoMaxAprov, tempoMedioAprov,tempoMaxRes,tempoMedioRes);
     }
 

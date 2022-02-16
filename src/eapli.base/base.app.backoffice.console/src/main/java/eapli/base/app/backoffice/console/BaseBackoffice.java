@@ -52,11 +52,7 @@ public final class BaseBackoffice extends BaseApplication {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        //Utilizador utilizador = new Utilizador();
         AuthzRegistry.configure(PersistenceContext.repositories().users(), new BasePasswordPolicy(), new PlainTextEncoder());
-       /* Utilizador utilizador1 = new Utilizador(new MecanographicNumber("1190800"),
-                new EmailAddress("example@gmail.com"),new Password("password"), Roles.CLIENT_USER);
-        utilizador.addUser(utilizador1);*/
         new BaseBackoffice().run(args);
     }
 
