@@ -1,5 +1,6 @@
 package eapli.base.app.backoffice.console.presentation.colaborador;
 
+import eapli.base.colaborador.domain.Funcao;
 import eapli.base.usermanagement.application.AddUserController;
 import eapli.framework.io.util.Console;
 import eapli.base.colaborador.application.EspecificarColaboradorController;
@@ -55,7 +56,7 @@ public class EspecificarColaboradorUI extends AbstractUI {
 
             boolean bool = true;
             System.out.println("Selecione o papel do colaborador");
-            System.out.println("Pretende selecionar algum?");
+            System.out.println("Pretende selecionar mais algum papel além de colaborador?");
             String resposta = Console.readLine("(S/N)");
             if (resposta.equalsIgnoreCase("S")) {
                 while (bool) {
@@ -74,10 +75,30 @@ public class EspecificarColaboradorUI extends AbstractUI {
                 listRole.add(BaseRoles.COLABORADOR);
             }
 
+            Set<Funcao> listFuncao = new HashSet<>();
+            listFuncao.add(Funcao.COMERCIAL);
+            listFuncao.add(Funcao.ASSISTENTE_DIRECAO);
+            listFuncao.add(Funcao.DIRETOR);
+            listFuncao.add(Funcao.GESTOR_CLIENTES);
+            final SelectWidget<Funcao> selectorFuncao = new SelectWidget<>("Lista Funcões:", listFuncao, new ListFuncoesPrint());
+            Set<Funcao> listFuncaoAtribuir = new HashSet<>();
+            bool=true;
+            while(bool){
+                System.out.println("Selecione as funcoes do colaborador:");
+                selectorFuncao.show();
+                Funcao funcao = selectorFuncao.selectedElement();
+                listFuncaoAtribuir.add(funcao);
+                System.out.println("Pretende adicionar mais funcoes?");
+                String respostaFinal = Console.readLine("Resposta");
+                if (respostaFinal.equalsIgnoreCase("N")) {
+                    bool = false;
+                }
+            }
+
             final String password = this.controller.geraPassword();
             String fullName[] = fullNameWidget.value().split(" ");
             this.userController.addUser(usernameWidget.value(), password, fullName[0], fullName[fullName.length - 1], endereco.value(), listRole);
-            this.controller.novoColaborador(numberWidget.value(), fullNameWidget.value(), shortNameWidget.value(), dataWidget.value(), contactoWidget.prefix(), contactoWidget.contact(), localResidenciaWidget.value(), endereco.value(), new HashSet<>());
+            this.controller.novoColaborador(numberWidget.value(), fullNameWidget.value(), shortNameWidget.value(), dataWidget.value(), contactoWidget.prefix(), contactoWidget.contact(), localResidenciaWidget.value(), endereco.value(), listFuncaoAtribuir);
         } catch (Exception e) {
             System.out.println("Erro");
             System.out.println("");

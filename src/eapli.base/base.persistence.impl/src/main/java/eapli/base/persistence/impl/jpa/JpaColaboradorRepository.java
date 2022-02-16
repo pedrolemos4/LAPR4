@@ -44,4 +44,13 @@ public class JpaColaboradorRepository extends BasepaRepositoryBase<Colaborador, 
         return c.getResultList();
     }
 
+    @Override
+    public List<Colaborador> findColaboradoresElegiveis(Long idCatalogo) {
+        final TypedQuery<Colaborador> q = createQuery("SELECT m FROM Catalogo cat " +
+                "INNER JOIN cat.listEquipas le INNER JOIN le.listMembros m " +
+                "WHERE cat.identificador =:idCatalogo",Colaborador.class);
+        q.setParameter("idCatalogo",idCatalogo);
+        return q.getResultList();
+    }
+
 }

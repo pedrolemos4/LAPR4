@@ -31,6 +31,7 @@ import eapli.base.app.backoffice.console.presentation.criticidade.DefinirCritici
 import eapli.base.app.backoffice.console.presentation.equipas.AdicionarRemoverColaboradorUI;
 import eapli.base.app.backoffice.console.presentation.equipas.CriarEquipaUI;
 import eapli.base.app.backoffice.console.presentation.equipas.RegistarTipoEquipaUI;
+import eapli.base.app.backoffice.console.presentation.pedido.CumprimentoSlaUI;
 import eapli.base.app.backoffice.console.presentation.servicos.CompletarServicoUI;
 import eapli.base.app.backoffice.console.presentation.servicos.EspecificarServicoUI;
 import eapli.base.app.common.console.presentation.authz.LoginUI;
@@ -67,6 +68,7 @@ public class MainMenu extends AbstractUI {
     private static final int COMPLETAR_SERVICO = 3;
     private static final int DEFINIR_NIVEIS_CRITICIDADE = 3;
     private static final int ATRIBUIR_CRITICIDADE = 4;
+    private static final int CUMPRIMENTOSLA = 5;
 
     //responsável rrh
     private static final int CRIAR_NOVA_EQUIPA = 1;
@@ -128,10 +130,6 @@ public class MainMenu extends AbstractUI {
         }
 
         if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO)) {
-           // final Menu gshMenu = buildGSHMenu();
-            //mainMenu.addSubMenu(CRIAR_CATALOGO, gshMenu);
-            //mainMenu.addSubMenu(ESPECIFICAR_SERVICO, gshMenu);
-            //mainMenu.addSubMenu(DEFINIR_NIVEIS_CRITICIDADE, gshMenu);
             final Menu menuCatalogo = buildCatalogoMenu();
             mainMenu.addSubMenu(CRIAR_CATALOGO,menuCatalogo);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -144,12 +142,10 @@ public class MainMenu extends AbstractUI {
             final Menu menuAtribuirCriticidade = buildAtribuirCriticidadeMenu();
             mainMenu.addSubMenu(ATRIBUIR_CRITICIDADE,menuAtribuirCriticidade);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
+            final Menu buildInCumprimento = buildInCumprimento();
+            mainMenu.addSubMenu(CUMPRIMENTOSLA,buildInCumprimento);
+            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         } else if (authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH)) {
-            //final Menu rrhMenu = buildRRHMenu();
-//            mainMenu.addItem(ESPECIFICAR_COLABORADOR, "Especificar Colaborador", Actions.SUCCESS);
-//            mainMenu.addItem(CRIAR_NOVA_EQUIPA, "Criar nova Equipa", Actions.SUCCESS);
-//            mainMenu.addItem(ASSOCIAR_REMOVER_COLABORADOR, "Associar/Remover Colaborador", Actions.SUCCESS);
-//            mainMenu.addItem(REGISTAR_TIPO_EQUIPA, "Registar Tipo de Equipa", Actions.SUCCESS);
             final Menu menuCriarEquipa = buildEquipaMenu();
             mainMenu.addSubMenu(CRIAR_NOVA_EQUIPA, menuCriarEquipa);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
@@ -165,27 +161,7 @@ public class MainMenu extends AbstractUI {
             final Menu menuEspecificarColaboradorFicheiro = buildEspecificaColaboradorFicheiroMenu();
             mainMenu.addSubMenu(ESPECIFICAR_COLABORADOR_FICHEIRO, menuEspecificarColaboradorFicheiro);
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-        } /*else if(authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR)){
-            final Menu menuCatalogoServico = buildConsultarCatalogoServico();
-            mainMenu.addSubMenu(CONSULTAR_CATALOGO_SERVICO,menuCatalogoServico);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            final Menu menuSolicitarServico = buildSolicitarServico();
-            mainMenu.addSubMenu(SOLICITAR_SERVICO,menuSolicitarServico);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            final Menu menuConsultarTarefas = buildConsultarTarefas();
-            mainMenu.addSubMenu(CONSULTAR_TAREFAS,menuConsultarTarefas);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            final Menu menuAtribuirGrau = buildAtribuirGrau();
-            mainMenu.addSubMenu(ATRIBUIR_GRAU_SATISFACAO,menuAtribuirGrau);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            /*final Menu menuConsultarReivindicarTarefas = buildConsultarReivindicarTarefas();
-            mainMenu.addSubMenu(CONSULTAR_REIVINDICAR_TAREFAS,menuConsultarReivindicarTarefas);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-            final Menu menuConsultarHistoricoPedidos = buildConsultarHistoricoPedidos();
-            mainMenu.addSubMenu(CONSULTAR_HISTORICO_PEDIDOS,menuConsultarHistoricoPedidos);
-            mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
-        }*/
-
+        }
         if (!Application.settings().isMenuLayoutHorizontal()) {
             mainMenu.addItem(MenuItem.separator(SEPARATOR_LABEL));
         }
@@ -218,61 +194,16 @@ public class MainMenu extends AbstractUI {
         return associarRemoverColaborador;
     }
 
-   /* private Menu buildAdminSettingsMenu() {
-        final Menu menu = new Menu("Settings >");
-
-        menu.addItem(SET_KITCHEN_ALERT_LIMIT_OPTION, "Set kitchen alert limit",
-                new ShowMessageAction("Not implemented yet"));
-        menu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
-
-        return menu;
+    private Menu buildInCumprimento() {
+        final Menu inCumprimento = new Menu("SLA");
+        inCumprimento.addItem(1,"(in)Cumprimento do SLA",()->new CumprimentoSlaUI().show());
+        inCumprimento.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.GESTOR_SERVICO));
+        return inCumprimento;
     }
-
-    private Menu buildUsersMenu() {
-        final Menu menu = new Menu("Users >");
-
-        menu.addItem(ADD_USER_OPTION, "Add User", new AddUserUI()::show);
-        menu.addItem(LIST_USERS_OPTION, "List all Users", new ListUsersAction());
-        menu.addItem(DEACTIVATE_USER_OPTION, "Deactivate User", new DeactivateUserAction());
-        menu.addItem(ACCEPT_REFUSE_SIGNUP_REQUEST_OPTION, "Accept/Refuse Signup Request",
-                new AcceptRefuseSignupRequestAction());
-        menu.addItem(EXIT_OPTION, RETURN_LABEL, Actions.SUCCESS);
-
-        return menu;
-    }*/
-
-    /*private Menu buildConsultarCatalogoServico(){
-        final Menu consultarCatalogoServicoMenu = new Menu("Consultar Catálogo e/ou Serviço");
-        consultarCatalogoServicoMenu.addItem(CONSULTAR_CATALOGO_SERVICO,"Consultar Catálogo e/ou Serviço",()->new ListCatalogoServicoUI().show());
-        consultarCatalogoServicoMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
-        return consultarCatalogoServicoMenu;
-    }
-
-    private Menu buildConsultarTarefas(){
-        final Menu consultarTarefasMenu = new Menu("Consultar Tarefas");
-        consultarTarefasMenu.addItem(CONSULTAR_TAREFAS,"Consultar Tarefas",()->new ConsultarTarefasUI().show());
-        consultarTarefasMenu.addItem(CONSULTAR_REIVINDICAR_TAREFAS,"Consultar/ Reivindicar Tarefas",()->new ConsultarReivindicarTarefaUI().show());
-        consultarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
-        return consultarTarefasMenu;
-    }
-
-    private Menu buildAtribuirGrau(){
-        final Menu atribuirGrauMenu = new Menu("Atribuir Grau de Satisfação");
-        atribuirGrauMenu.addItem(ATRIBUIR_GRAU_SATISFACAO,"Atribuir Grau de Satisfação",()->new AtribuirGrauSatisfacaoUI().show());
-        atribuirGrauMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
-        return atribuirGrauMenu;
-    }*/
-
-    /*private Menu buildConsultarReivindicarTarefas(){
-        final Menu consultarReivindicarTarefasMenu = new Menu("Consultar/ Reivindicar Tarefas");
-        consultarReivindicarTarefasMenu.addItem(CONSULTAR_REIVINDICAR_TAREFAS,"Consultar/ Reivindicar Tarefas",()->new ConsultarTarefasUI().show());
-        consultarReivindicarTarefasMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.COLABORADOR));
-        return consultarReivindicarTarefasMenu;
-    }*/
 
     private Menu buildTipoEquipaMenu(){
         final Menu tipoEquipaMenu = new Menu("Tipo de Equipa");
-        tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Equipa",()->new RegistarTipoEquipaUI().show());
+        tipoEquipaMenu.addItem(REGISTAR_TIPO_EQUIPA,"Registar Tipo de Equipa",()->new RegistarTipoEquipaUI().show());
         tipoEquipaMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return tipoEquipaMenu;
     }
@@ -319,14 +250,6 @@ public class MainMenu extends AbstractUI {
         colaboradorMenu.addItem(EXIT_OPTION, RETURN_LABEL,()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
         return colaboradorMenu;
     }
-
-
-    /*private Menu buildSolicitarServico() {
-        final Menu solicitarServico = new Menu("Solicitar Servico");
-        solicitarServico.addItem(1,"Solicitar Servico",()->new SolicitarServicoUI().show());
-        solicitarServico.addItem(EXIT_OPTION, RETURN_LABEL, ()->authz.isAuthenticatedUserAuthorizedTo(BaseRoles.RRH));
-        return solicitarServico;
-    }*/
 
     private Menu buildAtribuirCriticidadeMenu(){
         final Menu atribuirCriticidade = new Menu("Atribuir Criticidade");

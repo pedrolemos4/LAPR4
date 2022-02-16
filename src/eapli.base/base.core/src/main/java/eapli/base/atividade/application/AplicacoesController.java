@@ -1,10 +1,8 @@
 package eapli.base.atividade.application;
 
-import eapli.base.atividade.domain.Atividade;
-import eapli.base.atividade.domain.EstadoAtividade;
-import eapli.base.atividade.domain.EstadoFluxo;
-import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.infrastructure.persistence.PersistenceContext;
@@ -16,6 +14,8 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.framework.application.UseCaseController;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -28,31 +28,65 @@ public class AplicacoesController {
     private final ServicoRepository servicoRepository = PersistenceContext.repositories().servicos();
 
     public EstadoFluxo getEstadoFluxoDoServico(CodigoUnico servicoId) {
-        return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
+        try {
+            return this.pedidoRepository.getEstadoFluxoDoServico(servicoId);
+        } catch (Exception e){
+            return null;
+        }
     }
 
-    public Long getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
-        return this.pedidoRepository.getNTarefasPendentes(userId, estado);
+    public List<Atividade> getNTarefasPendentes(MecanographicNumber userId, EstadoAtividade estado) {
+        try {
+            return this.pedidoRepository.getNTarefasPendentes(userId, estado);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
-    public Long getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
-        return this.pedidoRepository.getTarefasQueUltrapassamDataPedido(userId, estado);
+    public List<Atividade> getTarefasQueUltrapassamDataPedido(MecanographicNumber userId, EstadoAtividade estado) {
+        try {
+            return this.pedidoRepository.getTarefasQueUltrapassamDataPedido(userId, estado);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
-    public Long getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
-        return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
+    public List<Atividade> getTarefasQueTerminamEm1Hora(MecanographicNumber userId, EstadoAtividade estado, int hours) {
+        try {
+            return this.pedidoRepository.getTarefasQueTerminamEm1Hora(userId, estado, hours);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public List<Atividade> getTarefasUrgencia(MecanographicNumber userId, EstadoAtividade estado, UrgenciaPedido urgenciaReduzida) {
-        return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
+        try {
+            return this.pedidoRepository.getTarefasUrgencia(userId, estado, urgenciaReduzida);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public List<Atividade> getTarefaEscala(MecanographicNumber userId, EstadoAtividade estado, int i) {
-        return this.pedidoRepository.getTarefaEscala(userId, estado, i);
+        try {
+            return this.pedidoRepository.getTarefaEscala(userId, estado, i);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public List<Atividade> getTarefaEtiqueta(MecanographicNumber userId, EstadoAtividade estado, String etiqueta) {
-        return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
+        try {
+            return this.pedidoRepository.getTarefaEtiqueta(userId, estado, etiqueta);
+        }
+        catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     public FluxoAtividade getFluxoAtividade(String idServico) {
@@ -61,10 +95,6 @@ public class AplicacoesController {
 
     public Servico findServico(String idServico) {
         return this.servicoRepository.findServico(idServico);
-    }
-
-    public String findScriptServico(CodigoUnico cod){
-        return this.servicoRepository.findScriptServico(cod);
     }
 
     public void updatePedido(String idPedido, EstadoPedido estadoPedido){
@@ -77,11 +107,19 @@ public class AplicacoesController {
         return this.servicoRepository.findAll();
     }
 
+    public List<Colaborador> findColaboradoresElegiveis(Long idCatalogo){
+        return this.colabRepo.findColaboradoresElegiveis(idCatalogo);
+    }
+
     public List<Atividade> getAtividadesAuto() {
         return this.pedidoRepository.getAtividadesAuto(EstadoPedido.valueOf("PENDENTE"));
     }
 
-    public String findScriptAtividade(Long identity) {
-        return this.pedidoRepository.findScriptAtividade(identity);
+    public Script findScriptAtividade(CodigoUnico identity) {
+        return this.servicoRepository.findScriptServico(identity);
+    }
+
+    public List<Calendar> findDatas(MecanographicNumber number,String idPedido){
+        return this.pedidoRepository.findDatas(number,idPedido);
     }
 }

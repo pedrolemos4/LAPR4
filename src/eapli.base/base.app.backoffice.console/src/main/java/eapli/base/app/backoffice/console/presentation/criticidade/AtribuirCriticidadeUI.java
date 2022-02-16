@@ -17,13 +17,13 @@ public class AtribuirCriticidadeUI extends AbstractUI {
 
         final Iterable<Catalogo> catalogos = this.theController.listCatalogos();
         final SelectWidget<Catalogo> selector = new SelectWidget<>("Catalogos", catalogos, visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
-        System.out.println("\nSelecione o catálogo a que pertence o serviço:");
+        System.out.println("\nSelecione o catálogo :");
         selector.show();
         final Catalogo theCatalogo = selector.selectedElement();
 
         final Iterable<Criticidade> criticidades = this.theController.getCriticidades();
 
-        final SelectWidget<Criticidade> selectorCrit = new SelectWidget<>("Lista Colaboradores:", criticidades,
+        final SelectWidget<Criticidade> selectorCrit = new SelectWidget<>("Lista de Criticidades:", criticidades,
                 new ListCriticidadePrint());
 
         System.out.println("\nSelecione o nível de criticidade que irá ser atribuido a este catalogo");

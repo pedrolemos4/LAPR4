@@ -1,16 +1,19 @@
 package eapli.base.formulario.domain;
 
+import eapli.framework.domain.model.ValueObject;
 import eapli.framework.strings.util.StringPredicates;
 import eapli.framework.util.HashCoder;
 import eapli.framework.validations.Preconditions;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-public class DescricaoAjuda {
+@Embeddable
+public class DescricaoAjuda implements ValueObject {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "Label")
+    @Column(name = "DescricaoAjuda")
     private String desc;
 
     public DescricaoAjuda(final String name) {

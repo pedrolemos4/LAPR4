@@ -33,7 +33,7 @@ import org.apache.logging.log4j.Logger;
 public class ExecutorProtocolMessageParser {
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorProtocolMessageParser.class);
-    private static final int TAREFA_AUTOMATICA = 10;
+    private static final int TAREFA_AUTOMATICA = 9;
 
     private ExecutorProtocolMessageParser() {
         // avoid instantiation

@@ -20,10 +20,8 @@
  */
 package base.daemon.executor.presentation;
 
-import base.daemon.executor.algorithms.WorkloadController;
 import base.daemon.executor.protocol.ExecutorProtocolMessageParser;
 import base.daemon.executor.protocol.ExecutorProtocolRequest;
-import eapli.base.Application;
 import eapli.base.atividade.domain.Atividade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,10 +31,7 @@ import javax.net.ssl.SSLServerSocketFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,18 +39,15 @@ public class ExecutorServer {
 
     static final String TRUSTED_STORE = "server_J.jks";
     static final String KEYSTORE_PASS = "forgotten";
-
-    private static final List<Atividade> tarefas = new ArrayList<>();
+    private static final int PORT = 32510;
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorServer.class);
-
-    private static final WorkloadController controller = new WorkloadController();
 
     //private static ServerSocket sock;
 
     public static void main(String args[]) throws Exception {
-        int i;
         SSLServerSocket sockSSL = null;
+        Socket cliSock;
 
         // Trust these certificates provided by authorized clients
         System.setProperty("javax.net.ssl.trustStore", TRUSTED_STORE);
@@ -68,29 +60,24 @@ public class ExecutorServer {
         SSLServerSocketFactory sf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
         try {
-            sockSSL = (SSLServerSocket) sf.createServerSocket(Application.settings().getPortExecutor());
+            sockSSL = (SSLServerSocket) sf.createServerSocket(PORT);
             sockSSL.setNeedClientAuth(true);
         } catch (IOException ex) {
-            System.out.println("Server failed to open local port " + Application.settings().getPortExecutor());
+            System.out.println("Server failed to open local port " + PORT);
             System.exit(1);
         }
 
-        System.out.println("Connected to server: " + Application.settings().getIpExecutor() + ":" + Application.settings().getPortExecutor());
-
+        System.out.println("Connected to server: " +  PORT);
 
         while (true) {
-            Socket s = sockSSL.accept(); // wait for a new client connection request
-            //    addCli(s);
-            //System.out.println(s.toString());
-            Thread cli = new ClientHandler(s);
-            cli.start();
+            cliSock = sockSSL.accept(); // wait for a new client connection request
+            new Thread(new ClientHandler(cliSock)).start();
         }
     }
 
     private static class ClientHandler extends Thread {
 
         private Socket myS;
-        private DataInputStream sIn;
 
         public ClientHandler(Socket s) {
             myS = s;
@@ -98,45 +85,33 @@ public class ExecutorServer {
 
         @Override
         public void run() {
-            int i = 0;
-            InetAddress clientIP;
-
-            clientIP = myS.getInetAddress();
-            System.out.println("New client connection from " + clientIP.getHostAddress() +
-                    ", port number " + myS.getPort());
 
             byte[] data = new byte[258];
 
-            try (PrintWriter out = new PrintWriter(myS.getOutputStream(), true);
-                 DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
+            try (DataInputStream sIn = new DataInputStream(myS.getInputStream())) {
                 DataOutputStream sOut = new DataOutputStream(myS.getOutputStream());
 
-                List<byte[]> listBytes = new ArrayList<>();
-                while (sIn.readBoolean()) {
-                    sIn.read(data, i, 258);
-                    listBytes.add(data);
-                    i++;
+                sIn.read(data, 0, 258);
+                String inputLine = new String(data, 2, (int) data[3]);
+                while(data[2]==255){
+                    data=new byte[258];
+                    sIn.read(data,0,258);
+                    inputLine = inputLine.concat(new String(data, 2, (int) data[3]));
                 }
-
-                String inputLine = new String(listBytes.get(0), 2, (int)listBytes.get(0)[3]);
-                if(listBytes.size()>1) {
-                    for (byte[] b : listBytes) {
-                        LOGGER.trace("Received message:----\n{}\n----", b);
-                        inputLine = inputLine.concat(new String(b, 2, (int) b[3]));
-                    }
-                }else{
-                    LOGGER.trace("Received message:----\n{}\n----", listBytes.get(0));
-                }
-
-                int id = /*(int)*/ listBytes.get(listBytes.size())[1];
+                int id = data[1];
+				System.out.println("\n\n\n\n\n STRING INPUT EXECUTOR: " + inputLine + "\n\n\n\n\n");
                 final ExecutorProtocolRequest request = ExecutorProtocolMessageParser.parse(inputLine, id);
 
-                //Adicionar Atividade aqui talvez
-                tarefas.add(controller.getTarefaByScript(inputLine));
+                final byte[] response = request.execute();
+                //depois disto em principio terminou a tarefa
+                /*if(tarefas.contains(controller.getTarefaByScript(inputLine))){
+                    final byte[] response = request.execute();
+                    tarefas.remove(controller.getTarefaByScript(inputLine));
+                    LOGGER.info("Executor vai mandar mensagem");
+                    sOut.write(response);
+                }*/
 
-                final String response = request.execute();
-
-                byte[] respostaByte = new byte[258];
+                /*byte[] respostaByte = new byte[258];
                 respostaByte[0] = 0;
                 respostaByte[1] = 1;
                 byte[] respostaByteAux = request.toString().getBytes();
@@ -144,23 +119,21 @@ public class ExecutorServer {
 
                 for (i = 0; i < respostaByteAux.length; i++) {
                     respostaByte[i + 2] = respostaByteAux[i];
-                }
+                }*/
+                LOGGER.info("Executor vai mandar mensagem");
+                //Logger.getLogger(FluxoRequest.class.getName()).log(Level.SEVERE, null, ex);
+                sOut.write(response);
 
-                sOut.write(respostaByte);
-
-                out.println(response);
-                LOGGER.trace("Sent message:----\n{}\n----", response);
+                /*LOGGER.trace("Sent message:----\n{}\n----", response);
 
                 if (request.isGoodbye()) {
                     //  break;
                     //  }
-                }
+                }*/
             } catch (IOException e) {
                 LOGGER.error(e);
             } finally {
                 try {
-                    System.out.println("Client " + clientIP.getHostAddress() + ", port number: " + myS.getPort() +
-                            " disconnected");
                     myS.close();
                 } catch (final IOException e) {
                     LOGGER.error("While closing the client socket", e);
@@ -176,11 +149,6 @@ public class ExecutorServer {
                 System.out.println("Error");
             }*/
         }
-    }
-
-
-    public List<Atividade> tarefas(){
-        return this.tarefas;
     }
 
 }

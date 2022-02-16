@@ -2,6 +2,8 @@ package eapli.base.persistence.impl.jpa;
 
 import eapli.base.atividade.domain.Atividade;
 import eapli.base.atividade.domain.FluxoAtividade;
+import eapli.base.atividade.domain.Script;
+import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
@@ -200,19 +202,55 @@ public class JpaServicoRepository extends BasepaRepositoryBase<Servico, Long, Co
     }
 
     @Override
-    public List<Atividade> findListAtividades(String idServico) {
+    public List<Atividade> findListAtividades(CodigoUnico idServico) {
         final TypedQuery<Atividade> q = createQuery(
                 "SELECT la FROM Servico e JOIN e.fluxoAtividade fl JOIN fl.listaAtividade la WHERE e.codigoUnico=:idServico",Atividade.class);
-        q.setParameter("idServico",new CodigoUnico(idServico));
+        q.setParameter("idServico",idServico);
         return q.getResultList();
     }
 
-    @Override
-    public String findScriptServico(CodigoUnico cod) {
+    /*@Override
+    public String findCaminhoScriptServico(CodigoUnico cod) {
         final TypedQuery<String> q = createQuery("SELECT sas.caminhoScript FROM Servico s " +
                 "JOIN s.fluxoAtividade fa JOIN fa.listaAtividade la JOIN la.script sas " +
                 "WHERE s.codigoUnico =:codUnico AND " +
                 "la.colab Is NuLl",String.class);
+        q.setParameter("codUnico",cod);
+        return q.getSingleResult();
+    }*/
+
+    @Override
+    public double tempoMedioAprovacao(CodigoUnico identity){
+        final TypedQuery<Double> q = createQuery("SELECT ob.tempoMedioAprov FROM Servico e JOIN e.catalogo p JOIN" +
+                " p.criticidade la JOIN la.objetivo ob WHERE e.codigoUnico =:identity",Double.class);
+        q.setParameter("identity",identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Colaborador findColabResponsavel(Long identity) {
+        final TypedQuery<Colaborador> q = createQuery("SELECT la.colab FROM Servico s JOIN " +
+                "s.fluxoAtividade flu JOIN flu.listaAtividade la WHERE " +
+                "la.id =:identity",Colaborador.class);
+        q.setParameter("identity",identity);
+        return q.getSingleResult();
+    }
+
+
+    @Override
+    public double tempoMedioResolucao(CodigoUnico identity){
+        final TypedQuery<Double> q = createQuery("SELECT ob.tempoMedioRes FROM Servico e JOIN e.catalogo p JOIN" +
+                " p.criticidade la JOIN la.objetivo ob WHERE e.codigoUnico =:identity",Double.class);
+        q.setParameter("identity",identity);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Script findScriptServico(CodigoUnico cod) {
+        final TypedQuery<Script> q = createQuery("SELECT sas FROM Servico s " +
+                "JOIN s.fluxoAtividade fa JOIN fa.listaAtividade la JOIN la.script sas " +
+                "WHERE s.codigoUnico =:codUnico AND " +
+                "la.colab Is NuLl",Script.class);
         q.setParameter("codUnico",cod);
         return q.getSingleResult();
     }

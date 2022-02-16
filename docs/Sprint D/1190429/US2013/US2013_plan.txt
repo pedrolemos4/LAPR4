@@ -1,0 +1,7 @@
+# Test Plan
+
+## Realizar Tarefa
+
+* Fazer o login como orgGestorServico, password: Gestor2
+* Escolher a opção SLA > (in)Cumprimento do SLA
+* Inserir uma data de inicio e fim para filtrar os pedidos já concluidos

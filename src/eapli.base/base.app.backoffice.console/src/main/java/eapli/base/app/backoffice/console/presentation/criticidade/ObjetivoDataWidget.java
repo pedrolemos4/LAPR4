@@ -4,47 +4,47 @@ import eapli.framework.io.util.Console;
 
 public class ObjetivoDataWidget {
     
-    private double tempoMaxAprov;
+    private long tempoMaxAprov;
 
-    private double tempoMedioAprov;
+    private long tempoMedioAprov;
 
-    private double tempoMaxRes;
+    private long tempoMaxRes;
 
-    private double tempoMedioRes;
+    private long tempoMedioRes;
 
     public void show(){
         tempoMaxAprov = 0;
         while(tempoMaxAprov<=0) {
-            this.tempoMaxAprov = Console.readInteger("Tempo Maximo Aprovacao:");
+            this.tempoMaxAprov = Console.readLong("Tempo Maximo Aprovacao:");
             tempoMedioAprov = 0;
             while(tempoMedioAprov <= 0 || tempoMaxAprov < tempoMedioAprov) {
-                this.tempoMedioAprov = Console.readDouble("Tempo Medio Aprovacao:");
+                this.tempoMedioAprov = Console.readLong("Tempo Medio Aprovacao:");
 
             }
         }
         tempoMaxRes = 0;
         while(tempoMaxRes<=0) {
-            this.tempoMaxRes = Console.readInteger("Tempo Maximo Resolucao:");
+            this.tempoMaxRes = Console.readLong("Tempo Maximo Resolucao:");
             tempoMedioRes = 0;
             while(tempoMedioRes <= 0 || tempoMaxRes < tempoMedioRes) {
-                this.tempoMedioRes = Console.readDouble("Tempo Medio Resolucao:");
+                this.tempoMedioRes = Console.readLong("Tempo Medio Resolucao:");
             }
         }
     }
 
-    public double tempoMaxAprov(){
+    public long tempoMaxAprov(){
         return this.tempoMaxAprov;
     }
     
-    public double tempoMedioAprov(){
+    public long tempoMedioAprov(){
         return this.tempoMedioAprov;
     }
 
-    public double tempoMaxRes(){
+    public long tempoMaxRes(){
         return this.tempoMaxRes;
     }
 
-    public double tempoMedioRes(){
+    public long tempoMedioRes(){
         return this.tempoMedioRes;
     }
 }

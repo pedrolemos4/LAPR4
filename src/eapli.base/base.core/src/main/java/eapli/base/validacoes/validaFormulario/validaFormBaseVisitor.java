@@ -1,4 +1,4 @@
-// Generated from D:/2ANO/2SEMESTRE/LAPR4/LAPR4_PROJETO/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/valida\validaForm.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Tiago/Desktop/LAPR4/lei20_21_s4_2di_04/src/eapli.base/base.core/src/main/java/eapli/base/validacoes/validaFormulario\validaForm.g4 by ANTLR 4.9.1
 package eapli.base.validacoes.validaFormulario;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -38,6 +38,13 @@ public class validaFormBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitValido2(validaFormParser.Valido2Context ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitInvalido2(validaFormParser.Invalido2Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -46,13 +53,6 @@ public class validaFormBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitVazio1(validaFormParser.Vazio1Context ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitValido2(validaFormParser.Valido2Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -80,5 +80,12 @@ public class validaFormBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVazio2(validaFormParser.Vazio2Context ctx) { return visitChildren(ctx); }
+	@Override public T visitValidoBoolean(validaFormParser.ValidoBooleanContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNomeVazio(validaFormParser.NomeVazioContext ctx) { return visitChildren(ctx); }
 }

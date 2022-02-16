@@ -24,10 +24,10 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
         do {
             listTarefas.clear();
             System.out.println("Lista de tarefas pendentes:\n");
-            listTarefas.addAll(this.controller.getListaTarefasPendentes(colab.identity()));
+            listTarefas.addAll(this.controller.getListaTarefasPendentesColaborador(colab.identity()));
 
             for (Atividade a : listTarefas) {
-                Pedido p = this.controller.getPedidoByAtividade(a);
+                Pedido p = this.controller.getPedidoByTarefa(a.identity());
                 System.out.println(a.toString() + "\n" + p.toString() + "\n");
             }
             System.out.println("Consultar tarefas:\n" +
@@ -59,13 +59,12 @@ public class ConsultarReivindicarTarefaUI extends AbstractUI {
             if ("sim".equalsIgnoreCase(opcao) || opcao.equalsIgnoreCase("s")) {
 
                 final SelectWidget<Atividade> selector = new SelectWidget<>("Atividade: ",
-                        this.controller.getListaTarefasPendentes(colab.identity()),
+                        this.controller.getListaTarefasPendentesColaborador(colab.identity()),
                         visitee -> System.out.printf("%-15s%-80s", visitee.identity(), visitee.toString()));
                 selector.show();
                 // atividade correspondente
                 Atividade manual = selector.selectedElement();
 
-                //Atividade manual = this.controller.getTarefaById(selector.selectedElement().identity());
                 // pedido correspondente
                 Pedido pedido = this.controller.getPedidoByTarefa(selector.selectedElement().identity());
                 // atualiza

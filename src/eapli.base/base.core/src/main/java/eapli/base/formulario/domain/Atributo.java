@@ -18,13 +18,19 @@ public class Atributo implements ValueObject {
     @Column(name="Label")
     private Label label;
 
-    /*@Column(name="TipoDados")
+    @Column(name="TipoDados")
     @Enumerated(EnumType.STRING)
     private TipoDados tipoDados;
 
-    @Column(name="Obrigatoriedada")
+    @Column(name="Obrigatoriedade")
     @Enumerated(EnumType.STRING)
-    private Obrigatoriedade obrigatoriedade;*/
+    private Obrigatoriedade obrigatoriedade;
+
+    @Column(name = "DescricaoAjuda")
+    private DescricaoAjuda descricaoAjuda;
+
+    @Column(name = "ExpressaoRegular")
+    private ExpressaoRegular expressaoRegular;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "formulario")
@@ -33,31 +39,57 @@ public class Atributo implements ValueObject {
     protected Atributo() {
     }
 
-    public void completaFormulario(Variavel valueOf) {
-        this.nomeVariavel = valueOf;
-    }
-
     public Long identity() {
         return id;
     }
 
-    public Atributo(Variavel nomeVariavel, Label label,/* TipoDados tipo, Obrigatoriedade obr,*/ Formulario formulario){
+    public Atributo(Variavel nomeVariavel, Label label, TipoDados tipo, Obrigatoriedade obr,
+                    DescricaoAjuda descricao, ExpressaoRegular expressaoRegular, Formulario formulario){
         this.nomeVariavel=nomeVariavel;
         this.label=label;
-        /*this.tipoDados=tipo;
-        this.obrigatoriedade=obr;*/
+        this.tipoDados=tipo;
+        this.obrigatoriedade=obr;
+        this.descricaoAjuda = descricao;
+        this.expressaoRegular = expressaoRegular;
         this.formulario = formulario;
+    }
+
+    public Atributo(Label label, TipoDados tipo, Obrigatoriedade obr,
+                    DescricaoAjuda desc, ExpressaoRegular expressaoRegular,Formulario formulario){
+        this.label=label;
+        this.tipoDados=tipo;
+        this.obrigatoriedade=obr;
+        this.descricaoAjuda=desc;
+        this.expressaoRegular = expressaoRegular;
+        this.formulario = formulario;
+    }
+
+    public Label label(){
+        return this.label;
+    }
+
+    public TipoDados tipoDados(){
+        return this.tipoDados;
+    }
+
+    public Obrigatoriedade obrigatoriedade(){
+        return this.obrigatoriedade;
+    }
+
+    public DescricaoAjuda descricaoAjuda(){
+        return this.descricaoAjuda;
+    }
+
+    public ExpressaoRegular expressaoRegular() {
+        return this.expressaoRegular;
     }
 
     @Override
     public String toString() {
-        return "Atributo{" +
-                "id=" + id +
-                ", nomeVariavel=" + nomeVariavel +
-                ", label=" + label +
-                /*", tipoDados=" + tipoDados +
-                ", obrigatoriedade=" + obrigatoriedade +*/
-                ", formulario=" + formulario +
-                '}';
+        return nomeVariavel +
+                "; " + label +
+                "; " + descricaoAjuda +
+                "; " + tipoDados +
+                "; " + obrigatoriedade;
     }
 }

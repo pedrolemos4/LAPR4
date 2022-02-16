@@ -1,0 +1,15 @@
+Ler ficheiro;4;testeProdutos.xml
+#VAR1#->2+5
+#VAR2#->0.05
+#VAR3#->0.3
+if #TOTAL#>#VAR1# then:
+ Aplicar Desconto->#VAR3#
+else
+ Aplicar Desconto->0.1
+end if;
+if CATEGORIA==Cosmetico then:
+ Aplicar Desconto->0.1
+end if;
+Valor total
+Send Email to: arroz@gmail.com
+Send Email to: rafa@gmail.com Valor:#VAR1#

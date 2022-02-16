@@ -1,17 +1,14 @@
 package eapli.base.pedido.application;
 
-import eapli.base.AppSettings;
-import eapli.base.atividade.domain.Atividade;
+import eapli.base.Application;
+import eapli.base.atividade.domain.*;
 import eapli.base.catalogo.domain.Catalogo;
 import eapli.base.catalogo.repositories.CatalogoRepository;
 import eapli.base.colaborador.domain.Colaborador;
 import eapli.base.colaborador.repositories.ColaboradorRepository;
 import eapli.base.equipa.domain.CodigoUnico;
 import eapli.base.equipa.domain.Equipa;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
-import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.domain.*;
 import eapli.base.formulario.repositories.FormularioRepository;
 import eapli.base.infrastructure.persistence.PersistenceContext;
 import eapli.base.pedido.domain.Pedido;
@@ -21,24 +18,20 @@ import eapli.base.servico.domain.Servico;
 import eapli.base.servico.repositories.ServicoRepository;
 import eapli.base.validacoes.validaFormulario.ValidaForm;
 import eapli.framework.application.UseCaseController;
+import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.application.AuthorizationService;
 import eapli.framework.infrastructure.authz.application.AuthzRegistry;
-import eapli.framework.infrastructure.authz.application.UserSession;
 import eapli.framework.infrastructure.authz.domain.model.SystemUser;
-import eapli.framework.infrastructure.authz.domain.model.Username;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.persistence.NoResultException;
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.List;
 import java.util.*;
 
 @UseCaseController
@@ -63,6 +56,15 @@ public class SolicitarServicoController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Pedido.class);
 
+    private SystemUser currentUser() {
+        return authz.session().get().authenticatedUser();
+    }
+
+    public Colaborador getUser() {
+        final SystemUser user = currentUser();
+        EmailAddress email = user.email();
+        return this.repository.findEmailColaborador(email);
+    }
 
     public List<Catalogo> displayAvailableCatalogos() {
         List<Catalogo> catalogosDisponiveis = new ArrayList<>();
@@ -88,51 +90,86 @@ public class SolicitarServicoController {
         }
     }
 
-    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes, Formulario formulario, Set<Atributo> atributos) {
+    public synchronized Pedido efetuarPedido(Servico servicoSolicitado, UrgenciaPedido urgencia, Calendar dataLimiteRes,
+                                             Formulario formulario, Set<Atributo> atributos, Set<Atividade> atividades) {
         try {
             formulario.copyAtributos(atributos);
-
             File file = new File("testForm.txt");
             FileWriter fw = new FileWriter(file);
-            fw.write(formulario.toString());
-            ValidaForm vf = new ValidaForm();
-            boolean checkForm = vf.validaForm(file);
+            String form = formulario.toStringVal();
+            if (form.contains("null")) {
+                form.replace("null", "");
+            }
+            form = form.replace("[", "");
+            form = form.replace("]", "");
+            System.out.println(form);
+            fw.write(form);
 
-	    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
-                return this.pedidoRepository.save(pedido);
-            /*if (checkForm == true) {
-                Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
-                Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario);
-                return this.pedidoRepository.save(pedido);
-            } else {
-                System.out.println("Formulário inválido. Pedido não será efetuado.");
-            }*/
+            fw.close();
+
+
+
+            String metodo = Application.settings().getMetodoVerificacaoGramatica().trim();
+            if (metodo.equalsIgnoreCase("visitor")) {
+                ValidaForm vf = new ValidaForm();
+                boolean checkForm = vf.validaFormVisitor(file);
+                if (checkForm) {
+                    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
+                    return this.pedidoRepository.save(pedido);
+                } else {
+                    System.out.println("Formulário inválido. Pedido não será efetuado.");
+                }
+            } else if (metodo.equalsIgnoreCase("listener")) {
+                ValidaForm vf = new ValidaForm();
+                try {
+                    vf.validaFormListener(file);
+                    Colaborador colab = colaboradorRepository.findEmailColaborador(this.authz.session().get().authenticatedUser().email());
+                    Pedido pedido = new Pedido(colab, Calendar.getInstance(), servicoSolicitado, urgencia, dataLimiteRes, formulario, atividades,null);
+                    return this.pedidoRepository.save(pedido);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                    System.out.println("Formulário inválido. Pedido não será efetuado.");
+                }
+            }
         } catch (Exception e) {
+            LOGGER.error("Something went wrong");
+            return null;
+        }
+        return null;
+    }
+
+    public List<Atributo> findAtributos(Long identity) {
+        return formularioRepository.findAtributos(identity);
+    }
+
+    public String label(Atributo a) {
+        return a.label().toString();
+    }
+
+    public TipoDados tipoDados(Atributo a) {
+        return a.tipoDados();
+    }
+
+    public Obrigatoriedade obrigatoriedade(Atributo a) {
+        return a.obrigatoriedade();
+    }
+
+    public String descricaoAjuda(Atributo a) {
+        return a.descricaoAjuda().toString();
+    }
+
+    public Pedido annexFile(String path, Servico clone, UrgenciaPedido urgencia, Calendar calendar, Formulario formulario, Set<Atributo> listaAtributos, Set<Atividade> listaAtividade) {
+        try {
+            File file = new File(path);
+            return efetuarPedido(clone, urgencia, calendar, formulario, listaAtributos, listaAtividade);
+        }catch (Exception e){
             LOGGER.error("Something went wrong");
             return null;
         }
     }
 
-    public boolean atualizarDataAtividade(Servico clone, Atividade atividade, Calendar dataLimiteRes) {
-        try {
-            clone.atualizarDataAtividade(atividade, dataLimiteRes);
-            return true;
-        } catch (Exception e) {
-            LOGGER.error("Unexpected Error");
-            return false;
-        }
-    }
-
-    public void annexFile(Pedido pedido) {
-        Button button = new Button();
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(button);
-        File file = fileChooser.getSelectedFile();
-        pedido.annexFile(file);
-    }
-
-    public Formulario findFormulario(String idServico) {
+    public Formulario findFormulario(CodigoUnico idServico) {
         try {
             return formularioRepository.getFormularioDoServico(idServico);
         } catch (Exception e) {
@@ -141,8 +178,29 @@ public class SolicitarServicoController {
         }
     }
 
-    public Atributo createAtributo(String nomeVariavel, String label, Formulario formulario) {
-        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), formulario);
+    public Atividade createAtividadeManual(Colaborador colab, Formulario formulario, Calendar calendar1,
+                                           TipoAtividade tipoAtividade) {
+        Atividade at = new AtividadeManual(EstadoAtividade.PENDENTE, colab, null, null,
+                formulario, calendar1, tipoAtividade, null);
+        return at;
+    }
+
+    public Atividade createAtividadeAutomatica(Calendar calendar, TipoAtividade tipoAtividade, CodigoUnico idServico) {
+        Script script = servicoRepository.findScriptServico(idServico);
+        Atividade at = new AtividadeAutomatica(calendar, EstadoAtividade.PENDENTE, tipoAtividade, null, script);
+        return at;
+    }
+
+
+    public Colaborador findColabResponsavel(Atividade atividade) {
+        return servicoRepository.findColabResponsavel(atividade.identity());
+    }
+
+    public Atributo createAtributo(String nomeVariavel, String label, TipoDados tipoDados, Obrigatoriedade
+            obrigatoriedade, String descAjuda, ExpressaoRegular expressao, Formulario formulario) {
+        DescricaoAjuda descricaoAjuda = new DescricaoAjuda(descAjuda);
+        final Atributo atributo = new Atributo(new Variavel(nomeVariavel), new Label(label), tipoDados, obrigatoriedade,
+                descricaoAjuda, expressao, formulario);
         return atributo;
     }
 
@@ -153,7 +211,7 @@ public class SolicitarServicoController {
         System.exit(1);
         }*/
         final String name = this.authz.session().get().authenticatedUser().username().toString();
-        System.out.println("Name: "+name);
+        System.out.println("Name: " + name);
         // Trust these certificates provided by servers
         System.setProperty("javax.net.ssl.trustStore", name + ".jks");
         System.setProperty("javax.net.ssl.trustStorePassword", KEYSTORE_PASS);
@@ -189,76 +247,39 @@ public class SolicitarServicoController {
         DataOutputStream sOut = new DataOutputStream(sockSSL.getOutputStream());
         DataInputStream sIn = new DataInputStream(sockSSL.getInputStream());
 
-        /*
-        String frase;
-        long f,i,n,num;
-        do {
-            do {
-                num=-1;
-                while(num<0) {
-                    System.out.print("Enter a positive integer to SUM (zero to terminate): ");
-                    frase = in.readLine();
-                    try { num=Integer.parseInt(frase); }
-                    catch(NumberFormatException ex) {num=-1;}
-                    if(num<0) System.out.println("Invalid number");
-                }
-                n=num; for(i=0;i<4;i++) {sOut.write((byte)(n%256)); n=n/256; }
-            }
-            while(num!=0);
-            num=0; f=1;
-            for(i=0;i<4;i++) {num=num+f*sIn.read(); f=f*256;}
-            System.out.println("SUM RESULT = " + num);
-        }
-        while(num!=0);
-        sock.close();
-        */
-
         ///////////////////////////////
         byte[] data = new byte[258];
-        /*try {
-            serverIP = InetAddress.getLocalHost();//.getByName("endereçoIp");
-        } catch (UnknownHostException ex) {
-            LOGGER.error("Invalid server: " + serverIP);
-            System.exit(1);
-        }
 
-        try {
-            sock = new Socket(serverIP, 32507);
-        } catch (IOException ex) {
-            LOGGER.error("Failed to connect");
-            System.exit(1);
-        }
-        DataOutputStream sOut = new DataOutputStream(sock.getOutputStream());*/
         LOGGER.warn("Connected to server");
-        //Thread serverConn = new Thread(new TcpChatCliConn(sock));
-        //serverConn.start();
+        Thread serverConn = new Thread(new TcpChatCliConn(sockSSL));
+        serverConn.start();
 
         data[0] = 0;
         data[1] = 3;
         byte[] idArray = pedido.identity().getBytes();
         int size = idArray.length;
         data[2] = (byte) size;
-        double amount_of_times = size/255;
-        int p=0;
-	
+        double amount_of_times = size / 255;
+        int p = 0;
+
         while (amount_of_times > 1) {
-        
+
             byte[] info = new byte[258];
             info[0] = 0;
             info[1] = 10;
             for (int k = 0; k < 255; k++) {
-				if(p<size){
-					info[k + 2] = idArray[p];
-					p++;
-				}else{
-					k=255;
-				}
+                if (p < size) {
+                    info[k + 2] = idArray[p];
+                    p++;
+                } else {
+                    k = 255;
+                }
             }
             sOut.write(info);
             size -= 255;
             amount_of_times--;
         }
-	
+
         for (int i = 0; i < idArray.length; i++) {
             data[i + 2] = idArray[p];
             p++;
@@ -266,7 +287,7 @@ public class SolicitarServicoController {
 
         sOut.write(data);
 
-        // serverConn.join();
+        serverConn.join();
         sockSSL.close();
     }
 
@@ -280,7 +301,7 @@ public class SolicitarServicoController {
         }
     }
 
-    public List<Atividade> getListAtividadesServico(String idServico) {
+    public List<Atividade> getListAtividadesServico(CodigoUnico idServico) {
         try {
             return this.servicoRepository.findListAtividades(idServico);
         } catch (NoResultException e) {
@@ -289,10 +310,14 @@ public class SolicitarServicoController {
         }
     }
 
-    public Servico getServicoClone(String idServico) {
-        Servico servicoSolicitado = servicoRepository.ofIdentity(new CodigoUnico(idServico)).get();
+    public Servico getServicoClone(CodigoUnico idServico) {
+        Servico servicoSolicitado = servicoRepository.ofIdentity(idServico).get();
         Servico clone = servicoSolicitado;
         return clone;
+    }
+
+    public ExpressaoRegular expressaoRegular(Atributo a) {
+        return a.expressaoRegular();
     }
 }
 
@@ -305,18 +330,13 @@ class TcpChatCliConn implements Runnable {
     }
 
     public void run() {
-        int nChars;
-        byte[] data = new byte[300];
-        String frase;
+        byte[] data = new byte[258];
 
         try {
             sIn = new DataInputStream(s.getInputStream());
-            while (true) {
-                nChars = sIn.read();
-                if (nChars == 0) break;
-                sIn.read(data, 0, nChars);
-                frase = new String(data, 0, nChars);
-                System.out.println(frase);
+            sIn.read(data);
+            if (data[1] == 1) {
+                System.out.println("Sucesso");
             }
         } catch (IOException ex) {
             System.out.println("Client disconnected.");

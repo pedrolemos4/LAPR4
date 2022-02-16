@@ -8,10 +8,7 @@ package eapli.base.atividade;
 import eapli.base.atividade.domain.*;
 import eapli.base.clientusermanagement.domain.MecanographicNumber;
 import eapli.base.colaborador.domain.*;
-import eapli.base.formulario.domain.Atributo;
-import eapli.base.formulario.domain.Formulario;
-import eapli.base.formulario.domain.Label;
-import eapli.base.formulario.domain.Variavel;
+import eapli.base.formulario.domain.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import junit.framework.TestCase;
 import org.junit.*;
@@ -37,15 +34,15 @@ public class FluxoAtividadeTest extends TestCase {
         instance2 = new FluxoAtividade(setAtividades2);
 
         Set<Atributo> listaAtributosFormulario1 = new HashSet<>();
-        listaAtributosFormulario1.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), null));
-        listaAtributosFormulario1.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), null));
+        listaAtributosFormulario1.add(new Atributo(new Variavel("Nome Completo"),new Label("Label do nome completo"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"), null, null));
+        listaAtributosFormulario1.add(new Atributo(new Variavel("Idade"),new Label("Label da idade"), TipoDados.STRING,Obrigatoriedade.OPCIONAL,new DescricaoAjuda("ola"),null,null));
         Formulario form1 = new Formulario("Formulario1", listaAtributosFormulario1);
         Calendar dataAux1 = Calendar.getInstance();
         dataAux1.set(1984, 10, 25);
         Colaborador c1 = new Colaborador(new MecanographicNumber(119080), new ShortName("Joao"), new FullName("Joao Alves Pereira"), dataAux1
                 , new Contacto(965824578), new LocalResidencia("Penafiel"), EmailAddress.valueOf("joao@gmail.com"),new HashSet<>());
-        AtividadeAutomatica atA1 = new AtividadeAutomatica(dataAux1, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, new Script("caminho.sh"));
-        AtividadeManual atM1 = new AtividadeManual(EstadoAtividade.PENDENTE, c1, Decisao.APROVADO, new Comentario("Coment"), form1, dataAux1, TipoAtividade.APROVACAO);
+        AtividadeAutomatica atA1 = new AtividadeAutomatica(dataAux1, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null, new Script("caminho.sh"));
+        AtividadeManual atM1 = new AtividadeManual(EstadoAtividade.PENDENTE, c1, Decisao.APROVADO, new Comentario("Coment"), form1, dataAux1, TipoAtividade.APROVACAO, null);
 
         setAtividades1.add(atA1);
         setAtividades2.add(atM1);
@@ -112,7 +109,7 @@ public class FluxoAtividadeTest extends TestCase {
         System.out.println("atividades");
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
-        Atividade idAtividade = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        Atividade idAtividade = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         Set<Atividade> set = new HashSet<>();
         set.add(idAtividade);
         FluxoAtividade instance = new FluxoAtividade(set);
@@ -131,7 +128,7 @@ public class FluxoAtividadeTest extends TestCase {
         EstadoFluxo estadoFluxo = EstadoFluxo.CANCELADO;
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
-        Atividade idAtividade = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        Atividade idAtividade = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         Set<Atividade> set = new HashSet<>();
         set.add(idAtividade);
         FluxoAtividade instance = new FluxoAtividade(set);
@@ -161,7 +158,7 @@ public class FluxoAtividadeTest extends TestCase {
         System.out.println("toString");
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
-        Atividade idAtividade = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        Atividade idAtividade = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         Set<Atividade> set = new HashSet<>();
         set.add(idAtividade);
         FluxoAtividade instance = new FluxoAtividade(set);

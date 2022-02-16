@@ -27,7 +27,7 @@ public class AtividadeTest extends TestCase {
     public void testIdentity() {
         System.out.println("identity");
         Calendar dataS = Calendar.getInstance();
-        Atividade instance = new Atividade(dataS, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        Atividade instance = new Atividade(dataS, EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         Long expResult = Long.valueOf(0);
         Long result = instance.identity();
         assertEquals(expResult, result);
@@ -41,7 +41,7 @@ public class AtividadeTest extends TestCase {
         System.out.println("toString");
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
-        Atividade instance = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        Atividade instance = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         String expResult = "ID: 0, DataLimite: Sat Jul 03 10:00:00 WEST 2021, EstadoAtividade: PENDENTE";
         String result = instance.toString();
         assertEquals(expResult, result);
@@ -88,31 +88,18 @@ public class AtividadeTest extends TestCase {
         System.out.println("tipoAtividade");
         Calendar dataS = Calendar.getInstance();
         dataS.set(2021,06,03,10,0,0);
-        Atividade instance = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        Atividade instance = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         TipoAtividade expResult = TipoAtividade.REALIZACAO;
         TipoAtividade result = instance.tipoAtividade();
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of atualizarDataAtividade method, of class Atividade.
-     */
-    @Test
-    public void testAtualizarDataAtividade() {
-        System.out.println("atualizarDataAtividade");
-        Calendar dataLimiteRes = Calendar.getInstance();
-        dataLimiteRes.set(2021,06,03,20,0,0);
-        Calendar dataS = Calendar.getInstance();
-        dataS.set(2021,06,03,10,0,0);
-        Atividade instance = new Atividade(dataS,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
-        instance.atualizarDataAtividade(dataLimiteRes);
-    }
 
     @Test
     public void ensureAtividade() {
         Calendar dataLimiteRes = Calendar.getInstance();
         dataLimiteRes.set(2021,06,03,20,0,0);
-        new Atividade(dataLimiteRes,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO);
+        new Atividade(dataLimiteRes,EstadoAtividade.PENDENTE, TipoAtividade.REALIZACAO, null);
         assertTrue(true);
     }
     
